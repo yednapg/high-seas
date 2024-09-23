@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 import "./globals.css";
 
-const blackPearl = localFont({
-  src: "./fonts/blackpearl.ttf",
-  variable: "--font-blackpearl",
-});
+// const blackPearl = localFont({
+//   src: "./fonts/blackpearl.ttf",
+//   variable: "--font-blackpearl",
+// });
 
 export const metadata: Metadata = {
   title: "High Seas | Hack Club",
@@ -19,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${blackPearl.variable} antialiased`}>{children}</body>
+      <body className={`${/*blackPearl.variable*/ 1} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
