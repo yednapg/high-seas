@@ -32,7 +32,7 @@ export default function PirateEventHomepage() {
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
       style={{
-        backgroundImage: "url('/bg-b.png')",
+        backgroundImage: "url('/bg.png')",
       }}
     >
       <div className="relative max-w-7xl w-full">
