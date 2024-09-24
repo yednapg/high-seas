@@ -20,9 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <SpeedInsights />
       <body className={`${/*blackPearl.variable*/ 1} antialiased`}>
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
