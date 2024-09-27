@@ -1,3 +1,5 @@
 export default function Battles() {
-  return <h1>Battles</h1>;
+  return (
+    <iframe src="https://matchups.hackclub.com" className="w-full h-full" />
+  );
 }

@@ -1,0 +1,45 @@
+import { sign, decode, verify, JwtPayload } from "jsonwebtoken";
+import { cookies } from "next/headers";
+
+const vars = () => {
+  const authSecret = process.env.AUTH_SECRET;
+  const cookieName = process.env.SLACK_AUTH_COOKIE_NAME;
+
+  if (!authSecret) throw new Error("Env AUTH_SECRET is not set");
+  if (!cookieName) throw new Error("Env SLACK_AUTH_COOKIE_NAME is not set");
+
+  return { authSecret, cookieName };
+};
+
+export function setSession(slack_openid_token: string) {
+  console.log("setting token");
+
+  const { authSecret, cookieName } = vars();
+
+  const decoded = decode(slack_openid_token, { complete: true });
+  if (!decoded) throw new Error("Failed to decode the Slack OpenId JWT");
+
+  const signedToken = sign(decoded, authSecret, { expiresIn: "7d" });
+  cookies().set(cookieName, signedToken, {
+    secure: process.env.NODE_ENV !== "development",
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  console.log("set the token!", cookies().get(cookieName), getSession());
+}
+
+export function getSession() {
+  const { authSecret, cookieName } = vars();
+
+  const cookie = cookies().get(cookieName);
+  if (!cookie) return;
+
+  return verify(cookie.value, authSecret, {
+    complete: true,
+    algorithms: ["HS256"], // Specify the expected algorithm
+  }).payload;
+}
+
+export async function deleteSession() {
+  cookies().delete(process.env.SLACK_AUTH_COOKIE_NAME);
+}
