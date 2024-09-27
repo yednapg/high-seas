@@ -1,0 +1,78 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { getShips } from "./utils";
+import { Ship } from "../shipyard/ship-utils";
+import { Card } from "@/components/ui/card";
+import Ships from "../shipyard/ships";
+
+type ShipsObject = Record<string, Ship>;
+
+export default function Gallery({ ships, setShips }) {
+  const [nextOffset, setNextOffset] = useState<string | undefined>(undefined);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchShips = useCallback(async () => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
+
+    try {
+      const newShipInfo = await getShips(nextOffset);
+      setNextOffset(newShipInfo.offset);
+      setHasMore(!!newShipInfo.offset);
+
+      setShips((prev) => {
+        const newShips = newShipInfo.ships.reduce(
+          (acc: ShipsObject, ship: Ship) => {
+            acc[ship.id] = ship;
+            console.log(ships);
+            return acc;
+          },
+          {},
+        );
+        return { ...prev, ...newShips };
+      });
+    } catch (error) {
+      console.error("Error fetching ships:", error);
+      setHasMore(false);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading, hasMore, nextOffset]);
+
+  useEffect(() => {
+    if (Object.keys(ships).length === 0) {
+      console.log("initially fetching ships");
+      fetchShips();
+    }
+  }, []);
+
+  const shipsArray = Object.values(ships);
+
+  if (shipsArray.length === 0)
+    return <p className="text-center">Loading everyone's ships...</p>;
+
+  return (
+    <InfiniteScroll
+      dataLength={shipsArray.length}
+      next={fetchShips}
+      hasMore={hasMore}
+      loader={
+        <p className="text-center mb-4">
+          <b>Loading</b>
+        </p>
+      }
+      endMessage={
+        <p className="text-center mb-4">
+          <b>Yay! You have seen all {shipsArray.length} ships.</b>
+        </p>
+      }
+      scrollableTarget="harbour-tab-scroll-element"
+    >
+      <Ships ships={shipsArray} />
+    </InfiniteScroll>
+  );
+}

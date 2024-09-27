@@ -59,6 +59,11 @@ export default function Shipyard({ ships }: { ships: Ship[] | null }) {
   if (!ships) {
     return <ShipsLoading />;
   } else {
-    return <Ships ships={ships} />;
+    return (
+      <div>
+        <h1>Your ships</h1>
+        <Ships ships={ships} />
+      </div>
+    );
   }
 }

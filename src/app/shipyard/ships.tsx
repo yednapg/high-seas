@@ -13,7 +13,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
   return (
     <>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Your Ships</h1>
         <motion.div layout className="space-y-4">
           {ships.map((ship: Ship) => (
             <motion.div
@@ -29,8 +28,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <Image
                     src={ship.screenshotUrl}
                     alt={`Screenshot of ${ship.title}`}
-                    layout="fill"
-                    objectFit="cover"
+                    layout={"fill"}
+                    sizes="4rem"
+                    objectFit={"cover"}
                     className="rounded-md"
                   />
                 </div>
@@ -63,15 +63,17 @@ export default function Ships({ ships }: { ships: Ship[] }) {
             >
               <Card className="relative">
                 <motion.div
-                  className="absolute top-0 left-0 right-0 h-48 overflow-hidden"
+                  className="absolute -top-px -left-px -right-px h-48 overflow-hidden"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <Image
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
-                    layout="fill"
-                    objectFit="cover"
+                    layout={"fill"}
+                    sizes="4rem"
+                    objectFit={"cover"}
+                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </motion.div>

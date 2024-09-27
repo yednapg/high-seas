@@ -8,7 +8,6 @@ export default async function Page() {
   let session;
   try {
     session = getSession();
-    console.log(getSession());
   } catch (e) {
     console.error(e);
   }
