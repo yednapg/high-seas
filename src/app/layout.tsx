@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 // import localFont from "next/font/local";
 import "./globals.css";
+import Nav from "@/components/nav";
 
 // const blackPearl = localFont({
 //   src: "./fonts/blackpearl.ttf",
@@ -20,8 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${/*blackPearl.variable*/ 1} antialiased`}>
+      <body className={`${/*blackPearl.variable*/ 1} antialiased mt-14`}>
         {children}
+        <Nav />
         <SpeedInsights />
       </body>
     </html>

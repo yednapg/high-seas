@@ -1,3 +1,54 @@
-export default function Shop() {
-  return <h1>Shop</h1>;
+import { motion } from "framer-motion";
+import { ShopItem } from "./shop-utils";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function Shop({ items }: { items: ShopItem[] | null }) {
+  if (!items) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex justify-center items-center h-screen"
+      >
+        <p className="text-lg font-semibold">Loading shop items...</p>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="container mx-auto px-4 py-8"
+    >
+      <h1 className="text-3xl font-bold mb-6">Shop ({items.length} items)</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle>{item.name}</CardTitle>
+                <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
+              </CardHeader>
+              {item.imageUrl && (
+                <CardContent>
+                  <img src={item.imageUrl} alt={item.name} className="w-full" />
+                </CardContent>
+              )}
+              <CardFooter>
+                <Button>Buy</Button>
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
 }
