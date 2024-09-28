@@ -1,7 +1,10 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { create } from "./actions";
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
 export default function SignOut() {
-  return <Button onClick={() => create()}>Sign out of Slack</Button>;
+  return (
+    <Link className={buttonVariants({ variant: "outline" })} href="/signout">
+      Sign out of Hack Club Slack
+    </Link>
+  );
 }

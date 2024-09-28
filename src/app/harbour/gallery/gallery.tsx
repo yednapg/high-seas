@@ -26,7 +26,6 @@ export default function Gallery({ ships, setShips }: any) {
         const newShips = newShipInfo.ships.reduce(
           (acc: ShipsObject, ship: Ship) => {
             acc[ship.id] = ship;
-            console.log(ships);
             return acc;
           },
           {},
@@ -44,7 +43,6 @@ export default function Gallery({ ships, setShips }: any) {
 
   useEffect(() => {
     if (Object.keys(ships).length === 0) {
-      console.log("initially fetching ships");
       fetchShips();
     }
   }, []);

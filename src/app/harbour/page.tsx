@@ -1,15 +1,16 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import Shipyard from "./shipyard/page";
-import Battles from "./battles/page";
-import Shop from "./shop/page";
+import Shipyard from "./shipyard/shipyard";
+import Battles from "./battles/battles";
+import Shop from "./shop/shop";
 import { useEffect, useState } from "react";
-import { getShop, ShopItem } from "./shop/shop-utils";
-import Map from "./map/page";
+import { ShopItem, getShop } from "./shop/shop-utils";
+import Map from "./map/map";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
-import Gallery, { ShipsObject } from "./gallery/page";
+import Gallery, { ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
