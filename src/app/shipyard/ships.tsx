@@ -7,13 +7,12 @@ import Image from "next/image";
 import { X, Star, Clock, Github, FileText } from "lucide-react";
 import Markdown from "react-markdown";
 
-export default function Ships({ ships }: { ships: Ship[] }) {
+export default async function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
 
   return (
     <>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Your Ships</h1>
         <motion.div layout className="space-y-4">
           {ships.map((ship: Ship) => (
             <motion.div
@@ -29,8 +28,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <Image
                     src={ship.screenshotUrl}
                     alt={`Screenshot of ${ship.title}`}
-                    layout="fill"
-                    objectFit="cover"
+                    layout={"fill"}
+                    sizes="4rem"
+                    objectFit={"cover"}
                     className="rounded-md"
                   />
                 </div>
@@ -63,15 +63,17 @@ export default function Ships({ ships }: { ships: Ship[] }) {
             >
               <Card className="relative">
                 <motion.div
-                  className="absolute top-0 left-0 right-0 h-48 overflow-hidden"
+                  className="absolute -top-px -left-px -right-px h-48 overflow-hidden"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <Image
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
-                    layout="fill"
-                    objectFit="cover"
+                    layout={"fill"}
+                    sizes="4rem"
+                    objectFit={"cover"}
+                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </motion.div>
@@ -93,9 +95,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                       <span>{selectedShip.hours} hours</span>
                     </div>
                   </motion.div>
-                  <motion.p className="text-gray-600">
-                    {selectedShip.description}
-                  </motion.p>
                   <motion.div className="flex space-x-4">
                     <a
                       href={selectedShip.repoUrl}
@@ -114,6 +113,14 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                       <FileText className="w-5 h-5 mr-1" /> README
                     </a>
                   </motion.div>
+
+                  <motion.p className="text-gray-600">
+                    <Markdown>
+                      {await fetch(selectedShip.readmeUrl).then((a) =>
+                        a.text(),
+                      )}
+                    </Markdown>
+                  </motion.p>
                 </CardContent>
                 <motion.button
                   className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md"

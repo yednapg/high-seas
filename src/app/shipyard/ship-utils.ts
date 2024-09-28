@@ -30,7 +30,7 @@ export interface Ship {
   hours: number;
 }
 
-export async function getShips(slackId: string): Promise<Ship[]> {
+export async function getUserShips(slackId: string): Promise<Ship[]> {
   const ships: Ship[] = [];
   const personId = await getSelfPersonId(slackId);
 

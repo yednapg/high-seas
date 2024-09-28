@@ -1,6 +1,4 @@
 "use client";
-import SignOut from "@/components/sign_out";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -10,23 +8,32 @@ import Shop from "./shop/page";
 import { useEffect, useState } from "react";
 import { getShop, ShopItem } from "./shop/shop-utils";
 import Map from "./map/page";
-import { getShips, Ship } from "./shipyard/ship-utils";
+import { getUserShips, Ship } from "./shipyard/ship-utils";
+import Gallery, { ShipsObject } from "./gallery/page";
+import { JwtPayload } from "jsonwebtoken";
 
-export default function Harbour({ session }) {
-  const [ships, setShips] = useState<Ship[] | null>(null);
+export default function Harbour({ session }: { session: JwtPayload }) {
+  // All the content management for all the tabs goes here.
+  const [myShips, setMyShips] = useState<Ship[] | null>(null);
+  const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
 
   useEffect(() => {
     (async () => {
-      console.log(session.payload.sub);
-      setShips(await getShips(session.payload.sub));
+      setMyShips(await getUserShips(session.payload.sub));
       setShopItems(await getShop());
     })();
   }, []);
 
+  useEffect(() => {}, [galleryShips]);
+
   const tabs = [
-    { name: "Shipyard", component: <Shipyard ships={ships} /> },
+    { name: "Shipyard", component: <Shipyard ships={myShips} /> },
     { name: "Battles", component: <Battles /> },
+    {
+      name: "Gallery",
+      component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
+    },
     { name: "Map", component: <Map /> },
     { name: "Shop", component: <Shop items={shopItems} /> },
   ];
@@ -54,7 +61,10 @@ export default function Harbour({ session }) {
                 </TabsTrigger>
               ))}
             </TabsList>
-            <div className="flex-1 overflow-auto px-3 pb-3">
+            <div
+              className="flex-1 overflow-auto p-3"
+              id="harbour-tab-scroll-element"
+            >
               {tabs.map((tab) => (
                 <TabsContent key={tab.name} value={tab.name} className="h-full">
                   {tab.component}

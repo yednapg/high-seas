@@ -48,17 +48,20 @@
 // }
 
 import Ships from "./ships";
-import { getShips, Ship } from "./ship-utils"; // Adjust the import path as necessary
-import { Suspense } from "react";
 
 function ShipsLoading() {
   return <div>Loading ships...</div>;
 }
 
-export default function Shipyard({ ships }: { ships: Ship[] | null }) {
+export default function Shipyard({ ships }: any) {
   if (!ships) {
     return <ShipsLoading />;
   } else {
-    return <Ships ships={ships} />;
+    return (
+      <div>
+        <h1>Your ships</h1>
+        <Ships ships={ships} />
+      </div>
+    );
   }
 }
