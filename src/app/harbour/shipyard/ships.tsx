@@ -66,9 +66,8 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     src={ship.screenshotUrl}
                     alt={`Screenshot of ${ship.title}`}
                     layout={"fill"}
+                    className="object-cover max-w-full rounded-md"
                     sizes="4rem"
-                    objectFit={"cover"}
-                    className="rounded-md"
                   />
                 </div>
                 <div>
@@ -107,10 +106,10 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <Image
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
+                    className="object-cover max-w-full"
                     layout={"fill"}
-                    sizes="4rem"
-                    objectFit={"cover"}
                     priority
+                    sizes="4rem"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </div>

@@ -10,9 +10,18 @@ export default function Marketing() {
         className="-z-10 fixed inset-0 w-full h-full object-cover"
         src={BackgroundImage}
         alt=""
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
       <header className="w-fit mx-auto flex flex-col items-center gap-4">
-        <Image src={HighSeas} alt="high seas" />
+        <Image
+          src={HighSeas}
+          alt="high seas"
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
         <h1 className="text-white text-2xl">Welcome to High Seas</h1>
       </header>
 

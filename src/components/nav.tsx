@@ -15,21 +15,23 @@ export default async function Nav() {
       <div className="flex gap-3 items-center">
         <Image
           src={Flag}
+          alt="hack club"
           style={{
             width: "auto",
             height: "100%",
-          }}
-          alt="hack club"
-        />
+            maxWidth: "100%",
+            height: "auto"
+          }} />
         <p className="font-semibold">presents</p>
         <Image
           src={Logo}
+          alt="high seas"
           style={{
             width: "auto",
             height: "100%",
-          }}
-          alt="high seas"
-        />
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </div>
       <div className="flex gap-4 items-center text-nowrap">
         {session ? (
@@ -40,7 +42,10 @@ export default async function Nav() {
               height={32}
               alt="profile picture"
               className="rounded-full"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p>Hey, {session.payload.given_name}!</p>{" "}
           </div>
         ) : null}
