@@ -4,12 +4,11 @@ import { useEffect, useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getShips } from "./utils";
 import { Ship } from "../shipyard/ship-utils";
-import { Card } from "@/components/ui/card";
 import Ships from "../shipyard/ships";
 
-type ShipsObject = Record<string, Ship>;
+export type ShipsObject = Record<string, Ship>;
 
-export default function Gallery({ ships, setShips }) {
+export default function Gallery({ ships, setShips }: any) {
   const [nextOffset, setNextOffset] = useState<string | undefined>(undefined);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +22,7 @@ export default function Gallery({ ships, setShips }) {
       setNextOffset(newShipInfo.offset);
       setHasMore(!!newShipInfo.offset);
 
-      setShips((prev) => {
+      setShips((prev: any) => {
         const newShips = newShipInfo.ships.reduce(
           (acc: ShipsObject, ship: Ship) => {
             acc[ship.id] = ship;
@@ -50,10 +49,12 @@ export default function Gallery({ ships, setShips }) {
     }
   }, []);
 
-  const shipsArray = Object.values(ships);
+  if (!ships) return <p className="text-center">Loading all ships...</p>;
+
+  const shipsArray: Ship[] = Object.values(ships);
 
   if (shipsArray.length === 0)
-    return <p className="text-center">Loading everyone's ships...</p>;
+    return <p className="text-center">Loading all ships...</p>;
 
   return (
     <InfiniteScroll

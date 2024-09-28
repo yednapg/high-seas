@@ -7,6 +7,7 @@ import Flag from "/public/flag-orpheus-top.svg";
 
 export default function Nav() {
   const session = getSession();
+  console.log("THE NAV IS", typeof session, session);
 
   return (
     <nav className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 bg-neutral-100">

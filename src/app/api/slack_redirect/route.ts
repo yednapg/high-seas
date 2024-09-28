@@ -2,7 +2,7 @@ import { setSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-const errRedir = (err) => redirect("/slack-error?err=" + err.toString());
+const errRedir = (err: any) => redirect("/slack-error?err=" + err.toString());
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");

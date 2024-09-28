@@ -7,7 +7,7 @@ import Image from "next/image";
 import { X, Star, Clock, Github, FileText } from "lucide-react";
 import Markdown from "react-markdown";
 
-export default function Ships({ ships }: { ships: Ship[] }) {
+export default async function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
 
   return (
@@ -95,9 +95,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                       <span>{selectedShip.hours} hours</span>
                     </div>
                   </motion.div>
-                  <motion.p className="text-gray-600">
-                    {selectedShip.description}
-                  </motion.p>
                   <motion.div className="flex space-x-4">
                     <a
                       href={selectedShip.repoUrl}
@@ -116,6 +113,14 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                       <FileText className="w-5 h-5 mr-1" /> README
                     </a>
                   </motion.div>
+
+                  <motion.p className="text-gray-600">
+                    <Markdown>
+                      {await fetch(selectedShip.readmeUrl).then((a) =>
+                        a.text(),
+                      )}
+                    </Markdown>
+                  </motion.p>
                 </CardContent>
                 <motion.button
                   className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md"

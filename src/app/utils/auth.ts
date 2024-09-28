@@ -28,18 +28,18 @@ export function setSession(slack_openid_token: string) {
   console.log("set the token!", cookies().get(cookieName), getSession());
 }
 
-export function getSession() {
+export function getSession(): JwtPayload | null {
   const { authSecret, cookieName } = vars();
 
   const cookie = cookies().get(cookieName);
-  if (!cookie) return;
+  if (!cookie) return null;
 
   return verify(cookie.value, authSecret, {
     complete: true,
     algorithms: ["HS256"], // Specify the expected algorithm
-  }).payload;
+  }).payload as JwtPayload;
 }
 
 export async function deleteSession() {
-  cookies().delete(process.env.SLACK_AUTH_COOKIE_NAME);
+  cookies().delete(vars().cookieName);
 }

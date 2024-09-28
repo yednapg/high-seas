@@ -1,5 +1,6 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { ShopItem } from "./shop-utils";
 import {
   Card,
   CardContent,
@@ -9,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export default function Shop({ items }: { items: ShopItem[] | null }) {
+export default function Shop({ items }: any) {
   if (!items) {
     return (
       <motion.div
@@ -30,7 +31,7 @@ export default function Shop({ items }: { items: ShopItem[] | null }) {
     >
       <h1 className="text-3xl font-bold mb-6">Shop ({items.length} items)</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => (
+        {items.map((item: any) => (
           <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
             <Card className="h-full">
               <CardHeader>
