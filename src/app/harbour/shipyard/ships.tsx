@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Ship } from "./ship-utils";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Icon from "@hackclub/icons";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";

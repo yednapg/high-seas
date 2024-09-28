@@ -1,7 +1,7 @@
 import SignIn from "@/components/sign_in";
 import HighSeas from "/public/logo.png";
 import BackgroundImage from "/public/bg.png";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 export default function Marketing() {
   return (
@@ -12,16 +12,18 @@ export default function Marketing() {
         alt=""
         style={{
           maxWidth: "100%",
-          height: "auto"
-        }} />
+          height: "auto",
+        }}
+      />
       <header className="w-fit mx-auto flex flex-col items-center gap-4">
         <Image
           src={HighSeas}
           alt="high seas"
           style={{
             maxWidth: "100%",
-            height: "auto"
-          }} />
+            height: "auto",
+          }}
+        />
         <h1 className="text-white text-2xl">Welcome to High Seas</h1>
       </header>
 
