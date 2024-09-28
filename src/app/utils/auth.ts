@@ -1,3 +1,5 @@
+"use server";
+
 import { sign, decode, verify, JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 
@@ -11,7 +13,7 @@ const vars = () => {
   return { authSecret, cookieName };
 };
 
-export function setSession(slack_openid_token: string) {
+export async function setSession(slack_openid_token: string) {
   console.log("setting token");
 
   const { authSecret, cookieName } = vars();
@@ -28,7 +30,7 @@ export function setSession(slack_openid_token: string) {
   console.log("set the token!", cookies().get(cookieName), getSession());
 }
 
-export function getSession(): JwtPayload | null {
+export async function getSession(): Promise<JwtPayload | null> {
   const { authSecret, cookieName } = vars();
 
   const cookie = cookies().get(cookieName);
