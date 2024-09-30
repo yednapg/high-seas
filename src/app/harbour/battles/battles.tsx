@@ -303,7 +303,7 @@ export default function Matchups() {
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
             A good project is technical, creative, and pushes the author out of their comfort zone. 
-            By that definition, which of these two projects is better? (If you're not sure, just refresh to skip!)
+            By that definition, which of these two projects is better? (If you&quot;re not sure, just refresh to skip!)
           </p>
         </header>
 
