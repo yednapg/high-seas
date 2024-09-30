@@ -10,7 +10,7 @@ export default async function SignIn() {
   const proto = headersList.get("x-forwarded-proto") || "http";
   const origin = `${proto}://${host}`;
 
-  const slackAuthUrl = `https://slack.com/oauth/v2/authorize?scope=&user_scope=openid%2Cprofile%2Cemail&redirect_uri=${origin}/api/slack_redirect&client_id=2210535565.7780087007589`;
+  const slackAuthUrl = `https://slack.com/oauth/v2/authorize?scope=&user_scope=openid%2Cprofile%2Cemail&redirect_uri=${origin}/api/slack_redirect&client_id=${process.env.SLACK_CLIENT_ID}`;
 
   return (
     <Link
