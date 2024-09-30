@@ -13,7 +13,10 @@ export async function GET(request: NextRequest) {
   if (res.status !== 200) return errRedir("Bad Slack OpenId response status");
 
   const data = await res.json();
-  if (!data || !data.ok) return errRedir("Bad Slack OpenID response");
+  if (!data || !data.ok) {
+    console.error(data);
+    return errRedir("Bad Slack OpenID response");
+  }
 
   try {
     setSession(data.id_token);
