@@ -279,7 +279,7 @@ const faqData: FaqItem[] = [
 },
 {
     question: "I need help!",
-    answer: `Contact us! Reach out in <a href="#">#low-skies-help</a> channel of the Hack Club Slack We're always ready to answer all your questions!`,
+    answer: `Contact us! Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</a> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
 },
 {
     question: "Does a team project count?",
