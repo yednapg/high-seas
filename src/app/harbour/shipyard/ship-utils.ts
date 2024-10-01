@@ -55,7 +55,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                 repoUrl: record.get("repo_url") as string,
                 readmeUrl: record.get("readme_url") as string,
                 screenshotUrl: record.get("screenshot_url") as string,
-                rating: record.get("rating") as number,
+                // rating: record.get("rating") as number,
                 hours: record.get("hours") as number,
               });
             }
@@ -88,6 +88,7 @@ export async function createShip(formData: FormData) {
   base()(shipsTableName).create(
     [
       {
+        // @ts-expect-error No overload matches this call - but it does
         fields: {
           title: formData.get("title"),
           hours: Number(formData.get("hours")),
@@ -99,7 +100,7 @@ export async function createShip(formData: FormData) {
         },
       },
     ],
-    function (err, records) {
+    function (err: Error, records: any) {
       if (err) {
         console.error(err);
         return;
@@ -107,7 +108,7 @@ export async function createShip(formData: FormData) {
       if (!records) {
         console.error("No records!");
       } else {
-        records.forEach(function (record) {
+        records.forEach((record: any) => {
           console.log(record.getId());
         });
       }

@@ -73,7 +73,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <div>
           <h2 className="text-xl font-semibold">{s.title}</h2>
           <div className="flex items-center gap-3 text-sm text-gray-600">
-            {/* <div className="flex items-center gap-1">
+            {/*<div className="flex items-center gap-1">
               <Icon glyph="payment" size={24} /> {s.rating}
             </div> */}
             <div className="flex items-center gap-1">
@@ -176,11 +176,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     {isCardContentLoaded ? (
                       <>
                         <motion.div className="flex items-center gap-4">
-                          <div className="flex items-center text-yellow-600 font-semibold">
-                            <Icon glyph="payment" /> {selectedShip.rating}{" "}
-                            scales
-                          </div>
-
                           <div className="flex items-center text-blue-600 font-semibold">
                             <Icon glyph="clock" /> {selectedShip.hours} hours
                           </div>

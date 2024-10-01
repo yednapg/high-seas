@@ -8,9 +8,9 @@ import Battles from "./battles/battles";
 import Shop from "./shop/shop";
 import { useEffect, useState } from "react";
 import { ShopItem, getShop } from "./shop/shop-utils";
-import Map from "./map/map";
+// import Map from "./map/map";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
-import Gallery, { ShipsObject } from "./gallery/gallery";
+import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
 
 export default function Harbour({ session }: { session: JwtPayload }) {

@@ -46,7 +46,7 @@ export async function deleteSession() {
   cookies().delete(vars().cookieName);
 }
 
-export async function getRedirectUri(): string {
+export async function getRedirectUri(): Promise<string> {
   const headersList = headers();
   const host = headersList.get("host") || "";
   const proto = headersList.get("x-forwarded-proto") || "http";

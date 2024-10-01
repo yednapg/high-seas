@@ -5,8 +5,14 @@ import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef } from "react";
 
-export default function NewShipForm({ canvasRef, closeForm }) {
-  const confettiRef = useRef(null);
+export default function NewShipForm({
+  canvasRef,
+  closeForm,
+}: {
+  canvasRef: any;
+  closeForm: any;
+}) {
+  const confettiRef = useRef<JSConfetti | null>(null);
 
   useEffect(() => {
     confettiRef.current = new JSConfetti({ canvas: canvasRef.current });
@@ -14,7 +20,7 @@ export default function NewShipForm({ canvasRef, closeForm }) {
 
   const handleForm = (formData: FormData) => {
     createShip(formData);
-    confettiRef.current.addConfetti();
+    confettiRef.current?.addConfetti();
     closeForm();
     alert(
       "Great! Now that you've submitted a project. Now, go to the battles tab and vote on 10 projects.",
