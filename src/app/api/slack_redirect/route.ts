@@ -1,4 +1,4 @@
-import { setSession } from "@/app/utils/auth";
+import { getRedirectUri, setSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -7,7 +7,11 @@ const errRedir = (err: any) => redirect("/slack-error?err=" + err.toString());
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
 
-  const exchangeUrl = `https://slack.com/api/openid.connect.token?code=${code}&client_id=${process.env.SLACK_CLIENT_ID}&client_secret=${process.env.SLACK_CLIENT_SECRET}`;
+  const redirectUri = await getRedirectUri();
+
+  const exchangeUrl = `https://slack.com/api/openid.connect.token?code=${code}&client_id=${process.env.SLACK_CLIENT_ID}&client_secret=${process.env.SLACK_CLIENT_SECRET}&redirect_uri=${redirectUri}`;
+  console.log("exchanging by posting to", exchangeUrl);
+
   const res = await fetch(exchangeUrl, { method: "POST" });
 
   if (res.status !== 200) return errRedir("Bad Slack OpenId response status");
