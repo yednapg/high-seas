@@ -14,8 +14,7 @@ export default async function Nav() {
     <nav className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 bg-neutral-100">
       <div className="flex gap-3 items-center">
         <Image src={Flag} alt="hack club" height={54} />
-        {/* <p className="font-semibold">presents</p> */}
-        <Image src={Logo} alt="high seas" height={48} />
+        <Image src={Logo} alt="low skies" height={48} />
       </div>
       <div className="flex gap-4 items-center text-nowrap">
         {session ? (

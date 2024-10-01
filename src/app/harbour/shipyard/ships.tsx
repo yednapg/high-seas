@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Ship } from "./ship-utils";
@@ -6,12 +6,16 @@ import Image from "next/image";
 import Icon from "@hackclub/icons";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Button } from "@/components/ui/button";
+import NewShipForm from "./new-ship-form";
 
 export default function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [isMarkdownExpanded, setIsMarkdownExpanded] = useState(false);
   const [isCardContentLoaded, setIsCardContentLoaded] = useState(false);
+  const [newShipVisible, setNewShipVisible] = useState(false);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     setReadmeText(null);
@@ -47,45 +51,95 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     }
   };
 
+  const SingleShip = ({ s }: { s: Ship }) => (
+    <motion.div
+      key={s.id}
+      layoutId={s.id}
+      onClick={() => setSelectedShip(s)}
+      className="cursor-pointer"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
+        <div className="w-16 h-16 relative mr-4">
+          <Image
+            src={s.screenshotUrl}
+            alt={`s of ${s.title}`}
+            layout={"fill"}
+            className="object-cover max-w-full rounded-md"
+            sizes="4rem"
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold">{s.title}</h2>
+          <div className="flex items-center gap-3 text-sm text-gray-600">
+            {/*<div className="flex items-center gap-1">
+              <Icon glyph="payment" size={24} /> {s.rating}
+            </div> */}
+            <div className="flex items-center gap-1">
+              <Icon glyph="clock" size={24} /> {s.hours}
+            </div>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+
   return (
     <>
+      <canvas
+        ref={canvasRef}
+        className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
+      />
+
       <div className="container mx-auto p-4">
         <motion.div layout className="space-y-4">
-          {ships.map((ship: Ship) => (
-            <motion.div
-              key={ship.id}
-              layoutId={ship.id}
-              onClick={() => setSelectedShip(ship)}
-              className="cursor-pointer"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
-                <div className="w-16 h-16 relative mr-4">
-                  <Image
-                    src={ship.screenshotUrl}
-                    alt={`Screenshot of ${ship.title}`}
-                    layout={"fill"}
-                    className="object-cover max-w-full rounded-md"
-                    sizes="4rem"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold">{ship.title}</h2>
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <div className="flex items-center gap-1">
-                      <Icon glyph="payment" size={24} /> {ship.rating}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Icon glyph="clock" size={24} /> {ship.hours}
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+          {ships.length === 0 ? (
+            <p className="text-center mb-4">
+              <b>{"You don't have any ships yet."}</b>
+            </p>
+          ) : (
+            ships.map((ship: Ship, idx: number) => (
+              <SingleShip s={ship} key={idx} />
+            ))
+          )}
         </motion.div>
+
+        <Button className="w-full" onClick={() => setNewShipVisible(true)}>
+          New Ship
+        </Button>
       </div>
+
+      <AnimatePresence>
+        {newShipVisible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setNewShipVisible(false)}
+          >
+            <Card
+              className="relative w-full max-w-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <NewShipForm
+                canvasRef={canvasRef}
+                closeForm={() => setNewShipVisible(false)}
+              />
+
+              <motion.button
+                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+                onClick={() => setNewShipVisible(false)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon glyph="view-close" />
+              </motion.button>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {selectedShip && (
@@ -122,11 +176,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     {isCardContentLoaded ? (
                       <>
                         <motion.div className="flex items-center gap-4">
-                          <div className="flex items-center text-yellow-600 font-semibold">
-                            <Icon glyph="payment" /> {selectedShip.rating}{" "}
-                            doubloons
-                          </div>
-
                           <div className="flex items-center text-blue-600 font-semibold">
                             <Icon glyph="clock" /> {selectedShip.hours} hours
                           </div>
@@ -138,7 +187,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                             rel="noopener noreferrer"
                             className="flex items-center text-blue-600 hover:underline"
                           >
-                            {/* <Github className="w-5 h-5 mr-1" /> Repository */}
                             <Icon glyph="github" /> Repo
                           </a>
                         </motion.div>

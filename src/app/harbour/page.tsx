@@ -8,9 +8,9 @@ import Battles from "./battles/battles";
 import Shop from "./shop/shop";
 import { useEffect, useState } from "react";
 import { ShopItem, getShop } from "./shop/shop-utils";
-import Map from "./map/map";
+// import Map from "./map/map";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
-import Gallery, { ShipsObject } from "./gallery/gallery";
+import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
@@ -30,13 +30,13 @@ export default function Harbour({ session }: { session: JwtPayload }) {
 
   const tabs = [
     { name: "Shipyard", component: <Shipyard ships={myShips} /> },
-    { name: "Battles", component: <Battles /> },
-    {
-      name: "Gallery",
-      component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
-    },
-    { name: "Map", component: <Map /> },
-    { name: "Shop", component: <Shop items={shopItems} /> },
+    { name: "Thunderdome", component: <Battles /> },
+    // {
+    //   name: "Gallery",
+    //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
+    // },
+    // { name: "Map", component: <Map /> },
+    { name: "Shoppe", component: <Shop items={shopItems} /> },
   ];
 
   return (
