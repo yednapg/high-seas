@@ -39,7 +39,7 @@ export default function Marketing() {
         <div className="landing-right"></div>
       </div>
 
-      <Image src={divider} alt="Divider" className="mx-auto my-8 absolute xl:top-[75%] md:top-[80%] top-[90%] w-full" />
+      <Image src={divider} alt="Divider" className="mx-auto my-8 absolute xl:top-[77%] md:top-[80%%] top-[90%] w-full" />
 
       <div className="md:my-44 my-24 xl:pb-24 lg:pb-[50px]">
         <div className="flex justify-center items-center mb-6">
