@@ -1,6 +1,10 @@
 "use server";
 
+import { getSession } from "@/app/utils/auth";
 import Airtable from "airtable";
+
+const peopleTableName = "people";
+const shipsTableName = "ships";
 
 const base = () => {
   const baseId = process.env.BASE_ID;
@@ -10,7 +14,7 @@ const base = () => {
 };
 
 async function getSelfPersonId(slackId: string) {
-  const page = await base()("people")
+  const page = await base()(peopleTableName)
     .select({ filterByFormula: `{slack_id} = '${slackId}'` })
     .firstPage();
 
@@ -26,7 +30,7 @@ export interface Ship {
   repoUrl: string;
   readmeUrl: string;
   screenshotUrl: string;
-  rating: number;
+  // doubloonsPaid?: number;
   hours: number;
 }
 
@@ -35,7 +39,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
   const personId = await getSelfPersonId(slackId);
 
   return new Promise((resolve, reject) => {
-    base()("ships")
+    base()(shipsTableName)
       .select({
         // filterByFormula: `SEARCH('${personId}', {entrant})`,
         view: "Grid view",
@@ -58,7 +62,55 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
           });
           fetchNextPage();
         },
-        (err) => (err ? reject(err) : resolve(ships)),
+        (err) => {
+          console.log(ships);
+          return err ? reject(err) : resolve(ships);
+        },
       );
   });
+}
+
+export async function createShip(formData: FormData) {
+  const session = await getSession();
+  if (!session) {
+    const error = new Error(
+      "Tried to submit a ship with no Slack OAuth session",
+    );
+    console.log(error);
+    throw error;
+  }
+
+  const slackId = session.payload.sub;
+  const entrantId = await getSelfPersonId(slackId);
+
+  console.log(formData, slackId, entrantId);
+
+  base()(shipsTableName).create(
+    [
+      {
+        fields: {
+          title: formData.get("title"),
+          hours: Number(formData.get("hours")),
+          entrant: [entrantId],
+          repo_url: formData.get("repo_url"),
+          readme_url: formData.get("readme_url"),
+          deploy_url: formData.get("deploy_url"),
+          screenshot_url: formData.get("screenshot_url"),
+        },
+      },
+    ],
+    function (err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      if (!records) {
+        console.error("No records!");
+      } else {
+        records.forEach(function (record) {
+          console.log(record.getId());
+        });
+      }
+    },
+  );
 }

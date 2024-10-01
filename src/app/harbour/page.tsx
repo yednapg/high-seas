@@ -30,13 +30,13 @@ export default function Harbour({ session }: { session: JwtPayload }) {
 
   const tabs = [
     { name: "Shipyard", component: <Shipyard ships={myShips} /> },
-    { name: "Battles", component: <Battles /> },
-    {
-      name: "Gallery",
-      component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
-    },
-    { name: "Map", component: <Map /> },
-    { name: "Shop", component: <Shop items={shopItems} /> },
+    { name: "Thunderdome", component: <Battles /> },
+    // {
+    //   name: "Gallery",
+    //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
+    // },
+    // { name: "Map", component: <Map /> },
+    { name: "Shoppe", component: <Shop items={shopItems} /> },
   ];
 
   return (

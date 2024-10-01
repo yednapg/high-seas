@@ -10,8 +10,8 @@ import Nav from "@/components/nav";
 // });
 
 export const metadata: Metadata = {
-  title: "High Seas | Hack Club",
-  description: "Hack Club's High Seas event",
+  title: "Low Skies | Hack Club",
+  description: "Hack Club's Low Skies event",
 };
 
 export default function RootLayout({
