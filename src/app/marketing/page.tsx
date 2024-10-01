@@ -198,8 +198,14 @@ export default function Marketing() {
               <div className="bg-blue-500 p-8 rounded-lg pop">
                 <p className="text-2xl">Not sure what to make?</p>
                 <p className="text-lg my-4">
-                  Here are some projects Hack Clubbers made over the summer!
+                  Here are some projects Hack Clubbers made over the summer:
                 </p>
+                <div className="mx-2">
+                  <p className="mb-4">Ajith (age 17) made a game where you can <a href="https://nalinplad.github.io/human-powered-computer/" target="_blank" rel="noopenner noreferrer" className="buildLink">play as a CPU</a>!</p>
+                  <p className="mb-4">Brendan (age 17) built an entire <a href="https://github.com/AGB556/BISMUTH/tree/main" target="_blank" rel="noopenner noreferrer" className="buildLink">3D printer</a> from scratch!</p>
+                  <p>Shreyas (age 15) made an <a href="https://github.com/deoshreyas/Circular-Audio-Visualiser" target="blank" rel="noopenner noreferrer" className="buildLink">Audio Visualizer</a>!</p>
+                </div>
+                
               </div>
             </div>
           </div>
