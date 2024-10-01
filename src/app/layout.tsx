@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${/*blackPearl.variable*/ 1} antialiased mt-14 overflow-hidden`}
+        className={`${/*blackPearl.variable*/ 1} antialiased mt-14`}
       >
         {children}
         <Nav />
