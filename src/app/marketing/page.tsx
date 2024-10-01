@@ -135,7 +135,7 @@ export default function Marketing() {
           <div className="flex justify-center items-center">
             
 
-            <div className="bg-green-400 p-6 rounded-lg m-4">
+            <div className="bg-green-400 p-6 rounded-lg m-4 pop">
               {/*<div className="bg-red-400 p-2 text-xl">
                 <p>2</p>
               </div>*/}
@@ -147,7 +147,7 @@ export default function Marketing() {
               </p>
             </div>
 
-            <div className="bg-green-400 p-6 rounded-lg m-4">
+            <div className="bg-green-400 p-6 rounded-lg m-4 pop">
               <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                 <Image src={shop2} alt="Shop item" className="w-full h-auto rotate-12" />
               </div>
@@ -156,7 +156,7 @@ export default function Marketing() {
               </p>
             </div>
 
-            <div className="bg-green-400 p-6 rounded-lg m-4">
+            <div className="bg-green-400 p-6 rounded-lg m-4 pop">
               <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                 <Image src={shop3} alt="Shop item" className="w-full h-auto" />
               </div>
