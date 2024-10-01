@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// import localFont from "next/font/local";
+import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/nav";
 
-// const blackPearl = localFont({
-//   src: "./fonts/blackpearl.ttf",
-//   variable: "--font-blackpearl",
-// });
+const mainFont = localFont({
+  src: "../../public/fonts/ADLaMDisplay-Regular.ttf",
+  variable: "--font-main",
+});
 
 export const metadata: Metadata = {
   title: "Low Skies | Hack Club",
@@ -21,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${/*blackPearl.variable*/ 1} antialiased mt-14 overflow-hidden`}
-      >
+      <body className={`${mainFont.variable} antialiased mt-14`}>
         {children}
         <Nav />
         <SpeedInsights />
