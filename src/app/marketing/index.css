@@ -73,3 +73,8 @@
 .linkPop:hover {
   transform: scale(1.2) rotate(1deg);
 }
+
+.footLink {
+    color: lightpink;
+    text-decoration: underline;
+}

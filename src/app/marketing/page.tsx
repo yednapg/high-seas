@@ -132,7 +132,7 @@ export default function Marketing() {
               only.
             </p>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex flex-wrap justify-center items-center">
             
 
             <div className="bg-green-400 p-6 rounded-lg m-4 pop">
@@ -203,8 +203,34 @@ export default function Marketing() {
 
       <div className="mb-24"></div>
 
-      <div className="bg-blue-500 p-8">
-        <p>this is a footer</p>
+      <div className="bg-blue-500 p-8"> 
+        <div className="xl:mx-44 md:mx-22 my-4">
+          <p className="mb-4 text-xl">A project by <a href="https://hackclub.com/" target="_blank" rel="noopenner noreferrer" className="footLink">Hack Club</a>.</p>
+          <p className="max-w-3xl">
+            Hack Club is a registered 501(c)3 nonprofit organization that supports a
+            network of 20k+ technical high schoolers. We believe you learn best by
+            building so we're creating community and providing grants so you can make. In the past few years, we've{' '}
+            <a href="https://summer.hackclub.com" target="_blank" rel="noopenner noreferrer" className="footLink">
+              given away 100k+ in hardware grants
+            </a>
+            ,{' '}
+            <a
+              href="https://github.com/hackclub/the-hacker-zephyr"
+              target="_blank"
+              rel="noopenner noreferrer"
+              className="footLink"
+            >
+              hosted the world's longest hackathon on land
+            </a>
+            , and{' '}
+            <a href="https://github.com/hackclub/assemble" target="_blank" rel="noopenner noreferrer" className="footLink">
+              brought 183 teenagers to SF for a hackathon
+            </a>
+            .
+          </p>
+        </div>
+        
+
       </div>
     </div>
 
