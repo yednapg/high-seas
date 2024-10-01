@@ -12,6 +12,10 @@ import divider from "./art/divider.png";
 import divider2 from "./art/divider2.png";
 import paper from "./art/paper.png";
 
+import shop1 from "./art/shop/shop1.png";
+import shop2 from "./art/shop/shop2.png";
+import shop3 from "./art/shop/shop3.png";
+
 export default function Marketing() {
   return (
     <div>
@@ -128,25 +132,40 @@ export default function Marketing() {
               only.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center items-center">
+          <div className="flex justify-center items-center">
+            
+
             <div className="bg-green-400 p-6 rounded-lg m-4">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm"></div>
+              {/*<div className="bg-red-400 p-2 text-xl">
+                <p>2</p>
+              </div>*/}
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image src={shop1} alt="Shop item" className="w-full h-auto" />
+              </div>
               <p className="flex justify-center text-center text-3xl">
-                name name
+                Pile of Stickers
               </p>
             </div>
+
             <div className="bg-green-400 p-6 rounded-lg m-4">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm"></div>
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image src={shop2} alt="Shop item" className="w-full h-auto rotate-12" />
+              </div>
               <p className="flex justify-center text-center text-3xl">
-                name name
+                Julia Evans Zine
               </p>
             </div>
+
             <div className="bg-green-400 p-6 rounded-lg m-4">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm"></div>
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image src={shop3} alt="Shop item" className="w-full h-auto" />
+              </div>
               <p className="flex justify-center text-center text-3xl">
-                name name
+                Blahaj (Ikea Plush)
               </p>
             </div>
+
+
           </div>
           <div className="flex justify-center items-center mt-8 m-10">
             <a
