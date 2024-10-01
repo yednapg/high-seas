@@ -110,9 +110,6 @@ export default function Marketing() {
                 </li>
                 <li><a href="https://hackclub.com/onboard/" target="_blank" rel="noopenner noreferrer" className="aboutLink">OnBoard</a>: Design a PCB, get a $100 grant to get it built</li>
                 <li><a href="https://blot.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="aboutLink">Blot</a>: Write code. Make art. Get a drawing machine.</li>
-                <li>
-                  <a href="https://hackclub.com/bin/" target="_blank" rel="noopenner noreferrer" className="aboutLink">The Bin</a>: Build a circuit online, get the parts for free!
-                </li>
               </ul>
             </div>
 
