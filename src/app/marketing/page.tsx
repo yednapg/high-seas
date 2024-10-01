@@ -20,7 +20,7 @@ export default function Marketing() {
   return (
     <div>
 
-<div className="bodycss">
+    <div className="bodycss">
       <div className="landing items-center">
         <div className="landing-left container">
           <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
