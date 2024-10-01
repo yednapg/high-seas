@@ -14,6 +14,25 @@
   color: white;
 }
 
+.paper {
+    background-image: url(./art/paper.png);
+    background-repeat:repeat;
+}
+
+.paper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(./art/paper.png);
+    background-repeat: repeat;
+    opacity: 0.2;
+    z-index: -1;
+    pointer-events: none;
+}
+
 .adlam {
     font-family: 'ADLaM Display', sans-serif;
 }
