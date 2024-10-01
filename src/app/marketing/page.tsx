@@ -1,8 +1,8 @@
 import "./index.css";
 
-import SignIn from "@/components/sign_in";
-import HighSeas from "/public/logo.png";
-import BackgroundImage from "/public/bg.png";
+// import SignIn from "@/components/sign_in";
+// import HighSeas from "/public/logo.png";
+// import BackgroundImage from "/public/bg.png";
 import Image from "next/image";
 
 import how1 from "./art/how1.png";
@@ -10,7 +10,7 @@ import how2 from "./art/how2.png";
 import how3 from "./art/how3.png";
 import divider from "./art/divider.png";
 import divider2 from "./art/divider2.png";
-import paper from "./art/paper.png";
+// import paper from "./art/paper.png";
 
 import shop1 from "./art/shop/shop1.png";
 import shop2 from "./art/shop/shop2.png";
@@ -24,7 +24,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">Hack Club's two week experiment</p>
+              <p className="">{"Hack Club's two week experiment"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
@@ -114,8 +114,8 @@ export default function Marketing() {
                   >
                     Shop
                   </a>
-                  , you'll be able to spend your Scales on items of all sort,
-                  from notebooks to Flipper Zeros!
+                  , {"you'll"} be able to spend your Scales on items of all
+                  sort, from notebooks to Flipper Zeros!
                 </p>
               </div>
             </div>
@@ -142,12 +142,12 @@ export default function Marketing() {
                 <p className="text-3xl">Build whatever you want!</p>
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
-                  pixel art display, drawing robot, and more! After you're done
-                  your project, submit it to the Thunderdome! You earn Scales
-                  relative to how well they compete against other projects that
-                  took a similar time to make.
+                  pixel art display, drawing robot, and more! After you{"'"}re
+                  done your project, submit it to the Thunderdome! You earn
+                  Scales relative to how well they compete against other
+                  projects that took a similar time to make.
                 </p>
-                <p className="text-2xl">Don't know where to start?</p>
+                <p className="text-2xl">{"Don't know where to start?"}</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
                   <li>
                     <a
@@ -207,7 +207,7 @@ export default function Marketing() {
 
           <div className="my-24">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-2">What's in stock?</p>
+              <p className="text-5xl text-center mb-2">{"What's in stock?"}</p>
               <p className="text-xl text-center">
                 Redeem these with your Scales! For high schoolers (or younger)
                 only.
@@ -317,8 +317,8 @@ export default function Marketing() {
             <p className="max-w-3xl">
               Hack Club is a registered 501(c)3 nonprofit organization that
               supports a network of 20k+ technical high schoolers. We believe
-              you learn best by building so we're creating community and
-              providing grants so you can make. In the past few years, we've{" "}
+              you learn best by building so we{"'"}re creating community and
+              providing grants so you can make. In the past few years, we{"'"}ve{" "}
               <a
                 href="https://summer.hackclub.com"
                 target="_blank"
@@ -334,7 +334,7 @@ export default function Marketing() {
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                hosted the world's longest hackathon on land
+                {"hosted the world's longest hackathon on land"}
               </a>
               , and{" "}
               <a
