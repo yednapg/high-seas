@@ -266,7 +266,7 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). You just need a [wakatime] account to participate. Different prizes have different country restrictions. Visit [link] to start!`,
+    answer: `You need to be a high schooler (or younger). You just need a <a href="https://waka.hackclub.com/" target="_blank" ref="noopenner noreferrer" class="faqLink">Hackatime</a> account to participate. Different prizes have different country restrictions. Sign in with Hack Club Slack to get started!`,
 },
 {
     question: "How much does it cost?",
