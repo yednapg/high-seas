@@ -2,21 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&display=swap');
-
 .bodycss {
-  font-family: 'ADLaM Display', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-  background: #FF73F5;
-  background: linear-gradient(to bottom, #FF73F5, #fb8135, #ec4899);
-  color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    background: #ff73f5;
+    background: linear-gradient(to bottom, #ff73f5, #fb8135, #ec4899);
+    color: white;
 }
 
 .paper {
     background-image: url(./art/paper.png);
-    background-repeat:repeat;
+    background-repeat: repeat;
 }
 
 .paper::before {
@@ -33,64 +30,60 @@
     pointer-events: none;
 }
 
-.adlam {
-    font-family: 'ADLaM Display', sans-serif;
-}
-
 .landing {
-  display: flex;
-  padding: 0 10vw;
-  height: 100vh;
-  background-color: #46C1FE;
+    display: flex;
+    padding: 0 10vw;
+    height: 100vh;
+    background-color: #46c1fe;
 }
 
 .landing-left {
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  align-items: left;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    align-items: left;
 }
 
 @media screen and (max-width: 800px) {
-  .landing {
-      flex-direction: column;
-      padding-top: 100px;
-      padding-bottom: 0;
-  }
+    .landing {
+        flex-direction: column;
+        padding-top: 100px;
+        padding-bottom: 0;
+    }
 
-  .landing-left {
-      width: 100vw;
-      text-align: center;
-      align-items: center;
-  }
+    .landing-left {
+        width: 100vw;
+        text-align: center;
+        align-items: center;
+    }
 }
 
 .faqLink {
-  color: lightblue !important; 
-  text-decoration: underline !important;
+    color: lightblue !important;
+    text-decoration: underline !important;
 }
 
 .aboutLink {
-  color: lightcyan !important; 
-  text-decoration: underline !important;
+    color: lightcyan !important;
+    text-decoration: underline !important;
 }
 
 .pop {
-  transition: transform 0.1s ease-in-out;
+    transition: transform 0.1s ease-in-out;
 }
 
 .pop:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .linkPop {
-  transition: transform 0.08s ease-in-out;
+    transition: transform 0.08s ease-in-out;
 }
 
 .linkPop:hover {
-  transform: scale(1.2) rotate(1deg);
+    transform: scale(1.2) rotate(1deg);
 }
 
 .footLink {
