@@ -1,7 +1,7 @@
 "use server";
 
 import { sign, decode, verify, JwtPayload } from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 const vars = () => {
   const authSecret = process.env.AUTH_SECRET;
@@ -44,4 +44,13 @@ export async function getSession(): Promise<JwtPayload | null> {
 
 export async function deleteSession() {
   cookies().delete(vars().cookieName);
+}
+
+export async function getRedirectUri(): Promise<string> {
+  const headersList = headers();
+  const host = headersList.get("host") || "";
+  const proto = headersList.get("x-forwarded-proto") || "http";
+  const uri = encodeURIComponent(`${proto}://${host}/api/slack_redirect`);
+
+  return uri;
 }
