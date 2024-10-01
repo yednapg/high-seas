@@ -29,7 +29,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   useEffect(() => {}, [galleryShips]);
 
   const tabs = [
-    { name: "Shipyard", component: <Shipyard ships={myShips} /> },
+    { name: "The Keep", component: <Shipyard ships={myShips} /> },
     { name: "Thunderdome", component: <Battles /> },
     // {
     //   name: "Gallery",
