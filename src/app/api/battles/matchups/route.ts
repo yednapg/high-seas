@@ -30,7 +30,10 @@ export async function GET() {
 
   try {
     const projects = await getCachedProjects();
-    const matchup = generateMatchup(projects);
+    const votableProjects = projects.filter(project => 
+      project?.["entrant_slack_id"] !== session?.payload?.sub
+    )
+    const matchup = generateMatchup(votableProjects);
 
     if (!matchup) {
       return NextResponse.json(
