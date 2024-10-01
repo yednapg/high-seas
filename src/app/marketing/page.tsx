@@ -63,7 +63,7 @@ export default function Marketing() {
               <div className="flex flex-col justify-center items-center mt-8 md:mt-0 md:ml-8 w-full md:w-auto text-center">
                 <p className="text-2xl mb-2">Make cool projects!</p>
                 <p className="text-xl max-w-96">
-                  Create personal projects and track number of hours using{" "}
+                  Create personal projects and earn credit for your hours using{" "}
                   <a
                     href="https://waka.hackclub.com/"
                     target="_blank"
@@ -115,7 +115,7 @@ export default function Marketing() {
                     Shop
                   </a>
                   , {"you'll"} be able to spend your Scales on items of all
-                  sort, from notebooks to Flipper Zeros!
+                  sort, from Blahajs to Yubikeys!
                 </p>
               </div>
             </div>
@@ -143,9 +143,8 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to the Thunderdome! You earn
-                  Scales relative to how well they compete against other
-                  projects that took a similar time to make.
+                  done your project, submit it to the Thunderdome! 
+                  Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
@@ -180,7 +179,7 @@ export default function Marketing() {
                     >
                       OnBoard
                     </a>
-                    : Design a PCB, get a $100 grant to get it built
+                    : Design a PCB, get a $100 grant to get it built.
                   </li>
                   <li>
                     <a
@@ -252,7 +251,7 @@ export default function Marketing() {
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Blahaj (Ikea Plush)
+                  Blahaj (friend)
                 </p>
               </div>
             </div>
@@ -437,7 +436,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Does a team project count?",
-    answer: `Yes! However, you only recieve Scales for the amount of time you've personally put in.`,
+    answer: `Not for this event! You must only enter projects that were built by yourself.`,
   },
   {
     question: "What about school work or a job?",
@@ -445,7 +444,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we've run <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`,
   },
 ];
 
