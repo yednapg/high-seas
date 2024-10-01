@@ -264,7 +264,39 @@ interface FaqItem {
 }
 
 const faqData: FaqItem[] = [
-  // Add your FAQ items here
+  {
+    question: "Who is eligible?",
+    answer: `You need to be a high schooler (or younger). You just need a [wakatime] account to participate. Different prizes have different country restrictions. Visit [link] to start!`,
+},
+{
+    question: "How much does it cost?",
+    answer: `100% free – all the prizes are donated to us or paid for by us! Some shipments may have customs charges that we can't cover depending on your country.`,
+},
+{
+    question: "What types of projects count?",
+    answer: `Projects need to be open source (ie. linked to a GitHub repo) & have a way for people to experience it (ie. a game, a website, etc).`,
+},
+{
+    question: "How many projects can I build?",
+    answer: `You can submit as many projects as you make. We count them after they've been finished!`,
+},
+{
+    question: "I need help!",
+    answer: `Contact us! Reach out in <a href="#">#low-skies-help</a> channel of the Hack Club Slack We're always ready to answer all your questions!`,
+},
+{
+    question: "Does a team project count?",
+    answer: `Yes! However, you only recieve Scales for the amount of time you've personally put in.`,
+},
+{
+    question: "What about school work or a job?",
+    answer: `Low Skies is about the joy of building for the sake of building. It must be a personal project! If you're building something for school or work, we can't count it.`,
+},
+{
+    question: "Is this legit?",
+    answer: `Yup! This summer, we've run <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`
+}
+ 
 ];
 
 const Faq: React.FC = () => {
