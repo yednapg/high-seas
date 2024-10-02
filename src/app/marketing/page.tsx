@@ -6,6 +6,8 @@ import "./index.css";
 import Image from "next/image";
 import SignIn2 from "@/components/sign_in_marketing";
 
+import orphwoah from "./art/orphwoah.png";
+
 import how1 from "./art/how1.png";
 import how2 from "./art/how2.png";
 import how3 from "./art/how3.png";
@@ -25,7 +27,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"a two week event"}</p>
+              <p className="">{"A two week event by Hack Club"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
@@ -44,7 +46,11 @@ export default function Marketing() {
               Low Skies is free for teens to participate in, running Oct 2-16!
             </p>
           </div>
-          <div className="landing-right"></div>
+          <div className="landing-right">
+            <div className="bobble">
+              <Image src={orphwoah} alt="orpheus"/>
+            </div>
+          </div>
         </div>
 
         <Image
