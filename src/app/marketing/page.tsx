@@ -4,6 +4,7 @@ import "./index.css";
 // import HighSeas from "/public/logo.png";
 // import BackgroundImage from "/public/bg.png";
 import Image from "next/image";
+import SignIn2 from "@/components/sign_in_marketing";
 
 import how1 from "./art/how1.png";
 import how2 from "./art/how2.png";
@@ -28,7 +29,7 @@ export default function Marketing() {
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
-            <div className="bg-green-400 p-2 inline-block w-80 rounded-lg linkPop">
+            {/*<div className="bg-green-400 p-2 inline-block w-80 rounded-lg linkPop">
               <a
                 className="text-2xl text-white ml-3"
                 href="#"
@@ -37,7 +38,8 @@ export default function Marketing() {
               >
                 Enter the Thunderdome
               </a>
-            </div>
+            </div>*/}
+            <SignIn2/>
             <p className="mt-2 max-w-72 lg:max-w-xl">
               Low Skies is free for teens to participate in, running Oct 2-16!
             </p>
@@ -266,10 +268,10 @@ export default function Marketing() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-400 rounded-lg p-4 linkPop"
+                className="bg-green-400 rounded-lg p-4 pop"
               >
                 <p className="text-3xl text-center">
-                  Check out the full list of items here!
+                  Get the full list of items when you sign in!
                 </p>
               </a>
             </div>
@@ -297,9 +299,10 @@ export default function Marketing() {
 
         <div className="flex flex-col justify-center items-center mt-12 mb-24">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
-          <button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
+          <SignIn2 />
+          {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
             <a href="#">Enter the Thunderdome</a>
-          </button>
+          </button>*/}
           <p className="text-xl mt-2">Build. Battle. Repeat.</p>
         </div>
 
