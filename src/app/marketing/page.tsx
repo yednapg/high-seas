@@ -43,7 +43,7 @@ export default function Marketing() {
             </div>*/}
             <SignIn2 />
             <p className="mt-2 max-w-72 lg:max-w-xl">
-              Low Skies is free for teens to participate in, running Oct 2-16!
+              Low Skies is free for teens to participate in, running Oct 3-17!
             </p>
           </div>
           <div className="landing-right">
