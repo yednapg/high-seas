@@ -13,7 +13,7 @@ import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
 
 export default function Shop({ items }: any) {
-  const [filterIndex, setFilteIndex] = useState(0)
+  const [filterIndex, setFilterIndex] = useState(0)
   const [bannerText, setBannerText] = useState('')
   useEffect(() => {
     setBannerText(sample(shopBanner))
@@ -60,11 +60,11 @@ export default function Shop({ items }: any) {
       <div className="text-center mb-6 mt-12">
         <label>Choose your region: </label>
         <select>
-          <option value="0" selected onClick={() => setFilteIndex(0)}>All items</option>
-          <option value="1" onClick={() => setFilteIndex(1)}>US</option>
-          <option value="2" onClick={() => setFilteIndex(2)}>EU</option>
-          <option value="3" onClick={() => setFilteIndex(3)}>India</option>
-          <option value="4" onClick={() => setFilteIndex(4)}>Other countries worldwide</option>
+          <option value="0" selected onClick={() => setFilterIndex(0)}>All items</option>
+          <option value="1" onClick={() => setFilterIndex(1)}>US</option>
+          <option value="2" onClick={() => setFilterIndex(2)}>EU</option>
+          <option value="3" onClick={() => setFilterIndex(3)}>India</option>
+          <option value="4" onClick={() => setFilterIndex(4)}>Other countries worldwide</option>
         </select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
