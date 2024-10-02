@@ -83,16 +83,17 @@ export default function Marketing() {
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center">
                 <p className="text-2xl mb-2">Battle against other projects!</p>
                 <p className="text-xl max-w-96">
-                  After finishing your project, submit it to the{" "}
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer noopenner"
+                  After finishing your project, submit it to{" "}
+                  <span
+                    className="bg-green-400 px-2 rounded-lg"
+                  >
+                    The Keep
+                  </span>
+                  ! Your project will battle others in the <span
                     className="bg-green-400 px-2 rounded-lg"
                   >
                     Thunderdome
-                  </a>
-                  ! Your project will battle others; winners get Scales!
+                  </span>; winners get Scales!
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -108,14 +109,11 @@ export default function Marketing() {
                 <p className="text-2xl mb-2">Get free tools and swag!</p>
                 <p className="text-xl max-w-96">
                   At the{" "}
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer noopenner"
+                  <span
                     className="bg-green-400 px-2 rounded-lg"
                   >
-                    Shop
-                  </a>
+                    Shoppe
+                  </span>
                   , {"you'll"} be able to spend your Scales on items of all
                   sort, from Blahajs to Yubikeys!
                 </p>
@@ -145,7 +143,7 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to the Thunderdome! 
+                  done your project, submit it to The Keep! 
                   Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
