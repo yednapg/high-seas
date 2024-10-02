@@ -77,8 +77,12 @@ export default function Ships({ ships }: { ships: Ship[] }) {
               <Icon glyph="payment" size={24} /> {s.rating}
             </div> */}
             {(s.voteRequirementMet) ? (
-              (s.doubloonPayout) ? '' : (
-                <div className="flex items-center gap-1 text-blue-500">
+              (s.doubloonPayout) ? (
+                <div className="flex items-center gap-1 text-green-400">
+                  <Icon glyph="payment" size={24} /> {s.doubloonPayout} scales
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 text-blue-400">
                   <Icon glyph="event-add" size={24} /> Pending: hang tight– we're counting the votes!
                 </div>
               )
