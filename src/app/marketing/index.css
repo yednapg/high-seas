@@ -7,7 +7,7 @@
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     background: #ff73f5;
-    background: linear-gradient(to bottom, #ff73f5, #fb8135, #ec4899);
+    background: linear-gradient(to bottom, #ff73f5, #f6b163, #ec4899);
     color: white;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .faqLink {
-    color: lightblue !important;
+    color: lightpink !important;
     text-decoration: underline !important;
 }
 
@@ -87,6 +87,11 @@
 }
 
 .footLink {
+    color: lightpink;
+    text-decoration: underline;
+}
+
+.buildLink {
     color: lightpink;
     text-decoration: underline;
 }

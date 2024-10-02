@@ -4,6 +4,7 @@ import "./index.css";
 // import HighSeas from "/public/logo.png";
 // import BackgroundImage from "/public/bg.png";
 import Image from "next/image";
+import SignIn2 from "@/components/sign_in_marketing";
 
 import how1 from "./art/how1.png";
 import how2 from "./art/how2.png";
@@ -28,7 +29,7 @@ export default function Marketing() {
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
-            <div className="bg-green-400 p-2 inline-block w-80 rounded-lg linkPop">
+            {/*<div className="bg-green-400 p-2 inline-block w-80 rounded-lg linkPop">
               <a
                 className="text-2xl text-white ml-3"
                 href="#"
@@ -37,7 +38,8 @@ export default function Marketing() {
               >
                 Enter the Thunderdome
               </a>
-            </div>
+            </div>*/}
+            <SignIn2/>
             <p className="mt-2 max-w-72 lg:max-w-xl">
               Low Skies is free for teens to participate in, running Oct 2-16!
             </p>
@@ -63,7 +65,7 @@ export default function Marketing() {
               <div className="flex flex-col justify-center items-center mt-8 md:mt-0 md:ml-8 w-full md:w-auto text-center">
                 <p className="text-2xl mb-2">Make cool projects!</p>
                 <p className="text-xl max-w-96">
-                  Create personal projects and track number of hours using{" "}
+                  Create personal projects and earn credit for your hours using{" "}
                   <a
                     href="https://waka.hackclub.com/"
                     target="_blank"
@@ -81,16 +83,17 @@ export default function Marketing() {
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center">
                 <p className="text-2xl mb-2">Battle against other projects!</p>
                 <p className="text-xl max-w-96">
-                  After finishing your project, submit it to the{" "}
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer noopenner"
+                  After finishing your project, submit it to{" "}
+                  <span
+                    className="bg-green-400 px-2 rounded-lg"
+                  >
+                    The Keep
+                  </span>
+                  ! Your project will battle others in the <span
                     className="bg-green-400 px-2 rounded-lg"
                   >
                     Thunderdome
-                  </a>
-                  ! Your project will battle others; winners get Scales!
+                  </span>; winners get Scales!
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -106,16 +109,13 @@ export default function Marketing() {
                 <p className="text-2xl mb-2">Get free tools and swag!</p>
                 <p className="text-xl max-w-96">
                   At the{" "}
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer noopenner"
+                  <span
                     className="bg-green-400 px-2 rounded-lg"
                   >
-                    Shop
-                  </a>
+                    Shoppe
+                  </span>
                   , {"you'll"} be able to spend your Scales on items of all
-                  sort, from notebooks to Flipper Zeros!
+                  sort, from Blahajs to Yubikeys!
                 </p>
               </div>
             </div>
@@ -143,9 +143,8 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to the Thunderdome! You earn
-                  Scales relative to how well they compete against other
-                  projects that took a similar time to make.
+                  done your project, submit it to The Keep! 
+                  Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
@@ -180,7 +179,7 @@ export default function Marketing() {
                     >
                       OnBoard
                     </a>
-                    : Design a PCB, get a $100 grant to get it built
+                    : Design a PCB, get a $100 grant to get it built.
                   </li>
                   <li>
                     <a
@@ -199,8 +198,14 @@ export default function Marketing() {
               <div className="bg-blue-500 p-8 rounded-lg pop">
                 <p className="text-2xl">Not sure what to make?</p>
                 <p className="text-lg my-4">
-                  Here are some projects Hack Clubbers made over the summer!
+                  Here are some projects Hack Clubbers made over the summer:
                 </p>
+                <div className="mx-2">
+                  <p className="mb-4">Ajith (age 17) made a game where you can <a href="https://nalinplad.github.io/human-powered-computer/" target="_blank" rel="noopenner noreferrer" className="buildLink">play as a CPU</a>!</p>
+                  <p className="mb-4">Brendan (age 17) built an entire <a href="https://github.com/AGB556/BISMUTH/tree/main" target="_blank" rel="noopenner noreferrer" className="buildLink">3D printer</a> from scratch!</p>
+                  <p>Shreyas (age 15) made an <a href="https://github.com/deoshreyas/Circular-Audio-Visualiser" target="blank" rel="noopenner noreferrer" className="buildLink">Audio Visualizer</a>!</p>
+                </div>
+                
               </div>
             </div>
           </div>
@@ -252,7 +257,7 @@ export default function Marketing() {
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Blahaj (Ikea Plush)
+                  Blahaj (friend)
                 </p>
               </div>
             </div>
@@ -261,10 +266,10 @@ export default function Marketing() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-400 rounded-lg p-4 linkPop"
+                className="bg-green-400 rounded-lg p-4 pop"
               >
                 <p className="text-3xl text-center">
-                  Check out the full list of items here!
+                  Get the full list of items when you sign in!
                 </p>
               </a>
             </div>
@@ -292,9 +297,12 @@ export default function Marketing() {
 
         <div className="flex flex-col justify-center items-center mt-12 mb-24">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
-          <button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
+          <div className="">
+            <SignIn2 />  
+          </div>
+          {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
             <a href="#">Enter the Thunderdome</a>
-          </button>
+          </button>*/}
           <p className="text-xl mt-2">Build. Battle. Repeat.</p>
         </div>
 
@@ -320,12 +328,12 @@ export default function Marketing() {
               you learn best by building so we{"'"}re creating community and
               providing grants so you can make. In the past few years, we{"'"}ve{" "}
               <a
-                href="https://summer.hackclub.com"
+                href="https://hackclub.com/arcade/"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                given away 100k+ in hardware grants
+                partnered with GitHub to run Arcade
               </a>
               ,{" "}
               <a
@@ -338,12 +346,12 @@ export default function Marketing() {
               </a>
               , and{" "}
               <a
-                href="https://github.com/hackclub/assemble"
+                href="https://www.youtube.com/watch?v=QvCoISXfcE8"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                brought 183 teenagers to SF for a hackathon
+                ran Canada's largest high school hackathon
               </a>
               .
             </p>
@@ -437,7 +445,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Does a team project count?",
-    answer: `Yes! However, you only recieve Scales for the amount of time you've personally put in.`,
+    answer: `Not for this event! You must only enter projects that were built by yourself.`,
   },
   {
     question: "What about school work or a job?",
@@ -445,7 +453,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we've run <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`,
   },
 ];
 
