@@ -27,7 +27,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"a two week event"}</p>
+              <p className="">{"A two week event by Hack Club"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
