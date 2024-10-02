@@ -25,7 +25,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"Hack Club's two week event"}</p>
+              <p className="">{"a two week event"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
@@ -88,8 +88,7 @@ export default function Marketing() {
                   ! Your project will battle others in the{" "}
                   <span className="bg-green-400 px-2 rounded-lg">
                     Thunderdome
-                  </span>
-                  ; winners get Scales!
+                  </span>; winners get <span>Scales</span>!
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -105,9 +104,13 @@ export default function Marketing() {
                 <p className="text-2xl mb-2">Get free tools and swag!</p>
                 <p className="text-xl max-w-96">
                   At the{" "}
-                  <span className="bg-green-400 px-2 rounded-lg">Shoppe</span>,{" "}
-                  {"you'll"} be able to spend your Scales on items of all sort,
-                  from Blahajs to Yubikeys!
+                  <span
+                    className="bg-green-400 px-2 rounded-lg"
+                  >
+                    Shoppe
+                  </span>
+                  , {"you'll"} be able to spend your <span className="bg-green-400 px-2 rounded-lg">Scales</span> on items of all
+                  sort, from Blahajs to Yubikeys!
                 </p>
               </div>
             </div>
@@ -135,9 +138,8 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to The Keep! Your project will
-                  compete against other similar-timed projects and you{"'"}ll
-                  earn Scales based on how well you do.
+                  done your project, submit it to The Keep!
+                  Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
@@ -244,7 +246,7 @@ export default function Marketing() {
               </p>
             </div>
             <div className="flex flex-wrap justify-center items-center">
-              <div className="bg-green-400 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
                 {/*<div className="bg-red-400 p-2 text-xl">
                 <p>2</p>
               </div>*/}
@@ -260,20 +262,20 @@ export default function Marketing() {
                 </p>
               </div>
 
-              <div className="bg-green-400 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
                 <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                   <Image
                     src={shop2}
                     alt="Shop item"
-                    className="w-full h-auto rotate-12"
+                    className="w-full h-auto"
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Julia Evans Zine
+                  Yubikey
                 </p>
               </div>
 
-              <div className="bg-green-400 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
                 <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                   <Image
                     src={shop3}
@@ -285,18 +287,16 @@ export default function Marketing() {
                   Blahaj (friend)
                 </p>
               </div>
+
             </div>
             <div className="flex justify-center items-center mt-8 m-10">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-400 rounded-lg p-4 pop"
+              <div
+                className="bg-blue-500 rounded-lg p-4 pop"
               >
                 <p className="text-3xl text-center">
                   Get the full list of items when you sign in!
                 </p>
-              </a>
+              </div>
             </div>
           </div>
 

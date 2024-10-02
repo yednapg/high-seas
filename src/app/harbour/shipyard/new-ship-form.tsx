@@ -96,6 +96,8 @@ export default function NewShipForm({
               <Link
                 className="text-blue-500"
                 href="https://hackclub.slack.com/archives/C016DEDUL87"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 #cdn
               </Link>{" "}
