@@ -51,9 +51,10 @@ export default function Shop({ items }: any) {
                   <img src={item.imageUrl} alt={item.name} className="w-full" />
                 </CardContent>
               )}
-              {/* <CardFooter> */}
-                {/* <Button>Buy</Button> */}
-              {/* </CardFooter> */}
+              {/* This code is intentionally invalid before launch */}
+              <a href={"http://hack.club/lowskies-order?item="+item.id} style={{display: 'none'}}>
+                <Button>Buy</Button>
+              </a>
             </Card>
           </motion.div>
         ))}
