@@ -6,6 +6,8 @@ import "./index.css";
 import Image from "next/image";
 import SignIn2 from "@/components/sign_in_marketing";
 
+import orphwoah from "./art/orphwoah.png";
+
 import how1 from "./art/how1.png";
 import how2 from "./art/how2.png";
 import how3 from "./art/how3.png";
@@ -44,7 +46,9 @@ export default function Marketing() {
               Low Skies is free for teens to participate in, running Oct 2-16!
             </p>
           </div>
-          <div className="landing-right"></div>
+          <div className="landing-right">
+              <Image src={orphwoah} alt="orpheus"/>
+          </div>
         </div>
 
         <Image

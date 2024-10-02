@@ -46,6 +46,15 @@
     align-items: left;
 }
 
+.landing-right {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    align-items: left;
+}
+
 @media screen and (max-width: 800px) {
     .landing {
         flex-direction: column;
