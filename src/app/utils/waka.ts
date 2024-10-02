@@ -45,7 +45,7 @@ async function createWaka() {
   const slackEmail: string = newSession.payload.email;
   if (!slackEmail) return errRedir("No Slack email in session OpenID payload");
 
-  const password = process.env.AUTH_SECRET || crypto.randomUUID();
+  const password = crypto.randomUUID();
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
