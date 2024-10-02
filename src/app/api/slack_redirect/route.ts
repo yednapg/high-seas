@@ -1,4 +1,5 @@
-import { getRedirectUri, setSession } from "@/app/utils/auth";
+import { getRedirectUri, getSession, setSession } from "@/app/utils/auth";
+import { setWaka } from "@/app/utils/waka";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -27,6 +28,36 @@ export async function GET(request: NextRequest) {
   } catch (e) {
     return errRedir(e);
   }
+
+  console.log();
+
+  const newSession = await getSession();
+  if (!newSession) return errRedir("No session was set");
+
+  const slackId: string = newSession.payload.sub;
+  if (!slackId) return errRedir("No Slack ID in session OpenID payload");
+
+  const slackEmail: string = newSession.payload.email;
+  if (!slackEmail) return errRedir("No Slack email in session OpenID payload");
+
+  const password = crypto.randomUUID();
+  const signup = await fetch("https://waka.hackclub.com/signup", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer blahaji_rulz_da_world",
+    },
+    body: new URLSearchParams({
+      location: "America/New_York",
+      username: slackId,
+      email: slackEmail,
+      password: password,
+      password_repeat: password,
+    }),
+  });
+
+  const signupResponse = await signup.json();
+
+  await setWaka(signupResponse);
 
   // const userInfoUrl = `https://slack.com/api/openid.connect.userInfo`;
   // const userInfo = await fetch(userInfoUrl, {
