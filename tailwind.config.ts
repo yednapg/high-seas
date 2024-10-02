@@ -9,6 +9,51 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			transitionDelay: {
+				'8000': '8000ms'
+			},
+			keyframes: {
+				yap: {
+					'from': { transform: 'scale(1.01, 0.99) translateY(2%)' },
+					'to': { transform: 'scale(0.99, 1.01) translateY(0%)' }
+				},
+				slide_in_right: {
+					'0%': { transform: 'translateX(100px)' },
+					'100%': { transform: 'translateX(-10px)', opacity: '1' }
+				},
+				slide_in_left: {
+					'0%': { transform: 'translateX(-100px)' },
+					'100%': { transform: 'translateX(10px)', opacity: '1' }
+				},
+				trumpet1: {
+					'0%': { transform: 'rotate(-2deg)' },
+					'25%': { transform: 'rotate(2deg)' },
+					'50%': { transform: 'rotate(-2.5deg)' },
+					'75%': { transform: 'rotate(3.5deg)' },
+					'100%': { transform: 'rotate(-2deg)' }
+				},
+				trumpet2: {
+					'0%': { transform: 'rotate(-1deg)' },
+					'50%': { transform: 'rotate(3.5deg)' },
+					'100%': { transform: 'rotate(-1deg)' }
+				},
+				trumpet3: {
+					'0%': { transform: 'rotate(-4deg)' },
+					'45%': { transform: 'rotate(3.5deg)' },
+					'50%': { transform: 'rotate(3.5deg)' },
+					'95%': { transform: 'rotate(-4deg)' },
+					'100%': { transform: 'rotate(-4deg)' }
+				}
+			},
+			animation: {
+				'trumpet1': 'trumpet1 alternate infinite',
+				'trumpet2': 'trumpet2 alternate infinite',
+				'trumpet3': 'trumpet3 alternate infinite',
+				'trumpet4': 'animate-wiggle animate-infinite animate-ease-in-out',
+				'quick_yapping': 'yap 0.25s alternate infinite',
+				'slide_in_right': 'slide_in_right 0.5s ease-in-out',
+				'slide_in_left': 'slide_in_left 0.5s ease-in-out',
+			},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

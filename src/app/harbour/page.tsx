@@ -43,7 +43,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
     <div
       className="w-screen h-screen overflow-hidden"
       style={{
-        backgroundImage: "url(/bg.svg)",
+        backgroundImage: "url(/bgoverlay.svg)",
         backgroundSize: "cover",
         // backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
