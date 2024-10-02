@@ -189,7 +189,8 @@ export default function Matchups() {
   const fetchMatchup = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/battles/matchups");
+      // require at least 1.25 seconds of loading time for full loop of loading animations
+      const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
       if (response.ok) {
         const data: Matchup = await response.json();
         setMatchup(data);
