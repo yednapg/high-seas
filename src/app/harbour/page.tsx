@@ -12,17 +12,29 @@ import { ShopItem, getShop } from "./shop/shop-utils";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
 import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
+import { getWaka, WakaSignupResponse } from "../utils/waka";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
   const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
+  const [waka, setWaka] = useState<WakaSignupResponse | null>(null);
 
   useEffect(() => {
     (async () => {
       setMyShips(await getUserShips(session.payload.sub));
       setShopItems(await getShop());
+
+      const waka = await getWaka();
+      setWaka(waka);
+
+      if (waka?.created) {
+        alert(
+          "Your wakatime token was created! Paste it in your editor to unlock all features. Here it is:\n" +
+            waka.api_key,
+        );
+      }
     })();
   }, []);
 
