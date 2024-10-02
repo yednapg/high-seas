@@ -46,6 +46,15 @@
     align-items: left;
 }
 
+.landing-right {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    align-items: left;
+}
+
 @media screen and (max-width: 800px) {
     .landing {
         flex-direction: column;
@@ -54,6 +63,12 @@
     }
 
     .landing-left {
+        width: 100vw;
+        text-align: center;
+        align-items: center;
+    }
+
+    .landing-right {
         width: 100vw;
         text-align: center;
         align-items: center;
@@ -95,3 +110,16 @@
     color: lightpink;
     text-decoration: underline;
 }
+
+.bobble {
+    animation: bobble 2s infinite;
+  }
+  
+  @keyframes bobble {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }

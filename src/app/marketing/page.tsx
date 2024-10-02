@@ -6,6 +6,8 @@ import "./index.css";
 import Image from "next/image";
 import SignIn2 from "@/components/sign_in_marketing";
 
+import orphwoah from "./art/orphwoah.png";
+
 import how1 from "./art/how1.png";
 import how2 from "./art/how2.png";
 import how3 from "./art/how3.png";
@@ -25,7 +27,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"a two week event"}</p>
+              <p className="">{"A two week event by Hack Club"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
@@ -39,12 +41,16 @@ export default function Marketing() {
                 Enter the Thunderdome
               </a>
             </div>*/}
-            <SignIn2/>
+            <SignIn2 />
             <p className="mt-2 max-w-72 lg:max-w-xl">
               Low Skies is free for teens to participate in, running Oct 2-16!
             </p>
           </div>
-          <div className="landing-right"></div>
+          <div className="landing-right">
+            <div className="bobble">
+              <Image src={orphwoah} alt="orpheus"/>
+            </div>
+          </div>
         </div>
 
         <Image
@@ -84,14 +90,9 @@ export default function Marketing() {
                 <p className="text-2xl mb-2">Battle against other projects!</p>
                 <p className="text-xl max-w-96">
                   After finishing your project, submit it to{" "}
-                  <span
-                    className="bg-green-400 px-2 rounded-lg"
-                  >
-                    The Keep
-                  </span>
-                  ! Your project will battle others in the <span
-                    className="bg-green-400 px-2 rounded-lg"
-                  >
+                  <span className="bg-green-400 px-2 rounded-lg">The Keep</span>
+                  ! Your project will battle others in the{" "}
+                  <span className="bg-green-400 px-2 rounded-lg">
                     Thunderdome
                   </span>; winners get <span>Scales</span>!
                 </p>
@@ -201,11 +202,43 @@ export default function Marketing() {
                   Here are some projects Hack Clubbers made over the summer:
                 </p>
                 <div className="mx-2">
-                  <p className="mb-4">Ajith (age 17) made a game where you can <a href="https://nalinplad.github.io/human-powered-computer/" target="_blank" rel="noopenner noreferrer" className="buildLink">play as a CPU</a>!</p>
-                  <p className="mb-4">Brendan (age 17) built an entire <a href="https://github.com/AGB556/BISMUTH/tree/main" target="_blank" rel="noopenner noreferrer" className="buildLink">3D printer</a> from scratch!</p>
-                  <p>Shreyas (age 15) made an <a href="https://github.com/deoshreyas/Circular-Audio-Visualiser" target="blank" rel="noopenner noreferrer" className="buildLink">Audio Visualizer</a>!</p>
+                  <p className="mb-4">
+                    Ajith (age 17) made a game where you can{" "}
+                    <a
+                      href="https://nalinplad.github.io/human-powered-computer/"
+                      target="_blank"
+                      rel="noopenner noreferrer"
+                      className="buildLink"
+                    >
+                      play as a CPU
+                    </a>
+                    !
+                  </p>
+                  <p className="mb-4">
+                    Brendan (age 17) built an entire{" "}
+                    <a
+                      href="https://github.com/AGB556/BISMUTH/tree/main"
+                      target="_blank"
+                      rel="noopenner noreferrer"
+                      className="buildLink"
+                    >
+                      3D printer
+                    </a>{" "}
+                    from scratch!
+                  </p>
+                  <p>
+                    Shreyas (age 15) made an{" "}
+                    <a
+                      href="https://github.com/deoshreyas/Circular-Audio-Visualiser"
+                      target="blank"
+                      rel="noopenner noreferrer"
+                      className="buildLink"
+                    >
+                      Audio Visualizer
+                    </a>
+                    !
+                  </p>
                 </div>
-
               </div>
             </div>
           </div>
