@@ -101,7 +101,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
             >
               {tabs.map((tab) => (
                 <TabsContent key={tab.name} value={tab.name} className="h-full">
-                  {tab.lockOnNoHb ? (
+                  {tab.lockOnNoHb && !hasWakaHb ? (
                     <div className="w-full h-full flex flex-col items-center justify-center text-lg text-center gap-4">
                       <Icon glyph="private-outline" width={42} />
                       <p>

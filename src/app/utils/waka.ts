@@ -88,7 +88,8 @@ export async function getWakaSessions(): Promise<any> {
   const slackId = session.payload.sub;
 
   const summaryRes = await fetch(
-    `https://waka.hackclub.com/api/summary?from=2024-09-19&to=2024-12-30&user=${slackId}`,
+    // TODO: this date needs to change dynamically and can't be too far in the future
+    `https://waka.hackclub.com/api/summary?from=2024-09-19&to=2024-10-03&user=${slackId}`,
     {
       headers: {
         Authorization: `Bearer blahaji_rulz_da_world`,
@@ -102,8 +103,9 @@ export async function getWakaSessions(): Promise<any> {
 export async function hasRecvFirstHeartbeat(): Promise<boolean> {
   try {
     const sessions = await getWakaSessions();
-    return sessions && sessions.projects.length !== 0;
-  } catch {
+    return sessions && sessions.projects.length > 0;
+  } catch (e) {
+    console.error(e)
     return false;
   }
 }
