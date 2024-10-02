@@ -1,6 +1,4 @@
-import Image from "next/image";
 import { motion } from "framer-motion";
-import Signpost from "/public/signpost.png";
 
 export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
   return (
