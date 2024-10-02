@@ -25,7 +25,7 @@ export default function Marketing() {
           <div className="landing-left container">
             <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
             <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"Hack Club's two week event"}</p>
+              <p className="">{"a two week event"}</p>
               <p className="">Build stuff, battle others, get stuff!</p>
             </div>
 
@@ -143,7 +143,7 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to The Keep! 
+                  done your project, submit it to The Keep!
                   Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
@@ -205,7 +205,7 @@ export default function Marketing() {
                   <p className="mb-4">Brendan (age 17) built an entire <a href="https://github.com/AGB556/BISMUTH/tree/main" target="_blank" rel="noopenner noreferrer" className="buildLink">3D printer</a> from scratch!</p>
                   <p>Shreyas (age 15) made an <a href="https://github.com/deoshreyas/Circular-Audio-Visualiser" target="blank" rel="noopenner noreferrer" className="buildLink">Audio Visualizer</a>!</p>
                 </div>
-                
+
               </div>
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function Marketing() {
         <div className="flex flex-col justify-center items-center mt-12 mb-24">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
           <div className="">
-            <SignIn2 />  
+            <SignIn2 />
           </div>
           {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
             <a href="#">Enter the Thunderdome</a>
@@ -351,7 +351,7 @@ export default function Marketing() {
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                ran Canada's largest high school hackathon
+                {"ran Canada's largest high school hackathon"}
               </a>
               .
             </p>
