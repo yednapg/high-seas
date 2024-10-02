@@ -11,7 +11,13 @@ export default async function Nav() {
   const session = await getSession();
 
   return (
-    <nav className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 bg-neutral-100">
+    <nav
+      className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 bg-neutral-100 bg-blend-color-burn"
+      style={{
+        backgroundImage: "url(/cardboard.png)",
+        backgroundColor: "#ffffffc0",
+      }}
+    >
       <div className="flex gap-3 items-center">
         <Image src={Flag} alt="hack club" height={54} />
         <Image src={Logo} alt="low skies" height={48} />

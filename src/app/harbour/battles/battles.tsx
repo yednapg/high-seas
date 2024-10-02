@@ -10,6 +10,8 @@ import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
 import { JwtPayload } from 'jsonwebtoken'; 
 
+import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
+
 interface Matchup {
   project1: Ships;
   project2: Ships;
@@ -172,7 +174,6 @@ const markdownComponents: Components = {
   ),
 };
 
-
 export default function Matchups() {
   const router = useRouter();
   const [matchup, setMatchup] = useState<Matchup | null>(null);
@@ -188,7 +189,8 @@ export default function Matchups() {
   const fetchMatchup = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/battles/matchups");
+      // require at least 1.25 seconds of loading time for full loop of loading animations
+      const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
       if (response.ok) {
         const data: Matchup = await response.json();
         setMatchup(data);
@@ -295,7 +297,7 @@ export default function Matchups() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-indigo-900 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
@@ -309,7 +311,7 @@ export default function Matchups() {
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
+            <LoadingSpinner />
           </div>
         ) : !matchup ? (
           <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg">

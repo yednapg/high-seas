@@ -37,7 +37,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
 
   const tabs = [
     { name: "📮", component: <SignPost wakaToken={wakaToken} /> },
-    { name: "Shipyard", component: <Shipyard ships={myShips} /> },
+    { name: "The Keep", component: <Shipyard ships={myShips} /> },
     { name: "Thunderdome", component: <Battles /> },
     // {
     //   name: "Gallery",
@@ -50,7 +50,12 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   return (
     <div
       className="w-screen h-screen overflow-hidden"
-      style={{ backgroundImage: "url(/bg.svg)" }}
+      style={{
+        backgroundImage: "url(/bgoverlay.svg)",
+        backgroundSize: "cover",
+        // backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       <motion.div
         initial={{ y: -20, opacity: 0 }}
