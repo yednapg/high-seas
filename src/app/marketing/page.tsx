@@ -299,7 +299,9 @@ export default function Marketing() {
 
         <div className="flex flex-col justify-center items-center mt-12 mb-24">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
-          <SignIn2 />
+          <div className="">
+            <SignIn2 />  
+          </div>
           {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
             <a href="#">Enter the Thunderdome</a>
           </button>*/}

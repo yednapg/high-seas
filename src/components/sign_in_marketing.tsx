@@ -14,7 +14,7 @@ export default async function SignIn() {
 
   return (
     <Link
-      className="bg-green-400 p-2 px-6 inline-block w-96 rounded-lg linkPop text-2xl"
+      className="bg-green-400 p-2 px-6 inline-block w-96 rounded-lg text-2xl linkPop"
       href={slackAuthUrl}
     >
       Sign in with Hack Club Slack
