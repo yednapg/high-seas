@@ -1,6 +1,16 @@
+import { getWakaSessions } from "@/app/utils/waka";
 import { motion } from "framer-motion";
+import { sesss } from "./help";
+import { useEffect } from "react";
 
 export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
+  useEffect(() => {
+    const effect = async () => {
+      console.log(await sesss());
+    };
+    effect();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
