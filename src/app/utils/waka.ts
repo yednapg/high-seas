@@ -96,10 +96,14 @@ export async function getWakaSessions(): Promise<any> {
     },
   );
 
-  const summary = await summaryRes.text();
-  console.log("arsnitneaosrti", summary);
-  // const summary = await summaryRes.json();
-  // console.log(summary);
+  return await summaryRes.json();
+}
 
-  return summary;
+export async function hasRecvFirstHeartbeat(): Promise<boolean> {
+  try {
+    const sessions = await getWakaSessions();
+    return sessions && sessions.projects.length !== 0;
+  } catch {
+    return false;
+  }
 }

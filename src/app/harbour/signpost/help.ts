@@ -2,7 +2,6 @@
 
 import { getWakaSessions } from "@/app/utils/waka";
 
-export async function sesss() {
-  const s = await getWakaSessions();
-  console.log(s);
+export async function wakaSessions() {
+  return await getWakaSessions();
 }
