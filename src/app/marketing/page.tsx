@@ -240,11 +240,11 @@ export default function Marketing() {
                   <Image
                     src={shop2}
                     alt="Shop item"
-                    className="w-full h-auto rotate-12"
+                    className="w-full h-auto"
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Julia Evans Zine
+                  Yubikey
                 </p>
               </div>
 
@@ -260,6 +260,7 @@ export default function Marketing() {
                   Blahaj (friend)
                 </p>
               </div>
+
             </div>
             <div className="flex justify-center items-center mt-8 m-10">
               <div
