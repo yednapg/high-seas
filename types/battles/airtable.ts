@@ -18,6 +18,7 @@ export interface Ships extends FieldSet {
   losses_adjustments?: number;
   autonumber?: number;
   screenshot_url: string;
+  entrant_slack_id: string[];
 }
 
 export interface Battles extends FieldSet {

@@ -1,4 +1,4 @@
-import { getRedirectUri, setSession } from "@/app/utils/auth";
+import { getRedirectUri, getSession, setSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 

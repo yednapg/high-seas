@@ -12,24 +12,32 @@ import { ShopItem, getShop } from "./shop/shop-utils";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
 import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
+import SignPost from "./signpost/signpost";
+import { getWaka, WakaSignupResponse } from "../utils/waka";
+import Image from "next/image";
+import SignpostImage from "/public/signpost.png";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
   const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
+  const [wakaToken, setWakaToken] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       setMyShips(await getUserShips(session.payload.sub));
       setShopItems(await getShop());
+
+      const waka = await getWaka();
+      console.log("waka", waka);
+      if (waka) setWakaToken(waka.api_key);
     })();
   }, []);
 
-  useEffect(() => {}, [galleryShips]);
-
   const tabs = [
-    { name: "Shipyard", component: <Shipyard ships={myShips} /> },
+    { name: "📮", component: <SignPost wakaToken={wakaToken} /> },
+    { name: "The Keep", component: <Shipyard ships={myShips} /> },
     { name: "Thunderdome", component: <Battles /> },
     // {
     //   name: "Gallery",
@@ -42,7 +50,12 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   return (
     <div
       className="w-screen h-screen overflow-hidden"
-      style={{ backgroundImage: "url(/bg.svg)" }}
+      style={{
+        backgroundImage: "url(/bgoverlay.svg)",
+        backgroundSize: "cover",
+        // backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       <motion.div
         initial={{ y: -20, opacity: 0 }}
@@ -52,15 +65,25 @@ export default function Harbour({ session }: { session: JwtPayload }) {
       >
         <Card className="w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden">
           <Tabs
-            defaultValue="Shipyard"
+            defaultValue="📮"
             className="flex-1 flex flex-col overflow-hidden"
           >
-            <TabsList className="mx-3 my-3">
-              {tabs.map((tab) => (
-                <TabsTrigger key={tab.name} value={tab.name}>
-                  {tab.name}
-                </TabsTrigger>
-              ))}
+            <TabsList className="mx-2 my-2 relative">
+              {tabs.map((tab) =>
+                tab.name === "📮" ? (
+                  <TabsTrigger
+                    className="left-px absolute"
+                    key={tab.name}
+                    value={tab.name}
+                  >
+                    <Image src={SignpostImage} width={20} alt="" />
+                  </TabsTrigger>
+                ) : (
+                  <TabsTrigger key={tab.name} value={tab.name}>
+                    {tab.name}
+                  </TabsTrigger>
+                ),
+              )}
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
