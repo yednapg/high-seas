@@ -1,5 +1,5 @@
 import { getRedirectUri, getSession, setSession } from "@/app/utils/auth";
-import { setFirstTimeWaka, setWaka } from "@/app/utils/waka";
+import { setWaka } from "@/app/utils/waka";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
