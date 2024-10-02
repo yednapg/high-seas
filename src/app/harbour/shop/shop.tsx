@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 
 export default function Shop({ items }: any) {
   if (!items) {
@@ -16,7 +17,7 @@ export default function Shop({ items }: any) {
         animate={{ opacity: 1 }}
         className="flex justify-center items-center h-screen"
       >
-        <p className="text-lg font-semibold">Loading shop items...</p>
+        <LoadingSpinner />
       </motion.div>
     );
   }
