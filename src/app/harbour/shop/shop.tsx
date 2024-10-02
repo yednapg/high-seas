@@ -13,6 +13,12 @@ import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
 
 export default function Shop({ items }: any) {
+  const [filterIndex, setFilteIndex] = useState(0)
+  const [bannerText, setBannerText] = useState('')
+  useEffect(() => {
+    setBannerText(sample(shopBanner))
+  }, [])
+
   if (!items) {
     return (
       <motion.div
@@ -25,8 +31,6 @@ export default function Shop({ items }: any) {
     );
   }
 
-  const [filterIndex, setFilteIndex] = useState(0)
-
   const filters = {
     '0': (x: any) => { console.log(x);return true},
     '1': (item: any) => item.enabledUs,
@@ -35,15 +39,9 @@ export default function Shop({ items }: any) {
     '4': (item: any) => item.enabledXx,
   }
   const getFilter = () => {
-    // @ts-ignore
-    return filters[(filterIndex)] || filters['0']
+    // @ts-expect-error reason reason reason
+    return filters[(filterIndex.toString())] || filters['0']
   }
-
-  const [bannerText, setBannerText] = useState('')
-
-  useEffect(() => {
-    setBannerText(sample(shopBanner))
-  }, [])
 
   return (
     <motion.div
