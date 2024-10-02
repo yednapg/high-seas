@@ -262,16 +262,13 @@ export default function Marketing() {
               </div>
             </div>
             <div className="flex justify-center items-center mt-8 m-10">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-400 rounded-lg p-4 pop"
+              <div
+                className="bg-blue-500 rounded-lg p-4 pop"
               >
                 <p className="text-3xl text-center">
                   Get the full list of items when you sign in!
                 </p>
-              </a>
+              </div>
             </div>
           </div>
 
