@@ -93,7 +93,7 @@ export default function Marketing() {
                     className="bg-green-400 px-2 rounded-lg"
                   >
                     Thunderdome
-                  </span>; winners get Scales!
+                  </span>; winners get <span>Scales</span>!
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -114,7 +114,7 @@ export default function Marketing() {
                   >
                     Shoppe
                   </span>
-                  , {"you'll"} be able to spend your Scales on items of all
+                  , {"you'll"} be able to spend your <span className="bg-green-400 px-2 rounded-lg">Scales</span> on items of all
                   sort, from Blahajs to Yubikeys!
                 </p>
               </div>
