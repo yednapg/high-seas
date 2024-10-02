@@ -32,6 +32,8 @@ export interface Ship {
   screenshotUrl: string;
   // doubloonsPaid?: number;
   hours: number;
+  voteRequirementMet: boolean;
+  doubloonPayout: number;
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
@@ -57,6 +59,8 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                 screenshotUrl: record.get("screenshot_url") as string,
                 // rating: record.get("rating") as number,
                 hours: record.get("hours") as number,
+                voteRequirementMet: Boolean(record.get("vote_requirement_met")) as boolean,
+                doubloonPayout: record.get("doubloon_payout") as number,
               });
             }
           });
