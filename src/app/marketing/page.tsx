@@ -330,12 +330,12 @@ export default function Marketing() {
               you learn best by building so we{"'"}re creating community and
               providing grants so you can make. In the past few years, we{"'"}ve{" "}
               <a
-                href="https://summer.hackclub.com"
+                href="https://hackclub.com/arcade/"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                given away 100k+ in hardware grants
+                partnered with GitHub to run Arcade
               </a>
               ,{" "}
               <a
@@ -348,12 +348,12 @@ export default function Marketing() {
               </a>
               , and{" "}
               <a
-                href="https://github.com/hackclub/assemble"
+                href="https://www.youtube.com/watch?v=QvCoISXfcE8"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                brought 183 teenagers to SF for a hackathon
+                ran Canada's largest high school hackathon
               </a>
               .
             </p>
