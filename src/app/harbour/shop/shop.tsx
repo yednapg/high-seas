@@ -58,7 +58,7 @@ export default function Shop({ items }: any) {
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">{bannerText}</p>
       </div>
       <div className="text-center mb-6 mt-12">
-        <label>Choose your country: </label>
+        <label>Choose your region: </label>
         <select>
           <option value="0" selected onClick={() => setFilteIndex(0)}>All items</option>
           <option value="1" onClick={() => setFilteIndex(1)}>US</option>
