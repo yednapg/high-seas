@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SoundButton } from "./sound-button.js";
 import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 
 export default function Shop({ items }: any) {
@@ -29,6 +30,7 @@ export default function Shop({ items }: any) {
       className="container mx-auto px-4 py-8"
     >
       <h1 className="text-3xl font-bold mb-6">Shop ({items.length} items)</h1>
+      <SoundButton />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item: any) => (
           <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
