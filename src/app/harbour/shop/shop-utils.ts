@@ -14,6 +14,10 @@ export interface ShopItem {
   name: string;
   subtitle: string | null;
   imageUrl: string | null;
+  enabledUs: boolean | null;
+  enabledEu: boolean | null;
+  enabledIn: boolean | null;
+  enabledXx: boolean | null;
 }
 
 export async function getShop(): Promise<ShopItem[]> {
@@ -21,7 +25,7 @@ export async function getShop(): Promise<ShopItem[]> {
 
   return new Promise((resolve, reject) => {
     base()("shop_items")
-      .select({ view: "Grid view" })
+      .select({ filterByFormula: "{enabled}" })
       .eachPage(
         (records, fetchNextPage) => {
           records.forEach((record) => {
@@ -30,6 +34,10 @@ export async function getShop(): Promise<ShopItem[]> {
               name: record.get("name") as string,
               subtitle: record.get("subtitle") as string | null,
               imageUrl: record.get("image_url") as string | null,
+              enabledUs: Boolean(record.get("enabled_us")) as boolean,
+              enabledEu: Boolean(record.get("enabled_eu")) as boolean,
+              enabledIn: Boolean(record.get("enabled_in")) as boolean,
+              enabledXx: Boolean(record.get("enabled_xx")) as boolean,
             });
           });
 

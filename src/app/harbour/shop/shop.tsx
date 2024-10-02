@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { SoundButton } from "./sound-button.js";
 import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
+import { useState, useEffect } from "react";
 
 export default function Shop({ items }: any) {
   if (!items) {
@@ -24,6 +25,26 @@ export default function Shop({ items }: any) {
     );
   }
 
+  const [filterIndex, setFilteIndex] = useState(0)
+
+  const filters = {
+    '0': (x: any) => { console.log(x);return true},
+    '1': (item: any) => item.enabledUs,
+    '2': (item: any) => item.enabledEu,
+    '3': (item: any) => item.enabledIn,
+    '4': (item: any) => item.enabledXx,
+  }
+  const getFilter = () => {
+    // @ts-ignore
+    return filters[(filterIndex)] || filters['0']
+  }
+
+  const [bannerText, setBannerText] = useState('')
+
+  useEffect(() => {
+    setBannerText(sample(shopBanner))
+  }, [])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -36,10 +57,20 @@ export default function Shop({ items }: any) {
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
         Ye olde shoppe
       </h1>
-      <p className="text-xl animate-pulse mb-6 rotate-[-7deg]">{sample(shopBanner)}</p>
+        <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">{bannerText}</p>
+      </div>
+      <div className="text-center mb-6 mt-12">
+        <label>Choose your country: </label>
+        <select>
+          <option value="0" selected onClick={() => setFilteIndex(0)}>All items</option>
+          <option value="1" onClick={() => setFilteIndex(1)}>US</option>
+          <option value="2" onClick={() => setFilteIndex(2)}>EU</option>
+          <option value="3" onClick={() => setFilteIndex(3)}>India</option>
+          <option value="4" onClick={() => setFilteIndex(4)}>Other countries worldwide</option>
+        </select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item: any) => (
+        {items.filter(getFilter()).map((item: any) => (
           <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
             <Card className="h-full">
               <CardHeader>
