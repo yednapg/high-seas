@@ -351,7 +351,7 @@ export default function Marketing() {
                 rel="noopenner noreferrer"
                 className="footLink"
               >
-                ran Canada's largest high school hackathon
+                {"ran Canada's largest high school hackathon"}
               </a>
               .
             </p>
