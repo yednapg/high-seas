@@ -67,6 +67,12 @@
         text-align: center;
         align-items: center;
     }
+
+    .landing-right {
+        width: 100vw;
+        text-align: center;
+        align-items: center;
+    }
 }
 
 .faqLink {
