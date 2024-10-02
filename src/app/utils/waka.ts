@@ -66,3 +66,44 @@ async function createWaka() {
 
   await setWaka(signupResponse);
 }
+
+export async function getWakaSessions(): Promise<any> {
+  const waka = await getWaka();
+  if (!waka) {
+    const err = new Error(
+      "While getting sessions, no waka session could be found or created",
+    );
+    console.error(err);
+    throw err;
+  }
+
+  const wakaKey = waka.api_key;
+
+  const session = await getSession();
+  if (!session)
+    throw new Error(
+      "No Slack OAuth session found while trying to get WakaTime sessions.",
+    );
+
+  const slackId = session.payload.sub;
+
+  const summaryRes = await fetch(
+    `https://waka.hackclub.com/api/summary?from=2024-09-19&to=2024-12-30&user=${slackId}`,
+    {
+      headers: {
+        Authorization: `Bearer blahaji_rulz_da_world`,
+      },
+    },
+  );
+
+  return await summaryRes.json();
+}
+
+export async function hasRecvFirstHeartbeat(): Promise<boolean> {
+  try {
+    const sessions = await getWakaSessions();
+    return sessions && sessions.projects.length !== 0;
+  } catch {
+    return false;
+  }
+}
