@@ -47,7 +47,9 @@ export default function Marketing() {
             </p>
           </div>
           <div className="landing-right">
+            <div className="bobble">
               <Image src={orphwoah} alt="orpheus"/>
+            </div>
           </div>
         </div>
 

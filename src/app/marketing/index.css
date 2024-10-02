@@ -110,3 +110,16 @@
     color: lightpink;
     text-decoration: underline;
 }
+
+.bobble {
+    animation: bobble 2s infinite;
+  }
+  
+  @keyframes bobble {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
