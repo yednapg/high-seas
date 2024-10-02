@@ -15,14 +15,14 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           : `WAZZUP! Your WakaTime token is ${wakaToken}`}
       </p>
 
-      <div className="gap-8 m-4">
-        <p className="text-2xl">Key locations:</p>
-        <p>{"The Keep: submit projects here when they're done!"}</p>
-        <p>
+      <div className="m-4 max-w-xl text-white">
+        <p className="text-2xl mb-8">Key locations:</p>
+        <p className="mb-2 bg-blue-400 p-2 rounded-lg">{"The Keep: submit projects here when they're done!"}</p>
+        <p className="mb-2 bg-blue-400 p-2 rounded-lg">
           Thunderdome: vote between projects others have made! After submitting
           your project, you must vote here in order to earn Scales.
         </p>
-        <p>
+        <p className="mb-2 bg-blue-400 p-2 rounded-lg">
           Shoppe: spend all your scales here! Get items, ranging from Blahajs to
           Yubikeys.
         </p>
