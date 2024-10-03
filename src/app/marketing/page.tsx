@@ -309,7 +309,7 @@ export default function Marketing() {
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  RPi Zero 2 W kit
+                  Raspberry Pi Zero
                 </p>
               </div>
 
