@@ -66,10 +66,11 @@ export default function Harbour({ session }: { session: JwtPayload }) {
 
   return (
     <div
-      className="w-screen h-screen overflow-hidden"
+      className="w-screen min-h-[100vh]"
       style={{
         backgroundImage: "url(/bgoverlay.svg)",
         backgroundSize: "cover",
+        backgroundAttachment: "fixed",
         // backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
@@ -78,12 +79,12 @@ export default function Harbour({ session }: { session: JwtPayload }) {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.25 }}
-        className="w-full h-full flex items-center justify-center p-8"
+        className="w-full flex items-center justify-center p-8"
       >
-        <Card className="w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden">
+        <Card className="w-full max-w-4xl flex flex-col">
           <Tabs
             defaultValue="📮"
-            className="flex-1 flex flex-col overflow-hidden"
+            className="flex-1 flex flex-col"
           >
             <TabsList className="mx-2 my-2 relative">
               {tabs.map((tab) =>
