@@ -62,10 +62,9 @@ export default function SignPost({
         className="mx-auto"
         src="https://www.youtube.com/embed/eKoD9yyr1To?si=1B2v0cP42Ie0k1KD"
         title="YouTube video player"
-        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
       ></iframe>
 
       <div className="m-4 flex flex-col justify-center items-center mb-8">
