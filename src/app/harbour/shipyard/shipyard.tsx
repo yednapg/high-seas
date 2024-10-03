@@ -49,19 +49,19 @@ export default function Shipyard({ ships }: any) {
 
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-xl font-bold mb-2">
-              FRC Robotics Simulation Game
+              Encrypt Me
             </p>
             <div className="flex flex-row justify-center items-center text-center gap-8">
               <a
-                href="https://github.com/Brainiac11/sim_game"
+                href="https://github.com/sridhars650/Encrypt-Me"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="text-md text-pink-200"
               >
                 Project GitHub
               </a>
-              <p className="text-md">Hours spent: 138</p>
-              <p className="text-md">Scales earned: 207493</p>
+              <p className="text-md">Hours spent: 12</p>
+              <p className="text-md">Scales earned: 3858</p>
             </div>
           </div>
         </div>
