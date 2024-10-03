@@ -120,7 +120,7 @@ export default async function Marketing() {
                   <span className="bg-green-400 px-2 rounded-lg">Shoppe</span>,{" "}
                   {"you'll"} be able to spend your{" "}
                   <span className="bg-green-400 px-2 rounded-lg">Scales</span>{" "}
-                  on items of all sort, from Blahajs to Yubikeys!
+                  on items of all sort, from Blåhajar (Ikea plush shark) to Yubikeys!
                 </p>
               </div>
             </div>
