@@ -1,7 +1,5 @@
-import { getWakaSessions } from "@/app/utils/waka";
 import { hasRecvFirstHeartbeat } from "../../utils/waka";
 import { motion } from "framer-motion";
-import { wakaSessions } from "./help";
 import { useEffect } from "react";
 import Link from "next/link";
 
@@ -13,8 +11,9 @@ export default function SignPost({
   wakaToken: string | null;
 }) {
   useEffect(() => {
-    hasRecvFirstHeartbeat().then((a) => console.log("ASNTOENASTISRT", a));
-    // the qucik brown fox jumps over the lazy dog!!!!
+    hasRecvFirstHeartbeat().then((a) =>
+      console.log("has recv first heartbeat:", a),
+    );
   }, []);
 
   return (
