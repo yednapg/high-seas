@@ -107,7 +107,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                     <div className="w-full h-full flex flex-col items-center justify-center text-lg text-center gap-4">
                       <Icon glyph="private-outline" width={42} />
                       <p>
-                        We haven't seen any{" "}
+                        {"We haven't seen any "}
                         <Link
                           className="text-blue-500"
                           href={"https://waka.hackclub.com"}
@@ -116,7 +116,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                         </Link>{" "}
                         activity from you yet.
                         <br />
-                        {tab.name} will unlock once we see you've set it up!
+                        {tab.name} {"will unlock once we see you've set it up!"}
                       </p>
 
                       <Button
