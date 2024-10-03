@@ -73,9 +73,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <div>
           <h2 className="text-xl font-semibold">{s.title}</h2>
           <div className="flex items-center gap-3 text-sm text-gray-600">
-            {/*<div className="flex items-center gap-1">
-              <Icon glyph="payment" size={24} /> {s.rating}
-            </div> */}
             {s.voteRequirementMet ? (
               s.doubloonPayout ? (
                 <div className="flex items-center gap-1 text-green-400">
