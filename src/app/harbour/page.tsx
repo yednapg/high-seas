@@ -98,7 +98,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
-              <div className="right-px absolute">${personTicketBalance} scales</div>
+              <div className="right-px absolute ml-2">${personTicketBalance} Scales</div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
