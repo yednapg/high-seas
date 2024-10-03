@@ -10,7 +10,7 @@ const redis = new Redis(process.env.REDIS_URL as string, {
   },
 });
 
-const CACHE_DURATION = 300;
+const CACHE_DURATION = 5;
 
 async function getCachedProjects(): Promise<Ships[]> {
   const cachedProjects = await redis.get("all_projects");
@@ -30,9 +30,10 @@ export async function GET() {
 
   try {
     const projects = await getCachedProjects();
-    const votableProjects = projects.filter(project => 
-      project?.["entrant__slack_id"]?.[0] !== session?.payload?.sub
-    )
+    const votableProjects = projects.filter(
+      (project) =>
+        project?.["entrant__slack_id"]?.[0] !== session?.payload?.sub,
+    );
     const matchup = generateMatchup(votableProjects);
 
     if (!matchup) {
