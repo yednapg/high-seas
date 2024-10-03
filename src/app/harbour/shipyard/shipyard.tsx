@@ -43,27 +43,71 @@ export default function Shipyard({ ships }: any) {
                 Project GitHub
               </a>
               <p className="text-md">Hours spent: 8</p>
-              <p className="text-md">Scales earned: 4217</p>
+              <p className="text-md">Scales earned: 421</p>
             </div>
           </div>
 
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-xl font-bold mb-2">
-              Encrypt Me
+              COTL Music Player
             </p>
             <div className="flex flex-row justify-center items-center text-center gap-8">
               <a
-                href="https://github.com/sridhars650/Encrypt-Me"
+                href="https://github.com/galexy727/cotl-music-player"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="text-md text-pink-200"
               >
                 Project GitHub
               </a>
-              <p className="text-md">Hours spent: 12</p>
-              <p className="text-md">Scales earned: 3858</p>
+              <p className="text-md">Hours spent: 5</p>
+              <p className="text-md">Scales earned: 428</p>
             </div>
           </div>
+
+          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
+            <p className="text-xl font-bold mb-2">
+              Skeleton Summoner Game
+            </p>
+            <div className="flex flex-row justify-center items-center text-center gap-8">
+              <a
+                href="https://github.com/MONKEYFACE678/Programming-Theory-Repo"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="text-md text-pink-200"
+              >
+                Project GitHub
+              </a>
+              <p className="text-md">Hours spent: 11</p>
+              <p className="text-md">Scales earned: 731</p>
+            </div>
+          </div>
+
+          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
+            <p className="text-xl font-bold mb-2">
+              Portoise USB Hub
+            </p>
+            <div className="flex flex-row justify-center items-center text-center gap-8">
+              <a
+                href="https://github.com/Beenana02/Portoise_USB_Hub"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="text-md text-pink-200"
+              >
+                Project GitHub
+              </a>
+              <p className="text-md">Hours spent: 15</p>
+              <p className="text-md">Scales earned: 2121</p>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
         </div>
       </div>
       </div>
