@@ -193,6 +193,9 @@ export default function Marketing() {
                     </a>
                     : Write code. Make art. Get a drawing machine.
                   </li>
+                  <li>
+                    Or, go though plenty of other workshops <a href="https://jams.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="aboutLink">here</a>!
+                  </li>
                 </ul>
               </div>
 
