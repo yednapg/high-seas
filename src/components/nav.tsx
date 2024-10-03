@@ -35,7 +35,7 @@ export default async function Nav() {
             <p>Hey, {session.payload.given_name}!</p>{" "}
           </div>
         ) : null}
-        {session ? <SignOut /> : <SignIn />}
+        {session ? <SignOut /> : <SignIn variant="small" session={session} />}
       </div>
     </nav>
   );

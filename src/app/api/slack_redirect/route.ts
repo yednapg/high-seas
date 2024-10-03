@@ -33,5 +33,5 @@ export async function GET(request: NextRequest) {
   //   headers: { Authorization: `Bearer ${data.access_token}` },
   // }).then((d) => d.json());
 
-  redirect("/");
+  redirect("/home");
 }
