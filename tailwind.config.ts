@@ -46,10 +46,10 @@ const config: Config = {
 				}
 			},
 			animation: {
-				'trumpet1': 'trumpet1 alternate infinite',
-				'trumpet2': 'trumpet2 alternate infinite',
-				'trumpet3': 'trumpet3 alternate infinite',
-				'trumpet4': 'animate-wiggle animate-infinite animate-ease-in-out',
+				'trumpet1': 'trumpet1 1.5s alternate infinite',
+				'trumpet2': 'trumpet2 1.5s alternate infinite',
+				'trumpet3': 'trumpet3 1.25s alternate infinite',
+				'trumpet4': 'animate-wiggle 1s animate-infinite animate-ease-in-out',
 				'quick_yapping': 'yap 0.25s alternate infinite',
 				'slide_in_right': 'slide_in_right 0.5s ease-in-out',
 				'slide_in_left': 'slide_in_left 0.5s ease-in-out',
