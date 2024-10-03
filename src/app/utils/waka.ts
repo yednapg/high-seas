@@ -45,6 +45,10 @@ async function createWaka() {
   const slackEmail: string = newSession.payload.email;
   if (!slackEmail) return errRedir("No Slack email in session OpenID payload");
 
+  const slackDisplayName: string = newSession.payload.name;
+  if (!slackDisplayName)
+    return errRedir("No Slack display name in session OpenID payload");
+
   const password = crypto.randomUUID();
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
@@ -54,6 +58,7 @@ async function createWaka() {
     body: new URLSearchParams({
       location: "America/New_York",
       username: slackId,
+      name: slackDisplayName,
       email: slackEmail,
       password: password,
       password_repeat: password,
@@ -71,7 +76,7 @@ export async function getWakaSessions(): Promise<any> {
   const waka = await getWaka();
   if (!waka) {
     const err = new Error(
-      "While getting sessions, no waka session could be found or created",
+      "While getting sessions, no waka session could be found or created"
     );
     console.error(err);
     throw err;
@@ -82,7 +87,7 @@ export async function getWakaSessions(): Promise<any> {
   const session = await getSession();
   if (!session)
     throw new Error(
-      "No Slack OAuth session found while trying to get WakaTime sessions.",
+      "No Slack OAuth session found while trying to get WakaTime sessions."
     );
 
   const slackId = session.payload.sub;
@@ -94,7 +99,7 @@ export async function getWakaSessions(): Promise<any> {
       headers: {
         Authorization: `Bearer blahaji_rulz_da_world`,
       },
-    },
+    }
   );
 
   return await summaryRes.json();
