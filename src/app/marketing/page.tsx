@@ -43,7 +43,7 @@ export default function Marketing() {
             </div>*/}
             <SignIn2 />
             <p className="mt-2 max-w-72 lg:max-w-xl">
-              Low Skies is free for teens to participate in, running Oct 2-16!
+              Low Skies is free for teens to participate in, running Oct 3-17!
             </p>
           </div>
           <div className="landing-right">
@@ -56,7 +56,7 @@ export default function Marketing() {
         <Image
           src={divider}
           alt="Divider"
-          className="mx-auto my-8 absolute xl:top-[77%] md:top-[80%%] top-[90%] w-full"
+          className="mx-auto my-8 absolute xl:top-[77%] md:top-[85%] sm:top-[90%] top-[95%] w-full"
         />
 
         <div className="md:my-44 my-24 xl:pb-24 lg:pb-[50px]">
@@ -192,6 +192,9 @@ export default function Marketing() {
                       Blot
                     </a>
                     : Write code. Make art. Get a drawing machine.
+                  </li>
+                  <li>
+                    Or, go though plenty of other workshops <a href="https://jams.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="aboutLink">here</a>!
                   </li>
                 </ul>
               </div>
