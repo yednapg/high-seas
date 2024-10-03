@@ -4,7 +4,7 @@ import "./index.css";
 // import HighSeas from "/public/logo.png";
 // import BackgroundImage from "/public/bg.png";
 import Image from "next/image";
-import SignIn2 from "@/components/sign_in_marketing";
+import SignIn from "@/components/sign_in";
 
 import orphwoah from "./art/orphwoah.png";
 
@@ -21,8 +21,11 @@ import shop3 from "./art/shop/shop3.png";
 import shop4 from "./art/shop/shop4.png";
 import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
+import { getSession } from "../utils/auth";
 
-export default function Marketing() {
+export default async function Marketing() {
+  const session = await getSession();
+
   return (
     <div>
       <div className="bodycss">
@@ -44,14 +47,14 @@ export default function Marketing() {
                 Enter the Thunderdome
               </a>
             </div>*/}
-            <SignIn2 />
+            <SignIn session={session} />
             <p className="mt-2 max-w-72 lg:max-w-xl">
               Low Skies is free for teens to participate in, running Oct 3-17!
             </p>
           </div>
           <div className="landing-right">
             <div className="bobble">
-              <Image src={orphwoah} alt="orpheus"/>
+              <Image src={orphwoah} alt="orpheus" />
             </div>
           </div>
         </div>
@@ -97,7 +100,8 @@ export default function Marketing() {
                   ! Your project will battle others in the{" "}
                   <span className="bg-green-400 px-2 rounded-lg">
                     Thunderdome
-                  </span>; winners get <span>Scales</span>!
+                  </span>
+                  ; winners get <span>Scales</span>!
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -113,13 +117,10 @@ export default function Marketing() {
                 <p className="text-2xl mb-2">Get free tools and swag!</p>
                 <p className="text-xl max-w-96">
                   At the{" "}
-                  <span
-                    className="bg-green-400 px-2 rounded-lg"
-                  >
-                    Shoppe
-                  </span>
-                  , {"you'll"} be able to spend your <span className="bg-green-400 px-2 rounded-lg">Scales</span> on items of all
-                  sort, from Blahajs to Yubikeys!
+                  <span className="bg-green-400 px-2 rounded-lg">Shoppe</span>,{" "}
+                  {"you'll"} be able to spend your{" "}
+                  <span className="bg-green-400 px-2 rounded-lg">Scales</span>{" "}
+                  on items of all sort, from Blahajs to Yubikeys!
                 </p>
               </div>
             </div>
@@ -147,8 +148,9 @@ export default function Marketing() {
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
                   pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to The Keep!
-                  Your project will compete against other similar-timed projects and you{"'"}ll earn Scales based on how well you do.
+                  done your project, submit it to The Keep! Your project will
+                  compete against other similar-timed projects and you{"'"}ll
+                  earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
@@ -197,7 +199,16 @@ export default function Marketing() {
                     : Write code. Make art. Get a drawing machine.
                   </li>
                   <li>
-                    Or, go though plenty of other workshops <a href="https://jams.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="aboutLink">here</a>!
+                    Or, go though plenty of other workshops{" "}
+                    <a
+                      href="https://jams.hackclub.com/"
+                      target="_blank"
+                      rel="noopenner noreferrer"
+                      className="aboutLink"
+                    >
+                      here
+                    </a>
+                    !
                   </li>
                 </ul>
               </div>
@@ -258,9 +269,6 @@ export default function Marketing() {
               </p>
             </div>
             <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
-
-              
-
               <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
                 <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                   <Image
@@ -338,12 +346,9 @@ export default function Marketing() {
                   iFixit Kit
                 </p>
               </div>
-
             </div>
             <div className="flex justify-center items-center mt-8 m-10">
-              <div
-                className="bg-blue-500 rounded-lg p-4 pop"
-              >
+              <div className="bg-blue-500 rounded-lg p-4 pop">
                 <p className="text-3xl text-center">
                   Get the full list of items when you sign in!
                 </p>
@@ -374,7 +379,7 @@ export default function Marketing() {
         <div className="flex flex-col justify-center items-center mt-12 mb-24">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
           <div className="">
-            <SignIn2 />
+            <SignIn session={session} />
           </div>
           {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
             <a href="#">Enter the Thunderdome</a>
