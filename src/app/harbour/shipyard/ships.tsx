@@ -8,6 +8,8 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
+import { getSession } from "@/app/utils/auth";
+import { JwtPayload } from "jsonwebtoken";
 
 export default function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
@@ -15,12 +17,15 @@ export default function Ships({ ships }: { ships: Ship[] }) {
   const [isMarkdownExpanded, setIsMarkdownExpanded] = useState(false);
   const [isCardContentLoaded, setIsCardContentLoaded] = useState(false);
   const [newShipVisible, setNewShipVisible] = useState(false);
+  const [session, setSession] = useState<JwtPayload | null>(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
     setReadmeText(null);
     setIsMarkdownExpanded(false);
     setIsCardContentLoaded(false);
+
+    getSession().then((sesh) => setSession(sesh));
   }, [selectedShip]);
 
   useEffect(() => {
@@ -106,7 +111,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 text-center">
         <motion.div layout className="space-y-4">
           {ships.length === 0 ? (
             <p className="text-center mb-4">
@@ -119,13 +124,18 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           )}
         </motion.div>
 
-        <Button className="w-full" onClick={() => setNewShipVisible(true)}>
+        <Button disabled={true} className="mt-4">
           New Ship
         </Button>
+        <p className="text-red-500">(Project submissions will open shortly!)</p>
+
+        {/* <Button className="w-full" onClick={() => setNewShipVisible(true)}>
+          New Ship
+        </Button> */}
       </div>
 
       <AnimatePresence>
-        {newShipVisible && (
+        {newShipVisible && session && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -140,6 +150,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
               <NewShipForm
                 canvasRef={canvasRef}
                 closeForm={() => setNewShipVisible(false)}
+                session={session}
               />
 
               <motion.button
