@@ -3,8 +3,15 @@ import { hasRecvFirstHeartbeat } from "../../utils/waka";
 import { motion } from "framer-motion";
 import { wakaSessions } from "./help";
 import { useEffect } from "react";
+import Link from "next/link";
 
-export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
+export default function SignPost({
+  session,
+  wakaToken,
+}: {
+  session: any;
+  wakaToken: string | null;
+}) {
   useEffect(() => {
     hasRecvFirstHeartbeat().then(console.log);
   }, []);
@@ -20,10 +27,37 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
       </h1>
 
       <p>
-        {typeof wakaToken !== "string"
-          ? "Fetching WakaTime token..."
-          : `WAZZUP! Your WakaTime token is ${wakaToken}`}
+        Low Skies uses the WakaTime VSCode extension to track how much time you
+        spend on your projects. <br />
+        Specifically,
+        <Link className="text-blue-500" href="https://waka.hackclub.com">
+          {" "}
+          a Hack Clubber-forked open source version
+        </Link>
+        . If you want to get advanced and log into the dashboard, your username
+        is your Slack ID (<code>{session ? session?.payload?.sub : "???"}</code>
+        ), and your email is{" "}
+        <code>{session ? session.payload.email : "???"}</code>. You must request
+        a password reset link.
       </p>
+
+      <p>
+        Your WakaTime token is{" "}
+        {wakaToken ? <code>{wakaToken}</code> : "loading..."}
+      </p>
+
+      <p>{"Here's how you can configure the extension;"}</p>
+      <iframe
+        width="560"
+        height="315"
+        className="mx-auto"
+        src="https://www.youtube.com/embed/eKoD9yyr1To?si=1B2v0cP42Ie0k1KD"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
 
       <div className="m-4 flex flex-col justify-center items-center mb-8">
         <p className="text-2xl mb-6 text-blue-500">Key locations:</p>
@@ -34,13 +68,20 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           </div>
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-2xl mb-2">Thunderdome</p>
-            <p>Vote between projects others have made! After submitting
-            your project, you must vote between project matchups in order to earn Scales. Note that the number of Scales you earn is based on the number of hours you have put in your own project, and how it competes against other projects. Everything is peer voted!</p>
+            <p>
+              Vote between projects others have made! After submitting your
+              project, you must vote between project matchups in order to earn
+              Scales. Note that the number of Scales you earn is based on the
+              number of hours you have put in your own project, and how it
+              competes against other projects. Everything is peer voted!
+            </p>
           </div>
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-2xl mb-2">Shoppe</p>
-            <p>Spend all your scales here! Get items, ranging from Blahajs to
-            Yubikeys. More items to come in the future!</p>
+            <p>
+              Spend all your scales here! Get items, ranging from Blahajs to
+              Yubikeys. More items to come in the future!
+            </p>
           </div>
         </div>
       </div>
@@ -67,7 +108,9 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           </div>
 
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
-            <p className="text-xl font-bold mb-2">FRC Robotics Simulation Game</p>
+            <p className="text-xl font-bold mb-2">
+              FRC Robotics Simulation Game
+            </p>
             <div className="flex flex-row justify-center items-center text-center gap-8">
               <a
                 href="https://github.com/Brainiac11/sim_game"

@@ -49,7 +49,10 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   }, []);
 
   const tabs = [
-    { name: "📮", component: <SignPost wakaToken={wakaToken} /> },
+    {
+      name: "📮",
+      component: <SignPost session={session} wakaToken={wakaToken} />,
+    },
     {
       name: "The Keep",
       component: <Shipyard ships={myShips} />,
