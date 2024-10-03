@@ -25,7 +25,7 @@ import { getPersonTicketBalance } from "../utils/airtable";
 
 import scales from "/public/scales.svg";
 
-export default function Harbour({ session }: { sesh: JwtPayload }) {
+export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
   const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
