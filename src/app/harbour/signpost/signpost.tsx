@@ -21,11 +21,11 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           <p className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">{"The Keep: submit projects here when they're done!"}</p>
           <p className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
             Thunderdome: vote between projects others have made! After submitting
-            your project, you must vote here in order to earn Scales.
+            your project, you must vote between project matchups in order to earn Scales. Note that the number of Scales you earn is based on the number of hours you've put in your own project, and how it competes against other projects. Everything is peer voted!
           </p>
           <p className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
             Shoppe: spend all your scales here! Get items, ranging from Blahajs to
-            Yubikeys.
+            Yubikeys. More items to come in the future!
           </p>
         </div>
       </div>
