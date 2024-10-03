@@ -268,7 +268,7 @@ export default async function Marketing() {
                 only.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center items-center xl:mx-44">
+            <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
               <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
                 <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                   <Image
@@ -330,7 +330,7 @@ export default async function Marketing() {
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Domain
+                  Pinecil
                 </p>
               </div>
 
