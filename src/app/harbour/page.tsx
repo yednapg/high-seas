@@ -23,6 +23,8 @@ import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../utils/airtable";
 
+import scales from "/public/scales.svg";
+
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
@@ -104,7 +106,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
-              <div className="right-px absolute mr-2">${personTicketBalance} Scales</div>
+              <div className="right-px absolute mr-2 text-green-400"><img src={scales}/>{personTicketBalance} Scales</div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
