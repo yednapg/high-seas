@@ -15,7 +15,7 @@ import { getUserShips, Ship } from "./shipyard/ship-utils";
 import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
 import SignPost from "./signpost/signpost";
-import { getWaka, WakaSignupResponse } from "../utils/waka";
+import { getWaka } from "../utils/waka";
 import Image from "next/image";
 import SignpostImage from "/public/signpost.png";
 import { hasRecvFirstHeartbeat } from "../utils/waka";
@@ -25,7 +25,7 @@ import { getPersonTicketBalance } from "../utils/airtable";
 
 import scales from "/public/scales.svg";
 
-export default function Harbour({ session }: { session: JwtPayload }) {
+export default function Harbour({ session }: { sesh: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
   const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
@@ -36,7 +36,6 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const { toast } = useToast();
 
   useEffect(() => {
-    console.log("Your session is", session);
     getUserShips(session.payload.sub).then((ships) => setMyShips(ships));
 
     getShop().then((shop) => setShopItems(shop));
@@ -107,7 +106,11 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                 ),
               )}
               <div className="right-px absolute mr-2 text-green-400">
-                <div className="flex flex-row"><Image src={scales} alt="scales" width={10} height={10} />{personTicketBalance} Scales</div></div>
+                <div className="flex flex-row">
+                  <Image src={scales} alt="scales" width={10} height={10} />
+                  {personTicketBalance} Scales
+                </div>
+              </div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
