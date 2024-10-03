@@ -3,6 +3,6 @@ import { NextRequest } from "next/server";
 import { deleteSession } from "../utils/auth";
 
 export async function GET(request: NextRequest) {
-  deleteSession();
+  await deleteSession();
   return redirect("/");
 }
