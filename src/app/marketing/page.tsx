@@ -56,7 +56,7 @@ export default function Marketing() {
         <Image
           src={divider}
           alt="Divider"
-          className="mx-auto my-8 absolute xl:top-[77%] md:top-[80%%] top-[90%] w-full"
+          className="mx-auto my-8 absolute xl:top-[77%] md:top-[85%] sm:top-[90%] top-[95%] w-full"
         />
 
         <div className="md:my-44 my-24 xl:pb-24 lg:pb-[50px]">
