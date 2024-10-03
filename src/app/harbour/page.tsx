@@ -134,7 +134,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                       <Button
                         disabled={!wakaToken}
                         onClick={() => {
-                          navigator.clipboard.writeText(wakaToken);
+                          navigator.clipboard.writeText(wakaToken!);
                           toast({
                             title: "Copied WakaTime token",
                             description: wakaToken,
