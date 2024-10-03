@@ -46,10 +46,14 @@ export default function SignPost({
         a password reset link.
       </p>
 
+      <br />
+
       <p>
         Your WakaTime token is{" "}
         {wakaToken ? <code>{wakaToken}</code> : "loading..."}
       </p>
+
+      <br />
 
       <p>{"Here's how you can configure the extension;"}</p>
       <iframe
