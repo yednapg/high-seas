@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import Shipyard from "./shipyard/shipyard";
 import Battles from "./battles/battles";
 import Shop from "./shop/shop";
@@ -28,6 +29,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
   const [wakaToken, setWakaToken] = useState<string | null>(null);
   const [hasWakaHb, setHasWakaHb] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -105,22 +107,27 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                     <div className="w-full h-full flex flex-col items-center justify-center text-lg text-center gap-4">
                       <Icon glyph="private-outline" width={42} />
                       <p>
-                        {tab.name} will unlock once you{"'"}ve set up{" "}
+                        {"We haven't seen any "}
                         <Link
                           className="text-blue-500"
                           href={"https://waka.hackclub.com"}
                         >
                           WakaTime
-                        </Link>
-                        .
+                        </Link>{" "}
+                        activity from you yet.
                         <br />
-                        Your WakaTime token is{" "}
-                        {wakaToken ? <code>{wakaToken}</code> : "loading..."}
+                        {tab.name} {"will unlock once we see you've set it up!"}
                       </p>
 
                       <Button
                         disabled={!wakaToken}
-                        onClick={() => navigator.clipboard.writeText(wakaToken)}
+                        onClick={() => {
+                          navigator.clipboard.writeText(wakaToken);
+                          toast({
+                            title: "Copied WakaTime token",
+                            description: wakaToken,
+                          });
+                        }}
                       >
                         Copy WakaTime token
                       </Button>
