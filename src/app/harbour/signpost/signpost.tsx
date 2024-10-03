@@ -52,6 +52,25 @@ export default function SignPost({
         {wakaToken ? <code>{wakaToken}</code> : "loading..."}
       </p>
 
+      <p>
+        You'll also need to set a custom URL in your WakaTime configuration.
+        Your configuration should look like the following:
+      </p>
+
+      <code>~/.wakatime.cfg</code>
+      <pre className="text-left">
+        <code>
+          {wakaToken ? (
+            <>
+[settings]
+<br />
+api_url = https://waka.hackclub.com/api
+<br />
+api_key = {wakaToken}
+</>) : 'loading...'}
+        </code>
+        </pre>
+
       {/* <br />
 
       <p>{"Here's how you can configure the extension;"}</p>
