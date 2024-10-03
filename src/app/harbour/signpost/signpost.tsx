@@ -36,16 +36,22 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
 
           <div className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
             <p className="text-xl font-bold">Flip Slash Sprig Game</p>
-            <a href="https://github.com/kaj07/FLIP-SLASH--sprig-" target="_blank" rel="noopenner noreferrer" className="text-md text-pink-200">Project GitHub</a>
-            <p className="text-md">Hours spent: 8</p>
-            <p className="text-md">Scales earned: 4217</p>
+            <div className="flex flex-row gap-8">
+              <a href="https://github.com/kaj07/FLIP-SLASH--sprig-" target="_blank" rel="noopenner noreferrer" className="text-md text-pink-200">Project GitHub</a>
+              <p className="text-md">Hours spent: 8</p>
+              <p className="text-md">Scales earned: 4217</p>
+            </div>
+
           </div>
 
           <div className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
             <p className="text-xl font-bold">FRC Robotics Simulation Game</p>
-            <a href="https://github.com/Brainiac11/sim_game" target="_blank" rel="noopenner noreferrer" className="text-md text-pink-200">Project GitHub</a>
-            <p className="text-md">Hours spent: 138</p>
-            <p className="text-md">Scales earned: 207493</p>
+            <div className="flex flex-row gap-8">
+              <a href="https://github.com/Brainiac11/sim_game" target="_blank" rel="noopenner noreferrer" className="text-md text-pink-200">Project GitHub</a>
+              <p className="text-md">Hours spent: 138</p>
+              <p className="text-md">Scales earned: 207493</p>
+            </div>
+            
           </div>
 
         </div>
