@@ -30,7 +30,7 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
         <div className="text-white">
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-2xl mb-2">The Keep</p>
-            <p>Submit your projects here when they're done!</p>
+            <p>Submit your projects here when {"they're"} done!</p>
           </div>
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-2xl mb-2">Thunderdome</p>
