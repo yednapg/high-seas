@@ -53,7 +53,7 @@ export default function SignPost({
       </p>
 
       <p>
-        You'll also need to set a custom URL in your WakaTime configuration.
+       {" You'll"} also need to set a custom URL in your WakaTime configuration.
         Your configuration should look like the following:
       </p>
 
