@@ -13,7 +13,8 @@ export default function SignPost({
   wakaToken: string | null;
 }) {
   useEffect(() => {
-    hasRecvFirstHeartbeat().then(console.log);
+    hasRecvFirstHeartbeat().then((a) => console.log("ASNTOENASTISRT", a));
+    // the qucik brown fox jumps over the lazy dog!!!!
   }, []);
 
   return (
@@ -30,7 +31,11 @@ export default function SignPost({
         Low Skies uses the WakaTime VSCode extension to track how much time you
         spend on your projects. <br />
         Specifically,
-        <Link className="text-blue-500" href="https://waka.hackclub.com">
+        <Link
+          target="_blank"
+          className="text-blue-500"
+          href="https://waka.hackclub.com"
+        >
           {" "}
           a Hack Clubber-forked open source version
         </Link>
