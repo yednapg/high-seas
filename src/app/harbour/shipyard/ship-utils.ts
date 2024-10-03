@@ -33,8 +33,11 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
   return new Promise((resolve, reject) => {
     base()(shipsTableName)
       .select({
-        // filterByFormula: `SEARCH('${personId}', {entrant})`,
-        view: "Grid view",
+        filterByFormula: `AND(
+        TRUE(),
+        '${slackId}' = {entrant__slack_id},
+        {project_source} = 'low_skies'
+        )`,
       })
       .eachPage(
         (records, fetchNextPage) => {
