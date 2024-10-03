@@ -25,7 +25,7 @@ export async function getShop(): Promise<ShopItem[]> {
 
   return new Promise((resolve, reject) => {
     base()("shop_items")
-      .select({ filterByFormula: "{enabled}" })
+      .select({ filterByFormula: "{enabled}", sort:[{field: "tickets_us", direction: "asc"}]})
       .eachPage(
         (records, fetchNextPage) => {
           records.forEach((record) => {
