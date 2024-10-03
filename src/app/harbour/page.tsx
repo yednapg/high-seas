@@ -106,7 +106,8 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
-              <div className="right-px absolute mr-2 text-green-400"><img src={scales}/>{personTicketBalance} Scales</div>
+              <div className="right-px absolute mr-2 text-green-400">
+                <div className="flex flex-row"><Image src={scales} alt="scales" width={10} height={10} />{personTicketBalance} Scales</div></div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
