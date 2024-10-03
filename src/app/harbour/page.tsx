@@ -15,7 +15,7 @@ import { getUserShips, Ship } from "./shipyard/ship-utils";
 import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
 import { JwtPayload } from "jsonwebtoken";
 import SignPost from "./signpost/signpost";
-import { getWaka, WakaSignupResponse } from "../utils/waka";
+import { getWaka } from "../utils/waka";
 import Image from "next/image";
 import SignpostImage from "/public/signpost.png";
 import { hasRecvFirstHeartbeat } from "../utils/waka";
@@ -36,7 +36,6 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const { toast } = useToast();
 
   useEffect(() => {
-    console.log("Your session is", session);
     getUserShips(session.payload.sub).then((ships) => setMyShips(ships));
 
     getShop().then((shop) => setShopItems(shop));
