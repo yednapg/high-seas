@@ -8,3 +8,23 @@ export const base = () => {
 
   return Airtable.base(baseId);
 };
+
+export const getSelfPerson = async (slackId: string) => {
+  const peopleTableName = "people";
+  const b = await base()
+  console.log({b})
+  const page = await b(peopleTableName)
+    .select({ filterByFormula: `{slack_id} = '${slackId}'` })
+    .firstPage();
+
+  if (page.length < 1)
+    throw new Error(`No people found with Slack ID ${slackId}`);
+
+  return page[0];
+}
+
+export const getPersonTicketBalance = async (slackId: string) => {
+  const person = await getSelfPerson(slackId);
+  console.log({slackId, settled: person.get("settled_tickets")});
+  return person.get("settled_tickets") as number;
+}
