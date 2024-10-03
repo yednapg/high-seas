@@ -257,7 +257,7 @@ export default function Marketing() {
                 only.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center items-center xl:mx-44">
+            <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
 
               
 
@@ -322,7 +322,7 @@ export default function Marketing() {
                   />
                 </div>
                 <p className="flex justify-center text-center text-3xl">
-                  Domain
+                  Pinecil
                 </p>
               </div>
 
