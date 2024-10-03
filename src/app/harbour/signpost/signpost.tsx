@@ -52,7 +52,7 @@ export default function SignPost({
         {wakaToken ? <code>{wakaToken}</code> : "loading..."}
       </p>
 
-      <br />
+      {/* <br />
 
       <p>{"Here's how you can configure the extension;"}</p>
       <iframe
@@ -64,7 +64,7 @@ export default function SignPost({
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
-      ></iframe>
+      ></iframe> */}
 
       <div className="m-4 flex flex-col justify-center items-center mb-8">
         <p className="text-2xl mb-6 text-blue-500">Key locations:</p>
