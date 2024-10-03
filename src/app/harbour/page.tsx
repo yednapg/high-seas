@@ -49,7 +49,10 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   }, []);
 
   const tabs = [
-    { name: "📮", component: <SignPost wakaToken={wakaToken} /> },
+    {
+      name: "📮",
+      component: <SignPost session={session} wakaToken={wakaToken} />,
+    },
     {
       name: "The Keep",
       component: <Shipyard ships={myShips} />,
@@ -101,7 +104,9 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
-              <div className="right-px absolute ml-2">${personTicketBalance} Scales</div>
+              <div className="right-px absolute ml-2">
+                ${personTicketBalance} Scales
+              </div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
