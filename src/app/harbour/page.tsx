@@ -20,6 +20,7 @@ import SignpostImage from "/public/signpost.png";
 import { hasRecvFirstHeartbeat } from "../utils/waka";
 import Icon from "@hackclub/icons";
 import Link from "next/link";
+import { getPersonTicketBalance } from "../utils/airtable";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
@@ -28,6 +29,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
   const [wakaToken, setWakaToken] = useState<string | null>(null);
   const [hasWakaHb, setHasWakaHb] = useState(false);
+  const [personTicketBalance, setPersonTicketBalance] = useState<string>('-');
 
   useEffect(() => {
     getUserShips(session.payload.sub).then((ships) => setMyShips(ships))
@@ -35,6 +37,8 @@ export default function Harbour({ session }: { session: JwtPayload }) {
     getShop().then((shop) => setShopItems(shop))
 
     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb))
+
+    getPersonTicketBalance(session.payload.sub).then((balance) => setPersonTicketBalance(balance.toString()))
 
     getWaka().then((waka) => waka && setWakaToken(waka.api_key))
   }, []);
@@ -92,6 +96,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
+              <div className="right-px absolute">${personTicketBalance} scales</div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
