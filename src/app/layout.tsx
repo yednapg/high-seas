@@ -3,6 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/nav";
+import { Toaster } from "@/components/ui/toaster";
 
 const mainFont = localFont({
   src: "../../public/fonts/ADLaMDisplay-Regular.ttf",
@@ -25,6 +26,7 @@ export default function RootLayout({
         {children}
         <Nav />
         <SpeedInsights />
+        <Toaster />
       </body>
     </html>
   );
