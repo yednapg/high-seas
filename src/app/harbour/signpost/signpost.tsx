@@ -15,7 +15,7 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           : `WAZZUP! Your WakaTime token is ${wakaToken}`}
       </p>
 
-      <div className="m-4">
+      <div className="m-4 flex flex-col justify-center items-center">
         <p className="text-2xl mb-8 text-blue-500">Key locations:</p>
         <div className="text-white">
           <p className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">{"The Keep: submit projects here when they're done!"}</p>
@@ -30,7 +30,7 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
         </div>
       </div>
 
-      <div className="m-4">
+      <div className="m-4 flex flex-col justify-center items-center">
         <p className="text-2xl mb-8 text-blue-500">Here are some example projects others have submitted!</p>
         <div className="text-white">
 
