@@ -30,19 +30,22 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
   const [wakaToken, setWakaToken] = useState<string | null>(null);
   const [hasWakaHb, setHasWakaHb] = useState(false);
-  const [personTicketBalance, setPersonTicketBalance] = useState<string>('-');
+  const [personTicketBalance, setPersonTicketBalance] = useState<string>("-");
   const { toast } = useToast();
 
   useEffect(() => {
-    getUserShips(session.payload.sub).then((ships) => setMyShips(ships))
+    console.log("Your session is", session);
+    getUserShips(session.payload.sub).then((ships) => setMyShips(ships));
 
-    getShop().then((shop) => setShopItems(shop))
+    getShop().then((shop) => setShopItems(shop));
 
-    hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb))
+    hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
 
-    getPersonTicketBalance(session.payload.sub).then((balance) => setPersonTicketBalance(balance.toString()))
+    getPersonTicketBalance(session.payload.sub).then((balance) =>
+      setPersonTicketBalance(balance.toString()),
+    );
 
-    getWaka().then((waka) => waka && setWakaToken(waka.api_key))
+    getWaka().then((waka) => waka && setWakaToken(waka.api_key));
   }, []);
 
   const tabs = [
@@ -98,7 +101,9 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   </TabsTrigger>
                 ),
               )}
-              <div className="right-px absolute">${personTicketBalance} scales</div>
+              <div className="right-px absolute">
+                ${personTicketBalance} scales
+              </div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"

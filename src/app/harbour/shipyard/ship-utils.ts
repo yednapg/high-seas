@@ -1,5 +1,6 @@
 "use server";
 
+import { getSelfPerson, getSelfPersonId } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
 import Airtable from "airtable";
 
@@ -12,17 +13,6 @@ const base = () => {
 
   return Airtable.base(baseId);
 };
-
-async function getSelfPersonId(slackId: string) {
-  const page = await base()(peopleTableName)
-    .select({ filterByFormula: `{slack_id} = '${slackId}'` })
-    .firstPage();
-
-  if (page.length < 1)
-    throw new Error(`No people found with Slack ID ${slackId}`);
-
-  return page[0].id;
-}
 
 export interface Ship {
   id: string;
@@ -59,7 +49,9 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                 screenshotUrl: record.get("screenshot_url") as string,
                 // rating: record.get("rating") as number,
                 hours: record.get("hours") as number,
-                voteRequirementMet: Boolean(record.get("vote_requirement_met")) as boolean,
+                voteRequirementMet: Boolean(
+                  record.get("vote_requirement_met"),
+                ) as boolean,
                 doubloonPayout: record.get("doubloon_payout") as number,
               });
             }

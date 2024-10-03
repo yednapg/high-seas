@@ -4,5 +4,5 @@ import { deleteSession } from "../utils/auth";
 
 export async function GET(request: NextRequest) {
   await deleteSession();
-  redirect("/");
+  return redirect("/");
 }
