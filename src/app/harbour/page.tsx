@@ -30,15 +30,13 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const [hasWakaHb, setHasWakaHb] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      setMyShips(await getUserShips(session.payload.sub));
-      setShopItems(await getShop());
+    getUserShips(session.payload.sub).then((ships) => setMyShips(ships))
 
-      setHasWakaHb(await hasRecvFirstHeartbeat());
+    getShop().then((shop) => setShopItems(shop))
 
-      const waka = await getWaka();
-      if (waka) setWakaToken(waka.api_key);
-    })();
+    hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb))
+
+    getWaka().then((waka) => waka && setWakaToken(waka.api_key))
   }, []);
 
   const tabs = [
