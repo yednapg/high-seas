@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Shipyard from "./shipyard/shipyard";
 import Battles from "./battles/battles";
 import Shop from "./shop/shop";
@@ -123,6 +123,13 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                         onClick={() => navigator.clipboard.writeText(wakaToken)}
                       >
                         Copy WakaTime token
+                      </Button>
+
+                      <Button
+                        className={`text-black ${buttonVariants({ variant: "outline" })}`}
+                        onClick={() => setHasWakaHb(true)}
+                      >
+                        Skip WakaTime setup requirement
                       </Button>
                     </div>
                   ) : (
