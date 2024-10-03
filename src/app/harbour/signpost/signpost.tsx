@@ -50,7 +50,7 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
           Here are some example projects others have submitted!
         </p>
         <div className="text-white">
-          <div className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
+          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-xl font-bold mb-2">Flip Slash Sprig Game</p>
             <div className="flex flex-row justify-center items-center text-center gap-8">
               <a
@@ -66,7 +66,7 @@ export default function SignPost({ wakaToken }: { wakaToken: string | null }) {
             </div>
           </div>
 
-          <div className="mb-2 bg-blue-400 p-2 rounded-lg max-w-xl">
+          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-xl font-bold mb-2">FRC Robotics Simulation Game</p>
             <div className="flex flex-row justify-center items-center text-center gap-8">
               <a

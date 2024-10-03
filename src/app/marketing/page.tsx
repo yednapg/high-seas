@@ -18,6 +18,9 @@ import divider2 from "./art/divider2.png";
 import shop1 from "./art/shop/shop1.png";
 import shop2 from "./art/shop/shop2.png";
 import shop3 from "./art/shop/shop3.png";
+import shop4 from "./art/shop/shop4.png";
+import shop5 from "./art/shop/shop5.png";
+import shop6 from "./art/shop/shop6.png";
 
 export default function Marketing() {
   return (
@@ -254,11 +257,11 @@ export default function Marketing() {
                 only.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center items-center">
+            <div className="flex flex-wrap justify-center items-center xl:mx-44">
+
+              
+
               <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                {/*<div className="bg-red-400 p-2 text-xl">
-                <p>2</p>
-              </div>*/}
                 <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
                   <Image
                     src={shop1}
@@ -294,6 +297,45 @@ export default function Marketing() {
                 </div>
                 <p className="flex justify-center text-center text-3xl">
                   Blahaj (friend)
+                </p>
+              </div>
+
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                  <Image
+                    src={shop4}
+                    alt="Shop item"
+                    className="w-full h-auto"
+                  />
+                </div>
+                <p className="flex justify-center text-center text-3xl">
+                  Raspberry Pi Zero
+                </p>
+              </div>
+
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                  <Image
+                    src={shop5}
+                    alt="Shop item"
+                    className="w-full h-auto"
+                  />
+                </div>
+                <p className="flex justify-center text-center text-3xl">
+                  Domain
+                </p>
+              </div>
+
+              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                  <Image
+                    src={shop6}
+                    alt="Shop item"
+                    className="w-full h-auto"
+                  />
+                </div>
+                <p className="flex justify-center text-center text-3xl">
+                  iFixit Kit
                 </p>
               </div>
 
