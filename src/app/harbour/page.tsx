@@ -107,7 +107,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                 ),
               )}
               <div className="right-px absolute mr-2 text-green-400">
-                <div className="flex flex-row"><Image src={scales} alt="scales" width={10} height={10} />{personTicketBalance} Scales</div></div>
+                <div className="flex flex-row"><Image src={scales} alt="scales" width={25} height={25} /><span className="mr-2">{personTicketBalance} Scales</span></div></div>
             </TabsList>
             <div
               className="flex-1 overflow-auto p-3"
