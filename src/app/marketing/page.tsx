@@ -120,7 +120,7 @@ export default async function Marketing() {
                   <span className="bg-green-400 px-2 rounded-lg">Shoppe</span>,{" "}
                   {"you'll"} be able to spend your{" "}
                   <span className="bg-green-400 px-2 rounded-lg">Scales</span>{" "}
-                  on items of all sort, from Blåhajar (Ikea plush shark) to Yubikeys!
+                  on items of all sort, from Blahajs to Yubikeys!
                 </p>
               </div>
             </div>
@@ -167,17 +167,6 @@ export default async function Marketing() {
                   </li>
                   <li>
                     <a
-                      href="https://sprig.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      Sprig
-                    </a>
-                    : Build a JS game, get your own console to play it on!
-                  </li>
-                  <li>
-                    <a
                       href="https://hackclub.com/onboard/"
                       target="_blank"
                       rel="noopenner noreferrer"
@@ -186,17 +175,6 @@ export default async function Marketing() {
                       OnBoard
                     </a>
                     : Design a PCB, get a $100 grant to get it built.
-                  </li>
-                  <li>
-                    <a
-                      href="https://blot.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      Blot
-                    </a>
-                    : Write code. Make art. Get a drawing machine.
                   </li>
                   <li>
                     Or, go though plenty of other workshops{" "}
