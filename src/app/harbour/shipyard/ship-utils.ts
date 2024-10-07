@@ -27,8 +27,9 @@ export interface Ship {
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
+  console.log("getting ships of", slackId);
   const ships: Ship[] = [];
-  const personId = await getSelfPersonId(slackId);
+  const personId = await getSelfPerson(slackId).then((p) => p.id);
 
   return new Promise((resolve, reject) => {
     base()(shipsTableName)
@@ -43,6 +44,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
         (records, fetchNextPage) => {
           records.forEach((record) => {
             const entrant = record.get("entrant") as string[];
+            console.log(entrant, personId);
             if (entrant && entrant.includes(personId)) {
               ships.push({
                 id: record.get("id") as string,
