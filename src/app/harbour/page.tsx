@@ -22,6 +22,7 @@ import { hasRecvFirstHeartbeat } from "../utils/waka";
 import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../utils/airtable";
+import { SoundButton } from "../../components/sound-button.js";
 
 import scales from "/public/scales.svg";
 
@@ -85,6 +86,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
         transition={{ duration: 0.25 }}
         className="w-full flex items-center justify-center p-8"
       >
+      <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col">
           <Tabs
             defaultValue="📮"
