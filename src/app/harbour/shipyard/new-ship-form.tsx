@@ -109,14 +109,14 @@ export default function NewShipForm({
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput placeholder="Search project..." />
+                <CommandInput placeholder="Search projects..." />
                 <CommandList>
                   <CommandEmpty>No WakaTime projects found 😭</CommandEmpty>
                   <CommandGroup>
                     {projects.map((project) => (
                       <CommandItem
                         key={project.key}
-                        value={project.key}
+                        value={(project.total / 60 / 60).toFixed(2)}
                         onSelect={() => {
                           setSelectedProject(project);
                           setOpen(false);
@@ -145,7 +145,7 @@ export default function NewShipForm({
             <input
               type="hidden"
               name="hours"
-              value={(selectedProject.total / 60 / 60).toFixed(1)}
+              value={(selectedProject.total / 60 / 60).toFixed(2)}
             />
           )}
         </div>

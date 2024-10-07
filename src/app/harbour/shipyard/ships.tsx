@@ -124,14 +124,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           )}
         </motion.div>
 
-        <Button disabled={true} className="mt-4">
+        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
           New Ship
         </Button>
-        <p className="text-red-500">(Project submissions will open shortly!)</p>
-
-        {/* <Button className="w-full" onClick={() => setNewShipVisible(true)}>
-          New Ship
-        </Button> */}
       </div>
 
       <AnimatePresence>
