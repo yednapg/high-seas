@@ -124,7 +124,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           )}
         </motion.div>
 
-        <Button className="w-full" onClick={() => setNewShipVisible(true)}>
+        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
           New Ship
         </Button>
       </div>
