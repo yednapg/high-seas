@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wiggling Dragon</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"
+    integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="yap.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    let segments = 20; // Number of segments
+    let angles = []; // Array to store angles
+    let angularVelocities = []; // Array to store angular velocities
+    let length = 5; // Length of each segment
+    let damping = 0.7; // Increased damping to reduce overcorrection
+    let maxAngleChange = 5; // Cap on how much each segment can rotate per frame
+    let head; // Variable to store the dragon's head image
+    let headWiggleAmount = 0.1; // Amount of wiggle for the head
+    let wiggleDuration = 20; // Duration of wiggle effect
+    let wiggleCounter = 0; // Counter to track the wiggle duration
+
+    let baseX = 0
+    let baseY = 0
+
+    function preload() {
+      head = loadImage('head.png'); // Load the dragon's head image
+    }
+
+    function setup() {
+      createCanvas(800, 600);
+      baseX = 0
+      baseY = height
+      for (let i = 0; i < segments; i++) {
+        angles.push(0);
+        angularVelocities.push(0); // Start with zero velocity for each segment
+      }
+    }
+
+    function draw() {
+      // background(0); // Set background to black
+      clear();
+      let targetAngle = atan2(mouseY - baseY, mouseX - baseX);
+
+      // Calculate the angle difference for the first segment
+      let angleDiff = targetAngle - angles[0];
+      angleDiff = atan2(sin(angleDiff), cos(angleDiff)); // Normalize angle difference
+      angleDiff = constrain(angleDiff, -maxAngleChange, maxAngleChange); // Limit rotation speed
+
+      if (wiggleCounter > 0) {
+        angleDiff += Math.sin(frameCount * 0.1) * 0.125;
+      }
+
+      // Apply velocity and inertia to the first segment
+      angularVelocities[0] += angleDiff * 0.1; // Adjust 0.1 for responsiveness
+      angularVelocities[0] *= damping; // Apply damping
+      angles[0] += angularVelocities[0]; // Update the angle of the first segment
+
+      // Update subsequent segments
+      for (let i = 1; i < segments; i++) {
+        let angleDiff = angles[i - 1] - angles[i];
+        angleDiff = atan2(sin(angleDiff), cos(angleDiff)); // Normalize angle difference
+        angleDiff = constrain(angleDiff, -maxAngleChange, maxAngleChange); // Limit rotation speed
+
+        // Apply velocity and inertia to each segment
+        angularVelocities[i] += angleDiff * 0.1; // Adjust 0.1 for responsiveness
+        angularVelocities[i] *= damping; // Apply damping
+        angles[i] += angularVelocities[i]; // Update the angle
+      }
+
+      // Draw the segments as a contiguous shape
+      let points = []; // Array to store points for the shape
+      let x = baseX; // Starting x
+      let y = baseY; // Starting y
+
+      for (let i = 0; i < segments; i++) {
+        x += cos(angles[i]) * length;
+        y += sin(angles[i]) * length;
+        points.push(createVector(x, y)); // Store the position of each segment
+      }
+
+      // Draw scales offset from the body, before the body is drawn
+      for (let i = points.length - 1; i >= 0; i--) {
+        // let scaleSize = map(i, 0, points.length - 1, 5, 20); // Reverse scale size (bigger near head, smaller near base)
+        let scaleSize = map(i, 0, points.length - 1, 20, 5); // Reverse scale size (bigger near head, smaller near base)
+        // Find the perpendicular direction by adding π/2 (90 degrees) to the angle
+        let offset = p5.Vector.fromAngle(angles[i] + HALF_PI).mult(-10); // Offset perpendicular to the body, adjust 'mult' to control distance
+
+        let scaleX = points[i].x + offset.x; // Position of the scale
+        let scaleY = points[i].y + offset.y;
+
+        fill(225); // White scales
+        strokeWeight(1);
+        stroke(15);
+
+        // Draw the scale with rotation
+        push(); // Save the current transformation state
+        translate(scaleX, scaleY); // Move to the scale position
+        rotate(angles[i]); // Rotate by the segment angle
+        ellipse(0, 0, scaleSize, scaleSize / 2); // Draw the scale at the origin
+        pop(); // Restore the previous transformation state
+      }
+
+      // Draw the contiguous shape
+      noFill(); // No fill
+      stroke(255);
+      strokeWeight(20); // Set stroke weight to 20
+      beginShape();
+      for (let p of points) {
+        curveVertex(p.x, p.y); // Use curveVertex for smoothness
+      }
+      endShape(); // Close the shape
+
+      // Position the dragon's head at the tip
+      let headX = x;
+      let headY = y;
+
+      // Calculate angle towards the mouse and apply a force with a 30-degree freedom
+      let headTargetAngle = atan2(mouseY - headY, mouseX - headX);
+      let headAngle = lerp(angles[segments - 1], headTargetAngle, 0.07);
+      headAngle = constrain(headAngle, angles[segments - 1] - radians(30), angles[segments - 1] + radians(30)); // Allow 30 degrees of freedom
+
+      // Add wiggle effect when active
+      if (wiggleCounter > 0) {
+        headAngle += random(-headWiggleAmount, headWiggleAmount); // Apply random wiggle
+        wiggleCounter--; // Decrease the wiggle counter
+      }
+
+      // Draw the dragon's head
+      push();
+      translate(headX, headY);
+      rotate(headAngle);
+      imageMode(CORNERS)
+      translate(0, -15)
+      image(head, 0, 0, 40, 30); // Adjust size as necessary
+      pop();
+    }
+
+    // Activate the wiggle effect on keyboard input
+    function keyPressed() {
+      if (key == 'w') {
+        wiggleCounter += wiggleDuration; // Set the wiggle counter
+      }
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'w') {
+        wiggleCounter += wiggleDuration; // Set the wiggle counter
+        const bruhLength = random(1, 10);
+        cancelYaps();
+        yap('br' + 'ou'.repeat(bruhLength), { baseRate: 2.6 });
+        const el = document.createElement('div');
+        el.innerHTML = 'br' + 'u'.repeat(bruhLength) + 'h';
+        el.classList.add('bruhs');
+        el.style.position = 'absolute';
+        el.style.left = mouseX + 'px';
+        el.style.top = mouseY + 'px';
+        el.style.rotate = random(0, 360) + 'deg';
+        document.body.appendChild(el);
+        // fade out the el before removing it
+        setTimeout(() => {
+          el.classList.add('hidden');
+          setTimeout(() => {
+            el.remove();
+          }, 2000);
+        }, 1000);
+      }
+    });
+  </script>
+  <style>
+    .bruhs {
+      position: absolute;
+      color: white;
+      opacity: 1;
+    }
+
+    .hidden {
+      transition-duration: 2s;
+      opacity: 0;
+    }
+  </style>
+</body>
+
+</html>

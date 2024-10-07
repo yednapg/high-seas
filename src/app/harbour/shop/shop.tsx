@@ -11,6 +11,7 @@ import { SoundButton } from "./sound-button.js";
 import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
+import { Shopkeeper } from "./shopkeepers.js";
 
 export default function Shop({ items }: any) {
   const [filterIndex, setFilterIndex] = useState(0)
@@ -50,6 +51,7 @@ export default function Shop({ items }: any) {
       className="container mx-auto px-4 py-8"
     >
       <SoundButton />
+      <Shopkeeper />
 
       <div className="text-center">
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
