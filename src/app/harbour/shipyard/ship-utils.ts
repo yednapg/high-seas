@@ -80,7 +80,7 @@ export async function createShip(formData: FormData) {
   }
 
   const slackId = session.payload.sub;
-  const entrantId = await getSelfPersonId(slackId);
+  const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   console.log(formData, slackId, entrantId);
 
