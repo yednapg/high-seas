@@ -11,6 +11,8 @@ import { SoundButton } from "./sound-button.js";
 import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import scales from "/public/scales.svg";
 
 export default function Shop({ items }: any) {
   const [filterIndex, setFilterIndex] = useState(0)
@@ -76,18 +78,25 @@ export default function Shop({ items }: any) {
           <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
             <Card className="h-full">
               <CardHeader>
+
+                <span style={{alignSelf: "end"}} className="text-green-400">
+                  <Image src={scales} alt="scales" width={25} height={25} style={{display: "inline-block"}}/>
+                  {filterIndex == 1 ? item.priceUs : item.priceGlobal}
+                </span>
+                <div>
                 <CardTitle>{item.name}</CardTitle>
                 <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
+                </div>
+
               </CardHeader>
               {item.imageUrl && (
                 <CardContent>
                   <img src={item.imageUrl} alt={item.name} className="w-full" />
                 </CardContent>
               )}
-              {/* This code is intentionally invalid before launch */}
-              <a href={"http://hack.club/lowskies-order?item="+item.id} style={{display: 'none'}}>
+              <form action={`/api/buy/${item.id}`} method="POST">
                 <Button>Buy</Button>
-              </a>
+              </form>
             </Card>
           </motion.div>
         ))}
