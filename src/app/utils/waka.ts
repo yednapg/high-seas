@@ -114,7 +114,6 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
     const slackId = session.payload.sub;
 
     const hasDataRes: { hasData: boolean } = await fetch(
-      // TODO: this date needs to change dynamically and can't be too far in the future
       `https://waka.hackclub.com/api/special/hasData/user=${slackId}`,
       {
         headers: {
@@ -128,4 +127,25 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
     console.error(e);
     return false;
   }
+}
+
+export async function getWakaEmail(): Promise<string | null> {
+  const session = await getSession();
+  if (!session)
+    throw new Error(
+      "No Slack OAuth session found while trying to get WakaTime sessions."
+    );
+
+  const slackId = session.payload.sub;
+
+  const email: { email: string | null } = await fetch(
+    `https://waka.hackclub.com/api/special/email/user=${slackId}`,
+    {
+      headers: {
+        Authorization: `Bearer blahaji_rulz_da_world`,
+      },
+    }
+  ).then((res) => res.json());
+
+  return email.email;
 }

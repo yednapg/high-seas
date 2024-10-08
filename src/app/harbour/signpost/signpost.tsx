@@ -1,4 +1,4 @@
-import { hasRecvFirstHeartbeat } from "../../utils/waka";
+import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Link from "next/link";
@@ -6,9 +6,11 @@ import Link from "next/link";
 export default function SignPost({
   session,
   wakaToken,
+  email,
 }: {
   session: any;
   wakaToken: string | null;
+  email: string | null;
 }) {
   useEffect(() => {
     hasRecvFirstHeartbeat().then((a) =>
@@ -41,8 +43,8 @@ export default function SignPost({
         . If you want to get advanced and log into the dashboard, your username
         is your Slack ID (<code>{session ? session?.payload?.sub : "???"}</code>
         ), and your email is{" "}
-        <code>{session ? session.payload.email : "???"}</code>. You must request
-        a password reset link.
+        <code>{email ? email : "???"}</code>. You must request
+        a password reset link. (unless you already signed up for hackatime)
       </p>
 
       <br />
