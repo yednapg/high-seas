@@ -15,6 +15,8 @@ import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
 interface Matchup {
   project1: Ships;
   project2: Ships;
+  signature: string;
+  ts: number;
 }
 
 interface ProjectCardProps {
@@ -241,6 +243,10 @@ export default function Matchups() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            signature: matchup.signature,
+            ts: matchup.ts,
+            project1: matchup.project1,
+            project2: matchup.project2,
             slackId,
             explanation: reason,
             winner: winner.id,
