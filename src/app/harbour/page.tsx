@@ -18,7 +18,7 @@ import SignPost from "./signpost/signpost";
 import { getWaka } from "../utils/waka";
 import Image from "next/image";
 import SignpostImage from "/public/signpost.png";
-import { hasRecvFirstHeartbeat } from "../utils/waka";
+import { hasRecvFirstHeartbeat, getWakaEmail } from "../utils/waka";
 import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../utils/airtable";
@@ -32,6 +32,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
   const [wakaToken, setWakaToken] = useState<string | null>(null);
   const [hasWakaHb, setHasWakaHb] = useState(false);
+  const [WakaEmail, setWakaEmail] = useState<string | null>(null);
   const [personTicketBalance, setPersonTicketBalance] = useState<string>("-");
   const { toast } = useToast();
 
@@ -47,12 +48,14 @@ export default function Harbour({ session }: { session: JwtPayload }) {
     );
 
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
+
+    getWakaEmail().then((email) => email && setWakaEmail(email));
   }, []);
 
   const tabs = [
     {
       name: "📮",
-      component: <SignPost session={session} wakaToken={wakaToken} />,
+      component: <SignPost session={session} wakaToken={wakaToken} email={WakaEmail} />,
     },
     {
       name: "The Keep",
