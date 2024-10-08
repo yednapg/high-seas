@@ -4,7 +4,8 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Ship } from "./ship-utils";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
-import Markdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import { markdownComponents } from "@/components/markdown";
 import remarkGfm from "remark-gfm";
 import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
@@ -17,45 +18,29 @@ import ScalesImage from "/public/scales.svg";
 export default function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [readmeText, setReadmeText] = useState<string | null>(null);
-  const [isMarkdownExpanded, setIsMarkdownExpanded] = useState(false);
-  const [isCardContentLoaded, setIsCardContentLoaded] = useState(false);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [session, setSession] = useState<JwtPayload | null>(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
     setReadmeText(null);
-    setIsMarkdownExpanded(false);
-    setIsCardContentLoaded(false);
+
+    fetchReadme();
 
     getSession().then((sesh) => setSession(sesh));
-  }, [selectedShip]);
-
-  useEffect(() => {
-    if (selectedShip) {
-      setTimeout(() => {
-        setIsCardContentLoaded(true);
-      }, 500);
-    }
   }, [selectedShip]);
 
   const fetchReadme = async () => {
     if (selectedShip && !readmeText) {
       try {
-        const res = await fetch(selectedShip.readmeUrl);
-        const text = await res.text();
+        const text = await fetch(selectedShip.readmeUrl).then((d) => d.text());
         setReadmeText(text);
       } catch (error) {
         console.error("Failed to fetch README:", error);
-        setReadmeText("Failed to load README content.");
+        setReadmeText(
+          `Failed to load README content from ${selectedShip.readmeUrl}`,
+        );
       }
-    }
-  };
-
-  const handleMarkdownToggle = () => {
-    setIsMarkdownExpanded(!isMarkdownExpanded);
-    if (!readmeText) {
-      fetchReadme();
     }
   };
 
@@ -80,11 +65,17 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         </div>
         <div>
           <h2 className="text-xl font-semibold">{s.title}</h2>
-          <div className="flex items-center gap-3 text-sm text-gray-600">
+          <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
             {s.voteRequirementMet ? (
               s.doubloonPayout ? (
-                <div className="flex items-center gap-1 text-green-400">
-                  <Icon glyph="payment" size={24} /> {s.doubloonPayout} scales
+                <div className="flex gap-1 items-center text-green-500">
+                  <Image
+                    src={ScalesImage}
+                    alt="scales"
+                    width={25}
+                    height={25}
+                  />
+                  {s.doubloonPayout} Scales
                 </div>
               ) : (
                 <div className="flex items-center gap-1 text-blue-400">
@@ -99,7 +90,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
               </div>
             )}
             <div className="flex items-center gap-1">
-              <Icon glyph="clock" size={24} /> {s.hours}
+              <Icon glyph="clock" size={24} /> {s.hours} hr
             </div>
           </div>
         </div>
@@ -200,85 +191,61 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {isCardContentLoaded ? (
-                      <>
-                        <motion.div className="flex gap-3 w-full">
-                          <Link
-                            className={`${buttonVariants({ variant: "default" })} h-12 flex-grow`}
-                            href={
-                              selectedShip.deploymentUrl || "https://google.com"
-                            }
-                            prefetch={false}
-                          >
-                            Play
-                            <Icon glyph="view-forward" />
-                          </Link>
+                    <div>
+                      <div className="flex gap-3">
+                        <Link
+                          className={`${buttonVariants({ variant: "default" })} h-12 flex-grow`}
+                          href={
+                            selectedShip.deploymentUrl || "https://google.com"
+                          }
+                          prefetch={false}
+                        >
+                          Play
+                          <Icon glyph="view-forward" />
+                        </Link>
 
-                          <Link
-                            className={`${buttonVariants({ variant: "outline" })} h-12`}
-                            href={selectedShip.repoUrl}
-                            prefetch={false}
-                          >
-                            <Icon glyph="github" />
-                            GitHub Repo
-                          </Link>
-                        </motion.div>
+                        <Link
+                          className={`${buttonVariants({ variant: "outline" })} h-12`}
+                          href={selectedShip.repoUrl}
+                          prefetch={false}
+                        >
+                          <Icon glyph="github" />
+                          GitHub Repo
+                        </Link>
+                      </div>
 
-                        <motion.div className="flex items-center gap-6">
-                          <div className="flex gap-1 items-center text-blue-600 font-semibold">
-                            <Icon glyph="clock" /> {selectedShip.hours} hours
-                          </div>
+                      <motion.div className="flex items-center gap-6 text-lg mt-4">
+                        <div className="flex gap-1 items-center text-green-500">
+                          <Image
+                            src={ScalesImage}
+                            alt="scales"
+                            width={25}
+                            height={25}
+                          />
+                          {selectedShip.doubloonPayout} Scales
+                        </div>
 
-                          <div className="flex gap-1 items-center text-green-500 font-semibold">
-                            <Image
-                              src={ScalesImage}
-                              alt="scales"
-                              width={25}
-                              height={25}
-                            />
-                            {selectedShip.doubloonPayout} Scales
-                          </div>
-                        </motion.div>
+                        <div className="flex gap-1 items-center text-blue-600">
+                          <Icon glyph="clock" /> {selectedShip.hours} hours
+                        </div>
+                      </motion.div>
 
-                        <motion.div className="mt-4">
-                          <button
-                            onClick={handleMarkdownToggle}
-                            className="flex items-center justify-between w-full py-2 px-4 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200"
-                          >
-                            <span className="font-medium inline-flex gap-2 items-center">
-                              <Icon glyph="docs" /> Project README
-                            </span>
-                            {isMarkdownExpanded ? (
-                              <Icon glyph="up-caret" />
-                            ) : (
-                              <Icon glyph="down-caret" />
-                            )}
-                          </button>
-                          <AnimatePresence>
-                            {isMarkdownExpanded && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                {readmeText ? (
-                                  <Markdown remarkPlugins={[remarkGfm]}>
-                                    {readmeText}
-                                  </Markdown>
-                                ) : (
-                                  <p className="text-center">
-                                    Loading README...
-                                  </p>
-                                )}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <p className="text-center">Loading content...</p>
-                    )}
+                      <hr className="my-5" />
+
+                      {readmeText ? (
+                        <div className="prose max-w-none">
+                          <ReactMarkdown components={markdownComponents}>
+                            {readmeText}
+                          </ReactMarkdown>
+
+                          {/*<Markdown remarkPlugins={[remarkGfm]}>
+                              {readmeText}
+                            </Markdown>*/}
+                        </div>
+                      ) : (
+                        <p className="text-center">Loading README...</p>
+                      )}
+                    </div>
                   </CardContent>
                 </div>
 
