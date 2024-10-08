@@ -114,7 +114,7 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
     const slackId = session.payload.sub;
 
     const hasDataRes: { hasData: boolean } = await fetch(
-      `https://waka.hackclub.com/api/special/hasData/user=${slackId}`,
+      `https://waka.hackclub.com/api/special/hasData/?user=${slackId}`,
       {
         headers: {
           Authorization: `Bearer blahaji_rulz_da_world`,
@@ -139,7 +139,7 @@ export async function getWakaEmail(): Promise<string | null> {
   const slackId = session.payload.sub;
 
   const email: { email: string | null } = await fetch(
-    `https://waka.hackclub.com/api/special/email/user=${slackId}`,
+    `https://waka.hackclub.com/api/special/email/?user=${slackId}`,
     {
       headers: {
         Authorization: `Bearer blahaji_rulz_da_world`,
