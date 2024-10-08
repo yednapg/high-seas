@@ -6,10 +6,13 @@ import Image from "next/image";
 import Icon from "@hackclub/icons";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
 import { getSession } from "@/app/utils/auth";
 import { JwtPayload } from "jsonwebtoken";
+import Link from "next/link";
+
+import ScalesImage from "/public/scales.svg";
 
 export default function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
@@ -202,20 +205,42 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <CardContent className="space-y-4">
                     {isCardContentLoaded ? (
                       <>
-                        <motion.div className="flex items-center gap-4">
-                          <div className="flex items-center text-blue-600 font-semibold">
+                        <motion.div className="flex gap-3 w-full">
+                          <Link
+                            className={`${buttonVariants({ variant: "default" })} h-12 flex-grow`}
+                            href={
+                              selectedShip.deploymentUrl || "https://google.com"
+                            }
+                            prefetch={false}
+                          >
+                            Play
+                            <Icon glyph="view-forward" />
+                          </Link>
+
+                          <Link
+                            className={`${buttonVariants({ variant: "outline" })} h-12`}
+                            href={selectedShip.repoUrl}
+                            prefetch={false}
+                          >
+                            <Icon glyph="github" />
+                            GitHub Repo
+                          </Link>
+                        </motion.div>
+
+                        <motion.div className="flex items-center gap-6">
+                          <div className="flex gap-1 items-center text-blue-600 font-semibold">
                             <Icon glyph="clock" /> {selectedShip.hours} hours
                           </div>
-                        </motion.div>
-                        <motion.div className="flex space-x-4">
-                          <a
-                            href={selectedShip.repoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center text-blue-600 hover:underline"
-                          >
-                            <Icon glyph="github" /> Repo
-                          </a>
+
+                          <div className="flex gap-1 items-center text-green-500 font-semibold">
+                            <Image
+                              src={ScalesImage}
+                              alt="scales"
+                              width={25}
+                              height={25}
+                            />
+                            {selectedShip.doubloonPayout} Scales
+                          </div>
                         </motion.div>
 
                         <motion.div className="mt-4">

@@ -55,7 +55,9 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const tabs = [
     {
       name: "📮",
-      component: <SignPost session={session} wakaToken={wakaToken} email={WakaEmail} />,
+      component: (
+        <SignPost session={session} wakaToken={wakaToken} email={WakaEmail} />
+      ),
     },
     {
       name: "The Keep",
@@ -89,10 +91,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
         className="w-full flex items-center justify-center p-8"
       >
         <Card className="w-full max-w-4xl flex flex-col">
-          <Tabs
-            defaultValue="📮"
-            className="flex-1 flex flex-col"
-          >
+          <Tabs defaultValue="📮" className="flex-1 flex flex-col">
             <TabsList className="mx-2 my-2 relative">
               {tabs.map((tab) =>
                 tab.name === "📮" ? (
@@ -110,7 +109,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                 ),
               )}
               <div className="right-px absolute mr-2 text-green-400">
-                <div className="flex flex-row">
+                <div className="flex gap-1">
                   <Image src={scales} alt="scales" width={25} height={25} />
                   <span className="mr-2">{personTicketBalance} Scales</span>
                 </div>
