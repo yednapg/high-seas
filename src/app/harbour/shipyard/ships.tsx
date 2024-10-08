@@ -124,9 +124,16 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           )}
         </motion.div>
 
-        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
+        <Button
+          className="mt-6 w-full"
+          onClick={() => setNewShipVisible(true)}
+          disabled={true}
+        >
           New Ship
         </Button>
+        <p className="text-red-500">
+          Signups are disabled for now! Check back soon
+        </p>
       </div>
 
       <AnimatePresence>
