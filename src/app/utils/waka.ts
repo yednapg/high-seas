@@ -92,7 +92,7 @@ export async function getWakaSessions(): Promise<any> {
 
   const summaryRes = await fetch(
     // TODO: this date needs to change dynamically and can't be too far in the future
-    `https://waka.hackclub.com/api/special/hasData/user=${slackId}`,
+    `https://waka.hackclub.com/api/summary/?interval=any&user=${slackId}`,
     {
       headers: {
         Authorization: `Bearer blahaji_rulz_da_world`,
