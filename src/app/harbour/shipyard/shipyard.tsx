@@ -1,5 +1,62 @@
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import Ships from "./ships";
+import type { Ship } from "./ship-utils";
+
+const exampleShips: Ship[] = [
+  {
+    id: "",
+    title: "Flip Slash Sprig Game",
+    repoUrl: "https://github.com/kaj07/FLIP-SLASH--sprig-",
+    deploymentUrl: "https://sprig.hackclub.com/share/FNUdELr7n4CvmavQAr8d",
+    screenshotUrl:
+      "https://cloud-hkx2soawz-hack-club-bot.vercel.app/0image.png",
+    readmeUrl:
+      "https://github.com/kaj07/FLIP-SLASH--sprig-/blob/main/README.md",
+    hours: 8,
+    voteRequirementMet: true,
+    doubloonPayout: 421,
+  },
+  {
+    id: "",
+    title: "COTL Music Player",
+    repoUrl: "https://github.com/galexy727/cotl-music-player",
+    deploymentUrl:
+      "https://github.com/GalexY727/cotl-music-player/releases/tag/V1.0",
+    screenshotUrl:
+      "https://cloud-pfbh20k1i-hack-club-bot.vercel.app/0image.png",
+    readmeUrl:
+      "https://github.com/GalexY727/cotl-music-player/blob/main/README.md",
+    hours: 5,
+    voteRequirementMet: true,
+    doubloonPayout: 428,
+  },
+  {
+    id: "",
+    title: "Portoise USB Hub",
+    repoUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
+    deploymentUrl: "",
+    screenshotUrl:
+      "https://cloud-ma98mn299-hack-club-bot.vercel.app/0image.png",
+    readmeUrl:
+      "https://github.com/Beenana02/Portoise_USB_Hub/blob/main/README.md",
+    hours: 15,
+    voteRequirementMet: true,
+    doubloonPayout: 2121,
+  },
+  {
+    id: "",
+    title: "Skeleton Summoner Game",
+    repoUrl: "https://github.com/MONKEYFACE678/Programming-Theory-Repo",
+    deploymentUrl: "",
+    screenshotUrl:
+      "https://cloud-j29zpdbig-hack-club-bot.vercel.app/0image.png",
+    readmeUrl:
+      "https://github.com/MONKEYFACE678/Programming-Theory-Repo/blob/main/ReadMe.txt",
+    hours: 11,
+    voteRequirementMet: true,
+    doubloonPayout: 731,
+  },
+];
 
 export default function Shipyard({ ships }: any) {
   if (!ships) {
@@ -24,92 +81,13 @@ export default function Shipyard({ ships }: any) {
         )}
         <Ships ships={ships} />
 
-
-
         <div className="m-4 flex flex-col justify-center items-center mt-12">
-        <p className="text-2xl mb-8 text-blue-500">
-          Here are some example projects others have submitted!
-        </p>
-        <div className="text-white">
-          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
-            <p className="text-xl font-bold mb-2">Flip Slash Sprig Game</p>
-            <div className="flex flex-row justify-center items-center text-center gap-8">
-              <a
-                href="https://github.com/kaj07/FLIP-SLASH--sprig-"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="text-md text-pink-200"
-              >
-                Project GitHub
-              </a>
-              <p className="text-md">Hours spent: 8</p>
-              <p className="text-md">Scales earned: 421</p>
-            </div>
-          </div>
+          <p className="text-2xl mb-8 text-blue-500">
+            Here are some example projects others have submitted!
+          </p>
 
-          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
-            <p className="text-xl font-bold mb-2">
-              COTL Music Player
-            </p>
-            <div className="flex flex-row justify-center items-center text-center gap-8">
-              <a
-                href="https://github.com/galexy727/cotl-music-player"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="text-md text-pink-200"
-              >
-                Project GitHub
-              </a>
-              <p className="text-md">Hours spent: 5</p>
-              <p className="text-md">Scales earned: 428</p>
-            </div>
-          </div>
-
-          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
-            <p className="text-xl font-bold mb-2">
-              Skeleton Summoner Game
-            </p>
-            <div className="flex flex-row justify-center items-center text-center gap-8">
-              <a
-                href="https://github.com/MONKEYFACE678/Programming-Theory-Repo"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="text-md text-pink-200"
-              >
-                Project GitHub
-              </a>
-              <p className="text-md">Hours spent: 11</p>
-              <p className="text-md">Scales earned: 731</p>
-            </div>
-          </div>
-
-          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
-            <p className="text-xl font-bold mb-2">
-              Portoise USB Hub
-            </p>
-            <div className="flex flex-row justify-center items-center text-center gap-8">
-              <a
-                href="https://github.com/Beenana02/Portoise_USB_Hub"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="text-md text-pink-200"
-              >
-                Project GitHub
-              </a>
-              <p className="text-md">Hours spent: 15</p>
-              <p className="text-md">Scales earned: 2121</p>
-            </div>
-          </div>
-
-
-
-
-
-
-
-
+          <Ships ships={exampleShips} />
         </div>
-      </div>
       </div>
     );
   }

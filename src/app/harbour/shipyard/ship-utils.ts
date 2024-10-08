@@ -18,6 +18,7 @@ export interface Ship {
   id: string;
   title: string;
   repoUrl: string;
+  deploymentUrl?: string;
   readmeUrl: string;
   screenshotUrl: string;
   // doubloonsPaid?: number;
@@ -49,6 +50,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                 id: record.get("id") as string,
                 title: record.get("title") as string,
                 repoUrl: record.get("repo_url") as string,
+                deploymentUrl: record.get("deploy_url") as string,
                 readmeUrl: record.get("readme_url") as string,
                 screenshotUrl: record.get("screenshot_url") as string,
                 // rating: record.get("rating") as number,
