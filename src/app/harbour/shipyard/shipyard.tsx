@@ -11,7 +11,7 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-hkx2soawz-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/kaj07/FLIP-SLASH--sprig-/blob/main/README.md",
+      "https://raw.githubusercontent.com/kaj07/FLIP-SLASH--sprig-/refs/heads/main/README.md",
     hours: 8,
     voteRequirementMet: true,
     doubloonPayout: 421,
