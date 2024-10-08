@@ -82,8 +82,6 @@ export async function getWakaSessions(): Promise<any> {
     throw err;
   }
 
-  const wakaKey = waka.api_key;
-
   const session = await getSession();
   if (!session)
     throw new Error(
@@ -94,7 +92,7 @@ export async function getWakaSessions(): Promise<any> {
 
   const summaryRes = await fetch(
     // TODO: this date needs to change dynamically and can't be too far in the future
-    `https://waka.hackclub.com/api/summary?interval=any&user=${slackId}`,
+    `https://waka.hackclub.com/api/special/hasData/user=${slackId}`,
     {
       headers: {
         Authorization: `Bearer blahaji_rulz_da_world`,
@@ -107,8 +105,25 @@ export async function getWakaSessions(): Promise<any> {
 
 export async function hasRecvFirstHeartbeat(): Promise<boolean> {
   try {
-    const sessions = await getWakaSessions();
-    return sessions && sessions.projects.length > 0;
+    const session = await getSession();
+    if (!session)
+      throw new Error(
+        "No Slack OAuth session found while trying to get WakaTime sessions."
+      );
+
+    const slackId = session.payload.sub;
+
+    const hasDataRes: { hasData: boolean } = await fetch(
+      // TODO: this date needs to change dynamically and can't be too far in the future
+      `https://waka.hackclub.com/api/special/hasData/user=${slackId}`,
+      {
+        headers: {
+          Authorization: `Bearer blahaji_rulz_da_world`,
+        },
+      }
+    ).then((res) => res.json());
+
+    return hasDataRes.hasData;
   } catch (e) {
     console.error(e);
     return false;
