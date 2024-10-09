@@ -23,6 +23,7 @@ import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../utils/airtable";
 import React from "react";
+import { SoundButton } from "../../components/sound-button.js";
 
 import scales from "/public/scales.svg";
 
@@ -103,6 +104,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
         {...motionProps}
         className="w-full flex items-center justify-center p-8"
       >
+      <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col">
           <Tabs defaultValue="📮" className="flex-1 flex flex-col">
             <TabsList className="mx-2 my-2 relative">

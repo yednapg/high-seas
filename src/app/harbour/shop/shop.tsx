@@ -7,8 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SoundButton } from "./sound-button.js";
-import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
+import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
 
@@ -53,7 +52,6 @@ export default function Shop({ items }: any) {
       animate={{ opacity: 1 }}
       className="container mx-auto px-4 py-8"
     >
-      <SoundButton />
 
       <div className="text-center">
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">

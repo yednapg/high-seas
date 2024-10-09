@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { sample } from "../../../../lib/flavor";
+import { sample } from "../../lib/flavor";
 
 const musicUrl = 'https://cloud-22krjnymh-hack-club-bot.vercel.app/0fanfare_2__zthdwj7smms__audio.mp4'
 const trumpetUrl = 'https://cloud-74zjdhued-hack-club-bot.vercel.app/1frame_12.png'
