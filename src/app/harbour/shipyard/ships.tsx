@@ -67,7 +67,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           />
         </div>
         <div>
-          <h2 className="text-xl font-semibold">{s.title}</h2>
+          <h2 className="text-xl font-semibold text-left">{s.title}</h2>
           <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
             {s.voteRequirementMet ? (
               s.doubloonPayout ? (
