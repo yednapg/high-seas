@@ -118,16 +118,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           )}
         </motion.div>
 
-        <Button
-          className="mt-6 w-full"
-          onClick={() => setNewShipVisible(true)}
-          disabled={true}
-        >
+        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
           New Ship
         </Button>
-        <p className="text-red-500">
-          Signups are disabled for now! Check back soon
-        </p>
       </div>
 
       <AnimatePresence>
@@ -195,17 +188,20 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <div className="flex gap-3">
-                        <Link
-                          className={`${buttonVariants({ variant: "default" })} h-12 flex-grow`}
-                          href={
-                            selectedShip.deploymentUrl || "https://google.com"
-                          }
-                          prefetch={false}
+                      <div className="flex flex-row gap-3">
+                        <Button
+                          className="h-12 flex-grow"
+                          disabled={!selectedShip.deploymentUrl}
                         >
-                          Play
-                          <Icon glyph="view-forward" />
-                        </Link>
+                          <Link
+                            className="flex items-center"
+                            href={selectedShip.deploymentUrl || "#"}
+                            prefetch={false}
+                          >
+                            Play
+                            <Icon glyph="view-forward" />
+                          </Link>
+                        </Button>
 
                         <Link
                           className={`${buttonVariants({ variant: "outline" })} h-12`}
