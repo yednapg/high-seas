@@ -13,9 +13,10 @@ import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import scales from "/public/scales.svg";
+import useLocalStorage from "../../../../lib/useLocalStorage.js";
 
 export default function Shop({ items }: any) {
-  const [filterIndex, setFilterIndex] = useState(0)
+  const [filterIndex, setFilterIndex] = useLocalStorage("shop.country.filter", 0)
   const [bannerText, setBannerText] = useState('')
   useEffect(() => {
     setBannerText(sample(shopBanner))
@@ -34,7 +35,7 @@ export default function Shop({ items }: any) {
   }
 
   const filters = {
-    '0': (x: any) => { console.log(x);return true},
+    '0': (x: any) => { return true },
     '1': (item: any) => item.enabledUs,
     '2': (item: any) => item.enabledEu,
     '3': (item: any) => item.enabledIn,
@@ -65,8 +66,8 @@ export default function Shop({ items }: any) {
       </div>
       <div className="text-center mb-6 mt-12">
         <label>Choose your region: </label>
-        <select onChange={onOptionChangeHandler}>
-          <option value="0" selected>All items</option>
+        <select onChange={onOptionChangeHandler} value={filterIndex}>
+          <option value="0">All items</option>
           <option value="1">US</option>
           <option value="2">EU</option>
           <option value="3">India</option>
