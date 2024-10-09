@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import Shipyard from "./shipyard/shipyard";
 import Battles from "./battles/battles";
 import Shop from "./shop/shop";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { ShopItem, getShop } from "./shop/shop-utils";
 // import Map from "./map/map";
 import { getUserShips, Ship } from "./shipyard/ship-utils";
@@ -22,8 +22,14 @@ import { hasRecvFirstHeartbeat, getWakaEmail } from "../utils/waka";
 import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../utils/airtable";
+import React from "react";
 
 import scales from "/public/scales.svg";
+
+const MemoizedSignPost = React.memo(SignPost);
+const MemoizedShipyard = React.memo(Shipyard);
+const MemoizedBattles = React.memo(Battles);
+const MemoizedShop = React.memo(Shop);
 
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
@@ -52,26 +58,35 @@ export default function Harbour({ session }: { session: JwtPayload }) {
     getWakaEmail().then((email) => email && setWakaEmail(email));
   }, []);
 
-  const tabs = [
+  useEffect(() => console.log('new myships!', myShips), [myShips])
+
+  const motionProps = useMemo(() => ({
+    initial: { y: -20, opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    transition: { duration: 0.25 },
+  }), []);
+
+  const tabs = useMemo(() => [
     {
       name: "📮",
       component: (
-        <SignPost session={session} wakaToken={wakaToken} email={WakaEmail} />
+        <MemoizedSignPost session={session} wakaToken={wakaToken} email={WakaEmail} />
       ),
     },
     {
       name: "The Keep",
-      component: <Shipyard ships={myShips} />,
+      component: <MemoizedShipyard ships={myShips} />,
       lockOnNoHb: true,
     },
-    { name: "Thunderdome", component: <Battles />, lockOnNoHb: true },
+    { name: "Thunderdome", component: <MemoizedBattles />, lockOnNoHb: true },
     // {
     //   name: "Gallery",
     //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
     // },
     // { name: "Map", component: <Map /> },
-    { name: "Shoppe", component: <Shop items={shopItems} /> },
-  ];
+    { name: "Shoppe", component: <MemoizedShop items={shopItems} /> },
+
+  ], [session, wakaToken, WakaEmail, myShips, shopItems]);
 
   return (
     <div
@@ -85,9 +100,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
       }}
     >
       <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.25 }}
+        {...motionProps}
         className="w-full flex items-center justify-center p-8"
       >
         <Card className="w-full max-w-4xl flex flex-col">

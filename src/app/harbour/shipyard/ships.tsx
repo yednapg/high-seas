@@ -6,9 +6,9 @@ import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
 import { markdownComponents } from "@/components/markdown";
-import remarkGfm from "remark-gfm";
 import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
+import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
 import { JwtPayload } from "jsonwebtoken";
 import Link from "next/link";
@@ -20,14 +20,18 @@ export default function Ships({ ships }: { ships: Ship[] }) {
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [session, setSession] = useState<JwtPayload | null>(null);
+  const [isEditingShip, setIsEditingShip] = useState(false);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    setReadmeText(null);
-
-    fetchReadme();
-
     getSession().then((sesh) => setSession(sesh));
+  }, []);
+
+  useEffect(() => {
+    setReadmeText(null);
+    if (selectedShip) {
+      fetchReadme();
+    }
   }, [selectedShip]);
 
   const fetchReadme = async () => {
@@ -47,7 +51,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
   const SingleShip = ({ s }: { s: Ship }) => (
     <motion.div
       key={s.id}
-      layoutId={s.id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
       whileHover={{ scale: 1.02 }}
@@ -57,7 +60,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <div className="w-16 h-16 relative mr-4">
           <Image
             src={s.screenshotUrl}
-            alt={`s of ${s.title}`}
+            alt={`Screenshot of ${s.title}`}
             layout={"fill"}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
@@ -79,8 +82,8 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                 </div>
               ) : (
                 <div className="flex items-center gap-1 text-blue-400">
-                  <Icon glyph="event-add" size={24} />{" "}
-                  {"Pending: hang tight– we're counting the votes!"}
+                  <Icon glyph="event-add" size={24} />
+                  {"Pending: hang tight- we're counting the votes!"}
                 </div>
               )
             ) : (
@@ -105,15 +108,17 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
+      <h1>THE SELECTED SHIP IS {selectedShip?.title || "NONE"}</h1>
+
       <div className="container mx-auto p-4 text-center">
-        <motion.div layout className="space-y-4">
+        <motion.div className="space-y-4">
           {ships.length === 0 ? (
             <p className="text-center mb-4">
               <b>{"You don't have any ships yet."}</b>
             </p>
           ) : (
             ships.map((ship: Ship, idx: number) => (
-              <SingleShip s={ship} key={idx} />
+              <SingleShip s={ship} key={ship.id} />
             ))
           )}
         </motion.div>
@@ -125,10 +130,10 @@ export default function Ships({ ships }: { ships: Ship[] }) {
 
       <AnimatePresence>
         {newShipVisible && session && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setNewShipVisible(false)}
           >
@@ -151,7 +156,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                 <Icon glyph="view-close" />
               </motion.button>
             </Card>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
@@ -165,7 +170,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
             onClick={() => setSelectedShip(null)}
           >
             <motion.div
-              layoutId={selectedShip.id}
               className="bg-white rounded-lg w-full max-w-2xl"
               onClick={(e) => e.stopPropagation()}
             >
@@ -186,11 +190,12 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <CardHeader className="relative">
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
                   </CardHeader>
+
                   <CardContent className="space-y-4">
                     <div>
-                      <div className="flex flex-row gap-3">
+                      <div className="flex flex-row gap-3 h-12">
                         <Button
-                          className="h-12 flex-grow"
+                          className="flex-grow h-full"
                           disabled={!selectedShip.deploymentUrl}
                         >
                           <Link
@@ -204,14 +209,46 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                         </Button>
 
                         <Link
-                          className={`${buttonVariants({ variant: "outline" })} h-12`}
+                          className={`${buttonVariants({ variant: "outline" })} h-full`}
                           href={selectedShip.repoUrl}
                           prefetch={false}
                         >
-                          <Icon glyph="github" />
-                          GitHub Repo
+                          <Icon glyph="github" /> GitHub Repo
                         </Link>
+
+                        <Button
+                          className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
+                          onClick={() => setIsEditingShip((p) => !p)}
+                        >
+                          <Icon glyph="edit" width={24} /> Edit
+                        </Button>
                       </div>
+
+                      <AnimatePresence>
+                        {isEditingShip && selectedShip && (
+                          <motion.div
+                            key="edit-ship-form"
+                            initial={{
+                              opacity: 0,
+                              transform: "translate(0, -2rem)",
+                              scale: 0.0,
+                            }}
+                            animate={{
+                              opacity: 1,
+                              transform: "translate(0, 0rem)",
+                              scale: 1,
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transform: "translate(0, 2rem)",
+                              scale: 5,
+                            }}
+                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                          >
+                            <EditShipForm ship={selectedShip} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
                       <motion.div className="flex items-center gap-6 text-lg mt-4">
                         <div className="flex gap-1 items-center text-green-500">
@@ -236,10 +273,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                           <ReactMarkdown components={markdownComponents}>
                             {readmeText}
                           </ReactMarkdown>
-
-                          {/*<Markdown remarkPlugins={[remarkGfm]}>
-                              {readmeText}
-                            </Markdown>*/}
                         </div>
                       ) : (
                         <p className="text-center">Loading README...</p>
