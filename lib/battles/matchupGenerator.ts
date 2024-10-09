@@ -1,3 +1,5 @@
+import { createHmac } from 'node:crypto'
+
 import { Ships } from "../../types/battles/airtable"; 
 
 const HOUR_VARIATION_THRESHOLD = 0.5;
@@ -16,21 +18,25 @@ function hoursWithinRange(hours1: number, hours2: number): boolean {
 
 export function signMatchup(matchup: { project1: Ships; project2: Ships; matchQuality: number }, userSlackId: string): { project1: Ships; project2: Ships; matchQuality: number, signature: string, ts: number } {
   const secret = process.env.MATCHUP_SECRET
+  if (!secret) throw new Error("No MATCHUP_SECRET env var set")
+  if (secret.length < 32) throw new Error("MATCHUP_SECRET must be at least 32 characters long")
   const ts = Date.now()
   const matchupIDs = [matchup.project1.id, matchup.project2.id].sort()
   const objToSign = { ts, matchupIDs, userSlackId }
-  const signature = require('node:crypto').createHmac("sha256", secret).update(JSON.stringify(objToSign)).digest('hex')
+  const signature = createHmac("sha256", secret).update(JSON.stringify(objToSign)).digest('hex')
 
   return { ...matchup, ts, signature };
 }
 
 export function verifyMatchup(signedMatchup: { winner: string; loser: string; matchQuality: number, signature: string, ts: number }, userSlackId: string): boolean {
   const secret = process.env.MATCHUP_SECRET
+  if (!secret) throw new Error("No MATCHUP_SECRET env var set")
+  if (secret.length < 32) throw new Error("MATCHUP_SECRET must be at least 32 characters long")
   const tsNow = Date.now()
   const matchupIDs = [signedMatchup.winner, signedMatchup.loser].sort()
   const objToVerify = { ts: signedMatchup.ts, matchupIDs, userSlackId }
 
-  const validSig = require('node:crypto').createHmac("sha256", secret).update(JSON.stringify(objToVerify)).digest('hex') === signedMatchup.signature
+  const validSig = createHmac("sha256", secret).update(JSON.stringify(objToVerify)).digest('hex') === signedMatchup.signature
   const validTs = tsNow - signedMatchup.ts < 1000* 60 * 60 * 5 // 5 hours
   return validSig && validTs
 }
