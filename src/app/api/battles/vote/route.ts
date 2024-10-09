@@ -12,8 +12,8 @@ export async function POST(request: Request) {
   try {
     const voteData = await request.json();
     const matchup = {
-      project1: voteData.project1,
-      project2: voteData.project2,
+      winner: voteData.winner,
+      loser: voteData.loser,
       signature: voteData.signature,
       ts: voteData.ts,
     }
@@ -22,8 +22,9 @@ export async function POST(request: Request) {
     if (!isVerified) {
       return NextResponse.json({ error: "Invalid matchup signature" }, { status: 400 });
     }
-    const result = await submitVote(voteData);
-    return NextResponse.json(result);
+    const _result = await submitVote(voteData);
+
+    return NextResponse.json({ok: true});
   } catch (error) {
     console.error("Error submitting vote:", error);
     return NextResponse.json(

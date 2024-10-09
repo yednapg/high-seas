@@ -24,14 +24,14 @@ export function signMatchup(matchup: { project1: Ships; project2: Ships; matchQu
   return { ...matchup, ts, signature };
 }
 
-export function verifyMatchup(signedMatchup: { project1: Ships; project2: Ships; matchQuality: number, signature: string, ts: number }, userSlackId: string): boolean {
+export function verifyMatchup(signedMatchup: { winner: string; loser: string; matchQuality: number, signature: string, ts: number }, userSlackId: string): boolean {
   const secret = process.env.MATCHUP_SECRET
-  const ts = Date.now()
-  const matchupIDs = [signedMatchup.project1.id, signedMatchup.project2.id].sort()
+  const tsNow = Date.now()
+  const matchupIDs = [signedMatchup.winner, signedMatchup.loser].sort()
   const objToVerify = { ts: signedMatchup.ts, matchupIDs, userSlackId }
 
   const validSig = require('node:crypto').createHmac("sha256", secret).update(JSON.stringify(objToVerify)).digest('hex') === signedMatchup.signature
-  const validTs = ts - signedMatchup.ts < 1000* 60 * 60 * 5 // 5 hours
+  const validTs = tsNow - signedMatchup.ts < 1000* 60 * 60 * 5 // 5 hours
   return validSig && validTs
 }
 
