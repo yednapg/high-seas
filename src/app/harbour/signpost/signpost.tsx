@@ -2,6 +2,14 @@ import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import ScalesImage from "/public/scales.svg";
+
+// Define the motion properties outside the component
+const motionProps = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+};
 
 export default function SignPost({
   session,
@@ -20,8 +28,7 @@ export default function SignPost({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      {...motionProps} // Spread the motion properties here
       className="container mx-auto px-4 py-8 text-center"
     >
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
@@ -42,9 +49,9 @@ export default function SignPost({
         </Link>
         . If you want to get advanced and log into the dashboard, your username
         is your Slack ID (<code>{session ? session?.payload?.sub : "???"}</code>
-        ), and your email is{" "}
-        <code>{email ? email : "???"}</code>. You must request
-        a password reset link. (unless you already signed up for hackatime)
+        ), and your email is <code>{email ? email : "???"}</code>. You must
+        request a password reset link. (unless you already signed up for
+        hackatime)
       </p>
 
       <br />
@@ -55,8 +62,8 @@ export default function SignPost({
       </p>
 
       <p>
-       {" You'll"} also need to set a custom URL in your WakaTime configuration.
-        Your configuration should look like the following:
+        {" You'll"} also need to set a custom URL in your WakaTime
+        configuration. Your configuration should look like the following:
       </p>
 
       <code>~/.wakatime.cfg</code>
@@ -64,14 +71,17 @@ export default function SignPost({
         <code>
           {wakaToken ? (
             <>
-[settings]
-<br />
-api_url = https://waka.hackclub.com/api
-<br />
-api_key = {wakaToken}
-</>) : 'loading...'}
+              [settings]
+              <br />
+              api_url = https://waka.hackclub.com/api
+              <br />
+              api_key = {wakaToken}
+            </>
+          ) : (
+            "loading..."
+          )}
         </code>
-        </pre>
+      </pre>
 
       {/* <br />
 
@@ -99,16 +109,30 @@ api_key = {wakaToken}
             <p>
               Vote between projects others have made! After submitting your
               project, you must vote between project matchups in order to earn
-              Scales. Note that the number of Scales you earn is based on the
-              number of hours you have put in your own project, and how it
-              competes against other projects. Everything is peer voted!
+              <span className="inline-flex gap-1 align-bottom">
+                <Image src={ScalesImage} alt="scales" width={25} height={25} />
+                Scales
+              </span>
+              . Note that the number of{" "}
+              <span className="inline-flex gap-1 align-bottom">
+                <Image src={ScalesImage} alt="scales" width={25} height={25} />
+                Scales
+              </span>{" "}
+              you earn is based on the number of hours you have put in your own
+              project, and how it competes against other projects. Everything is
+              peer voted!
             </p>
           </div>
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
             <p className="text-2xl mb-2">Shoppe</p>
             <p>
-              Spend all your scales here! Get items, ranging from Blahajs to
-              Yubikeys. More items to come in the future!
+              Spend all your{" "}
+              <span className="inline-flex gap-1 align-bottom">
+                <Image src={ScalesImage} alt="scales" width={25} height={25} />
+                Scales
+              </span>{" "}
+              here! Get items, ranging from Blahajs to Yubikeys. More items to
+              come in the future!
             </p>
           </div>
         </div>

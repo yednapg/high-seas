@@ -4,62 +4,53 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Ship } from "./ship-utils";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { Button } from "@/components/ui/button";
+import ReactMarkdown from "react-markdown";
+import { markdownComponents } from "@/components/markdown";
+import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
+import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
 import { JwtPayload } from "jsonwebtoken";
+import Link from "next/link";
+
+import ScalesImage from "/public/scales.svg";
 
 export default function Ships({ ships }: { ships: Ship[] }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [readmeText, setReadmeText] = useState<string | null>(null);
-  const [isMarkdownExpanded, setIsMarkdownExpanded] = useState(false);
-  const [isCardContentLoaded, setIsCardContentLoaded] = useState(false);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [session, setSession] = useState<JwtPayload | null>(null);
+  const [isEditingShip, setIsEditingShip] = useState(false);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    setReadmeText(null);
-    setIsMarkdownExpanded(false);
-    setIsCardContentLoaded(false);
-
     getSession().then((sesh) => setSession(sesh));
-  }, [selectedShip]);
+  }, []);
 
   useEffect(() => {
+    setReadmeText(null);
     if (selectedShip) {
-      setTimeout(() => {
-        setIsCardContentLoaded(true);
-      }, 500);
+      fetchReadme();
     }
   }, [selectedShip]);
 
   const fetchReadme = async () => {
     if (selectedShip && !readmeText) {
       try {
-        const res = await fetch(selectedShip.readmeUrl);
-        const text = await res.text();
+        const text = await fetch(selectedShip.readmeUrl).then((d) => d.text());
         setReadmeText(text);
       } catch (error) {
         console.error("Failed to fetch README:", error);
-        setReadmeText("Failed to load README content.");
+        setReadmeText(
+          `Failed to load README content from ${selectedShip.readmeUrl}`,
+        );
       }
-    }
-  };
-
-  const handleMarkdownToggle = () => {
-    setIsMarkdownExpanded(!isMarkdownExpanded);
-    if (!readmeText) {
-      fetchReadme();
     }
   };
 
   const SingleShip = ({ s }: { s: Ship }) => (
     <motion.div
       key={s.id}
-      layoutId={s.id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
       whileHover={{ scale: 1.02 }}
@@ -69,24 +60,30 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <div className="w-16 h-16 relative mr-4">
           <Image
             src={s.screenshotUrl}
-            alt={`s of ${s.title}`}
+            alt={`Screenshot of ${s.title}`}
             layout={"fill"}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
           />
         </div>
         <div>
-          <h2 className="text-xl font-semibold">{s.title}</h2>
-          <div className="flex items-center gap-3 text-sm text-gray-600">
+          <h2 className="text-xl font-semibold text-left">{s.title}</h2>
+          <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
             {s.voteRequirementMet ? (
               s.doubloonPayout ? (
-                <div className="flex items-center gap-1 text-green-400">
-                  <Icon glyph="payment" size={24} /> {s.doubloonPayout} scales
+                <div className="flex gap-1 items-center text-green-500">
+                  <Image
+                    src={ScalesImage}
+                    alt="scales"
+                    width={25}
+                    height={25}
+                  />
+                  {s.doubloonPayout} Scales
                 </div>
               ) : (
                 <div className="flex items-center gap-1 text-blue-400">
-                  <Icon glyph="event-add" size={24} />{" "}
-                  {"Pending: hang tight– we're counting the votes!"}
+                  <Icon glyph="event-add" size={24} />
+                  {"Pending: hang tight- we're counting the votes!"}
                 </div>
               )
             ) : (
@@ -96,7 +93,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
               </div>
             )}
             <div className="flex items-center gap-1">
-              <Icon glyph="clock" size={24} /> {s.hours}
+              <Icon glyph="clock" size={24} /> {s.hours} hr
             </div>
           </div>
         </div>
@@ -111,37 +108,32 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
+      <h1>THE SELECTED SHIP IS {selectedShip?.title || "NONE"}</h1>
+
       <div className="container mx-auto p-4 text-center">
-        <motion.div layout className="space-y-4">
+        <motion.div className="space-y-4">
           {ships.length === 0 ? (
             <p className="text-center mb-4">
               <b>{"You don't have any ships yet."}</b>
             </p>
           ) : (
             ships.map((ship: Ship, idx: number) => (
-              <SingleShip s={ship} key={idx} />
+              <SingleShip s={ship} key={ship.id} />
             ))
           )}
         </motion.div>
 
-        <Button
-          className="mt-6 w-full"
-          onClick={() => setNewShipVisible(true)}
-          disabled={true}
-        >
+        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
           New Ship
         </Button>
-        <p className="text-red-500">
-          Signups are disabled for now! Check back soon
-        </p>
       </div>
 
       <AnimatePresence>
         {newShipVisible && session && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setNewShipVisible(false)}
           >
@@ -164,7 +156,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                 <Icon glyph="view-close" />
               </motion.button>
             </Card>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
@@ -178,7 +170,6 @@ export default function Ships({ ships }: { ships: Ship[] }) {
             onClick={() => setSelectedShip(null)}
           >
             <motion.div
-              layoutId={selectedShip.id}
               className="bg-white rounded-lg w-full max-w-2xl"
               onClick={(e) => e.stopPropagation()}
             >
@@ -199,64 +190,94 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                   <CardHeader className="relative">
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    {isCardContentLoaded ? (
-                      <>
-                        <motion.div className="flex items-center gap-4">
-                          <div className="flex items-center text-blue-600 font-semibold">
-                            <Icon glyph="clock" /> {selectedShip.hours} hours
-                          </div>
-                        </motion.div>
-                        <motion.div className="flex space-x-4">
-                          <a
-                            href={selectedShip.repoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center text-blue-600 hover:underline"
-                          >
-                            <Icon glyph="github" /> Repo
-                          </a>
-                        </motion.div>
 
-                        <motion.div className="mt-4">
-                          <button
-                            onClick={handleMarkdownToggle}
-                            className="flex items-center justify-between w-full py-2 px-4 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200"
+                  <CardContent className="space-y-4">
+                    <div>
+                      <div className="flex flex-row gap-3 h-12">
+                        <Button
+                          className="flex-grow h-full"
+                          disabled={!selectedShip.deploymentUrl}
+                        >
+                          <Link
+                            className="flex items-center"
+                            href={selectedShip.deploymentUrl || "#"}
+                            prefetch={false}
                           >
-                            <span className="font-medium inline-flex gap-2 items-center">
-                              <Icon glyph="docs" /> Project README
-                            </span>
-                            {isMarkdownExpanded ? (
-                              <Icon glyph="up-caret" />
-                            ) : (
-                              <Icon glyph="down-caret" />
-                            )}
-                          </button>
-                          <AnimatePresence>
-                            {isMarkdownExpanded && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                {readmeText ? (
-                                  <Markdown remarkPlugins={[remarkGfm]}>
-                                    {readmeText}
-                                  </Markdown>
-                                ) : (
-                                  <p className="text-center">
-                                    Loading README...
-                                  </p>
-                                )}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <p className="text-center">Loading content...</p>
-                    )}
+                            Play
+                            <Icon glyph="view-forward" />
+                          </Link>
+                        </Button>
+
+                        <Link
+                          className={`${buttonVariants({ variant: "outline" })} h-full`}
+                          href={selectedShip.repoUrl}
+                          prefetch={false}
+                        >
+                          <Icon glyph="github" /> GitHub Repo
+                        </Link>
+
+                        <Button
+                          className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
+                          onClick={() => setIsEditingShip((p) => !p)}
+                        >
+                          <Icon glyph="edit" width={24} /> Edit
+                        </Button>
+                      </div>
+
+                      <AnimatePresence>
+                        {isEditingShip && selectedShip && (
+                          <motion.div
+                            key="edit-ship-form"
+                            initial={{
+                              opacity: 0,
+                              transform: "translate(0, -2rem)",
+                              scale: 0.0,
+                            }}
+                            animate={{
+                              opacity: 1,
+                              transform: "translate(0, 0rem)",
+                              scale: 1,
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transform: "translate(0, 2rem)",
+                              scale: 5,
+                            }}
+                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                          >
+                            <EditShipForm ship={selectedShip} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <motion.div className="flex items-center gap-6 text-lg mt-4">
+                        <div className="flex gap-1 items-center text-green-500">
+                          <Image
+                            src={ScalesImage}
+                            alt="scales"
+                            width={25}
+                            height={25}
+                          />
+                          {selectedShip.doubloonPayout} Scales
+                        </div>
+
+                        <div className="flex gap-1 items-center text-blue-600">
+                          <Icon glyph="clock" /> {selectedShip.hours} hours
+                        </div>
+                      </motion.div>
+
+                      <hr className="my-5" />
+
+                      {readmeText ? (
+                        <div className="prose max-w-none">
+                          <ReactMarkdown components={markdownComponents}>
+                            {readmeText}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-center">Loading README...</p>
+                      )}
+                    </div>
                   </CardContent>
                 </div>
 

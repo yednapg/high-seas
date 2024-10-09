@@ -24,7 +24,7 @@ export default function SlackAuthErrorPage({
         </p>
 
         <Link className={buttonVariants({ variant: "outline" })} href="/">
-          Go home
+          Enter the keep
         </Link>
       </div>
     </div>

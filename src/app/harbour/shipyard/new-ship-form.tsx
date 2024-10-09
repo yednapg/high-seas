@@ -61,17 +61,16 @@ export default function NewShipForm({
     fetchProjects();
   }, [session.payload.sub]);
 
-  const handleForm = (formData: FormData) => {
+  const handleForm = async (formData: FormData) => {
     // Append the selected project's hours to the form data
     if (selectedProject) {
       formData.append("hours", selectedProject.key.toString());
     }
-    createShip(formData);
+
+    await createShip(formData);
     confettiRef.current?.addConfetti();
     closeForm();
-    alert(
-      "Great! Now that you've submitted a project. Now, go to the battles tab and vote on 10 projects.",
-    );
+    window.location.reload();
   };
 
   return (
