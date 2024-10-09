@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@hackclub/icons": "^0.0.15",
-    "@million/lint": "^1.0.9",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
