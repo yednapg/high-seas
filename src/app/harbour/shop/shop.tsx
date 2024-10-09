@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { SoundButton } from "./sound-button.js";
 import { LoadingSpinner } from "@/components/ui/loading_spinner.js";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import scales from "/public/scales.svg";
 import useLocalStorage from "../../../../lib/useLocalStorage.js";
@@ -22,11 +22,18 @@ export default function Shop({ items }: any) {
     setBannerText(sample(shopBanner))
   }, [])
 
+  const styles = useMemo(() => ({
+    cardHoverProps: {
+      whileHover: { scale: 1.05 }
+    },
+    imageStyle: {
+      display: "inline-block"
+    }
+  }), [])
+
   if (!items) {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
         className="flex justify-center items-center h-screen"
       >
         <LoadingSpinner />
@@ -52,8 +59,6 @@ export default function Shop({ items }: any) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
       className="container mx-auto px-4 py-8"
     >
       <SoundButton />
@@ -76,12 +81,12 @@ export default function Shop({ items }: any) {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.filter(getFilter()).map((item: any) => (
-          <motion.div key={item.id} whileHover={{ scale: 1.05 }}>
+          <motion.div key={item.id} {...styles.cardHoverProps}>
             <Card className="h-full">
               <CardHeader>
 
-                <span style={{alignSelf: "end"}} className="text-green-400">
-                  <Image src={scales} alt="scales" width={25} height={25} style={{display: "inline-block"}}/>
+                <span style={{ alignSelf: "end" }} className="text-green-400">
+                  <Image src={scales} alt="scales" width={25} height={25} style={styles.imageStyle} />
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>
