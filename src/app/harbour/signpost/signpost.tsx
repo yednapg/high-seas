@@ -5,6 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import ScalesImage from "/public/scales.svg";
 
+// Define the motion properties outside the component
+const motionProps = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+};
+
 export default function SignPost({
   session,
   wakaToken,

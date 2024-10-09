@@ -4,7 +4,7 @@ import type { Ship } from "./ship-utils";
 
 const exampleShips: Ship[] = [
   {
-    id: "",
+    id: "example_ship_1",
     title: "Flip Slash Sprig Game",
     repoUrl: "https://github.com/kaj07/FLIP-SLASH--sprig-",
     deploymentUrl: "https://sprig.hackclub.com/share/FNUdELr7n4CvmavQAr8d",
@@ -17,7 +17,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 421,
   },
   {
-    id: "",
+    id: "example_ship_2",
     title: "COTL Music Player",
     repoUrl: "https://github.com/galexy727/cotl-music-player",
     deploymentUrl:
@@ -31,7 +31,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 428,
   },
   {
-    id: "",
+    id: "example_ship_3",
     title: "Portoise USB Hub",
     repoUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
     deploymentUrl: "",
@@ -44,7 +44,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 2121,
   },
   {
-    id: "",
+    id: "example_ship_4",
     title: "Skeleton Summoner Game",
     repoUrl: "https://github.com/MONKEYFACE678/Programming-Theory-Repo",
     deploymentUrl: "",
