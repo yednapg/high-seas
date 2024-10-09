@@ -1,6 +1,3 @@
-import MillionLint from "@million/lint";
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -18,4 +15,4 @@ const nextConfig = {
   },
 };
 
-export default MillionLint.next({ rsc: true })(nextConfig);
+export default nextConfig;
