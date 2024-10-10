@@ -25,15 +25,15 @@ import { getPersonTicketBalance } from "../utils/airtable";
 import { SoundButton } from "../../components/sound-button.js";
 
 import scales from "/public/scales.svg";
+import useLocalStorageState from "../../../lib/useLocalStorage";
 
 export default function Harbour({ session }: { session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
-  const [galleryShips, setGalleryShips] = useState<ShipsObject>({});
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
-  const [wakaToken, setWakaToken] = useState<string | null>(null);
-  const [hasWakaHb, setHasWakaHb] = useState(false);
-  const [WakaEmail, setWakaEmail] = useState<string | null>(null);
+  const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
+  const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', false);
+  const [WakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
   const [personTicketBalance, setPersonTicketBalance] = useState<string>("-");
   const { toast } = useToast();
 
