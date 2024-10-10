@@ -11,7 +11,6 @@ import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import scales from "/public/scales.svg";
 import useLocalStorage from "../../../../lib/useLocalStorage.js";
 
 export default function Shop({ items }: any) {
@@ -84,7 +83,7 @@ export default function Shop({ items }: any) {
               <CardHeader>
 
                 <span style={{ alignSelf: "end" }} className="text-green-400">
-                  <Image src={scales} alt="scales" width={25} height={25} style={styles.imageStyle} />
+                  <img src="scales.svg" alt="scales" width={25} height={25} style={styles.imageStyle} />
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>

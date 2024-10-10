@@ -19,7 +19,6 @@ import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../../utils/airtable";
 
-import scales from "/public/scales.svg";
 import useLocalStorageState from "../../../../lib/useLocalStorage";
 import { useRouter } from 'next/navigation';
 
@@ -104,7 +103,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
               )}
               <div className="right-px absolute mr-2 text-green-400">
                 <div className="flex flex-row">
-                  <Image src={scales} alt="scales" width={25} height={25} />
+                  <img src="scales.svg" alt="scales" width={25} height={25} />
                   <span className="mr-2">{personTicketBalance} Scales</span>
                 </div>
               </div>
