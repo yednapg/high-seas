@@ -91,7 +91,7 @@ export default function Shipyard({ ships, setShips, session }: any) {
           </h1>
         </div>
         {voteBalance > 0 && (
-          <p className="text-center mx-auto max-w-prose bg-red-200 py-0.5 rounded-full mb-4">
+          <p className="text-center text-sm mx-auto max-w-prose bg-red-50 rounded-full mb-4 h-7">
             A project is pending until you vote on {voteBalance} more matchup(s)
             in the Thunderdome!
           </p>

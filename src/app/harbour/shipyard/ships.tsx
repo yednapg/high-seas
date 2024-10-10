@@ -14,6 +14,7 @@ import { JwtPayload } from "jsonwebtoken";
 import Link from "next/link";
 
 import ScalesImage from "/public/scales.svg";
+import Pill from "@/components/ui/pill";
 
 export default function Ships({
   ships,
@@ -98,40 +99,51 @@ export default function Ships({
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
             style={{ objectFit: "cover" }}
-            className="object-cover max-w-full rounded-md"
+            className="object-cover max-w-full h-full rounded-md"
             sizes="4rem"
+            onError={({ target }) => {
+              target.src = "/no-img-dino.png";
+            }}
           />
         </div>
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
-          <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
+          <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
+            <Pill msg={`${s.hours} hr`} glyph="clock" />
+
             {s.shipStatus === "shipped" &&
               (s.voteRequirementMet ? (
                 s.doubloonPayout ? (
-                  <div className="flex gap-1 items-center text-green-500">
-                    <Image
-                      src={ScalesImage}
-                      alt="scales"
-                      width={25}
-                      height={25}
-                    />
-                    {s.doubloonPayout} Scales
-                  </div>
+                  <Pill
+                    msg={`${s.doubloonPayout} Scales`}
+                    color="green"
+                    glyphImage={
+                      <Image src={ScalesImage} alt="scales" height={20} />
+                    }
+                  />
                 ) : (
-                  <div className="flex items-center gap-1 text-blue-400">
-                    <Icon glyph="event-add" size={24} />
-                    {"Pending: hang tight- we're counting the votes!"}
-                  </div>
+                  <Pill
+                    msg={"Pending: hang tight- we're counting the votes!"}
+                    color="blue"
+                    glyph="event-add"
+                  />
                 )
               ) : (
-                <div className="flex items-center gap-1 text-blue-500">
-                  <Icon glyph="enter" size={24} />
-                  Pending: Vote to unlock
-                </div>
+                <Pill
+                  msg={"Pending: Vote to unlock"}
+                  color="blue"
+                  glyph="enter"
+                />
               ))}
-            <div className="flex items-center gap-1">
-              <Icon glyph="clock" size={24} /> {s.hours} hr
-            </div>
+
+            {s.shipType === "update" ? (
+              <Pill
+                msg={"Ship update"}
+                color="purple"
+                glyph="reply"
+                glyphStyles={{ transform: "scaleX(-1)" }}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -145,7 +157,7 @@ export default function Ships({
                 location.reload();
               }}
             >
-              YEET SHIP
+              SHIP SHIP!
             </Button>
           </div>
         ) : null}
