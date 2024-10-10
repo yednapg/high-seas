@@ -69,7 +69,7 @@ const exampleShips: Ship[] = [
   },
 ];
 
-export default function Shipyard({ ships, session }: any) {
+export default function Shipyard({ ships, setShips, session }: any) {
   const [voteBalance, setVoteBalance] = useLocalStorageState('cache.voteBalance', 0);
   useEffect(() => {
     getVotesRemainingForNextPendingShip(session).then((balance) => setVoteBalance(balance));
@@ -91,7 +91,7 @@ export default function Shipyard({ ships, session }: any) {
             in the Thunderdome!
           </p>
         )}
-        <Ships ships={ships} />
+        <Ships ships={ships} setShips={setShips} />
 
         <div className="m-4 flex flex-col justify-center items-center mt-12">
           <p className="text-2xl mb-2 text-blue-500">

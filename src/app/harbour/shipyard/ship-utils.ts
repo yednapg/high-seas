@@ -48,6 +48,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
           records.forEach((record) => {
             const entrant = record.get("entrant") as string[];
             if (entrant && entrant.includes(personId)) {
+              console.log(record);
               ships.push({
                 id: record.id,
                 title: record.get("title") as string,
@@ -103,7 +104,7 @@ export async function createShip(formData: FormData) {
           entrant: [entrantId],
           repo_url: formData.get("repo_url"),
           readme_url: formData.get("readme_url"),
-          deploy_url: formData.get("deploy_url"),
+          deploy_url: formData.get("deployment_url"),
           screenshot_url: formData.get("screenshot_url"),
           ship_type: isShipUpdate ? "update" : "project",
           update_description: isShipUpdate

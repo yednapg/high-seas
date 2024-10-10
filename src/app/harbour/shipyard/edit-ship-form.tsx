@@ -1,18 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Ship, updateShip } from "./ship-utils";
 
-export default function EditShipForm({ ship }: { ship: Ship }) {
+export default function EditShipForm({
+  ship,
+  closeForm,
+  setShips,
+}: {
+  ship: Ship;
+  closeForm: () => void;
+  setShips: any;
+}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formValues = Object.fromEntries(formData.entries());
-    console.log(formValues, ship);
 
     const newShip: Ship = {
       ...ship,
       title: formValues.title as string,
+      repoUrl: formValues.repoUrl as string,
+      deploymentUrl: formValues.deploymentUrl as string,
+      readmeUrl: formValues.readmeUrl as string,
+      screenshotUrl: formValues.screenshotUrl as string,
     };
+    console.log("updating...", formValues, ship, newShip);
     await updateShip(newShip);
+
+    if (setShips) {
+      console.log("Set ships is passed! Updating ship with ID", newShip.id);
+
+      setShips((previousShips: Ship[]) => {
+        console.log("the previous ships were", previousShips);
+        const newShips = previousShips.map((s: Ship) =>
+          s.id === newShip.id ? newShip : s,
+        );
+        console.info("ok so the new ships are", newShips);
+        return newShips;
+      });
+    } else {
+      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+    }
+    closeForm();
   };
 
   return (
@@ -72,7 +100,7 @@ export default function EditShipForm({ ship }: { ship: Ship }) {
         />
       </div>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Save edits</Button>
     </form>
   );
 }
