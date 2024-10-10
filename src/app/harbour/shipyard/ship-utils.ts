@@ -118,13 +118,7 @@ export async function createShip(formData: FormData) {
         console.error(err);
         return;
       }
-      if (!records) {
-        console.error("No records!");
-      } else {
-        records.forEach((record: any) => {
-          console.log(record.getId());
-        });
-      }
+      if (!records) console.error("No records!");
     },
   );
 }
@@ -159,13 +153,38 @@ export async function updateShip(ship: Ship) {
         console.error(err);
         return;
       }
-      if (!records) {
-        console.error("No records!");
-      } else {
-        records.forEach((record: any) => {
-          console.log(record.getId());
-        });
+      if (!records) console.error("No records!");
+    },
+  );
+}
+
+export async function stagedToShipped(ship: Ship) {
+  const session = await getSession();
+  if (!session) {
+    const error = new Error(
+      "Tried to submit a ship with no Slack OAuth session",
+    );
+    console.log(error);
+    throw error;
+  }
+
+  console.log("shipping from staged!", ship);
+
+  base()(shipsTableName).update(
+    [
+      {
+        id: ship.id,
+        fields: {
+          ship_status: "shipped",
+        },
+      },
+    ],
+    function (err: Error, records: any) {
+      if (err) {
+        console.error(err);
+        return;
       }
+      if (!records) console.error("No records!");
     },
   );
 }

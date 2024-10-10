@@ -54,7 +54,7 @@ export default function NewShipForm({
       try {
         const slackId = session.payload.sub;
         const res = await getWakaSessions();
-        setProjects(res.projects);
+        setProjects(res.projects.filter((p) => p.key != "<<LAST_PROJECT>>"));
 
         console.log(res);
       } catch (error) {
@@ -133,7 +133,16 @@ export default function NewShipForm({
 
         {/* Project Dropdown */}
         <div>
-          <label htmlFor="project">Select Project</label>
+          <label htmlFor="project" className="leading-0">
+            Select Project <br />
+            <span className="text-xs opacity-50">
+              If you need to include several of the listed projects in this
+              dropdown, you need to update your project labels in the{" "}
+              <a className="text-blue-600" href="https://waka.hackclub.com">
+                Wakatime dashboard
+              </a>
+            </span>
+          </label>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
