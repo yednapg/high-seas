@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Ship } from "./ship-utils";
+import { Ship, stagedToShipped } from "./ship-utils";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
@@ -15,8 +15,20 @@ import Link from "next/link";
 
 import ScalesImage from "/public/scales.svg";
 
-export default function Ships({ ships }: { ships: Ship[] }) {
+export default function Ships({
+  ships,
+  hideLabels = false,
+  setShips,
+}: {
+  ships: Ship[];
+  hideLabels: boolean;
+  setShips: any;
+}) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
+  const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
+    null,
+  );
+
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [session, setSession] = useState<JwtPayload | null>(null);
@@ -24,14 +36,31 @@ export default function Ships({ ships }: { ships: Ship[] }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    setSelectedShip((s: Ship | null) => {
+      if (!s) return null;
+      return ships.find((x) => x.id === s.id) || null;
+    });
+  }, [ships]);
+
+  useEffect(() => {
     getSession().then((sesh) => setSession(sesh));
   }, []);
 
   useEffect(() => {
-    setReadmeText(null);
+    // I.e. if the user has just edited a ship
+    if (previousSelectedShip && selectedShip) return;
+
+    // Only invalidate the README text when you go from <<ship selected>> to <<no ship selected>>
+    if (!selectedShip) {
+      setReadmeText(null);
+      setIsEditingShip(false);
+    }
+
     if (selectedShip) {
       fetchReadme();
     }
+
+    setPreviousSelectedShip(selectedShip);
   }, [selectedShip]);
 
   const fetchReadme = async () => {
@@ -48,6 +77,13 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     }
   };
 
+  const stagedShips = ships.filter(
+    (ship: Ship) => ship.shipStatus === "staged",
+  );
+  const shippedShips = ships.filter(
+    (ship: Ship) => ship.shipStatus === "shipped",
+  );
+
   const SingleShip = ({ s }: { s: Ship }) => (
     <motion.div
       key={s.id}
@@ -58,10 +94,10 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     >
       <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="w-16 h-16 relative mr-4">
-          <Image
+          <img
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
-            layout={"fill"}
+            style={{ objectFit: "cover" }}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
           />
@@ -69,34 +105,52 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
           <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
-            {s.voteRequirementMet ? (
-              s.doubloonPayout ? (
-                <div className="flex gap-1 items-center text-green-500">
-                  <Image
-                    src={ScalesImage}
-                    alt="scales"
-                    width={25}
-                    height={25}
-                  />
-                  {s.doubloonPayout} Scales
-                </div>
+            {s.shipStatus === "shipped" && (
+
+              s.voteRequirementMet ? (
+                s.doubloonPayout ? (
+                  <div className="flex gap-1 items-center text-green-500">
+                    <Image
+                      src={ScalesImage}
+                      alt="scales"
+                      width={25}
+                      height={25}
+                    />
+                    {s.doubloonPayout} Scales
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-blue-400">
+                    <Icon glyph="event-add" size={24} />
+                    {"Pending: hang tight- we're counting the votes!"}
+                  </div>
+                )
               ) : (
-                <div className="flex items-center gap-1 text-blue-400">
-                  <Icon glyph="event-add" size={24} />
-                  {"Pending: hang tight- we're counting the votes!"}
+                <div className="flex items-center gap-1 text-blue-500">
+                  <Icon glyph="enter" size={24} />
+                  Pending: Vote to unlock
                 </div>
               )
-            ) : (
-              <div className="flex items-center gap-1 text-blue-500">
-                <Icon glyph="event-add" size={24} /> Pending: vote in the
-                Thunderdome!
-              </div>
             )}
             <div className="flex items-center gap-1">
               <Icon glyph="clock" size={24} /> {s.hours} hr
             </div>
           </div>
         </div>
+
+        {s.shipStatus === "staged" ? (
+          <div className="ml-auto">
+            <Button
+              onClick={async (e) => {
+                e.stopPropagation();
+                console.log("Shippingg", s);
+                await stagedToShipped(s);
+                location.reload();
+              }}
+            >
+              SHIP
+            </Button>
+          </div>
+        ) : null}
       </Card>
     </motion.div>
   );
@@ -108,24 +162,49 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
-      <h1>THE SELECTED SHIP IS {selectedShip?.title || "NONE"}</h1>
-
-      <div className="container mx-auto p-4 text-center">
-        <motion.div className="space-y-4">
-          {ships.length === 0 ? (
+      {hideLabels ? null : (
+        <h2 className="text-center text-2xl mb-3">Staged ships</h2>
+      )}
+      <motion.div className="space-y-4">
+        {stagedShips.length === 0 ? (
+          hideLabels ? null : (
             <p className="text-center mb-4">
               <b>{"You don't have any ships yet."}</b>
             </p>
+          )
+        ) : (
+          stagedShips.map((ship: Ship, idx: number) => (
+            <SingleShip s={ship} key={ship.id} />
+          ))
+        )}
+      </motion.div>
+
+      {hideLabels ? null : (
+        <h2 className="text-center text-2xl mb-3 mt-6">Shipped ships</h2>
+      )}
+      <div className="container mx-auto p-4 text-center">
+        <motion.div className="space-y-4">
+          {shippedShips.length === 0 ? (
+            hideLabels ? null : (
+              <p className="text-center mb-4">
+                <b>{"You don't have any ships yet."}</b>
+              </p>
+            )
           ) : (
-            ships.map((ship: Ship, idx: number) => (
+            shippedShips.map((ship: Ship, idx: number) => (
               <SingleShip s={ship} key={ship.id} />
             ))
           )}
         </motion.div>
 
-        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
-          New Ship
-        </Button>
+        {hideLabels ? null : (
+          <Button
+            className="mt-6 w-full"
+            onClick={() => setNewShipVisible(true)}
+          >
+            New Ship
+          </Button>
+        )}
       </div>
 
       <AnimatePresence>
@@ -179,8 +258,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
                     className="object-cover max-w-full"
-                    layout={"fill"}
+                    fill={true}
                     priority
+                    unoptimized
                     sizes="4rem"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
@@ -245,7 +325,13 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                             }}
                             transition={{ duration: 0.2, ease: "easeInOut" }}
                           >
-                            <EditShipForm ship={selectedShip} />
+                            <Card className="p-2 mt-2 bg-neutral-100">
+                              <EditShipForm
+                                ship={selectedShip}
+                                closeForm={() => setIsEditingShip(false)}
+                                setShips={setShips}
+                              />
+                            </Card>
                           </motion.div>
                         )}
                       </AnimatePresence>

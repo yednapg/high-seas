@@ -22,7 +22,7 @@ export default async function SignIn({
   return (
     <Link
       className={`bg-green-400 text-white p-2 px-6 w-fit rounded-lg ${textSize} linkPop`}
-      href={session ? "/home" : slackAuthUrl}
+      href={session ? "/signpost" : slackAuthUrl}
     >
       {session ? "Enter the keep" : "Sign in with Hack Club Slack"}
     </Link>

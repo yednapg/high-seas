@@ -1,10 +1,17 @@
-import Link from "next/link";
+"use client"
+
 import { buttonVariants } from "./ui/button";
 
 export default function SignOut() {
+  const handleOnClick = () => {
+    localStorage.removeItem('cache.wakaToken')
+    localStorage.removeItem('cache.hasWakaHb')
+    localStorage.removeItem('cache.wakaEmail')
+  }
+
   return (
-    <Link className={buttonVariants({ variant: "outline" })} href="/signout" prefetch={false}>
+    <a className={buttonVariants({ variant: "outline" })} onClick={handleOnClick} href="/signout">
       Sign out of Hack Club Slack
-    </Link>
+    </a>
   );
 }

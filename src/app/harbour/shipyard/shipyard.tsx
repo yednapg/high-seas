@@ -1,6 +1,9 @@
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import Ships from "./ships";
 import type { Ship } from "./ship-utils";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
+import { useEffect } from "react";
+import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 
 const exampleShips: Ship[] = [
   {
@@ -15,6 +18,8 @@ const exampleShips: Ship[] = [
     hours: 8,
     voteRequirementMet: true,
     doubloonPayout: 421,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_2",
@@ -29,6 +34,8 @@ const exampleShips: Ship[] = [
     hours: 5,
     voteRequirementMet: true,
     doubloonPayout: 428,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_3",
@@ -42,6 +49,8 @@ const exampleShips: Ship[] = [
     hours: 15,
     voteRequirementMet: true,
     doubloonPayout: 2121,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_4",
@@ -55,38 +64,41 @@ const exampleShips: Ship[] = [
     hours: 11,
     voteRequirementMet: true,
     doubloonPayout: 731,
+    shipType: "project",
+    shipStatus: "shipped",
   },
 ];
 
-export default function Shipyard({ ships }: any) {
+export default function Shipyard({ ships, setShips, session }: any) {
+  const [voteBalance, setVoteBalance] = useLocalStorageState('cache.voteBalance', 0);
+  useEffect(() => {
+    getVotesRemainingForNextPendingShip(session).then((balance) => setVoteBalance(balance));
+  })
+
   if (!ships) {
     <LoadingSpinner />;
   } else {
-    const pendingVotes = Boolean(
-      ships.filter((ship: any) => !ship.voteRequirementMet).length > 0,
-    );
     return (
       <div>
         <div className="text-center">
           <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
             The Keep
           </h1>
-          <p className="text-xl mb-6 inline-block">Submit your ships!</p>
         </div>
-        {pendingVotes && (
-          <p>
-            A recent project is pending until you vote on more matchups in the
-            Thunderdome!
+        {voteBalance > 0 && (
+          <p className="text-center mx-auto max-w-prose bg-red-200 py-0.5 rounded-full mb-4">
+            A project is pending until you vote on {voteBalance} more matchup(s)
+            in the Thunderdome!
           </p>
         )}
-        <Ships ships={ships} />
+        <Ships ships={ships} setShips={setShips} />
 
         <div className="m-4 flex flex-col justify-center items-center mt-12">
-          <p className="text-2xl mb-8 text-blue-500">
+          <p className="text-2xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </p>
 
-          <Ships ships={exampleShips} />
+          <Ships ships={exampleShips} hideLabels={true} />
         </div>
       </div>
     );
