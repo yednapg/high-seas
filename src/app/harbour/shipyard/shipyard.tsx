@@ -15,6 +15,8 @@ const exampleShips: Ship[] = [
     hours: 8,
     voteRequirementMet: true,
     doubloonPayout: 421,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_2",
@@ -29,6 +31,8 @@ const exampleShips: Ship[] = [
     hours: 5,
     voteRequirementMet: true,
     doubloonPayout: 428,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_3",
@@ -42,6 +46,8 @@ const exampleShips: Ship[] = [
     hours: 15,
     voteRequirementMet: true,
     doubloonPayout: 2121,
+    shipType: "project",
+    shipStatus: "shipped",
   },
   {
     id: "example_ship_4",
@@ -55,6 +61,8 @@ const exampleShips: Ship[] = [
     hours: 11,
     voteRequirementMet: true,
     doubloonPayout: 731,
+    shipType: "project",
+    shipStatus: "shipped",
   },
 ];
 
@@ -74,7 +82,7 @@ export default function Shipyard({ ships }: any) {
           <p className="text-xl mb-6 inline-block">Submit your ships!</p>
         </div>
         {pendingVotes && (
-          <p>
+          <p className="text-center mx-auto max-w-prose bg-red-200 py-0.5 rounded-full mb-4">
             A recent project is pending until you vote on more matchups in the
             Thunderdome!
           </p>
@@ -82,11 +90,11 @@ export default function Shipyard({ ships }: any) {
         <Ships ships={ships} />
 
         <div className="m-4 flex flex-col justify-center items-center mt-12">
-          <p className="text-2xl mb-8 text-blue-500">
+          <p className="text-2xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </p>
 
-          <Ships ships={exampleShips} />
+          <Ships ships={exampleShips} hideLabels={true} />
         </div>
       </div>
     );
