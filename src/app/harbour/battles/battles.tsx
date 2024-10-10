@@ -1,20 +1,20 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Ships } from "../../../../types/battles/airtable";
 import { Factory, Book, Link as LucideLink, ArrowLeft, ThumbsUp } from "lucide-react";
-import { getSession } from "@/app/utils/auth";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
-import { JwtPayload } from 'jsonwebtoken'; 
+import { JwtPayload } from 'jsonwebtoken';
 
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
 
 interface Matchup {
   project1: Ships;
   project2: Ships;
+  signature: string;
+  ts: number;
 }
 
 interface ProjectCardProps {
@@ -23,72 +23,90 @@ interface ProjectCardProps {
   onReadmeClick: () => void;
 }
 
+const notFoundImages = [
+  "https://cloud-6laa73jem-hack-club-bot.vercel.app/0not_found5.png",
+  "https://cloud-6laa73jem-hack-club-bot.vercel.app/1not_found4.png",
+  "https://cloud-6laa73jem-hack-club-bot.vercel.app/2not_found3.png",
+  "https://cloud-6laa73jem-hack-club-bot.vercel.app/3not_found2.png",
+  "https://cloud-6laa73jem-hack-club-bot.vercel.app/4not_found1.png",
+]
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onVote,
   onReadmeClick,
-}) => (
-  <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
-    {project.screenshot_url && (
-      <div className="relative h-48 w-full">
-        <Image
-          src={project.screenshot_url}
-          alt={`Screenshot of ${project.title}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
+}) => {
+
+  const notFoundImage = useMemo(() => {
+    return notFoundImages[Math.floor(Math.random() * notFoundImages.length)]
+  }, [])
+  const imageStyle = {
+    backgroundImage: `url(${notFoundImage})`,
+    backgroundSize: "cover",
+  }
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
+      {project.screenshot_url && (
+        <div className="relative h-48 w-full" style={imageStyle}>
+          <Image
+            src={project.screenshot_url}
+            alt={`Screenshot of ${project.title}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </div>
+      )}
+      <div className="p-6">
+        <h2 className="font-heading text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
+          {project.title}
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          Hours: {project.hours}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.repo_url && (
+            <Link
+              href={project.repo_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200 flex items-center"
+            >
+              <Factory className="mr-1" /> Repository
+            </Link>
+          )}
+          {project.deploy_url && (
+            <Link
+              href={project.deploy_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 px-3 py-1 rounded-full hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-200 flex items-center"
+            >
+              <LucideLink className="mr-1" /> Live Demo
+            </Link>
+          )}
+          {project.readme_url && (
+            <button
+              onClick={onReadmeClick}
+              className="text-sm bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 px-3 py-1 rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors duration-200 flex items-center"
+            >
+              <Book className="mr-1" /> README
+            </button>
+          )}
+        </div>
       </div>
-    )}
-    <div className="p-6">
-      <h2 className="font-heading text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
-        {project.title}
-      </h2>
-      <p className="text-gray-600 dark:text-gray-300 mb-4">
-        Hours: {project.hours}
-      </p>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {project.repo_url && (
-          <Link
-            href={project.repo_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200 flex items-center"
-          >
-            <Factory className="mr-1" /> Repository
-          </Link>
-        )}
-        {project.deploy_url && (
-          <Link
-            href={project.deploy_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 px-3 py-1 rounded-full hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-200 flex items-center"
-          >
-            <LucideLink className="mr-1" /> Live Demo
-          </Link>
-        )}
-        {project.readme_url && (
-          <button
-            onClick={onReadmeClick}
-            className="text-sm bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 px-3 py-1 rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors duration-200 flex items-center"
-          >
-            <Book className="mr-1" /> README
-          </button>
-        )}
+      <div className="p-4 bg-gray-100 dark:bg-gray-700">
+        <button
+          onClick={onVote}
+          className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+        >
+          <ThumbsUp className="mr-2" /> Vote for {project.title}
+        </button>
       </div>
     </div>
-    <div className="p-4 bg-gray-100 dark:bg-gray-700">
-      <button
-        onClick={onVote}
-        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-      >
-        <ThumbsUp className="mr-2" /> Vote for {project.title}
-      </button>
-    </div>
-  </div>
-);
+  )
+}
 
 const markdownComponents: Components = {
   h1: ({ ...props }) => (
@@ -174,8 +192,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export default function Matchups() {
-  const router = useRouter();
+export default function Matchups({ session }: { session: JwtPayload }) {
   const [matchup, setMatchup] = useState<Matchup | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
@@ -183,41 +200,29 @@ export default function Matchups() {
   const [error, setError] = useState("");
   const [readmeContent, setReadmeContent] = useState("");
   const [isReadmeView, setIsReadmeView] = useState(false);
-  const [session, setSession] = useState<JwtPayload | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchMatchup = useCallback(async () => {
-    setLoading(true);
-    try {
-      // require at least 1.25 seconds of loading time for full loop of loading animations
-      const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
-      if (response.ok) {
-        const data: Matchup = await response.json();
-        setMatchup(data);
-      } else {
-        console.error("Failed to fetch matchup");
-      }
-    } catch (error) {
-      console.error("Error fetching matchup:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    const initializeSession = async () => {
-      const sessionData = await getSession();
-      setSession(sessionData);
-      
-      if (sessionData === null) {
-        router.push("/");
-      } else {
-        fetchMatchup();
+
+    const fetchMatchup = async () => {
+      setLoading(true);
+      try {
+        // require at least 1.25 seconds of loading time for full loop of loading animations
+        const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
+        if (response.ok) {
+          const data: Matchup = await response.json();
+          setMatchup(data);
+        } else {
+          console.error("Failed to fetch matchup");
+        }
+      } catch (error) {
+        console.error("Error fetching matchup:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    initializeSession();
-  }, [router, fetchMatchup]);
+    fetchMatchup();
+  }, [])
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
@@ -241,6 +246,10 @@ export default function Matchups() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            signature: matchup.signature,
+            ts: matchup.ts,
+            project1: matchup.project1,
+            project2: matchup.project2,
             slackId,
             explanation: reason,
             winner: winner.id,
@@ -304,7 +313,7 @@ export default function Matchups() {
             Project Matchup
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
-            A good project is technical, creative, and pushes the author out of their comfort zone. 
+            A good project is technical, creative, and pushes the author out of their comfort zone.
             By that definition, which of these two projects is better? (If you are not sure, just refresh to skip!)
           </p>
         </header>
@@ -360,9 +369,8 @@ export default function Matchups() {
                 <button
                   onClick={handleVoteSubmit}
                   disabled={isSubmitting}
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
-                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                 >
                   {isSubmitting ? (
                     <>

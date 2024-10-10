@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { submitVote } from "../../../../../lib/battles/airtable";
 import { getSession } from "@/app/utils/auth";
+import { verifyMatchup } from "../../../../../lib/battles/matchupGenerator";
 
 export async function POST(request: Request) {
   const session = await getSession();
@@ -10,8 +11,20 @@ export async function POST(request: Request) {
 
   try {
     const voteData = await request.json();
-    const result = await submitVote(voteData);
-    return NextResponse.json(result);
+    const matchup = {
+      winner: voteData.winner,
+      loser: voteData.loser,
+      signature: voteData.signature,
+      ts: voteData.ts,
+    }
+    // @ts-expect-error because i don't understand typescript
+    const isVerified = verifyMatchup(matchup, session.payload.sub);
+    if (!isVerified) {
+      return NextResponse.json({ error: "Invalid matchup signature" }, { status: 400 });
+    }
+    const _result = await submitVote(voteData);
+
+    return NextResponse.json({ok: true});
   } catch (error) {
     console.error("Error submitting vote:", error);
     return NextResponse.json(

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Ship } from "./ship-utils";
+import { Ship, stagedToShipped } from "./ship-utils";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
@@ -15,7 +15,13 @@ import Link from "next/link";
 
 import ScalesImage from "/public/scales.svg";
 
-export default function Ships({ ships }: { ships: Ship[] }) {
+export default function Ships({
+  ships,
+  hideLabels = false,
+}: {
+  ships: Ship[];
+  hideLabels: boolean;
+}) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
@@ -50,6 +56,13 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     }
   };
 
+  const stagedShips = ships.filter(
+    (ship: Ship) => ship.shipStatus === "staged",
+  );
+  const shippedShips = ships.filter(
+    (ship: Ship) => ship.shipStatus === "shipped",
+  );
+
   const SingleShip = ({ s }: { s: Ship }) => (
     <motion.div
       key={s.id}
@@ -60,10 +73,10 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     >
       <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="w-16 h-16 relative mr-4">
-          <Image
+          <img
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
-            layout={"fill"}
+            style={{objectFit: "cover"}}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
           />
@@ -99,6 +112,21 @@ export default function Ships({ ships }: { ships: Ship[] }) {
             </div>
           </div>
         </div>
+
+        {s.shipStatus === "staged" ? (
+          <div className="ml-auto">
+            <Button
+              onClick={async (e) => {
+                e.stopPropagation();
+                console.log("Shippingg", s);
+                await stagedToShipped(s);
+                location.reload();
+              }}
+            >
+              SHIP
+            </Button>
+          </div>
+        ) : null}
       </Card>
     </motion.div>
   );
@@ -110,24 +138,49 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
-      <h1>THE SELECTED SHIP IS {selectedShip?.title || "NONE"}</h1>
-
-      <div className="container mx-auto p-4 text-center">
-        <motion.div className="space-y-4">
-          {ships.length === 0 ? (
+      {hideLabels ? null : (
+        <h2 className="text-center text-2xl mb-3">Staged ships</h2>
+      )}
+      <motion.div className="space-y-4">
+        {stagedShips.length === 0 ? (
+          hideLabels ? null : (
             <p className="text-center mb-4">
               <b>{"You don't have any ships yet."}</b>
             </p>
+          )
+        ) : (
+          stagedShips.map((ship: Ship, idx: number) => (
+            <SingleShip s={ship} key={ship.id} />
+          ))
+        )}
+      </motion.div>
+
+      {hideLabels ? null : (
+        <h2 className="text-center text-2xl mb-3 mt-6">Shipped ships</h2>
+      )}
+      <div className="container mx-auto p-4 text-center">
+        <motion.div className="space-y-4">
+          {shippedShips.length === 0 ? (
+            hideLabels ? null : (
+              <p className="text-center mb-4">
+                <b>{"You don't have any ships yet."}</b>
+              </p>
+            )
           ) : (
-            ships.map((ship: Ship, idx: number) => (
+            shippedShips.map((ship: Ship, idx: number) => (
               <SingleShip s={ship} key={ship.id} />
             ))
           )}
         </motion.div>
 
-        <Button className="mt-6 w-full" onClick={() => setNewShipVisible(true)}>
-          New Ship
-        </Button>
+        {hideLabels ? null : (
+          <Button
+            className="mt-6 w-full"
+            onClick={() => setNewShipVisible(true)}
+          >
+            New Ship
+          </Button>
+        )}
       </div>
 
       <AnimatePresence>
@@ -181,8 +234,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
                     className="object-cover max-w-full"
-                    layout={"fill"}
+                    fill={true}
                     priority
+                    unoptimized
                     sizes="4rem"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />

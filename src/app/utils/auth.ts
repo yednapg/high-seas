@@ -44,6 +44,7 @@ export async function getSession(): Promise<JwtPayload | null> {
 
 export async function deleteSession() {
   cookies().delete(vars().cookieName);
+  cookies().delete("waka-key");
 }
 
 export async function getRedirectUri(): Promise<string> {

@@ -1,6 +1,6 @@
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ScalesImage from "/public/scales.svg";
@@ -26,9 +26,14 @@ export default function SignPost({
     );
   }, []);
 
+  const motionProps = useMemo(() => ({
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+  }), []);
+
   return (
     <motion.div
-      {...motionProps} // Spread the motion properties here
+      {...motionProps}
       className="container mx-auto px-4 py-8 text-center"
     >
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">

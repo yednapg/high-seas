@@ -25,6 +25,8 @@ export interface Ship {
   hours: number;
   voteRequirementMet: boolean;
   doubloonPayout: number;
+  shipType: string;
+  shipStatus: string;
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
@@ -45,7 +47,6 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
         (records, fetchNextPage) => {
           records.forEach((record) => {
             const entrant = record.get("entrant") as string[];
-            console.log(entrant, personId);
             if (entrant && entrant.includes(personId)) {
               console.log(record);
               ships.push({
@@ -61,13 +62,15 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                   record.get("vote_requirement_met"),
                 ) as boolean,
                 doubloonPayout: record.get("doubloon_payout") as number,
+                shipType: record.get("ship_type") as string,
+                shipStatus: record.get("ship_status") as string,
               });
             }
           });
           fetchNextPage();
         },
         (err) => {
-          console.log(ships);
+          console.error(ships);
           return err ? reject(err) : resolve(ships);
         },
       );
@@ -89,6 +92,8 @@ export async function createShip(formData: FormData) {
 
   console.log(formData, slackId, entrantId);
 
+  const isShipUpdate = formData.get("isShipUpdate");
+
   base()(shipsTableName).create(
     [
       {
@@ -101,6 +106,10 @@ export async function createShip(formData: FormData) {
           readme_url: formData.get("readme_url"),
           deploy_url: formData.get("deployment_url"),
           screenshot_url: formData.get("screenshot_url"),
+          ship_type: isShipUpdate ? "update" : "project",
+          update_description: isShipUpdate
+            ? formData.get("updateDescription")
+            : null,
         },
       },
     ],
@@ -109,13 +118,7 @@ export async function createShip(formData: FormData) {
         console.error(err);
         return;
       }
-      if (!records) {
-        console.error("No records!");
-      } else {
-        records.forEach((record: any) => {
-          console.log(record.getId());
-        });
-      }
+      if (!records) console.error("No records!");
     },
   );
 }
@@ -150,13 +153,38 @@ export async function updateShip(ship: Ship) {
         console.error(err);
         return;
       }
-      if (!records) {
-        console.error("No records!");
-      } else {
-        records.forEach((record: any) => {
-          console.log(record.getId());
-        });
+      if (!records) console.error("No records!");
+    },
+  );
+}
+
+export async function stagedToShipped(ship: Ship) {
+  const session = await getSession();
+  if (!session) {
+    const error = new Error(
+      "Tried to submit a ship with no Slack OAuth session",
+    );
+    console.log(error);
+    throw error;
+  }
+
+  console.log("shipping from staged!", ship);
+
+  base()(shipsTableName).update(
+    [
+      {
+        id: ship.id,
+        fields: {
+          ship_status: "shipped",
+        },
+      },
+    ],
+    function (err: Error, records: any) {
+      if (err) {
+        console.error(err);
+        return;
       }
+      if (!records) console.error("No records!");
     },
   );
 }
