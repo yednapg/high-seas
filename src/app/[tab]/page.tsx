@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
     <div
       className="w-screen min-h-[100vh]"
       style={{
-        backgroundImage: "url(/bgoverlay.svg)",
+        backgroundImage: "url(/bg.svg)",
         backgroundSize: "cover",
         backgroundAttachment: "fixed",
         backgroundRepeat: "no-repeat",
