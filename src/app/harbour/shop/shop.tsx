@@ -79,6 +79,7 @@ export default function Shop() {
           <option value="4">Other countries worldwide</option>
         </select>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
           <motion.div key={item.id} {...styles.cardHoverProps}>
@@ -90,7 +91,7 @@ export default function Shop() {
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>
-                <CardTitle>{item.name}</CardTitle>
+                <CardTitle>{item.name}{item.fulfilledAtEnd && "*"}</CardTitle>
                 <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
                 </div>
 
@@ -106,6 +107,10 @@ export default function Shop() {
             </Card>
           </motion.div>
         ))}
+
+      </div>
+      <div className="text-center mb-6 mt-12">
+        <label>Items marked with * will ship out after the event concludes.</label>
       </div>
     </motion.div>
   );
