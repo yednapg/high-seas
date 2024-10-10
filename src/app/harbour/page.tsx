@@ -59,35 +59,44 @@ export default function Harbour({ session }: { session: JwtPayload }) {
     getWakaEmail().then((email) => email && setWakaEmail(email));
   }, []);
 
-  useEffect(() => console.log('new myships!', myShips), [myShips])
+  useEffect(() => console.log("new myships!", myShips), [myShips]);
 
-  const motionProps = useMemo(() => ({
-    initial: { y: -20, opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    transition: { duration: 0.25 },
-  }), []);
+  const motionProps = useMemo(
+    () => ({
+      initial: { y: -20, opacity: 0 },
+      animate: { y: 0, opacity: 1 },
+      transition: { duration: 0.25 },
+    }),
+    [],
+  );
 
-  const tabs = useMemo(() => [
-    {
-      name: "📮",
-      component: (
-        <MemoizedSignPost session={session} wakaToken={wakaToken} email={WakaEmail} />
-      ),
-    },
-    {
-      name: "The Keep",
-      component: <MemoizedShipyard ships={myShips} />,
-      lockOnNoHb: true,
-    },
-    { name: "Thunderdome", component: <MemoizedBattles />, lockOnNoHb: true },
-    // {
-    //   name: "Gallery",
-    //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
-    // },
-    // { name: "Map", component: <Map /> },
-    { name: "Shoppe", component: <MemoizedShop items={shopItems} /> },
-
-  ], [session, wakaToken, WakaEmail, myShips, shopItems]);
+  const tabs = useMemo(
+    () => [
+      {
+        name: "📮",
+        component: (
+          <MemoizedSignPost
+            session={session}
+            wakaToken={wakaToken}
+            email={WakaEmail}
+          />
+        ),
+      },
+      {
+        name: "The Keep",
+        component: <MemoizedShipyard ships={myShips} />,
+        lockOnNoHb: true,
+      },
+      { name: "Thunderdome", component: <MemoizedBattles />, lockOnNoHb: true },
+      // {
+      //   name: "Gallery",
+      //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
+      // },
+      // { name: "Map", component: <Map /> },
+      { name: "Shoppe", component: <MemoizedShop items={shopItems} /> },
+    ],
+    [session, wakaToken, WakaEmail, myShips, shopItems],
+  );
 
   return (
     <div
@@ -104,7 +113,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
         {...motionProps}
         className="w-full flex items-center justify-center p-8"
       >
-      <SoundButton />
+        <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col">
           <Tabs defaultValue="📮" className="flex-1 flex flex-col">
             <TabsList className="mx-2 my-2 relative">
