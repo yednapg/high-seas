@@ -78,7 +78,6 @@ export default function NewShipForm({
       <h1 className="text-2xl font-bold mb-4">New Ship</h1>
       <form action={handleForm} className="space-y-3">
         <div>
-          {/* Title Input */}
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -149,7 +148,6 @@ export default function NewShipForm({
           )}
         </div>
 
-        {/* Other form fields */}
         <div>
           <label htmlFor="repo_url">Repo URL</label>
           <input
@@ -209,8 +207,7 @@ export default function NewShipForm({
           />
         </div>
 
-        {/* Submit Button */}
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Stage my Ship!</Button>
       </form>
     </div>
   );
