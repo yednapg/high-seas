@@ -70,7 +70,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
     {
       name: "Thunderdome",
       path: "thunderdome",
-      component: <Battles />,
+      component: <Battles session={session} />,
       lockOnNoHb: true
     },
     {
