@@ -192,7 +192,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export default function Matchups({session}: {session: JwtPayload}) {
+export default function Matchups({ session }: { session: JwtPayload }) {
   const [matchup, setMatchup] = useState<Matchup | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
@@ -313,7 +313,7 @@ export default function Matchups({session}: {session: JwtPayload}) {
             Project Matchup
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
-            A good project is technical, creative, and pushes the author out of their comfort zone. 
+            A good project is technical, creative, and pushes the author out of their comfort zone.
             By that definition, which of these two projects is better? (If you are not sure, just refresh to skip!)
           </p>
         </header>
@@ -369,9 +369,7 @@ export default function Matchups({session}: {session: JwtPayload}) {
                 <button
                   onClick={handleVoteSubmit}
                   disabled={isSubmitting}
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
-                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                 >
                   {isSubmitting ? (
