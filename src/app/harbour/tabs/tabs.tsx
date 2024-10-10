@@ -75,7 +75,7 @@ export default function Harbour({
     {
       name: "The Keep",
       path: "the-keep",
-      component: <Shipyard ships={myShips} setShips={setMyShips} />,
+      component: <Shipyard session={session} ships={myShips} setShips={setMyShips} />,
       lockOnNoHb: true,
     },
     {
