@@ -9,6 +9,8 @@ import ReactMarkdown, { Components } from "react-markdown";
 import { JwtPayload } from 'jsonwebtoken';
 
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
+import { getVoteBalance } from "@/app/utils/airtable";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
 
 interface Matchup {
   project1: Ships;
@@ -202,6 +204,12 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   const [isReadmeView, setIsReadmeView] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [voteBalance, setVoteBalance] = useLocalStorageState<number>('cache.voteBalance', 0);
+
+  const fetchVoteBalance = async () => {
+    setVoteBalance(await getVoteBalance(session.payload?.sub));
+  }
+
   const fetchMatchup = async () => {
     setLoading(true);
     try {
@@ -222,6 +230,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
 
   useEffect(() => {
     fetchMatchup();
+    fetchVoteBalance();
   }, [])
 
   const handleVoteClick = (project: Ships) => {
@@ -263,6 +272,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
           setSelectedProject(null);
           setReason("");
           fetchMatchup();
+          fetchVoteBalance();
         } else {
           const errorData = await response.json();
           setError(`Failed to submit vote: ${errorData.error}`);
@@ -316,6 +326,12 @@ export default function Matchups({ session }: { session: JwtPayload }) {
             A good project is technical, creative, and pushes the author out of their comfort zone.
             By that definition, which of these two projects is better? (If you are not sure, just refresh to skip!)
           </p>
+
+          {voteBalance < 0 && (
+            <div className="flex justify-center items-center space-x-4">
+              {-voteBalance} more vote(s) needed for your ships to enter the thunderdome!
+            </div>
+          )}
         </header>
 
         {loading ? (
