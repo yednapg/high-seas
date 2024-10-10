@@ -29,6 +29,8 @@ export default function Ships({ ships }: { ships: Ship[] }) {
 
   useEffect(() => {
     setReadmeText(null);
+    setIsEditingShip(false);
+
     if (selectedShip) {
       fetchReadme();
     }

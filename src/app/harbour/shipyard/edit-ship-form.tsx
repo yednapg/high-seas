@@ -1,18 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Ship, updateShip } from "./ship-utils";
 
-export default function EditShipForm({ ship }: { ship: Ship }) {
+export default function EditShipForm({
+  ship,
+  closeForm,
+}: {
+  ship: Ship;
+  closeForm: () => void;
+}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formValues = Object.fromEntries(formData.entries());
-    console.log(formValues, ship);
 
     const newShip: Ship = {
       ...ship,
       title: formValues.title as string,
+      repoUrl: formValues.repoUrl as string,
+      deploymentUrl: formValues.deploymentUrl as string,
+      readmeUrl: formValues.readmeUrl as string,
+      screenshotUrl: formValues.screenshotUrl as string,
     };
+    console.log("updating...", formValues, ship, newShip);
     await updateShip(newShip);
+
+    closeForm();
+    window.location.reload();
   };
 
   return (
