@@ -70,7 +70,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
           <Image
             src={s.screenshotUrl}
             alt={`s of ${s.title}`}
-            layout={"fill"}
+            fill={true}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
           />
@@ -188,7 +188,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
                     className="object-cover max-w-full"
-                    layout={"fill"}
+                    fill={true}
                     priority
                     sizes="4rem"
                   />
