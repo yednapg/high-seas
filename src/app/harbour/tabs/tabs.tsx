@@ -1,8 +1,6 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
@@ -15,21 +13,20 @@ import { getWaka } from "../../utils/waka";
 import Image from "next/image";
 import SignpostImage from "/public/signpost.png";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
-import Icon from "@hackclub/icons";
-import Link from "next/link";
 import { getPersonTicketBalance } from "../../utils/airtable";
+import { WakaLock } from "../../../components/ui/waka-lock.js";
 
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from 'next/navigation';
+import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
 export default function Harbour({ currentTab, session }: { currentTab: string, session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useLocalStorageState<Ship[] | null>('cache.myShips',null);
   const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
-  const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', false);
+  const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', null);
   const [wakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
   const [personTicketBalance, setPersonTicketBalance] = useLocalStorageState<string>("cache.personTicketBalance", '-');
-  const { toast } = useToast();
 
   const router = useRouter()
 
@@ -111,51 +108,13 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
             >
               {tabs.map((tab) => (
                 <TabsContent key={tab.name} value={tab.path} className="h-full">
-                  {tab.lockOnNoHb && !hasWakaHb ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-lg text-center gap-4">
-                      <Icon glyph="private-outline" width={42} />
-                      <p>
-                        {"We haven't seen any "}
-                        <Link
-                          className="text-blue-500"
-                          href={"https://waka.hackclub.com"}
-                        >
-                          WakaTime
-                        </Link>{" "}
-                        activity from you yet.
-                        <br />
-                        {tab.name} will unlock once we see you{"'"}ve set it up.
-                        Once you{"'"}ve been coding for a couple of minutes,
-                        refresh this page. If you have already used hackatime dm{" "}
-                        <a href="https://hackclub.slack.com/team/U062UG485EE">
-                          @krn
-                        </a>{" "}
-                        and he will migrate your acount :)
-                      </p>
-
-                      <Button
-                        disabled={!wakaToken}
-                        onClick={() => {
-                          navigator.clipboard.writeText(wakaToken!);
-                          toast({
-                            title: "Copied WakaTime token",
-                            description: wakaToken,
-                          });
-                        }}
-                      >
-                        Copy WakaTime token
-                      </Button>
-
-                      <Button
-                        className={`text-black ${buttonVariants({ variant: "outline" })}`}
-                        onClick={() => setHasWakaHb(true)}
-                      >
-                        Skip WakaTime setup requirement
-                      </Button>
+                  {(tab.lockOnNoHb && hasWakaHb !== false && hasWakaHb !== true) && (
+                    <div className="flex justify-center items-center h-64">
+                      <LoadingSpinner />
                     </div>
-                  ) : (
-                    tab.component
-                  )}
+                    )}
+                  {(tab.lockOnNoHb && hasWakaHb === false) && (<WakaLock wakaOverride={() => setHasWakaHb(true) } wakaToken={wakaToken} tabName={tab.name} />)}
+                  {(!tab.lockOnNoHb || hasWakaHb) && (tab.component)}
                 </TabsContent>
               ))}
             </div>
