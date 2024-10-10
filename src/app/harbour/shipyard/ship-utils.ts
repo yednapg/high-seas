@@ -44,7 +44,6 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
         (records, fetchNextPage) => {
           records.forEach((record) => {
             const entrant = record.get("entrant") as string[];
-            console.log(entrant, personId);
             if (entrant && entrant.includes(personId)) {
               ships.push({
                 id: record.get("id") as string,
