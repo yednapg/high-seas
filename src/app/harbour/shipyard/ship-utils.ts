@@ -40,7 +40,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
         filterByFormula: `AND(
         TRUE(),
         '${slackId}' = {entrant__slack_id},
-        {project_source} = 'low_skies'
+        {project_source} != 'arcade'
         )`,
       })
       .eachPage(

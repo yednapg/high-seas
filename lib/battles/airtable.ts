@@ -24,7 +24,11 @@ export const getProjects = async (userId: string): Promise<Ships[]> => {
 
 export const getAllProjects = async (): Promise<Ships[]> => {
   const records = await base("ships")
-    .select({ filterByFormula: `NOT(hidden)` })
+    .select({ filterByFormula: `AND(
+      NOT(hidden),
+      {project_source} != 'test'
+      {project_source} != 'tutorial'
+      )` })
     .all();
   return records.map((record) => ({
     id: record.id,
