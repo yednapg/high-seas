@@ -64,7 +64,6 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
           fetchNextPage();
         },
         (err) => {
-          console.log(ships);
           return err ? reject(err) : resolve(ships);
         },
       );

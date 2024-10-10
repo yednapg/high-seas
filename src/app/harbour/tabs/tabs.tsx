@@ -1,41 +1,43 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import Shipyard from "./shipyard/shipyard";
-import Battles from "./battles/battles";
-import Shop from "./shop/shop";
+import Shipyard from "../shipyard/shipyard";
+import Battles from "../battles/battles";
+import Shop from "../shop/shop";
 import { useEffect, useState } from "react";
-import { ShopItem, getShop } from "./shop/shop-utils";
-// import Map from "./map/map";
-import { getUserShips, Ship } from "./shipyard/ship-utils";
-import { /*Gallery,*/ ShipsObject } from "./gallery/gallery";
+import { ShopItem, getShop } from "../shop/shop-utils";
+import { getUserShips, Ship } from "../shipyard/ship-utils";
 import { JwtPayload } from "jsonwebtoken";
-import SignPost from "./signpost/signpost";
-import { getWaka } from "../utils/waka";
+import SignPost from "../signpost/signpost";
+import { getWaka } from "../../utils/waka";
 import Image from "next/image";
 import SignpostImage from "/public/signpost.png";
-import { hasRecvFirstHeartbeat, getWakaEmail } from "../utils/waka";
+import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import Icon from "@hackclub/icons";
 import Link from "next/link";
-import { getPersonTicketBalance } from "../utils/airtable";
-import { SoundButton } from "../../components/sound-button.js";
+import { getPersonTicketBalance } from "../../utils/airtable";
 
 import scales from "/public/scales.svg";
-import useLocalStorageState from "../../../lib/useLocalStorage";
+import useLocalStorageState from "../../../../lib/useLocalStorage";
+import { useRouter } from 'next/navigation';
 
-export default function Harbour({ session }: { session: JwtPayload }) {
+export default function Harbour({ currentTab, session }: { currentTab: string, session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useState<Ship[] | null>(null);
   const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
   const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
   const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', false);
-  const [WakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
+  const [wakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
   const [personTicketBalance, setPersonTicketBalance] = useState<string>("-");
   const { toast } = useToast();
+
+  const router = useRouter()
+
+  const handleTabChange = (newTab) => {
+    router.push(`/${newTab}`); // Navigate to the new tab slug
+  };
 
   useEffect(() => {
     getUserShips(session.payload.sub).then((ships) => setMyShips(ships));
@@ -56,44 +58,33 @@ export default function Harbour({ session }: { session: JwtPayload }) {
   const tabs = [
     {
       name: "📮",
-      component: <SignPost session={session} wakaToken={wakaToken} email={WakaEmail} />,
+      path: "signpost",
+      component: <SignPost session={session} wakaToken={wakaToken} email={wakaEmail} />,
     },
     {
       name: "The Keep",
+      path: "the-keep",
       component: <Shipyard ships={myShips} />,
       lockOnNoHb: true,
     },
-    { name: "Thunderdome", component: <Battles />, lockOnNoHb: true },
-    // {
-    //   name: "Gallery",
-    //   component: <Gallery ships={galleryShips} setShips={setGalleryShips} />,
-    // },
-    // { name: "Map", component: <Map /> },
-    { name: "Shoppe", component: <Shop items={shopItems} /> },
+    {
+      name: "Thunderdome",
+      path: "thunderdome",
+      component: <Battles />,
+      lockOnNoHb: true
+    },
+    {
+      name: "Shoppe",
+      path: "shop",
+      component: <Shop items={shopItems} />
+    },
   ];
 
   return (
-    <div
-      className="w-screen min-h-[100vh]"
-      style={{
-        backgroundImage: "url(/bgoverlay.svg)",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        // backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.25 }}
-        className="w-full flex items-center justify-center p-8"
-      >
-      <SoundButton />
-        <Card className="w-full max-w-4xl flex flex-col">
           <Tabs
-            defaultValue="📮"
+            value={currentTab}
             className="flex-1 flex flex-col"
+            onValueChange={handleTabChange}
           >
             <TabsList className="mx-2 my-2 relative">
               {tabs.map((tab) =>
@@ -101,12 +92,12 @@ export default function Harbour({ session }: { session: JwtPayload }) {
                   <TabsTrigger
                     className="left-px absolute"
                     key={tab.name}
-                    value={tab.name}
+                    value={tab.path}
                   >
                     <Image src={SignpostImage} width={20} alt="" />
                   </TabsTrigger>
                 ) : (
-                  <TabsTrigger key={tab.name} value={tab.name}>
+                  <TabsTrigger key={tab.name} value={tab.path}>
                     {tab.name}
                   </TabsTrigger>
                 ),
@@ -123,7 +114,7 @@ export default function Harbour({ session }: { session: JwtPayload }) {
               id="harbour-tab-scroll-element"
             >
               {tabs.map((tab) => (
-                <TabsContent key={tab.name} value={tab.name} className="h-full">
+                <TabsContent key={tab.name} value={tab.path} className="h-full">
                   {tab.lockOnNoHb && !hasWakaHb ? (
                     <div className="w-full h-full flex flex-col items-center justify-center text-lg text-center gap-4">
                       <Icon glyph="private-outline" width={42} />
@@ -173,8 +164,5 @@ export default function Harbour({ session }: { session: JwtPayload }) {
               ))}
             </div>
           </Tabs>
-        </Card>
-      </motion.div>
-    </div>
   );
 }
