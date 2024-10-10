@@ -100,7 +100,7 @@ export default function EditShipForm({
         />
       </div>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Save edits</Button>
     </form>
   );
 }

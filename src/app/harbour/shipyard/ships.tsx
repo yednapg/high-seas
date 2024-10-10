@@ -38,8 +38,7 @@ export default function Ships({
   useEffect(() => {
     setSelectedShip((s: Ship | null) => {
       if (!s) return null;
-
-      return ships.find((x) => x.id === s.id);
+      return ships.find((x) => x.id === s.id) || null;
     });
   }, [ships]);
 
@@ -323,11 +322,13 @@ export default function Ships({
                             }}
                             transition={{ duration: 0.2, ease: "easeInOut" }}
                           >
-                            <EditShipForm
-                              ship={selectedShip}
-                              closeForm={() => setIsEditingShip(false)}
-                              setShips={setShips}
-                            />
+                            <Card className="p-2 mt-2 bg-neutral-100">
+                              <EditShipForm
+                                ship={selectedShip}
+                                closeForm={() => setIsEditingShip(false)}
+                                setShips={setShips}
+                              />
+                            </Card>
                           </motion.div>
                         )}
                       </AnimatePresence>
