@@ -11,6 +11,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
+import { useToast } from "@/hooks/use-toast";
 
 interface Matchup {
   project1: Ships;
@@ -206,6 +207,8 @@ export default function Matchups({ session }: { session: JwtPayload }) {
 
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>('cache.voteBalance', 0);
 
+  const { toast } = useToast();
+
   const fetchVoteBalance = async () => {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.payload?.sub));
   }
@@ -220,6 +223,12 @@ export default function Matchups({ session }: { session: JwtPayload }) {
         setMatchup(data);
       } else {
         console.error("Failed to fetch matchup");
+
+        toast({
+          title: "Failed to fetch a new thing to vote on.",
+          description: "Retrying automatically...",
+        });
+        setTimeout(fetchMatchup, 5000);
       }
     } catch (error) {
       console.error("Error fetching matchup:", error);
