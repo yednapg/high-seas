@@ -80,6 +80,7 @@ export default function Shop({ verificationStatus }: { verificationStatus: strin
           <option value="4">Other countries worldwide</option>
         </select>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
           <motion.div key={item.id} {...styles.cardHoverProps}>
@@ -90,8 +91,8 @@ export default function Shop({ verificationStatus }: { verificationStatus: strin
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>
-                  <CardTitle>{item.name}</CardTitle>
-                  <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
+                <CardTitle>{item.name}{item.fulfilledAtEnd && "*"}</CardTitle>
+                <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
                 </div>
               </CardHeader>
               {item.imageUrl && (
@@ -109,6 +110,10 @@ export default function Shop({ verificationStatus }: { verificationStatus: strin
             </Card>
           </motion.div>
         ))}
+
+      </div>
+      <div className="text-center mb-6 mt-12">
+        <label>Items marked with * will ship out after the event concludes.</label>
       </div>
     </motion.div>
   );
