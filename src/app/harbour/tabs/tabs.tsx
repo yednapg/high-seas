@@ -4,13 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserShips, Ship } from "../shipyard/ship-utils";
 import { JwtPayload } from "jsonwebtoken";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
-import Image from "next/image";
-import SignpostImage from "/public/signpost.png";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { getPersonTicketBalance } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock.js";
@@ -86,7 +84,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
                     key={tab.name}
                     value={tab.path}
                   >
-                    <Image src={SignpostImage} width={20} alt="" />
+                    <img src="/signpost.png" width={20} alt="" />
                   </TabsTrigger>
                 ) : (
                   <TabsTrigger key={tab.name} value={tab.path}>
