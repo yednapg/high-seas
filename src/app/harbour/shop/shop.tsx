@@ -70,13 +70,13 @@ export default function Shop() {
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">{bannerText}</p>
       </div>
       <div className="text-center mb-6 mt-12">
-        <label>Choose your region: </label>
+        <label>pick a region to buy something! </label>
         <select onChange={onOptionChangeHandler} value={filterIndex}>
-          <option value="0">All items</option>
+          <option value="0">all regions</option>
           <option value="1">US</option>
           <option value="2">EU</option>
           <option value="3">India</option>
-          <option value="4">Other countries worldwide</option>
+          <option value="4">other countries worldwide</option>
         </select>
       </div>
 
@@ -101,9 +101,10 @@ export default function Shop() {
                   <img src={item.imageUrl} alt={item.name} className="w-full" />
                 </CardContent>
               )}
-              <form action={`/api/buy/${item.id}`} method="POST">
+              {filterIndex != 0 &&
+                  (<form action={`/api/buy/${item.id}`} method="POST">
                 <Button>Buy</Button>
-              </form>
+              </form> )}
             </Card>
           </motion.div>
         ))}
