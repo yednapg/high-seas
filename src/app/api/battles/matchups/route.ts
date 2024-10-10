@@ -36,7 +36,7 @@ export async function GET() {
         project?.["entrant__slack_id"]?.[0] !== session?.payload?.sub,
     );
     const userSlackId = session.payload.sub;
-    const matchup = generateMatchup(votableProjects, userSlackId);
+    const matchup = await generateMatchup(votableProjects, userSlackId);
 
     if (!matchup) {
       return NextResponse.json(

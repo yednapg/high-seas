@@ -24,7 +24,7 @@ const WakaLock = ({ wakaOverride, wakaToken, tabName }) => {
         <a href="https://hackclub.slack.com/team/U062UG485EE">
           @krn
         </a>{" "}
-        and he will migrate your acount :)
+        and he will migrate your account :)
       </p>
 
       <Button
