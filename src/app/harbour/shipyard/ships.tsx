@@ -187,27 +187,26 @@ export default function Ships({
         </div>
       )}
 
-      {shippedShips.length === 0 ? null : (
-        <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
-          {bareShips ? null : (
-            <h2 className="text-center text-2xl mb-2 text-blue-500">
-              Shipped Ships
-            </h2>
-          )}
+      <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
+        {bareShips ? null : (
+          <h2 className="text-center text-2xl mb-2 text-blue-500">
+            Shipped Ships
+          </h2>
+        )}
 
-          <div className="space-y-4">
-            {shippedShips.length === 0 ? (
-              <div>
-                <p>No Ships yet!</p>
-              </div>
-            ) : (
-              shippedShips.map((ship: Ship, idx: number) => (
-                <SingleShip s={ship} key={ship.id} />
-              ))
-            )}
-          </div>
+        <div className="space-y-4">
+          {shippedShips.length === 0 ? (
+            <div className="mx-auto w-fit">
+              <p className="text-center mb-3">No Ships yet!</p>
+              <img src="/dino_debugging.svg" alt="" width="100" />
+            </div>
+          ) : (
+            shippedShips.map((ship: Ship, idx: number) => (
+              <SingleShip s={ship} key={ship.id} />
+            ))
+          )}
         </div>
-      )}
+      </div>
 
       <AnimatePresence>
         {newShipVisible && session && (
