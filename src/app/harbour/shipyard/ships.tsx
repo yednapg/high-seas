@@ -67,11 +67,11 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     >
       <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="w-16 h-16 relative mr-4">
-          <Image
+          <img
             src={s.screenshotUrl}
             alt={`s of ${s.title}`}
-            fill={true}
-            className="object-cover max-w-full rounded-md"
+            style={{objectFit: "cover"}}
+            className="object-cover max-w-full max-h-full rounded-md"
             sizes="4rem"
           />
         </div>
@@ -190,6 +190,7 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     className="object-cover max-w-full"
                     fill={true}
                     priority
+                    unoptimized
                     sizes="4rem"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
