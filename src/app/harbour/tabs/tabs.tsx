@@ -19,7 +19,7 @@ import Icon from "@hackclub/icons";
 import Link from "next/link";
 import { getPersonTicketBalance } from "../../utils/airtable";
 
-import useLocalStorageState from "../../../../lib/useLocalStorage";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from 'next/navigation';
 
 export default function Harbour({ currentTab, session }: { currentTab: string, session: JwtPayload }) {

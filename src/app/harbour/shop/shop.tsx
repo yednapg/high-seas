@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
-import useLocalStorage from "../../../../lib/useLocalStorage.js";
 import { getShop } from "./shop-utils"
+import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
 export default function Shop() {
   const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
