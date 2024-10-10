@@ -13,12 +13,12 @@ const redis = new Redis(process.env.REDIS_URL as string, {
 const CACHE_DURATION = 5;
 
 async function getCachedProjects(): Promise<Ships[]> {
-  const cachedProjects = await redis.get("all_projects");
-  if (cachedProjects) {
-    return JSON.parse(cachedProjects);
-  }
+  // const cachedProjects = await redis.get("all_projects");
+  // if (cachedProjects) {
+  //   return JSON.parse(cachedProjects);
+  // }
   const projects = await getAllProjects();
-  await redis.setex("all_projects", CACHE_DURATION, JSON.stringify(projects));
+  // await redis.setex("all_projects", CACHE_DURATION, JSON.stringify(projects));
   return projects;
 }
 
