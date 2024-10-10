@@ -15,6 +15,7 @@ import Link from "next/link";
 
 import ScalesImage from "/public/scales.svg";
 import Pill from "@/components/ui/pill";
+import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 
 export default function Ships({
   ships,
@@ -109,41 +110,7 @@ export default function Ships({
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
           <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
-            <Pill msg={`${s.hours} hr`} glyph="clock" />
-
-            {s.shipStatus === "shipped" &&
-              (s.voteRequirementMet ? (
-                s.doubloonPayout ? (
-                  <Pill
-                    msg={`${s.doubloonPayout} Scales`}
-                    color="green"
-                    glyphImage={
-                      <Image src={ScalesImage} alt="scales" height={20} />
-                    }
-                  />
-                ) : (
-                  <Pill
-                    msg={"Pending: hang tight- we're counting the votes!"}
-                    color="blue"
-                    glyph="event-add"
-                  />
-                )
-              ) : (
-                <Pill
-                  msg={"Pending: Vote to unlock"}
-                  color="blue"
-                  glyph="enter"
-                />
-              ))}
-
-            {s.shipType === "update" ? (
-              <Pill
-                msg={"Ship update"}
-                color="purple"
-                glyph="reply"
-                glyphStyles={{ transform: "scaleX(-1)" }}
-              />
-            ) : null}
+            <ShipPillCluster ship={s} />
           </div>
         </div>
 
@@ -349,20 +316,8 @@ export default function Ships({
                         )}
                       </AnimatePresence>
 
-                      <motion.div className="flex items-center gap-6 text-lg mt-4">
-                        <div className="flex gap-1 items-center text-green-500">
-                          <Image
-                            src={ScalesImage}
-                            alt="scales"
-                            width={25}
-                            height={25}
-                          />
-                          {selectedShip.doubloonPayout} Scales
-                        </div>
-
-                        <div className="flex gap-1 items-center text-blue-600">
-                          <Icon glyph="clock" /> {selectedShip.hours} hours
-                        </div>
+                      <motion.div className="flex items-center gap-4 mt-4">
+                        <ShipPillCluster ship={selectedShip} />
                       </motion.div>
 
                       <hr className="my-5" />
