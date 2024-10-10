@@ -17,11 +17,11 @@ import ScalesImage from "/public/scales.svg";
 
 export default function Ships({
   ships,
-  hideLabels = false,
+  bareShips = false,
   setShips,
 }: {
   ships: Ship[];
-  hideLabels: boolean;
+  bareShips: boolean;
   setShips: any;
 }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
@@ -105,9 +105,8 @@ export default function Ships({
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
           <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
-            {s.shipStatus === "shipped" && (
-
-              s.voteRequirementMet ? (
+            {s.shipStatus === "shipped" &&
+              (s.voteRequirementMet ? (
                 s.doubloonPayout ? (
                   <div className="flex gap-1 items-center text-green-500">
                     <Image
@@ -129,8 +128,7 @@ export default function Ships({
                   <Icon glyph="enter" size={24} />
                   Pending: Vote to unlock
                 </div>
-              )
-            )}
+              ))}
             <div className="flex items-center gap-1">
               <Icon glyph="clock" size={24} /> {s.hours} hr
             </div>
@@ -147,7 +145,7 @@ export default function Ships({
                 location.reload();
               }}
             >
-              SHIP
+              YEET SHIP
             </Button>
           </div>
         ) : null}
@@ -162,50 +160,54 @@ export default function Ships({
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
-      {hideLabels ? null : (
-        <h2 className="text-center text-2xl mb-3">Staged ships</h2>
-      )}
-      <motion.div className="space-y-4">
-        {stagedShips.length === 0 ? (
-          hideLabels ? null : (
-            <p className="text-center mb-4">
-              <b>{"You don't have any ships yet."}</b>
-            </p>
-          )
-        ) : (
-          stagedShips.map((ship: Ship, idx: number) => (
-            <SingleShip s={ship} key={ship.id} />
-          ))
-        )}
-      </motion.div>
-
-      {hideLabels ? null : (
-        <h2 className="text-center text-2xl mb-3 mt-6">Shipped ships</h2>
-      )}
-      <div className="container mx-auto p-4 text-center">
-        <motion.div className="space-y-4">
-          {shippedShips.length === 0 ? (
-            hideLabels ? null : (
-              <p className="text-center mb-4">
-                <b>{"You don't have any ships yet."}</b>
-              </p>
-            )
-          ) : (
-            shippedShips.map((ship: Ship, idx: number) => (
-              <SingleShip s={ship} key={ship.id} />
-            ))
-          )}
-        </motion.div>
-
-        {hideLabels ? null : (
-          <Button
-            className="mt-6 w-full"
-            onClick={() => setNewShipVisible(true)}
-          >
-            New Ship
+      {bareShips ? null : (
+        <motion.div
+          className="w-fit mx-auto mb-10 mt-3"
+          whileHover={{ rotate: "-5deg", scale: 1.02 }}
+        >
+          <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
+            Draft a new Ship!
           </Button>
-        )}
-      </div>
+        </motion.div>
+      )}
+
+      {stagedShips.length === 0 ? null : (
+        <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
+          {bareShips ? null : (
+            <h2 className="text-center text-2xl mb-2 text-blue-500">
+              Draft Ships
+            </h2>
+          )}
+
+          <div className="space-y-4">
+            {stagedShips.map((ship: Ship, idx: number) => (
+              <SingleShip s={ship} key={ship.id} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {shippedShips.length === 0 ? null : (
+        <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
+          {bareShips ? null : (
+            <h2 className="text-center text-2xl mb-2 text-blue-500">
+              Shipped Ships
+            </h2>
+          )}
+
+          <div className="space-y-4">
+            {shippedShips.length === 0 ? (
+              <div>
+                <p>No Ships yet!</p>
+              </div>
+            ) : (
+              shippedShips.map((ship: Ship, idx: number) => (
+                <SingleShip s={ship} key={ship.id} />
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
       <AnimatePresence>
         {newShipVisible && session && (

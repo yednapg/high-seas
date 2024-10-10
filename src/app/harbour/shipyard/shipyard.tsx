@@ -70,10 +70,15 @@ const exampleShips: Ship[] = [
 ];
 
 export default function Shipyard({ ships, setShips, session }: any) {
-  const [voteBalance, setVoteBalance] = useLocalStorageState('cache.voteBalance', 0);
+  const [voteBalance, setVoteBalance] = useLocalStorageState(
+    "cache.voteBalance",
+    0,
+  );
   useEffect(() => {
-    getVotesRemainingForNextPendingShip(session).then((balance) => setVoteBalance(balance));
-  })
+    getVotesRemainingForNextPendingShip(session).then((balance) =>
+      setVoteBalance(balance),
+    );
+  });
 
   if (!ships) {
     <LoadingSpinner />;
@@ -93,12 +98,11 @@ export default function Shipyard({ ships, setShips, session }: any) {
         )}
         <Ships ships={ships} setShips={setShips} />
 
-        <div className="m-4 flex flex-col justify-center items-center mt-12">
+        <div className="flex flex-col justify-center items-center">
           <p className="text-2xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </p>
-
-          <Ships ships={exampleShips} hideLabels={true} />
+          <Ships ships={exampleShips} bareShips={true} />
         </div>
       </div>
     );

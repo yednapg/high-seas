@@ -232,7 +232,7 @@ export default function NewShipForm({
           <label htmlFor="screenshot_url">
             Screenshot URL
             <br />
-            <span className="text-sm">
+            <span className="text-xs opacity-50">
               You can upload to{" "}
               <Link
                 className="text-blue-500"
