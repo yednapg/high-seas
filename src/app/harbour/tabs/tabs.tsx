@@ -26,7 +26,7 @@ import { useRouter } from 'next/navigation';
 export default function Harbour({ currentTab, session }: { currentTab: string, session: JwtPayload }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useLocalStorageState<Ship[] | null>('cache.myShips',null);
-  const [shopItems, setShopItems] = useState<ShopItem[] | null>(null);
+  const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
   const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', false);
   const [wakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
