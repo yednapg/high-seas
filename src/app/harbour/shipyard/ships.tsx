@@ -67,11 +67,11 @@ export default function Ships({ ships }: { ships: Ship[] }) {
     >
       <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="w-16 h-16 relative mr-4">
-          <Image
+          <img
             src={s.screenshotUrl}
             alt={`s of ${s.title}`}
-            layout={"fill"}
-            className="object-cover max-w-full rounded-md"
+            style={{objectFit: "cover"}}
+            className="object-cover max-w-full max-h-full rounded-md"
             sizes="4rem"
           />
         </div>
@@ -127,13 +127,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <Button
           className="mt-6 w-full"
           onClick={() => setNewShipVisible(true)}
-          disabled={true}
         >
           New Ship
         </Button>
-        <p className="text-red-500">
-          Signups are disabled for now! Check back soon
-        </p>
       </div>
 
       <AnimatePresence>
@@ -188,8 +184,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
                     src={selectedShip.screenshotUrl}
                     alt={`Screenshot of ${selectedShip.title}`}
                     className="object-cover max-w-full"
-                    layout={"fill"}
+                    fill={true}
                     priority
+                    unoptimized
                     sizes="4rem"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />

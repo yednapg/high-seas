@@ -10,7 +10,7 @@ export default function SignOut() {
   }
 
   return (
-    <a className={buttonVariants({ variant: "outline" })} onClick={handleOnClick} href="/signout" prefetch={false}>
+    <a className={buttonVariants({ variant: "outline" })} onClick={handleOnClick} href="/signout">
       Sign out of Hack Club Slack
     </a>
   );

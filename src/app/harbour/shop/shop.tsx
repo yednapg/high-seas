@@ -10,15 +10,17 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
-import scales from "/public/scales.svg";
-import useLocalStorage from "../../../../lib/useLocalStorage.js";
+import { getShop } from "./shop-utils"
+import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
-export default function Shop({ items }: any) {
-  const [filterIndex, setFilterIndex] = useLocalStorage("shop.country.filter", 0)
+export default function Shop() {
+  const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
+  const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
   useEffect(() => {
     setBannerText(sample(shopBanner))
+
+    getShop().then((shop) => setShopItems(shop));
   }, [])
 
   const styles = useMemo(() => ({
@@ -30,7 +32,7 @@ export default function Shop({ items }: any) {
     }
   }), [])
 
-  if (!items) {
+  if (!shopItems) {
     return (
       <motion.div
         className="flex justify-center items-center h-screen"
@@ -78,13 +80,13 @@ export default function Shop({ items }: any) {
         </select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.filter(getFilter()).map((item: any) => (
+        {shopItems.filter(getFilter()).map((item: any) => (
           <motion.div key={item.id} {...styles.cardHoverProps}>
             <Card className="h-full">
               <CardHeader>
 
                 <span style={{ alignSelf: "end" }} className="text-green-400">
-                  <Image src={scales} alt="scales" width={25} height={25} style={styles.imageStyle} />
+                  <img src="scales.svg" alt="scales" width={25} height={25} style={styles.imageStyle} />
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>

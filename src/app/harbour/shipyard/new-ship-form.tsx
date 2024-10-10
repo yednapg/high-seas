@@ -43,7 +43,7 @@ export default function NewShipForm({
   // Initialize confetti on mount
   useEffect(() => {
     confettiRef.current = new JSConfetti({ canvas: canvasRef.current });
-  }, []);
+  }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
   useEffect(() => {
