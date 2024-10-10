@@ -49,7 +49,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
 
     getWakaEmail().then((email) => email && setWakaEmail(email));
-  }, []);
+  }, [session]);
 
   const tabs = [
     {
