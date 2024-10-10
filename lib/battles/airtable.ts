@@ -26,7 +26,7 @@ export const getAllProjects = async (): Promise<Ships[]> => {
   const records = await base("ships")
     .select({ filterByFormula: `AND(
       NOT(hidden),
-      {project_source} != 'test'
+      {project_source} != 'test',
       {project_source} != 'tutorial'
       )` })
     .all();
