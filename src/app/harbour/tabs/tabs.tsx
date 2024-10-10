@@ -5,7 +5,6 @@ import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect, useState } from "react";
-import { ShopItem, getShop } from "../shop/shop-utils";
 import { getUserShips, Ship } from "../shipyard/ship-utils";
 import { JwtPayload } from "jsonwebtoken";
 import SignPost from "../signpost/signpost";
