@@ -213,7 +213,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.payload?.sub));
   }
 
-  const fetchMatchup = async () => {
+  const fetchMatchup = async ({ retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 }) => {
     setLoading(true);
     try {
       // require at least 1.25 seconds of loading time for full loop of loading animations
@@ -228,7 +228,8 @@ export default function Matchups({ session }: { session: JwtPayload }) {
           title: "Failed to fetch a new thing to vote on.",
           description: "Retrying automatically...",
         });
-        setTimeout(fetchMatchup, 5000);
+
+        setTimeout(() => fetchMatchup({retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2)}), retryTimeout);
       }
     } catch (error) {
       console.error("Error fetching matchup:", error);
