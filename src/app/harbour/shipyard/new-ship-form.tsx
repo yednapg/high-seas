@@ -70,15 +70,10 @@ export default function NewShipForm({
       formData.append("hours", selectedProject.key.toString());
     }
 
-    console.log(
-      "new ship submitted!",
-      formData.get("title"),
-      formData.get("isShipUpdate"),
-    );
     await createShip(formData);
     confettiRef.current?.addConfetti();
-    // closeForm();
-    // window.location.reload();
+    closeForm();
+    window.location.reload();
   };
 
   return (
