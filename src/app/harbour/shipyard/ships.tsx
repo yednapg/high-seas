@@ -242,6 +242,9 @@ export default function Ships({
                     priority
                     unoptimized
                     sizes="4rem"
+                    onError={({ target }) => {
+                      target.src = "/no-img-dino.png";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </div>
