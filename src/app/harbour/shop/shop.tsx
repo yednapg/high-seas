@@ -10,18 +10,19 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
-import { getShop } from "./shop-utils"
+import { getShop, ShopItem } from "./shop-utils"
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
-export default function Shop() {
+export default function Shop({ verificationStatus }: { verificationStatus: string | null }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
   useEffect(() => {
+    console.log("verification status", verificationStatus)
     setBannerText(sample(shopBanner))
 
     getShop().then((shop) => setShopItems(shop));
-  }, [])
+  }, [setShopItems])
 
   const styles = useMemo(() => ({
     cardHoverProps: {
@@ -84,25 +85,27 @@ export default function Shop() {
           <motion.div key={item.id} {...styles.cardHoverProps}>
             <Card className="h-full">
               <CardHeader>
-
                 <span style={{ alignSelf: "end" }} className="text-green-400">
                   <img src="scales.svg" alt="scales" width={25} height={25} style={styles.imageStyle} />
                   {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                 </span>
                 <div>
-                <CardTitle>{item.name}</CardTitle>
-                <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
+                  <CardTitle>{item.name}</CardTitle>
+                  <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
                 </div>
-
               </CardHeader>
               {item.imageUrl && (
                 <CardContent>
                   <img src={item.imageUrl} alt={item.name} className="w-full" />
                 </CardContent>
               )}
-              <form action={`/api/buy/${item.id}`} method="POST">
-                <Button>Buy</Button>
-              </form>
+              {(verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') ? (
+                <form action={`/api/buy/${item.id}`} method="POST">
+                  <Button>Buy</Button>
+                </form>
+              ) : (
+                <p className="text-sm text-red-500 p-4">You are not eligible to purchase items.</p>
+              )}
             </Card>
           </motion.div>
         ))}

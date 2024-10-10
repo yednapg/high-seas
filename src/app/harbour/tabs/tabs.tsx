@@ -18,6 +18,8 @@ import { WakaLock } from "../../../components/ui/waka-lock.js";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from 'next/navigation';
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
+import { getVerificationStatus } from "../../utils/airtable";
+import { getSession } from "@/app/utils/auth";
 
 export default function Harbour({ currentTab, session }: { currentTab: string, session: JwtPayload }) {
   // All the content management for all the tabs goes here.
@@ -25,6 +27,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
   const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
   const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', null);
   const [wakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
+  const [verificationStatus, setVerificationStatus] = useState<string | null>(null); // using state instead of local stroage because people can just edit the string and can use the shop then
   const [personTicketBalance, setPersonTicketBalance] = useLocalStorageState<string>("cache.personTicketBalance", '-');
 
   const router = useRouter()
@@ -45,7 +48,8 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
 
     getWakaEmail().then((email) => email && setWakaEmail(email));
-  }, [session]);
+    getVerificationStatus(session.payload.sub).then((status) => setVerificationStatus(status[0]));
+  }, [session, setVerificationStatus, setMyShips, setPersonTicketBalance, setWakaEmail, setWakaToken, setHasWakaHb]);
 
   const tabs = [
     {
@@ -68,7 +72,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
     {
       name: "Shoppe",
       path: "shop",
-      component: <Shop />
+      component: <Shop verificationStatus={verificationStatus} />,
     },
   ];
 

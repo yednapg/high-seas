@@ -57,3 +57,8 @@ export const getPersonTicketBalance = async (slackId: string) => {
   console.log({ slackId, settled: person.get("settled_tickets") });
   return person.get("settled_tickets") as number;
 };
+
+export const getVerificationStatus = async (slackId: string) => {
+  const person = await getSelfPerson(slackId);
+  return person.get("verification_status") as string;
+};
