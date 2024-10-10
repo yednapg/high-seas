@@ -20,6 +20,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
+import { Checkbox } from "@/components/ui/checkbox";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function NewShipForm({
   canvasRef,
@@ -39,6 +41,7 @@ export default function NewShipForm({
     total: number;
   } | null>(null);
   const [open, setOpen] = useState(false);
+  const [isShipUpdate, setIsShipUpdate] = useState(false);
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -67,16 +70,56 @@ export default function NewShipForm({
       formData.append("hours", selectedProject.key.toString());
     }
 
+    console.log(
+      "new ship submitted!",
+      formData.get("title"),
+      formData.get("isShipUpdate"),
+    );
     await createShip(formData);
     confettiRef.current?.addConfetti();
-    closeForm();
-    window.location.reload();
+    // closeForm();
+    // window.location.reload();
   };
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">New Ship</h1>
       <form action={handleForm} className="space-y-3">
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="isShipUpdate"
+            id="isShipUpdate"
+            onChange={({ target }) => setIsShipUpdate(target.checked)}
+          />
+          <label htmlFor="isShipUpdate" className="select-none">
+            This is an update to an existing Ship
+          </label>
+        </div>
+
+        <AnimatePresence>
+          {isShipUpdate ? (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "fit-content", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+            >
+              <label htmlFor="updateDescription">
+                Description of the update
+              </label>
+              <textarea
+                id="updateDescription"
+                name="updateDescription"
+                rows={4}
+                cols={50}
+                minLength={10}
+                required
+                className="w-full p-2 border rounded"
+              ></textarea>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
         <div>
           <label htmlFor="title">Title</label>
           <input
@@ -207,7 +250,9 @@ export default function NewShipForm({
           />
         </div>
 
-        <Button type="submit">Stage my Ship!</Button>
+        <Button type="submit" className="w-full">
+          Stage my Ship!
+        </Button>
       </form>
     </div>
   );

@@ -25,6 +25,8 @@ export interface Ship {
   hours: number;
   voteRequirementMet: boolean;
   doubloonPayout: number;
+  shipType: string;
+  shipStatus: string;
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
@@ -59,6 +61,8 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                   record.get("vote_requirement_met"),
                 ) as boolean,
                 doubloonPayout: record.get("doubloon_payout") as number,
+                shipType: record.get("ship_type") as string,
+                shipStatus: record.get("ship_status") as string,
               });
             }
           });
@@ -87,6 +91,8 @@ export async function createShip(formData: FormData) {
 
   console.log(formData, slackId, entrantId);
 
+  const isShipUpdate = formData.get("isShipUpdate");
+
   base()(shipsTableName).create(
     [
       {
@@ -99,6 +105,10 @@ export async function createShip(formData: FormData) {
           readme_url: formData.get("readme_url"),
           deploy_url: formData.get("deploy_url"),
           screenshot_url: formData.get("screenshot_url"),
+          ship_type: isShipUpdate ? "update" : "project",
+          update_description: isShipUpdate
+            ? formData.get("updateDescription")
+            : null,
         },
       },
     ],
