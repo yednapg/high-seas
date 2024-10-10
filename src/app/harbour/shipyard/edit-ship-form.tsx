@@ -4,9 +4,11 @@ import { Ship, updateShip } from "./ship-utils";
 export default function EditShipForm({
   ship,
   closeForm,
+  setShips,
 }: {
   ship: Ship;
   closeForm: () => void;
+  setShips: any;
 }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +26,21 @@ export default function EditShipForm({
     console.log("updating...", formValues, ship, newShip);
     await updateShip(newShip);
 
+    if (setShips) {
+      console.log("Set ships is passed! Updating ship with ID", newShip.id);
+
+      setShips((previousShips: Ship[]) => {
+        console.log("the previous ships were", previousShips);
+        const newShips = previousShips.map((s: Ship) =>
+          s.id === newShip.id ? newShip : s,
+        );
+        console.info("ok so the new ships are", newShips);
+        return newShips;
+      });
+    } else {
+      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+    }
     closeForm();
-    window.location.reload();
   };
 
   return (

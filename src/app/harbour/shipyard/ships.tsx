@@ -18,11 +18,17 @@ import ScalesImage from "/public/scales.svg";
 export default function Ships({
   ships,
   hideLabels = false,
+  setShips,
 }: {
   ships: Ship[];
   hideLabels: boolean;
+  setShips: any;
 }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
+  const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
+    null,
+  );
+
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [session, setSession] = useState<JwtPayload | null>(null);
@@ -30,16 +36,32 @@ export default function Ships({
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    setSelectedShip((s: Ship | null) => {
+      if (!s) return null;
+
+      return ships.find((x) => x.id === s.id);
+    });
+  }, [ships]);
+
+  useEffect(() => {
     getSession().then((sesh) => setSession(sesh));
   }, []);
 
   useEffect(() => {
-    setReadmeText(null);
-    setIsEditingShip(false);
+    // I.e. if the user has just edited a ship
+    if (previousSelectedShip && selectedShip) return;
+
+    // Only invalidate the README text when you go from <<ship selected>> to <<no ship selected>>
+    if (!selectedShip) {
+      setReadmeText(null);
+      setIsEditingShip(false);
+    }
 
     if (selectedShip) {
       fetchReadme();
     }
+
+    setPreviousSelectedShip(selectedShip);
   }, [selectedShip]);
 
   const fetchReadme = async () => {
@@ -76,7 +98,7 @@ export default function Ships({
           <img
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
-            style={{objectFit: "cover"}}
+            style={{ objectFit: "cover" }}
             className="object-cover max-w-full rounded-md"
             sizes="4rem"
           />
@@ -304,6 +326,7 @@ export default function Ships({
                             <EditShipForm
                               ship={selectedShip}
                               closeForm={() => setIsEditingShip(false)}
+                              setShips={setShips}
                             />
                           </motion.div>
                         )}

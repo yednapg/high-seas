@@ -66,7 +66,7 @@ const exampleShips: Ship[] = [
   },
 ];
 
-export default function Shipyard({ ships }: any) {
+export default function Shipyard({ ships, setShips }: any) {
   if (!ships) {
     <LoadingSpinner />;
   } else {
@@ -87,7 +87,7 @@ export default function Shipyard({ ships }: any) {
             Thunderdome!
           </p>
         )}
-        <Ships ships={ships} />
+        <Ships ships={ships} setShips={setShips} />
 
         <div className="m-4 flex flex-col justify-center items-center mt-12">
           <p className="text-2xl mb-2 text-blue-500">
