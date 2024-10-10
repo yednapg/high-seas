@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback, useEffect } from "react";
 import { Ships } from "../../../../types/battles/airtable";
 import { Factory, Book, Link as LucideLink, ArrowLeft, ThumbsUp } from "lucide-react";
-import { getSession } from "@/app/utils/auth";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
@@ -24,7 +22,6 @@ interface ProjectCardProps {
   onVote: () => void;
   onReadmeClick: () => void;
 }
-
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
@@ -176,8 +173,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export default function Matchups() {
-  const router = useRouter();
+export default function Matchups({session}: {session: JwtPayload}) {
   const [matchup, setMatchup] = useState<Matchup | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
@@ -185,8 +181,11 @@ export default function Matchups() {
   const [error, setError] = useState("");
   const [readmeContent, setReadmeContent] = useState("");
   const [isReadmeView, setIsReadmeView] = useState(false);
-  const [session, setSession] = useState<JwtPayload | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchMatchup();
+  }, [])
 
   const fetchMatchup = useCallback(async () => {
     setLoading(true);
@@ -205,21 +204,6 @@ export default function Matchups() {
       setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    const initializeSession = async () => {
-      const sessionData = await getSession();
-      setSession(sessionData);
-      
-      if (sessionData === null) {
-        router.push("/");
-      } else {
-        fetchMatchup();
-      }
-    };
-
-    initializeSession();
-  }, [router, fetchMatchup]);
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
