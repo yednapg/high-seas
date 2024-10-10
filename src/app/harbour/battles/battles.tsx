@@ -203,26 +203,26 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+
+    const fetchMatchup = async () => {
+      setLoading(true);
+      try {
+        // require at least 1.25 seconds of loading time for full loop of loading animations
+        const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
+        if (response.ok) {
+          const data: Matchup = await response.json();
+          setMatchup(data);
+        } else {
+          console.error("Failed to fetch matchup");
+        }
+      } catch (error) {
+        console.error("Error fetching matchup:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchMatchup();
   }, [])
-
-  const fetchMatchup = useCallback(async () => {
-    setLoading(true);
-    try {
-      // require at least 1.25 seconds of loading time for full loop of loading animations
-      const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
-      if (response.ok) {
-        const data: Matchup = await response.json();
-        setMatchup(data);
-      } else {
-        console.error("Failed to fetch matchup");
-      }
-    } catch (error) {
-      console.error("Error fetching matchup:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
