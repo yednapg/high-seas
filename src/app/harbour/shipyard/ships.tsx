@@ -127,13 +127,9 @@ export default function Ships({ ships }: { ships: Ship[] }) {
         <Button
           className="mt-6 w-full"
           onClick={() => setNewShipVisible(true)}
-          disabled={true}
         >
           New Ship
         </Button>
-        <p className="text-red-500">
-          Signups are disabled for now! Check back soon
-        </p>
       </div>
 
       <AnimatePresence>
