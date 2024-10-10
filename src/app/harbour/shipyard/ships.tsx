@@ -82,28 +82,31 @@ export default function Ships({
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
           <div className="flex items-center gap-6 text-sm text-gray-600 mt-1">
-            {s.voteRequirementMet ? (
-              s.doubloonPayout ? (
-                <div className="flex gap-1 items-center text-green-500">
-                  <Image
-                    src={ScalesImage}
-                    alt="scales"
-                    width={25}
-                    height={25}
-                  />
-                  {s.doubloonPayout} Scales
-                </div>
+            {s.shipStatus === "shipped" && (
+
+              s.voteRequirementMet ? (
+                s.doubloonPayout ? (
+                  <div className="flex gap-1 items-center text-green-500">
+                    <Image
+                      src={ScalesImage}
+                      alt="scales"
+                      width={25}
+                      height={25}
+                    />
+                    {s.doubloonPayout} Scales
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-blue-400">
+                    <Icon glyph="event-add" size={24} />
+                    {"Pending: hang tight- we're counting the votes!"}
+                  </div>
+                )
               ) : (
-                <div className="flex items-center gap-1 text-blue-400">
-                  <Icon glyph="event-add" size={24} />
-                  {"Pending: hang tight- we're counting the votes!"}
+                <div className="flex items-center gap-1 text-blue-500">
+                  <Icon glyph="enter" size={24} />
+                  Pending: Vote to unlock
                 </div>
               )
-            ) : (
-              <div className="flex items-center gap-1 text-blue-500">
-                <Icon glyph="event-add" size={24} /> Pending: vote in the
-                Thunderdome!
-              </div>
             )}
             <div className="flex items-center gap-1">
               <Icon glyph="clock" size={24} /> {s.hours} hr

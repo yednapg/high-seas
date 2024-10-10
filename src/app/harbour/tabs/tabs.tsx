@@ -54,7 +54,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
     {
       name: "The Keep",
       path: "the-keep",
-      component: <Shipyard ships={myShips} />,
+      component: <Shipyard session={session} ships={myShips} />,
       lockOnNoHb: true,
     },
     {
