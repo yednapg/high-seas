@@ -301,7 +301,10 @@ export default function Ships({
                             }}
                             transition={{ duration: 0.2, ease: "easeInOut" }}
                           >
-                            <EditShipForm ship={selectedShip} />
+                            <EditShipForm
+                              ship={selectedShip}
+                              closeForm={() => setIsEditingShip(false)}
+                            />
                           </motion.div>
                         )}
                       </AnimatePresence>
