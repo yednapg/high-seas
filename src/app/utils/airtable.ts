@@ -58,7 +58,7 @@ export const getPersonTicketBalance = async (slackId: string) => {
   return person.get("settled_tickets") as number;
 };
 
-export async function getVoteBalance(slackId: string) {
+export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);
-  return person.get("vote_balance") as number;
+  return person.get("votes_remaining_for_next_pending_ship") as number;
 }

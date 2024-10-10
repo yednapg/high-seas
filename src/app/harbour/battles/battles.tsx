@@ -9,7 +9,7 @@ import ReactMarkdown, { Components } from "react-markdown";
 import { JwtPayload } from 'jsonwebtoken';
 
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
-import { getVoteBalance } from "@/app/utils/airtable";
+import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 
 interface Matchup {
@@ -207,7 +207,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>('cache.voteBalance', 0);
 
   const fetchVoteBalance = async () => {
-    setVoteBalance(await getVoteBalance(session.payload?.sub));
+    setVoteBalance(await getVotesRemainingForNextPendingShip(session.payload?.sub));
   }
 
   const fetchMatchup = async () => {
@@ -327,9 +327,9 @@ export default function Matchups({ session }: { session: JwtPayload }) {
             By that definition, which of these two projects is better? (If you are not sure, just refresh to skip!)
           </p>
 
-          {voteBalance < 0 && (
+          {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
-              {-voteBalance} more vote(s) needed for your ships to enter the thunderdome!
+              {voteBalance} vote(s) remaining for your next ship to enter the thunderdome!
             </div>
           )}
         </header>
