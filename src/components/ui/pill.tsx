@@ -13,7 +13,7 @@ export default function Pill({
   glyph?: any;
   glyphImage?: any;
   glyphSize?: number;
-  glyphStyles?: Object;
+  glyphStyles?: object;
 }) {
   let textColour = "text-gray-600",
     bgColour = "bg-gray-50",
