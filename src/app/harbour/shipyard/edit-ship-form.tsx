@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Ship, updateShip } from "./ship-utils";
+import { useToast } from "@/hooks/use-toast";
+
+const editMessages = [
+  "Orpheus hopes you know that she put a lot of effort into recording your changes~",
+  "Heidi scribbles down your changes hastily...",
+  "Orpheus put your Ship changes in the logbook. They're going nowhere, rest assured.",
+];
 
 export default function EditShipForm({
   ship,
@@ -10,6 +17,8 @@ export default function EditShipForm({
   closeForm: () => void;
   setShips: any;
 }) {
+  const { toast } = useToast();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -41,6 +50,12 @@ export default function EditShipForm({
       console.error("Updated a ship but can't setShips bc you didn't pass it.");
     }
     closeForm();
+
+    toast({
+      title: "Ship updated!",
+      description:
+        editMessages[Math.floor(Math.random() * editMessages.length)],
+    });
   };
 
   return (
