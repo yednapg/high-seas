@@ -18,6 +18,7 @@ import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
+import ReadmeHelperImg from "/public/readme-helper.png";
 
 export default function Ships({
   ships,
@@ -74,9 +75,7 @@ export default function Ships({
         setReadmeText(text);
       } catch (error) {
         console.error("Failed to fetch README:", error);
-        setReadmeText(
-          `Failed to load README content from ${selectedShip.readmeUrl}`,
-        );
+        setReadmeText("?");
       }
     }
   };
@@ -327,9 +326,30 @@ export default function Ships({
 
                       {readmeText ? (
                         <div className="prose max-w-none">
-                          <ReactMarkdown components={markdownComponents}>
-                            {readmeText}
-                          </ReactMarkdown>
+                          {readmeText === "?" ? (
+                            <div className="p-2 text-center">
+                              <p>RAHHHH! You entered a bad README URL.</p>
+                              <p className="text-xs">
+                                Bestie you gotta click <code>Raw</code> on your
+                                README and then copy the URL
+                                <br />
+                                (it should start with{" "}
+                                <code>raw.githubusercontent.com</code> and end
+                                in <code>.md</code>)
+                              </p>
+                              <Image
+                                src={ReadmeHelperImg}
+                                alt=""
+                                width={400}
+                                height={100}
+                                className="mx-auto object-cover mt-2"
+                              />
+                            </div>
+                          ) : (
+                            <ReactMarkdown components={markdownComponents}>
+                              {readmeText}
+                            </ReactMarkdown>
+                          )}
                         </div>
                       ) : (
                         <p className="text-center">Loading README...</p>
