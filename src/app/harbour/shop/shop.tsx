@@ -18,7 +18,6 @@ export default function Shop({ verificationStatus }: { verificationStatus: strin
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
   useEffect(() => {
-    console.log("verification status", verificationStatus)
     setBannerText(sample(shopBanner))
 
     getShop().then((shop) => setShopItems(shop));
