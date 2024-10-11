@@ -26,7 +26,7 @@ export const getAllProjects = async (): Promise<Ships[]> => {
   const records = await base("ships")
     .select({ filterByFormula: `AND(
       NOT(hidden),
-      {project_source} != 'test'
+      {project_source} != 'test',
       {project_source} != 'tutorial'
       )` })
     .all();
@@ -111,6 +111,25 @@ export const submitVote = async (voteData: {
     ...(record.fields as Battles),
   };
 };
+
+export const ensureUniqueVote = async (
+  slackId: string,
+  project1: string,
+  project2: string,
+): Promise<boolean> => {
+  const records = await base("battles").select({
+    filterByFormula: `AND(
+      {voter__slack_id} = '${slackId}',
+      OR(
+        AND({winner} = '${project1}', {loser} = '${project2}'),
+        AND({winner} = '${project2}', {loser} = '${project1}')
+      )
+    )`,
+    maxRecords: 1
+  }).all()
+
+  return records.length === 0;
+}
 
 export const getPersonBySlackId = async (
   slackId: string,

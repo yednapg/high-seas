@@ -1,6 +1,7 @@
 import { createHmac } from 'node:crypto'
 
 import { Ships } from "../../types/battles/airtable"; 
+import { ensureUniqueVote } from './airtable';
 
 const HOUR_VARIATION_THRESHOLD = 0.5;
 const PROBABILITY_SCALE = 50;
@@ -41,10 +42,10 @@ export function verifyMatchup(signedMatchup: { winner: string; loser: string; ma
   return validSig && validTs
 }
 
-export function generateMatchup(
+export async function generateMatchup(
   projects: Ships[],
   userSlackId: string,
-): { project1: Ships; project2: Ships; matchQuality: number; signature: string } | null {
+): Promise<{ project1: Ships; project2: Ships; matchQuality: number; signature: string } | null> {
   const shuffledProjects = projects.sort(() => Math.random() - 0.5);
   const project1 = shuffledProjects[0];
 
@@ -80,6 +81,9 @@ export function generateMatchup(
     (1 +
       Math.abs(project1.hours - project2.hours) /
         Math.max(project1.hours, project2.hours));
-
+  const uniqueVote = await ensureUniqueVote(userSlackId, project1.identifier, project2.identifier)
+  if (!uniqueVote) {
+    return null
+  }
   return signMatchup({ project1, project2, matchQuality }, userSlackId);
 }
