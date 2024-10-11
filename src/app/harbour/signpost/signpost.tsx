@@ -4,6 +4,8 @@ import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ScalesImage from "/public/scales.svg";
+import { Card } from "@/components/ui/card";
+import Pill from "@/components/ui/pill";
 
 // Define the motion properties outside the component
 const motionProps = {
@@ -26,10 +28,13 @@ export default function SignPost({
     );
   }, []);
 
-  const motionProps = useMemo(() => ({
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-  }), []);
+  const motionProps = useMemo(
+    () => ({
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+    }),
+    [],
+  );
 
   return (
     <motion.div
@@ -102,7 +107,7 @@ export default function SignPost({
         allowFullScreen
       ></iframe> */}
 
-      <div className="m-4 flex flex-col justify-center items-center mb-8">
+      <div className="m-4 mx-auto w-fit">
         <p className="text-2xl mb-6 text-blue-500">Key locations:</p>
         <div className="text-white">
           <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
@@ -128,7 +133,8 @@ export default function SignPost({
               peer voted!
             </p>
           </div>
-          <div className="mb-2 bg-blue-400 p-4 rounded-lg max-w-xl">
+
+          <Card className="mb-2 p-4 max-w-xl">
             <p className="text-2xl mb-2">Shoppe</p>
             <p>
               Spend all your{" "}
@@ -139,7 +145,7 @@ export default function SignPost({
               here! Get items, ranging from Blahajs to Yubikeys. More items to
               come in the future!
             </p>
-          </div>
+          </Card>
         </div>
       </div>
 
