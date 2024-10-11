@@ -135,7 +135,11 @@ export default function NewShipForm({
             <span className="text-xs opacity-50">
               If you need to include several of the listed projects in this
               dropdown, you need to update your project labels in the{" "}
-              <a className="text-blue-600" href="https://waka.hackclub.com">
+              <a
+                className="text-blue-600"
+                href="https://waka.hackclub.com"
+                target="_blank"
+              >
                 Wakatime dashboard
               </a>
             </span>
