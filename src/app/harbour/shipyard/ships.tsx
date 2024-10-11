@@ -16,6 +16,8 @@ import Link from "next/link";
 import ScalesImage from "/public/scales.svg";
 import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
+import NoImgDino from "/public/no-img-dino.png";
+import NoImgBanner from "/public/no-img-banner.png";
 
 export default function Ships({
   ships,
@@ -99,11 +101,9 @@ export default function Ships({
           <img
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
-            style={{ objectFit: "cover" }}
-            className="object-cover max-w-full h-full rounded-md"
-            sizes="4rem"
+            className="object-cover w-full h-full absolute top-0 left-0 rounded"
             onError={({ target }) => {
-              target.src = "/no-img-dino.png";
+              target.src = NoImgDino.src;
             }}
           />
         </div>
@@ -243,7 +243,7 @@ export default function Ships({
                     unoptimized
                     sizes="4rem"
                     onError={({ target }) => {
-                      target.src = "/no-img-dino2.png";
+                      target.src = NoImgBanner.src;
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
