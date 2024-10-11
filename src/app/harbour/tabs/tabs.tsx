@@ -25,7 +25,7 @@ export default function Harbour({ currentTab, session }: { currentTab: string, s
   const [wakaToken, setWakaToken] = useLocalStorageState('cache.wakaToken', null);
   const [hasWakaHb, setHasWakaHb] = useLocalStorageState('cache.hasWakaHb', null);
   const [wakaEmail, setWakaEmail] = useLocalStorageState('cache.wakaEmail', null);
-  const [verificationStatus, setVerificationStatus] = useState<string | null>(null); // using state instead of local stroage because people can just edit the string and can use the shop then
+  const [verificationStatus, setVerificationStatus] = useLocalStorageState('cache.verificationStatus', null);
   const [personTicketBalance, setPersonTicketBalance] = useLocalStorageState<string>("cache.personTicketBalance", '-');
 
   const router = useRouter()
