@@ -16,6 +16,9 @@ import Link from "next/link";
 import ScalesImage from "/public/scales.svg";
 import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
+import NoImgDino from "/public/no-img-dino.png";
+import NoImgBanner from "/public/no-img-banner.png";
+import ReadmeHelperImg from "/public/readme-helper.png";
 
 export default function Ships({
   ships,
@@ -72,9 +75,7 @@ export default function Ships({
         setReadmeText(text);
       } catch (error) {
         console.error("Failed to fetch README:", error);
-        setReadmeText(
-          `Failed to load README content from ${selectedShip.readmeUrl}`,
-        );
+        setReadmeText("?");
       }
     }
   };
@@ -99,11 +100,9 @@ export default function Ships({
           <img
             src={s.screenshotUrl}
             alt={`Screenshot of ${s.title}`}
-            style={{ objectFit: "cover" }}
-            className="object-cover max-w-full h-full rounded-md"
-            sizes="4rem"
+            className="object-cover w-full h-full absolute top-0 left-0 rounded"
             onError={({ target }) => {
-              target.src = "/no-img-dino.png";
+              target.src = NoImgDino.src;
             }}
           />
         </div>
@@ -243,7 +242,7 @@ export default function Ships({
                     unoptimized
                     sizes="4rem"
                     onError={({ target }) => {
-                      target.src = "/no-img-dino2.png";
+                      target.src = NoImgBanner.src;
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
@@ -327,9 +326,30 @@ export default function Ships({
 
                       {readmeText ? (
                         <div className="prose max-w-none">
-                          <ReactMarkdown components={markdownComponents}>
-                            {readmeText}
-                          </ReactMarkdown>
+                          {readmeText === "?" ? (
+                            <div className="p-2 text-center">
+                              <p>RAHHHH! You entered a bad README URL.</p>
+                              <p className="text-xs">
+                                Bestie you gotta click <code>Raw</code> on your
+                                README and then copy the URL
+                                <br />
+                                (it should start with{" "}
+                                <code>raw.githubusercontent.com</code> and end
+                                in <code>.md</code>)
+                              </p>
+                              <Image
+                                src={ReadmeHelperImg}
+                                alt=""
+                                width={400}
+                                height={100}
+                                className="mx-auto object-cover mt-2"
+                              />
+                            </div>
+                          ) : (
+                            <ReactMarkdown components={markdownComponents}>
+                              {readmeText}
+                            </ReactMarkdown>
+                          )}
                         </div>
                       ) : (
                         <p className="text-center">Loading README...</p>
