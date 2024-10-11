@@ -4,6 +4,7 @@ import type { Ship } from "./ship-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useEffect } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
+import Pill from "@/components/ui/pill";
 
 const exampleShips: Ship[] = [
   {
@@ -70,10 +71,15 @@ const exampleShips: Ship[] = [
 ];
 
 export default function Shipyard({ ships, setShips, session }: any) {
-  const [voteBalance, setVoteBalance] = useLocalStorageState('cache.voteBalance', 0);
+  const [voteBalance, setVoteBalance] = useLocalStorageState(
+    "cache.voteBalance",
+    0,
+  );
   useEffect(() => {
-    getVotesRemainingForNextPendingShip(session).then((balance) => setVoteBalance(balance));
-  })
+    getVotesRemainingForNextPendingShip(session).then((balance) =>
+      setVoteBalance(balance),
+    );
+  });
 
   if (!ships) {
     <LoadingSpinner />;
@@ -86,19 +92,21 @@ export default function Shipyard({ ships, setShips, session }: any) {
           </h1>
         </div>
         {voteBalance > 0 && (
-          <p className="text-center mx-auto max-w-prose bg-red-200 py-0.5 rounded-full mb-4">
-            A project is pending until you vote on {voteBalance} more matchup(s)
-            in the Thunderdome!
-          </p>
+          <div className="w-fit mx-auto">
+            <Pill
+              msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Thunderdome!`}
+              color="red"
+              glyph="important"
+            />
+          </div>
         )}
         <Ships ships={ships} setShips={setShips} />
 
-        <div className="m-4 flex flex-col justify-center items-center mt-12">
+        <div className="flex flex-col justify-center items-center">
           <p className="text-2xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </p>
-
-          <Ships ships={exampleShips} hideLabels={true} />
+          <Ships ships={exampleShips} bareShips={true} />
         </div>
       </div>
     );

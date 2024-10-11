@@ -78,7 +78,9 @@ export default function NewShipForm({
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">New Ship</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {isShipUpdate ? "Update a" : "New"} Ship
+      </h1>
       <form action={handleForm} className="space-y-3">
         <div className="flex items-center space-x-2">
           <input
@@ -232,7 +234,7 @@ export default function NewShipForm({
           <label htmlFor="screenshot_url">
             Screenshot URL
             <br />
-            <span className="text-sm">
+            <span className="text-xs opacity-50">
               You can upload to{" "}
               <Link
                 className="text-blue-500"
