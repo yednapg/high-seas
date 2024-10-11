@@ -292,20 +292,20 @@ export default function Ships({
                             key="edit-ship-form"
                             initial={{
                               opacity: 0,
-                              transform: "translate(0, -2rem)",
+                              height: 0,
                               scale: 0.0,
                             }}
                             animate={{
                               opacity: 1,
-                              transform: "translate(0, 0rem)",
+                              height: "fit-content",
                               scale: 1,
                             }}
                             exit={{
                               opacity: 0,
-                              transform: "translate(0, 2rem)",
-                              scale: 5,
+                              height: 0,
+                              scale: 0,
                             }}
-                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
                           >
                             <Card className="p-2 mt-2 bg-neutral-100">
                               <EditShipForm
