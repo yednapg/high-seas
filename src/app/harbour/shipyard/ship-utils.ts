@@ -176,6 +176,7 @@ export async function stagedToShipped(ship: Ship) {
         id: ship.id,
         fields: {
           ship_status: "shipped",
+          ship_time: new Date().toISOString(),
         },
       },
     ],
