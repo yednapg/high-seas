@@ -10,16 +10,18 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
-import { getShop } from "./shop-utils"
+import { getShop, ShopItem } from "./shop-utils"
+import { JwtPayload } from 'jsonwebtoken';
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
-export default function Shop() {
+export default function Shop({ session }: { session: JwtPayload }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
+  const verificationStatus = session.verificationStatus[0] || 'unverified';
+
   useEffect(() => {
     setBannerText(sample(shopBanner))
-
     getShop().then((shop) => setShopItems(shop));
   }, [])
 
@@ -83,28 +85,34 @@ export default function Shop() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
           <motion.div key={item.id} {...styles.cardHoverProps}>
-            <Card className="h-full">
-              <CardHeader>
-
-                <span style={{ alignSelf: "end" }} className="text-green-400">
-                  <img src="scales.svg" alt="scales" width={25} height={25} style={styles.imageStyle} />
-                  {filterIndex == 1 ? item.priceUs : item.priceGlobal}
-                </span>
-                <div>
-                <CardTitle>{item.name}{item.fulfilledAtEnd && "*"}</CardTitle>
-                <p className="text-sm text-gray-600">{item.subtitle || ""}</p>
+            <Card className="h-full flex flex-col overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="text-xl font-bold">{item.name}{item.fulfilledAtEnd && "*"}</CardTitle>
+                  <span className="text-green-500 font-semibold flex items-center">
+                    <img src="scales.svg" alt="scales" width={20} height={20} className="mr-1" />
+                    {filterIndex == 1 ? item.priceUs : item.priceGlobal}
+                  </span>
                 </div>
-
+                <p className="text-sm text-gray-600 mt-1">{item.subtitle || ""}</p>
               </CardHeader>
               {item.imageUrl && (
-                <CardContent>
-                  <img src={item.imageUrl} alt={item.name} className="w-full" />
+                <CardContent className="p-0 flex-grow">
+                  <div className="h-48 overflow-hidden">
+                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                  </div>
                 </CardContent>
               )}
-              {filterIndex != 0 &&
-                  (<form action={`/api/buy/${item.id}`} method="POST">
-                <Button>Buy</Button>
-              </form> )}
+              <CardFooter className="pt-4">
+                {filterIndex != 0 && (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') && (
+                  <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
+                    <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">Buy</Button>
+                  </form>
+                )}
+                {filterIndex != 0 && (verificationStatus !== 'Eligible L1' && verificationStatus !== 'Eligible L2') && (
+                  <p className="text-red-500 text-sm text-center w-full">Verification required! Verify <a href="https://forms.hackclub.com/eligibility" className="underline">here</a></p>
+                )}
+              </CardFooter>
             </Card>
           </motion.div>
         ))}
