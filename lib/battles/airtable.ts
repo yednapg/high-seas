@@ -122,8 +122,8 @@ export const ensureUniqueVote = async (
     filterByFormula: `AND(
       {voter__slack_id} = '${slackId}',
       OR(
-        AND({winner} = '${project1}', {loser} = '${project2}'),
-        AND({winner} = '${project2}', {loser} = '${project1}')
+        AND({winner__record_id} = '${project1}', {loser__record_id} = '${project2}'),
+        AND({winner__record_id} = '${project2}', {loser__record_id} = '${project1}')
       )
     )`,
     maxRecords: 1
