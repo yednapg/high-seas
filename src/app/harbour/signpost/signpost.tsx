@@ -11,7 +11,7 @@ import Pill from "@/components/ui/pill";
 const keyLocations = [
   {
     title: "The Keep",
-    subtitle: <p>Submit your projects here when they're done!</p>,
+    subtitle: <p>{"Submit your projects here when they're done!"}</p>,
     path: "/the-keep",
   },
   {
@@ -127,7 +127,7 @@ export default function SignPost({
       </p>
       <br />
       <p>
-        Let's set up WakaTime! First, install the{" "}
+        {"Let's set up WakaTime! First, install the "}
         <a href="https://wakatime.com/vs-code" className="text-blue-500">
           VS Code extension
         </a>
@@ -160,7 +160,7 @@ export default function SignPost({
       </Card>
       <br />
       <p>
-        If you know what you're doing, go ahead and paste that in.
+        {"If you know what you're doing, go ahead and paste that in."}
         Alternatively, you can run this script in your terminal!
       </p>
       {wakaToken ? <WakaTimeConfigTabs wakaToken={wakaToken} /> : null}
@@ -168,8 +168,8 @@ export default function SignPost({
       <p>
         To log in to the dashboard, your username is your Slack ID (
         <code>{session ? session?.payload?.sub : "???"}</code>), and your email
-        is <code>{email ? email : "???"}</code>. You'll need to request a
-        password reset link (unless you've already signed up for Hackatime!)
+        is <code>{email ? email : "???"}</code>. {"You'll"} need to request a
+        password reset link (unless {"you've"} already signed up for Hackatime!)
       </p>
 
       <h2 className="text-center text-2xl mb-2 mt-6 text-blue-500">
@@ -178,6 +178,7 @@ export default function SignPost({
       <div className="mx-auto space-y-3">
         {keyLocations.map((location) => (
           <motion.a
+            key={location.path}
             whileHover={{ scale: 1.02, rotate: "3deg" }}
             href={location.path}
             className="block"
