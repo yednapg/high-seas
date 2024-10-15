@@ -117,6 +117,7 @@ export const ensureUniqueVote = async (
   project1: string,
   project2: string,
 ): Promise<boolean> => {
+  console.log("ensureUniqueVote", slackId, project1, project2);
   const records = await base("battles").select({
     filterByFormula: `AND(
       {voter__slack_id} = '${slackId}',
@@ -127,6 +128,7 @@ export const ensureUniqueVote = async (
     )`,
     maxRecords: 1
   }).all()
+  console.log("ensureUniqueVote", records);
 
   return records.length === 0;
 }
