@@ -42,4 +42,5 @@ export interface Person extends FieldSet {
   last_name: string;
   email: string;
   slack_id: string;
+  verification_status?: string;
 }

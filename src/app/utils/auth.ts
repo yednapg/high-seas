@@ -2,6 +2,7 @@
 
 import { sign, decode, verify, JwtPayload } from "jsonwebtoken";
 import { cookies, headers } from "next/headers";
+import { getPersonBySlackId } from "../../../lib/battles/airtable";
 
 const vars = () => {
   const authSecret = process.env.AUTH_SECRET;
@@ -36,10 +37,13 @@ export async function getSession(): Promise<JwtPayload | null> {
   const cookie = cookies().get(cookieName);
   if (!cookie) return null;
 
-  return verify(cookie.value, authSecret, {
+  const payload = verify(cookie.value, authSecret, {
     complete: true,
-    algorithms: ["HS256"], // Specify the expected algorithm
+    algorithms: ["HS256"],
   }).payload as JwtPayload;
+  const person = await getPersonBySlackId(payload.payload.sub);
+  payload.verificationStatus = person?.verification_status ?? "unverified";
+  return payload;
 }
 
 export async function deleteSession() {
