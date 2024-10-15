@@ -27,6 +27,7 @@ export interface Ship {
   doubloonPayout: number;
   shipType: string;
   shipStatus: string;
+  wakatimeProjectName: string;
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
@@ -64,6 +65,9 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
                 doubloonPayout: record.get("doubloon_payout") as number,
                 shipType: record.get("ship_type") as string,
                 shipStatus: record.get("ship_status") as string,
+                wakatimeProjectName: record.get(
+                  "wakatime_project_name",
+                ) as string,
               });
             }
           });
@@ -93,6 +97,7 @@ export async function createShip(formData: FormData) {
   console.log(formData, slackId, entrantId);
 
   const isShipUpdate = formData.get("isShipUpdate");
+  const [hourCount, wakatimeProjectName] = formData.get("hours");
 
   base()(shipsTableName).create(
     [
@@ -100,7 +105,7 @@ export async function createShip(formData: FormData) {
         // @ts-expect-error No overload matches this call - but it does
         fields: {
           title: formData.get("title"),
-          hours: Number(formData.get("hours")),
+          hours: Number(hourCount),
           entrant: [entrantId],
           repo_url: formData.get("repo_url"),
           readme_url: formData.get("readme_url"),
@@ -110,6 +115,7 @@ export async function createShip(formData: FormData) {
           update_description: isShipUpdate
             ? formData.get("updateDescription")
             : null,
+          wakatime_project_name: wakatimeProjectName,
         },
       },
     ],

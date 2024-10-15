@@ -200,6 +200,7 @@ export default function Ships({
               onClick={(e) => e.stopPropagation()}
             >
               <NewShipForm
+                ships={ships}
                 canvasRef={canvasRef}
                 closeForm={() => setNewShipVisible(false)}
                 session={session}

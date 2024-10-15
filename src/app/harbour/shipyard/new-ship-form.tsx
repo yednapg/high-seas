@@ -1,6 +1,6 @@
 // Import necessary modules and components
 import Link from "next/link";
-import { createShip } from "./ship-utils";
+import { createShip, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef, useState } from "react";
@@ -24,10 +24,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function NewShipForm({
+  ships,
   canvasRef,
   closeForm,
   session,
 }: {
+  ships: Ship[];
   canvasRef: any;
   closeForm: any;
   session: any;
@@ -54,7 +56,14 @@ export default function NewShipForm({
       try {
         const slackId = session.payload.sub;
         const res = await getWakaSessions();
-        setProjects(res.projects.filter((p) => p.key != "<<LAST_PROJECT>>"));
+        const shippedShips = ships
+          .map((s) => s.wakatimeProjectName)
+          .filter((n) => n);
+        setProjects(
+          res.projects.filter(
+            (p) => p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
+          ),
+        );
 
         console.log(res);
       } catch (error) {
