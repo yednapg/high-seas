@@ -12,6 +12,7 @@ export interface Ships extends FieldSet {
   readme_url: string;
   deploy_url: string;
   matchups?: string[];
+  matchups_count?: number;
   wins?: string[];
   wins_adjustments?: number;
   losses?: string[];
