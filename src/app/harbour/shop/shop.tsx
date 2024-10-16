@@ -19,6 +19,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
   const verificationStatus = session.verificationStatus[0] || 'unverified';
+  const slackId = session.payload.sub
 
   useEffect(() => {
     setBannerText(sample(shopBanner))
@@ -58,6 +59,23 @@ export default function Shop({ session }: { session: JwtPayload }) {
 
   const onOptionChangeHandler = (e) => {
     setFilterIndex(e.target.value)
+  }
+
+  const ActionArea = ({item}: {item: ShopItem}) => {
+    if (filterIndex == 0) {
+      return null
+    } else if (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') {
+      return (
+        <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
+          <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">Buy</Button>
+        </form>
+      )
+    } else {
+      return (
+        <p className="text-red-500 text-sm text-center w-full">Verification required!<br />
+        <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</a></p>
+      )
+    }
   }
 
   return (
@@ -104,14 +122,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
                 </CardContent>
               )}
               <CardFooter className="pt-4">
-                {filterIndex != 0 && (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') && (
-                  <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">Buy</Button>
-                  </form>
-                )}
-                {filterIndex != 0 && (verificationStatus !== 'Eligible L1' && verificationStatus !== 'Eligible L2') && (
-                  <p className="text-red-500 text-sm text-center w-full">Verification required! Verify <a href="https://forms.hackclub.com/eligibility" className="underline">here</a></p>
-                )}
+                <ActionArea item={item} />
               </CardFooter>
             </Card>
           </motion.div>
