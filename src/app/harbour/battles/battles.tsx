@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Ships } from "../../../../types/battles/airtable";
-import { Link as LucideLink, Star, Code, ExternalLink, Book } from "lucide-react";
+import { Link as LucideLink, Star, Code, ExternalLink, Book, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
