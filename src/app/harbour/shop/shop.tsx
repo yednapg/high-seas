@@ -19,6 +19,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
   const [bannerText, setBannerText] = useState('')
   const verificationStatus = session.verificationStatus[0] || 'unverified';
+  const slackId = session.payload.sub
 
   useEffect(() => {
     setBannerText(sample(shopBanner))
@@ -110,7 +111,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
                   </form>
                 )}
                 {filterIndex != 0 && (verificationStatus !== 'Eligible L1' && verificationStatus !== 'Eligible L2') && (
-                  <p className="text-red-500 text-sm text-center w-full">Verification required! Verify <a href="https://forms.hackclub.com/eligibility" className="underline">here</a></p>
+                  <p className="text-red-500 text-sm text-center w-full">Verification required! Verify <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">here</a></p>
                 )}
               </CardFooter>
             </Card>
