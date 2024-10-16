@@ -22,9 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${mainFont.variable} antialiased mt-14`}>
-        {children}
+      <body className={`${mainFont.variable} antialiased`}>
         <Nav />
+        <main className="pt-14">{children}</main>
         <SpeedInsights />
         <Toaster />
       </body>
