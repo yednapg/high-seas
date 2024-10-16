@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
       }}
     >
       <div
-        className="w-full flex items-center justify-center p-8"
+        className="w-full flex items-center justify-center p-2 sm:p-8"
       >
         {/* <SoundButton /> */}
         <Card className="w-full max-w-4xl flex flex-col">
