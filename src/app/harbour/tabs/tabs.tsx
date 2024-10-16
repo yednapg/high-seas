@@ -69,7 +69,7 @@ export default function Harbour({
       name: "📮",
       path: "signpost",
       component: (
-        <SignPost session={session} wakaToken={wakaToken} email={wakaEmail} />
+        <SignPost session={session} wakaToken={wakaToken} email={wakaEmail} hasWakaHb={hasWakaHb} />
       ),
     },
     {

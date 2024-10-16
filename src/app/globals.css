@@ -96,3 +96,7 @@ main {
 .enchanted {
     font-family: '0Enchanted_Land', cursive;
 }
+
+*::marker  {
+    content: none;
+}

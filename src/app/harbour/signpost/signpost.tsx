@@ -1,12 +1,12 @@
-import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { motion } from "framer-motion";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ScalesImage from "/public/scales.svg";
 import { Card } from "@/components/ui/card";
 import WakaTimeConfigTabs from "./wakatime-config-tabs";
 import Pill from "@/components/ui/pill";
+import Icon from "@hackclub/icons";
 
 const keyLocations = [
   {
@@ -56,37 +56,16 @@ const keyLocations = [
   },
 ];
 
-export default function SignPost({
-  session,
-  wakaToken,
-  email,
-}: {
-  session: any;
-  wakaToken: string | null;
-  email: string | null;
-}) {
-  useEffect(() => {
-    hasRecvFirstHeartbeat().then((a) =>
-      console.log("has recv first heartbeat:", a),
-    );
-  }, []);
-
-  const motionProps = useMemo(
-    () => ({
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-    }),
-    [],
-  );
-
+export const SetupSummary = ({startOpen, email, wakaToken, slackId}: {startOpen: boolean, email: string | null, wakaToken: string | null, slackId: string | null}) => {
   return (
-    <motion.div
-      {...motionProps}
-      className="container mx-auto px-4 py-8 max-w-prose"
-    >
-      <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-6 text-center">
-        Welcome to the signpost
-      </h1>
+    <>
+      <details open={startOpen}>
+
+        <summary className="cursor-pointer hide-marker">
+          <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-300 mb-6 text-center">
+            Tracking your time <Icon glyph="down-caret" size={32} className="inline-block" />
+          </h1>
+        </summary>
 
       <p>
         Low Skies tracks your time spent coding, which factors into how many
@@ -167,10 +146,46 @@ export default function SignPost({
       <br />
       <p>
         To log in to the dashboard, your username is your Slack ID (
-        <code>{session ? session?.payload?.sub : "???"}</code>), and your email
-        is <code>{email ? email : "???"}</code>. {"You'll"} need to request a
+        <code>{slackId || "???"}</code>), and your email
+        is <code>{email || "???"}</code>. {"You'll"} need to request a
         password reset link (unless {"you've"} already signed up for Hackatime!)
       </p>
+      </details>
+      </>
+  )
+
+}
+
+export default function SignPost({
+  session,
+  wakaToken,
+  email,
+  hasWakaHb
+}: {
+  session: any;
+  wakaToken: string | null;
+  email: string | null;
+  hasWakaHb: boolean | null;
+}) {
+
+  const motionProps = useMemo(
+    () => ({
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+    }),
+    [],
+  );
+
+  return (
+    <motion.div
+      {...motionProps}
+      className="container mx-auto px-4 py-8 max-w-prose"
+    >
+      <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-6 text-center">
+        Welcome to the signpost
+      </h1>
+
+      <SetupSummary startOpen={!hasWakaHb} email={email} wakaToken={wakaToken} slackId={session.payload.sub}/>
 
       <h2 className="text-center text-2xl mb-2 mt-6 text-blue-500">
         Key Locations
