@@ -76,7 +76,7 @@ export default function Shipyard({ ships, setShips, session }: any) {
     0,
   );
   useEffect(() => {
-    getVotesRemainingForNextPendingShip(session).then((balance) =>
+    getVotesRemainingForNextPendingShip(session.payload.sub).then((balance) =>
       setVoteBalance(balance),
     );
   });
