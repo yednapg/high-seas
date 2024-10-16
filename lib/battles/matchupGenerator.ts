@@ -80,7 +80,7 @@ export async function generateMatchup(
   // if (validMatches.length === 0) return null;
 
   const probabilities = validMatches.map((p) =>
-    calculateMatchProbability(project1.hours, p.hours) * calculateMatchupScore(p)
+    calculateMatchProbability(project1.hours, p.hours)
   );
   const totalProbability = probabilities.reduce((a, b) => a + b, 0);
   const normalizedProbabilities = probabilities.map((p) => p / totalProbability);
@@ -101,7 +101,7 @@ export async function generateMatchup(
   // do we even need this anymorw? It's a remant of past
   const matchQuality = 1 / (1 + Math.abs(project1.hours - project2.hours) / Math.max(project1.hours, project2.hours));
   
-  const uniqueVote = await ensureUniqueVote(userSlackId, project1.identifier, project2.identifier)
+  const uniqueVote = await ensureUniqueVote(userSlackId, project1.id, project2.id)
   if (!uniqueVote) return null;
 
   return signMatchup({ project1, project2, matchQuality }, userSlackId);
