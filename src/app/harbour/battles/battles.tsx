@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Ships } from "../../../../types/battles/airtable";
-import { Factory, Book, Link as LucideLink, ArrowLeft, ThumbsUp } from "lucide-react";
+import { Link as LucideLink, Star, Code, ExternalLink, Book } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
@@ -65,9 +65,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <h2 className="font-heading text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
           {project.title}
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
+        {/* <p className="text-gray-600 dark:text-gray-300 mb-4">
           Hours: {project.hours}
-        </p>
+        </p> */}
         <div className="flex flex-wrap gap-2 mb-4">
           {project.repo_url && (
             <Link
@@ -76,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200 flex items-center"
             >
-              <Factory className="mr-1" /> Repository
+              <Code className="mr-1" /> Repository
             </Link>
           )}
           {project.deploy_url && (
@@ -86,7 +86,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="text-sm bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 px-3 py-1 rounded-full hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-200 flex items-center"
             >
-              <LucideLink className="mr-1" /> Live Demo
+              <ExternalLink className="mr-1" /> Live Demo
             </Link>
           )}
           {project.readme_url && (
@@ -104,7 +104,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           onClick={onVote}
           className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >
-          <ThumbsUp className="mr-2" /> Vote for {project.title}
+          <Star className="mr-2" /> Vote for {project.title}
         </button>
       </div>
     </div>
