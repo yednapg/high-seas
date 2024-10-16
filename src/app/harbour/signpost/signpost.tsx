@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/card";
 import WakaTimeConfigTabs from "./wakatime-config-tabs";
 import Pill from "@/components/ui/pill";
 
+import WakatimeSetupInstructions from "./wakatime-setup-instructions";
+
 const keyLocations = [
   {
     title: "The Keep",
@@ -87,6 +89,8 @@ export default function SignPost({
       <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-6 text-center">
         Welcome to the signpost
       </h1>
+
+      <WakatimeSetupInstructions />
 
       <p>
         Low Skies tracks your time spent coding, which factors into how many
