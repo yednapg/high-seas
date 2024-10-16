@@ -27,7 +27,9 @@ export const getAllProjects = async (): Promise<Ships[]> => {
     .select({ filterByFormula: `AND(
       NOT(hidden),
       {project_source} != 'test',
-      {project_source} != 'tutorial'
+      {project_source} != 'tutorial',
+      {ship_status} != 'staged',
+      {ship_status} != 'deleted'
       )` })
     .all();
   return records.map((record) => ({
