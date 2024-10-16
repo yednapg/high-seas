@@ -98,7 +98,7 @@ export default function Harbour({
       className="flex-1 flex flex-col"
       onValueChange={handleTabChange}
     >
-      <TabsList className="mx-2 my-2 relative flex items-center">
+      <TabsList className="mx-2 my-2 relative flex items-center justify-between sm:justify-center p-2">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.name}
@@ -108,7 +108,7 @@ export default function Harbour({
             {tab.name === "📮" ? (
               <>
                 <img src="/signpost.png" width={20} alt="Signpost" className="sm:block hidden" />
-                <span className="sm:hidden absolute"><Image src="/signpost.png" width={20} height={20} alt="Signpost"/></span>
+                <span className="sm:hidden absolute "><Image src="/signpost.png" width={20} height={20} alt="Signpost"/></span>
               </>
             ) : (
               tab.name
