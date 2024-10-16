@@ -80,7 +80,7 @@ export async function generateMatchup(
   // if (validMatches.length === 0) return null;
 
   const probabilities = validMatches.map((p) =>
-    calculateMatchProbability(project1.hours, p.hours) * calculateMatchupScore(p)
+    calculateMatchProbability(project1.hours, p.hours)
   );
   const totalProbability = probabilities.reduce((a, b) => a + b, 0);
   const normalizedProbabilities = probabilities.map((p) => p / totalProbability);
