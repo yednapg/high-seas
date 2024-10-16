@@ -141,7 +141,7 @@ export default function SignPost({
         Your WakaTime config (located at <code>~/.wakatime.cfg</code>) needs to
         be exactly this;
       </p>
-      <Card className="p-2">
+      <Card className="p-2" type={"paper"}>
         <pre className="text-left">
           <code>
             {wakaToken ? (
@@ -183,7 +183,7 @@ export default function SignPost({
             href={location.path}
             className="block"
           >
-            <Card className="p-2 text-left">
+            <Card className="p-2 text-left" type={"paper"}>
               <p className="text-xl">{location.title}</p>
 
               {location.subtitle}

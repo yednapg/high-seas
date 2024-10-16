@@ -95,7 +95,10 @@ export default function Ships({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
+      <Card
+        className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200"
+        type={"paper"}
+      >
         <div className="w-16 h-16 relative mr-4">
           <img
             src={s.screenshotUrl}

@@ -6,18 +6,13 @@ import SignIn from "./sign_in";
 import Image from "next/image";
 import Logo from "/public/logo.png";
 import Flag from "/public/flag-orpheus-top.svg";
+import { Card } from "./ui/card";
 
 export default async function Nav() {
   const session = await getSession();
 
   return (
-    <nav
-      className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 bg-neutral-100 bg-blend-color-burn"
-      style={{
-        backgroundImage: "url(/cardboard.png)",
-        backgroundColor: "#ffffffc0",
-      }}
-    >
+    <Card className="fixed flex justify-between top-0 left-0 right-0 h-14 px-8 m-1 bg-neutral-100 z-10 drop-shadow-lg">
       <div className="flex gap-3 items-center">
         <Image src={Flag} alt="hack club" height={54} />
         <Image src={Logo} alt="low skies" height={48} />
@@ -37,6 +32,6 @@ export default async function Nav() {
         ) : null}
         {session ? <SignOut /> : <SignIn variant="small" session={session} />}
       </div>
-    </nav>
+    </Card>
   );
 }

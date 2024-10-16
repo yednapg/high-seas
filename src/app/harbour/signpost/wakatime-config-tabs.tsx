@@ -41,7 +41,7 @@ const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
         <TabsTrigger value="windows">Windows</TabsTrigger>
       </TabsList>
       <TabsContent value="unix">
-        <Card className="p-2 flex items-stretch">
+        <Card className="p-2 flex items-stretch" type={"paper"}>
           <code className="whitespace-nowrap overflow-x-auto flex-grow py-2 pr-2">
             {unixCommand}
           </code>
@@ -49,7 +49,7 @@ const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
         </Card>
       </TabsContent>
       <TabsContent value="windows">
-        <Card className="p-2 flex items-stretch">
+        <Card className="p-2 flex items-stretch" type={"paper"}>
           <code className="whitespace-nowrap overflow-x-auto flex-grow py-2 pr-2">
             {windowsCommand}
           </code>
