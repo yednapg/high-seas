@@ -90,7 +90,6 @@ export async function getWakaSessions(): Promise<any> {
 
   const slackId = session.payload.sub;
 
-  const todayIso = new Date().toISOString().split("T")[0];
   const summaryRes = await fetch(
     // TODO: this date needs to change dynamically and can't be too far in the future
     `https://waka.hackclub.com/api/summary?interval=low_skies&user=${slackId}`,
