@@ -9,7 +9,7 @@ const LoadingSpinner = () => {
   }, [])
 
   return useMemo(() => (
-    <div className="h-16 w-16">
+    <div className="h-32 w-32">
       {src && (
         <img src={src} alt="loading spinner" />
       )}
