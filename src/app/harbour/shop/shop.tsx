@@ -8,11 +8,29 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
-import { sample, shopBanner } from "../../../../lib/flavor.js";
+import { purchaseWords, sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils"
 import { JwtPayload } from 'jsonwebtoken';
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
+
+const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { itemId: string, slackId: string, filterIndex: number, verificationStatus: string }) => {
+  if (filterIndex == 0) {
+    return null
+  } else if (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') {
+    const buyWord = useMemo(() => sample(purchaseWords), [itemId])
+    return (
+      <form action={`/api/buy/${itemId}`} method="POST" className="w-full">
+        <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">{buyWord}</Button>
+      </form>
+    )
+  } else {
+    return (
+      <p className="text-red-500 text-sm text-center w-full">Verification required!<br />
+        <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</a></p>
+    )
+  }
+}
 
 export default function Shop({ session }: { session: JwtPayload }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
@@ -61,22 +79,6 @@ export default function Shop({ session }: { session: JwtPayload }) {
     setFilterIndex(e.target.value)
   }
 
-  const ActionArea = ({item}: {item: ShopItem}) => {
-    if (filterIndex == 0) {
-      return null
-    } else if (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') {
-      return (
-        <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
-          <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">Buy</Button>
-        </form>
-      )
-    } else {
-      return (
-        <p className="text-red-500 text-sm text-center w-full">Verification required!<br />
-        <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</a></p>
-      )
-    }
-  }
 
   return (
     <motion.div
@@ -84,9 +86,9 @@ export default function Shop({ session }: { session: JwtPayload }) {
     >
 
       <div className="text-center">
-      <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
-        Ye olde shoppe
-      </h1>
+        <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
+          Ye olde shoppe
+        </h1>
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">{bannerText}</p>
       </div>
       <div className="text-center mb-6 mt-12">
@@ -122,7 +124,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
                 </CardContent>
               )}
               <CardFooter className="pt-4">
-                <ActionArea item={item} />
+                <ActionArea itemId={item.id} slackId={slackId} filterIndex={filterIndex} verificationStatus={verificationStatus} />
               </CardFooter>
             </Card>
           </motion.div>
