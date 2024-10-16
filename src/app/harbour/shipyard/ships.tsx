@@ -92,13 +92,10 @@ export default function Ships({
       key={s.id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ rotate: "3deg" }}
+      whileTap={{ rotate: "-2deg" }}
     >
-      <Card
-        className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200"
-        type={"paper"}
-      >
+      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="w-16 h-16 relative mr-4">
           <img
             src={s.screenshotUrl}

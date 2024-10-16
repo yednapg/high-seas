@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
         }}
       />
       <div className="w-full min-h-screen pt-14 flex items-start justify-center p-8">
-        <Card className="w-full max-w-4xl flex flex-col">
+        <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
           <Harbour session={session} currentTab={tab} />
         </Card>
       </div>

@@ -19,7 +19,7 @@ const keyLocations = [
     subtitle: (
       <p>
         Vote between projects others have made! After submitting your project,
-        you must vote between project matchups in order to earn
+        you must vote between project matchups in order to earn{" "}
         <Pill
           msg="Scales"
           color="green"
@@ -141,7 +141,7 @@ export default function SignPost({
         Your WakaTime config (located at <code>~/.wakatime.cfg</code>) needs to
         be exactly this;
       </p>
-      <Card className="p-2" type={"paper"}>
+      <Card className="p-2">
         <pre className="text-left">
           <code>
             {wakaToken ? (
@@ -183,7 +183,7 @@ export default function SignPost({
             href={location.path}
             className="block"
           >
-            <Card className="p-2 text-left" type={"paper"}>
+            <Card className="p-2 text-left">
               <p className="text-xl">{location.title}</p>
 
               {location.subtitle}

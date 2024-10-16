@@ -9,17 +9,17 @@ const Card = React.forwardRef<
   let backgroundColor, backgroundImage, backgroundSize, backgroundRepeat;
 
   switch (props?.type) {
-    case "paper":
-      backgroundColor = "#fffffff0";
-      backgroundImage = "url(/textures/paper.png)";
-      backgroundSize = "auto 500%";
-      backgroundRepeat = "repeat-x";
-      break;
-    default: // cardboard
+    case "cardboard":
       backgroundColor = "#ffffffc0";
       backgroundImage = "url(/textures/cardboard.png)";
       backgroundSize = "50rem auto";
       backgroundRepeat = "repeat";
+      break;
+    default: // paper
+      backgroundColor = "#fffffff0";
+      backgroundImage = "url(/textures/paper.png)";
+      backgroundSize = "auto 500%";
+      backgroundRepeat = "repeat-x";
   }
 
   return (

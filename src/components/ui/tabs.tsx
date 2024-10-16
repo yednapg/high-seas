@@ -16,7 +16,7 @@ const TabsList = React.memo(
     <TabsPrimitive.List
       ref={ref}
       style={{
-        backgroundColor: "#ffffffe8",
+        backgroundColor: "#fffffff0",
         backgroundImage: "url(/textures/paper.png)",
         backgroundSize: "auto 500%",
         backgroundRepeat: "repeat-x",
