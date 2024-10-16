@@ -19,7 +19,7 @@ const keyLocations = [
     subtitle: (
       <p>
         Vote between projects others have made! After submitting your project,
-        you must vote between project matchups in order to earn
+        you must vote between project matchups in order to earn{" "}
         <Pill
           msg="Scales"
           color="green"

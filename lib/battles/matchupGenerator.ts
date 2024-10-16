@@ -101,7 +101,7 @@ export async function generateMatchup(
   // do we even need this anymorw? It's a remant of past
   const matchQuality = 1 / (1 + Math.abs(project1.hours - project2.hours) / Math.max(project1.hours, project2.hours));
   
-  const uniqueVote = await ensureUniqueVote(userSlackId, project1.identifier, project2.identifier)
+  const uniqueVote = await ensureUniqueVote(userSlackId, project1.id, project2.id)
   if (!uniqueVote) return null;
 
   return signMatchup({ project1, project2, matchQuality }, userSlackId);
