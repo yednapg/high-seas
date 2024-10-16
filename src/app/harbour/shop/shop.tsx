@@ -15,10 +15,10 @@ import { JwtPayload } from 'jsonwebtoken';
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
 const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { itemId: string, slackId: string, filterIndex: number, verificationStatus: string }) => {
+  const buyWord = useMemo(() => sample(purchaseWords), [itemId])
   if (filterIndex == 0) {
     return null
   } else if (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') {
-    const buyWord = useMemo(() => sample(purchaseWords), [itemId])
     return (
       <form action={`/api/buy/${itemId}`} method="POST" className="w-full">
         <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">{buyWord}</Button>
