@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Ships } from "../../../../types/battles/airtable";
-import { Link as LucideLink, Star, Code, ExternalLink, Book, ArrowLeft } from "lucide-react";
+import Icon from "@hackclub/icons";
+import Pill from "@/components/ui/pill";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
@@ -74,9 +75,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200 flex items-center"
             >
-              <Code className="mr-1" /> Repository
+              <Pill msg="Repository" color="blue" glyph="code" classes="text-lg" />
             </Link>
           )}
           {project.deploy_url && (
@@ -84,17 +84,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.deploy_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 px-3 py-1 rounded-full hover:bg-green-200 dark:hover:bg-green-800 transition-colors duration-200 flex items-center"
             >
-              <ExternalLink className="mr-1" /> Live Demo
+              <Pill msg="Live Demo" color="green" glyph="link" classes="text-lg" />
             </Link>
           )}
           {project.readme_url && (
             <button
               onClick={onReadmeClick}
-              className="text-sm bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 px-3 py-1 rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors duration-200 flex items-center"
             >
-              <Book className="mr-1" /> README
+              <Pill msg="README" color="purple" glyph="docs-fill" classes="text-lg" />
             </button>
           )}
         </div>
@@ -104,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           onClick={onVote}
           className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >
-          <Star className="mr-2" /> Vote for {project.title}
+          <Icon glyph="thumbsup-fill" size={32} /> Vote for {project.title}
         </button>
       </div>
     </div>
@@ -315,7 +313,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
             onClick={() => setIsReadmeView(false)}
             className="mb-4 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center"
           >
-            <ArrowLeft className="mr-2" /> Back to Matchup
+            <Icon glyph="view-back" size={24} /> Back to Matchup
           </button>
           <div className="prose dark:prose-invert max-w-none">
             <ReactMarkdown components={markdownComponents}>{readmeContent}</ReactMarkdown>
