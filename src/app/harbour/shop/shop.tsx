@@ -58,9 +58,9 @@ export default function Shop({ session }: { session: JwtPayload }) {
 
   if (!shopItems) {
     return (
-      <motion.div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen">
         <LoadingSpinner />
-      </motion.div>
+      </div>
     );
   }
 
@@ -82,9 +82,8 @@ export default function Shop({ session }: { session: JwtPayload }) {
     setFilterIndex(e.target.value);
   };
 
-
   return (
-    <motion.div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="text-center">
         <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
           Ye olde shoppe
@@ -106,45 +105,11 @@ export default function Shop({ session }: { session: JwtPayload }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
-          <motion.div key={item.id} {...styles.cardHoverProps}>
-            <Card className="h-full flex flex-col overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
-              <CardHeader className="pb-2">
-                <div className="flex justify-between items-start">
-                  <CardTitle className="text-xl font-bold">
-                    {item.name}
-                    {item.fulfilledAtEnd && "*"}
-                  </CardTitle>
-                  <span className="text-green-500 font-semibold flex items-center">
-                    <img
-                      src="scales.svg"
-                      alt="scales"
-                      width={20}
-                      height={20}
-                      className="mr-1"
-                    />
-                    {filterIndex == 1 ? item.priceUs : item.priceGlobal}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  {item.subtitle || ""}
-                </p>
-              </CardHeader>
-              {item.imageUrl && (
-                <CardContent className="p-0 flex-grow">
-                  <div className="h-48 overflow-hidden">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-                </CardContent>
-              )}
-              <CardFooter className="pt-4">
-                <ActionArea itemId={item.id} slackId={slackId} filterIndex={filterIndex} verificationStatus={verificationStatus} />
-              </CardFooter>
-            </Card>
-          </motion.div>
+          <div className="relative" key={item.id}>
+            <img src="/shopbkgr.svg" alt="shop background" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="name">{item.name}</div>
+            <img src={item.image} alt={item.name} className="w-full h-48 object-contain" />
+          </div>
         ))}
       </div>
       <div className="text-center mb-6 mt-12">
@@ -152,6 +117,6 @@ export default function Shop({ session }: { session: JwtPayload }) {
           Items marked with * will ship out after the event concludes.
         </label>
       </div>
-    </motion.div>
+    </div>
   );
 }
