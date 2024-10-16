@@ -13,8 +13,6 @@ import { getSession } from "@/app/utils/auth";
 import { JwtPayload } from "jsonwebtoken";
 import Link from "next/link";
 
-import ScalesImage from "/public/scales.svg";
-import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
@@ -95,7 +93,7 @@ export default function Ships({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
+      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200 w-full">
         <div className="w-16 h-16 relative mr-4">
           <img
             src={s.screenshotUrl}
@@ -108,7 +106,7 @@ export default function Ships({
         </div>
         <div>
           <h2 className="text-xl font-semibold text-left">{s.title}</h2>
-          <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
+          <div className="flex items-center gap-4 text-sm mt-1">
             <ShipPillCluster ship={s} />
           </div>
         </div>
