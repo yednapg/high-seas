@@ -1,11 +1,3 @@
-import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { purchaseWords, sample, shopBanner } from "../../../../lib/flavor.js";
@@ -13,6 +5,14 @@ import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import { JwtPayload } from "jsonwebtoken";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { itemId: string, slackId: string, filterIndex: number, verificationStatus: string }) => {
   const buyWord = useMemo(() => sample(purchaseWords), [itemId])
@@ -104,23 +104,36 @@ export default function Shop({ session }: { session: JwtPayload }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-      {shopItems.filter(getFilter()).map((item: any) => (
-        <div className="relative m-2" key={item.id}>
-          <img src="/shopbkgr.svg" alt="shop background" className="" />
-          <div className="flex flex-col justify-center items-center text-center">
-            <p className="absolute top-6 text-white text-xl">{item.name}</p>
-            <div className="w-44 h-1 bg-[#CCFDFF] top-14 absolute"></div>
-            <p className="absolute top-16 text-white text-md">{item.subtitle}</p>
-            <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
-            <div className="">
-              <img src="/buybutton.svg" className="w-30 h-30 object-contain absolute top-60 right-2" />
-              <p className="absolute top-64 right-12 text-2xl text-blue-700">buy</p>
+        {shopItems.filter(getFilter()).map((item: any) => (
+          <div className="relative m-2" key={item.id}>
+            <img src="/shopbkgr.svg" alt="shop background" className="" />
+            <div className="flex flex-col justify-center items-center text-center">
+              <p className="absolute top-6 text-white text-xl">{item.name}</p>
+              <div className="w-44 h-1 bg-[#CCFDFF] top-14 absolute"></div>
+              <p className="absolute top-16 text-white text-md">{item.subtitle}</p>
+              <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline">Buy</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <div className="flex items-center space-x-2">
+                    <div className="grid flex-1 gap-2">
+                      Wahooo!
+                    </div>
+                  </div>
+                  <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                      <Button type="button" variant="secondary">
+                        Close
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
-            
           </div>
-        </div>
-
-))}
+        ))}
 
       </div>
 
