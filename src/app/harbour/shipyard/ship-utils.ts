@@ -97,7 +97,8 @@ export async function createShip(formData: FormData) {
   console.log(formData, slackId, entrantId);
 
   const isShipUpdate = formData.get("isShipUpdate");
-  const [hourCount, wakatimeProjectName] = formData.get("hours");
+  const hourCount = formData.get("hours");
+  const wakatimeProjectName = formData.get("wakatime_project_name");
 
   base()(shipsTableName).create(
     [

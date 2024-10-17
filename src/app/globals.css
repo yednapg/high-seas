@@ -87,3 +87,7 @@ main {
         @apply bg-background text-foreground;
     }
 }
+
+:marker {
+    content: none;
+}
