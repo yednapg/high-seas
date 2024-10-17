@@ -5,6 +5,7 @@ import { Ship, stagedToShipped } from "./ship-utils";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import { markdownComponents } from "@/components/markdown";
 import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
@@ -344,7 +345,7 @@ export default function Ships({
                               />
                             </div>
                           ) : (
-                            <ReactMarkdown components={markdownComponents}>
+                            <ReactMarkdown components={markdownComponents} rehypePlugins={[rehypeRaw]} >
                               {readmeText}
                             </ReactMarkdown>
                           )}
