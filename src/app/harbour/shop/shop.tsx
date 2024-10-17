@@ -103,15 +103,34 @@ export default function Shop({ session }: { session: JwtPayload }) {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+      {shopItems.filter(getFilter()).map((item: any) => (
+        <div className="relative m-2" key={item.id}>
+          <img src="/shopbkgr.svg" alt="shop background" className="" />
+          <div className="flex flex-col justify-center items-center text-center">
+            <p className="absolute top-6 text-white text-xl">{item.name}</p>
+            <div className="w-44 h-1 bg-[#CCFDFF] top-14 absolute"></div>
+            <p className="absolute top-16 text-white text-md">{item.subtitle}</p>
+            <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
+          </div>
+        </div>
+
+))}
+
+      </div>
+
+      {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
           <div className="relative" key={item.id}>
-            <img src="/shopbkgr.svg" alt="shop background" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="name">{item.name}</div>
-            <img src={item.image} alt={item.name} className="w-full h-48 object-contain" />
+            <img src="/shopbkgr.svg" alt="shop background" className="absolute inset-0 w-full h-full object-cover z-0" />
+            <div className="z-10">
+              <div className="name">{item.name}</div>
+              <img src={item.imageUrl} alt={item.name} className="w-full h-48 object-contain" />              
+            </div>
+
           </div>
         ))}
-      </div>
+      </div>*/}
       <div className="text-center mb-6 mt-12">
         <label>
           Items marked with * will ship out after the event concludes.
