@@ -114,7 +114,11 @@ export default function Shop({ session }: { session: JwtPayload }) {
               <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline">Buy</Button>
+                  <div>
+                    <img src="/buybutton.svg" alt="buy button" className="w-32 h-20 top-60 right-0 absolute"/>
+                    <p className="absolute top-[260px] right-10 text-2xl text-blue-700">buy</p>
+                  </div>
+                  
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <div className="flex items-center space-x-2">
