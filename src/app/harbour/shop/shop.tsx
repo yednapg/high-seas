@@ -111,7 +111,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
               <p className="absolute top-6 text-white text-xl">{item.name}</p>
               <div className="w-44 h-1 bg-[#CCFDFF] top-14 absolute"></div>
               <p className="absolute top-16 text-white text-md">{item.subtitle}</p>
-              <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
+              <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-14" />
               <Dialog>
                 <DialogTrigger asChild>
                   <div>
@@ -121,7 +121,8 @@ export default function Shop({ session }: { session: JwtPayload }) {
                   
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
-                  <div className="flex items-center space-x-2">
+                  {/*<div className="flex items-center space-x-2">
+                    <img src="/shoppopup.svg" alt="popup bakground" className=""/>
                     <div className="grid flex-1 gap-2">
                       Wahooo!
                     </div>
@@ -132,7 +133,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
                         Close
                       </Button>
                     </DialogClose>
-                  </DialogFooter>
+                  </DialogFooter>*/}
                 </DialogContent>
               </Dialog>
             </div>
