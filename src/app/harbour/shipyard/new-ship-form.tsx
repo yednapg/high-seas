@@ -239,7 +239,7 @@ export default function NewShipForm({
         </div>
 
         <div>
-          <label htmlFor="deployment_url">Deployment URL</label>
+          <label htmlFor="deployment_url">Demo Link (Project / Video URL)</label>
           <input
             type="url"
             id="deployment_url"
