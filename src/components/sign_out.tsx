@@ -10,7 +10,7 @@ export default function SignOut() {
   };
 
   return (
-    <a onClick={handleOnClick} href="/signout">
+    <a onClick={handleOnClick} href="/signout" className="block">
       <Button className={buttonVariants({ variant: "outline" })}>
         Sign out
         <span className="hidden lg:block">&nbsp;of Hack Club Slack</span>
