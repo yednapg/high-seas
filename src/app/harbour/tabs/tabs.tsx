@@ -69,13 +69,20 @@ export default function Harbour({
       name: "📮",
       path: "signpost",
       component: (
-        <SignPost session={session} wakaToken={wakaToken} email={wakaEmail} />
+        <SignPost
+          session={session}
+          wakaToken={wakaToken}
+          email={wakaEmail}
+          hasWakaHb={hasWakaHb}
+        />
       ),
     },
     {
       name: "The Keep",
       path: "the-keep",
-      component: <Shipyard session={session} ships={myShips} setShips={setMyShips} />,
+      component: (
+        <Shipyard session={session} ships={myShips} setShips={setMyShips} />
+      ),
       lockOnNoHb: true,
     },
     {
@@ -87,7 +94,7 @@ export default function Harbour({
     {
       name: "Shoppe",
       path: "shop",
-      component: <Shop session={session} />,
+      component: <Shop />,
     },
   ];
 

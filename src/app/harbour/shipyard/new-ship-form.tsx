@@ -173,10 +173,9 @@ export default function NewShipForm({
                 <CommandList>
                   <CommandEmpty>No WakaTime projects found 😭</CommandEmpty>
                   <CommandGroup>
-                    {projects.map((project) => (
+                    {projects.map((project, idx) => (
                       <CommandItem
-                        key={project.key}
-                        value={(project.total / 60 / 60).toFixed(2)}
+                        key={`${project.key}-${idx}`}
                         onSelect={() => {
                           setSelectedProject(project);
                           setOpen(false);
@@ -202,11 +201,18 @@ export default function NewShipForm({
           </Popover>
           {/* Hidden input to include in formData */}
           {selectedProject && (
-            <input
-              type="hidden"
-              name="hours"
-              value={(selectedProject.total / 60 / 60).toFixed(2)}
-            />
+            <>
+              <input
+                type="hidden"
+                name="hours"
+                value={(selectedProject.total / 60 / 60).toFixed(3)}
+              />
+              <input
+                type="hidden"
+                name="wakatime_project_name"
+                value={selectedProject.key}
+              />
+            </>
           )}
         </div>
 
