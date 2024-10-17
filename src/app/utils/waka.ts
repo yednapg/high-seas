@@ -4,6 +4,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSession } from "./auth";
 
+const WAKA_API_KEY = process.env.WAKA_API_KEY;
 export interface WakaSignupResponse {
   created: boolean;
   api_key: string;
@@ -53,7 +54,7 @@ async function createWaka() {
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
-      Authorization: "Bearer blahaji_rulz_da_world",
+      Authorization: `Bearer ${WAKA_API_KEY}`,
     },
     body: new URLSearchParams({
       location: "America/New_York",
@@ -95,7 +96,7 @@ export async function getWakaSessions(): Promise<any> {
     `https://waka.hackclub.com/api/summary?interval=low_skies&user=${slackId}`,
     {
       headers: {
-        Authorization: `Bearer blahaji_rulz_da_world`,
+        Authorization: `Bearer ${WAKA_API_KEY}`,
       },
     }
   );
@@ -117,7 +118,7 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
       `https://waka.hackclub.com/api/special/hasData/?user=${slackId}`,
       {
         headers: {
-          Authorization: `Bearer blahaji_rulz_da_world`,
+          Authorization: `Bearer ${WAKA_API_KEY}`,
         },
       }
     ).then((res) => res.json());
@@ -142,7 +143,7 @@ export async function getWakaEmail(): Promise<string | null> {
     `https://waka.hackclub.com/api/special/email/?user=${slackId}`,
     {
       headers: {
-        Authorization: `Bearer blahaji_rulz_da_world`,
+        Authorization: `Bearer ${WAKA_API_KEY}`,
       },
     }
   ).then((res) => res.json());
