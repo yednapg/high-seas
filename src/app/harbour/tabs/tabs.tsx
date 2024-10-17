@@ -94,7 +94,7 @@ export default function Harbour({
     {
       name: "Shoppe",
       path: "shop",
-      component: <Shop />,
+      component: <Shop session={session} />,
     },
   ];
 
