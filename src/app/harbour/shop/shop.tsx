@@ -112,6 +112,11 @@ export default function Shop({ session }: { session: JwtPayload }) {
             <div className="w-44 h-1 bg-[#CCFDFF] top-14 absolute"></div>
             <p className="absolute top-16 text-white text-md">{item.subtitle}</p>
             <img src={item.imageUrl} alt={item.name} className="w-60 h-60 object-contain absolute top-16" />
+            <div className="">
+              <img src="/buybutton.svg" className="w-30 h-30 object-contain absolute top-60 right-2" />
+              <p className="absolute top-64 right-12 text-2xl text-blue-700">buy</p>
+            </div>
+            
           </div>
         </div>
 
