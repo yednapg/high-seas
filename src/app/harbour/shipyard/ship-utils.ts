@@ -32,7 +32,6 @@ export interface Ship {
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
-  console.log("getting ships of", slackId);
   const ships: Ship[] = [];
 
   const [wakaData, records] = await Promise.all([
@@ -48,13 +47,12 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       .all(),
   ]);
 
-  if (!wakaData || !records) {
+  if (!wakaData || !records)
     throw new Error("No Waka data or Airtable records");
-  }
 
-  const hoursForProject = (projectName: string): number | null => {
+  const hoursForProject = (wakatimeProjectName: string): number | null => {
     const seconds = wakaData.projects.find(
-      (p: { key: string; total: number }) => p.key == projectName,
+      (p: { key: string; total: number }) => p.key == wakatimeProjectName,
     )?.total;
     if (!seconds) return null;
     return seconds / 60 / 60;
@@ -98,18 +96,7 @@ export async function createShip(formData: FormData) {
   const slackId = session.payload.sub;
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
-  console.log(formData, slackId, entrantId);
-
   const isShipUpdate = formData.get("isShipUpdate");
-
-  const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
-  const wakatimeProjectName = formData.get("wakatime_project_name");
-  const hourCount =
-    wakatimeProjects.find(
-      ({ key }: { key: string }) => key === wakatimeProjectName,
-    ).total /
-    60 /
-    60;
 
   base()(shipsTableName).create(
     [
@@ -126,16 +113,12 @@ export async function createShip(formData: FormData) {
           update_description: isShipUpdate
             ? formData.get("updateDescription")
             : null,
-          wakatime_project_name: wakatimeProjectName,
+          wakatime_project_name: formData.get("wakatime_project_name"),
         },
       },
     ],
-    function (err: Error, records: any) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+    (err: Error, records: any) => {
+      if (err) console.error(err);
     },
   );
 }
@@ -144,7 +127,7 @@ export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to stage a ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
@@ -165,12 +148,8 @@ export async function updateShip(ship: Ship) {
         },
       },
     ],
-    function (err: Error, records: any) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+    (err: Error, records: any) => {
+      if (err) console.error(err);
     },
   );
 }
@@ -179,13 +158,22 @@ export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to ship a staged ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
   }
 
-  console.log("shipping from staged!", ship);
+  let hours;
+  if (ship.wakatimeProjectName) {
+    const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
+    hours =
+      wakatimeProjects.find(
+        ({ key }: { key: string }) => key === ship.wakatimeProjectName,
+      ).total /
+      60 /
+      60;
+  }
 
   base()(shipsTableName).update(
     [
@@ -193,16 +181,13 @@ export async function stagedToShipped(ship: Ship) {
         id: ship.id,
         fields: {
           ship_status: "shipped",
+          hours,
           ship_time: new Date().toISOString(),
         },
       },
     ],
-    function (err: Error, records: any) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+    (err: Error, records: any) => {
+      if (err) console.error(err);
     },
   );
 }
