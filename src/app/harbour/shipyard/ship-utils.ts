@@ -117,7 +117,7 @@ export async function createShip(formData: FormData) {
         },
       },
     ],
-    function (err: Error, records: any) {
+    (err: Error, records: any) => {
       if (err) {
         console.error(err);
         return;
@@ -152,7 +152,7 @@ export async function updateShip(ship: Ship) {
         },
       },
     ],
-    function (err: Error, records: any) {
+    (err: Error, records: any) => {
       if (err) {
         console.error(err);
         return;
@@ -194,7 +194,7 @@ export async function stagedToShipped(ship: Ship) {
         },
       },
     ],
-    function (err: Error, records: any) {
+    (err: Error, records: any) => {
       if (err) {
         console.error(err);
         return;
