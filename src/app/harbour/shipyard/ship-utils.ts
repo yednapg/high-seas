@@ -118,11 +118,7 @@ export async function createShip(formData: FormData) {
       },
     ],
     (err: Error, records: any) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+      if (err) console.error(err);
     },
   );
 }
@@ -153,11 +149,7 @@ export async function updateShip(ship: Ship) {
       },
     ],
     (err: Error, records: any) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+      if (err) console.error(err);
     },
   );
 }
@@ -195,11 +187,7 @@ export async function stagedToShipped(ship: Ship) {
       },
     ],
     (err: Error, records: any) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (!records) console.error("No records!");
+      if (err) console.error(err);
     },
   );
 }
