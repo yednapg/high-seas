@@ -345,7 +345,10 @@ export default function Ships({
                               />
                             </div>
                           ) : (
-                            <ReactMarkdown components={markdownComponents} rehypePlugins={[rehypeRaw]} >
+                            <ReactMarkdown
+                              components={markdownComponents}
+                              rehypePlugins={[rehypeRaw]}
+                            >
                               {readmeText}
                             </ReactMarkdown>
                           )}
