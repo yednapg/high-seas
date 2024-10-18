@@ -201,18 +201,11 @@ export default function NewShipForm({
           </Popover>
           {/* Hidden input to include in formData */}
           {selectedProject && (
-            <>
-              <input
-                type="hidden"
-                name="hours"
-                value={(selectedProject.total / 60 / 60).toFixed(3)}
-              />
-              <input
-                type="hidden"
-                name="wakatime_project_name"
-                value={selectedProject.key}
-              />
-            </>
+            <input
+              type="hidden"
+              name="wakatime_project_name"
+              value={selectedProject.key}
+            />
           )}
         </div>
 
@@ -239,7 +232,9 @@ export default function NewShipForm({
         </div>
 
         <div>
-          <label htmlFor="deployment_url">Demo Link (Project / Video URL)</label>
+          <label htmlFor="deployment_url">
+            Demo Link (Project / Video URL)
+          </label>
           <input
             type="url"
             id="deployment_url"
