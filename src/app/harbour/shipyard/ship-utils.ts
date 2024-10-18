@@ -32,7 +32,6 @@ export interface Ship {
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
-  console.log("getting ships of", slackId);
   const ships: Ship[] = [];
 
   const [wakaData, records] = await Promise.all([
