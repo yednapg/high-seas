@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    background: black;
+}
+
 .bodycss {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -9,6 +13,12 @@
     background: #ff73f5;
     background: linear-gradient(to bottom, #ff73f5, #f6b163, #ec4899);
     color: white;
+}
+
+.watergradient {
+    background: linear-gradient(to bottom, #49A8F1, #36349C, #000000);
+    color: white;
+
 }
 
 .paper {

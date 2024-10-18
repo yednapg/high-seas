@@ -28,114 +28,76 @@ export default async function Marketing() {
 
   return (
     <div>
-      <div className="bodycss">
-        <div className="landing items-center">
-          <div className="landing-left container">
-            <p className="text-6xl lg:text-8xl uppercase">Low Skies</p>
-            <div className="my-4 lg:text-3xl xl:text-4xl text-lg">
-              <p className="">{"A two week event by Hack Club"}</p>
-              <p className="">Build stuff, battle others, get stuff!</p>
-            </div>
 
-            {/*<div className="bg-green-400 p-2 inline-block w-80 rounded-lg linkPop">
-              <a
-                className="text-2xl text-white ml-3"
-                href="#"
-                target="_blank"
-                rel="noopenner noreferrer"
-              >
-                Enter the Thunderdome
-              </a>
-            </div>*/}
-            <SignIn session={session} />
-            <p className="mt-2 max-w-72 lg:max-w-xl">
-              Low Skies is free for teens to participate in, running Oct 3-17!
-            </p>
+    <div className="relative h-screen">
+      <img src="/background.svg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="relative h-screen flex items-center justify-center">
+        <div className="flex flex-col justify-center items-center text-center mb-64">
+          <img src="/highlogo.svg" alt="high seas logo" className="xl:max-w-3xl md:max-w-xl max-w-sm"/>
+          <p className="text-4xl text-white">Build. Battle. Repeat.</p>
+          <div className="flex flex-wrap md:gap-4 gap-2 text-3xl mt-6 justify-center items-center">
+            <button className="bg-[#214495] p-4 rounded-lg text-white">Sign in with Hack Club Slack</button>
+            <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get stuff</button>
+
           </div>
-          <div className="landing-right">
-            <div className="bobble">
-              <Image src={orphwoah} alt="orpheus" />
-            </div>
-          </div>
+          
+          <p className="text-white text-lg">High Seas is a program by Hack Club and Github, running Oct 30 to DATE.</p>
+        </div>
+      </div>
+    </div>
+
+      <div className="watergradient">
+
+      <div className="py-24">
+
+        <div className="flex justify-center items-center mb-6">
+          <p className="text-5xl text-center">How this works:</p>
         </div>
 
-        <Image
-          src={divider}
-          alt="Divider"
-          className="mx-auto my-8 absolute xl:top-[77%] md:top-[85%] sm:top-[90%] top-[95%] w-full"
-        />
 
-        <div className="md:my-44 my-24 xl:pb-24 lg:pb-[50px]">
-          <div className="flex justify-center items-center mb-6">
-            <p className="text-5xl text-center">How this works:</p>
-          </div>
-          <div className="flex flex-col justify-center items-center text-blue-900 mx-8">
-            <div className="flex flex-wrap bg-white m-2 p-8 rounded-md pop">
-              <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how1} alt="knight thinking of ideas" />
+        <div className="flex flex-col justify-center items-center text-white mx-8">
+
+            <div className="flex flex-wrap m-8 p-8 rounded-md">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
+                <p className="text-3xl mb-4">Make cool projects!</p>
+                <p className="text-xl max-w-[600px]">
+                  Hack on something cool! Earn credit for your hours using Hackatime. Examples: making your own PCB, building a personal website, or creating a video game.
+                </p>
               </div>
-              <div className="flex flex-col justify-center items-center mt-8 md:mt-0 md:ml-8 w-full md:w-auto text-center">
-                <p className="text-2xl mb-2">Make cool projects!</p>
-                <p className="text-xl max-w-96">
-                  Create personal projects and earn credit for your hours using{" "}
-                  <a
-                    href="https://waka.hackclub.com/"
-                    target="_blank"
-                    rel="noreferrer noopenner"
-                    className="bg-green-400 px-2 rounded-lg"
-                  >
-                    Hackatime
-                  </a>
-                  !
+              <div className="flex justify-center items-center w-full md:w-auto">
+                <Image src={how2} alt="dragons battling" width={400} height={400}/>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap m-8 p-8 rounded-md">
+              <div className="flex justify-center items-center w-full md:w-auto">
+                <Image src={how2} alt="dragons battling" width={400} height={400}/>
+              </div>
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:ml-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
+                <p className="text-3xl mb-4">Ship your creations!</p>
+                <p className="text-xl max-w-[600px]">
+                  Sign in with your Hack Club Slack account and submit your project to The Keep. Your project will be voted against in the Thunderdome against other projects; winners get Doubloons!
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap bg-white m-2 p-8 rounded-md pop">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center">
-                <p className="text-2xl mb-2">Battle against other projects!</p>
-                <p className="text-xl max-w-96">
-                  After finishing your project, submit it to{" "}
-                  <span className="bg-green-400 px-2 rounded-lg">The Keep</span>
-                  ! Your project will battle others in the{" "}
-                  <span className="bg-green-400 px-2 rounded-lg">
-                    Thunderdome
-                  </span>
-                  ; winners get <span>Scales</span>!
+            <div className="flex flex-wrap m-8 p-8 rounded-md">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
+                <p className="text-3xl mb-4">Redeem your prizes</p>
+                <p className="text-xl max-w-[600px]">
+                  Use Doubloons to purchase loot for your next project! Items range from Raspberry Pi kits to 3D printers.
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how2} alt="dragons battling" />
+                <Image src={how2} alt="dragons battling" width={400} height={400}/>
               </div>
             </div>
 
-            <div className="flex flex-wrap bg-white m-2 p-8 rounded-md pop">
-              <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how3} alt="person shopping for items" />
-              </div>
-              <div className="flex flex-col justify-center items-center mt-8 md:mt-0 md:ml-8 w-full md:w-auto text-center">
-                <p className="text-2xl mb-2">Get free tools and swag!</p>
-                <p className="text-xl max-w-96">
-                  At the{" "}
-                  <span className="bg-green-400 px-2 rounded-lg">Shoppe</span>,{" "}
-                  {"you'll"} be able to spend your{" "}
-                  <span className="bg-green-400 px-2 rounded-lg">Scales</span>{" "}
-                  on items of all sort, from Blahajs to Yubikeys!
-                </p>
-              </div>
-            </div>
-          </div>
 
-          <div className="relative xl:top-[75%] md:top-[80%] top-[90%]">
-            <Image
-              src={divider}
-              alt="Divider"
-              className="mx-auto my-8 absolute w-full"
-            />
-          </div>
+
         </div>
 
-        <div className="bg-[#46C1FE] pt-12 xl:pt-24 mt-12 md:my-44 my-24 lg:pb-44 xl:pb-56 pb-24 sm:pb-36">
+        <div className="py-24">
           <div className="my-12 lg:mt-24">
             <div className="flex justify-center items-center mb-8">
               <p className="text-5xl text-center mx-4">
@@ -153,6 +115,7 @@ export default async function Marketing() {
                   earn Scales based on how well you do.
                 </p>
                 <p className="text-2xl">{"Don't know where to start?"}</p>
+                <p className="text-lg mt-2">Hack Club has a ton of preexisting programs to help!</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
                   <li>
                     <a
@@ -203,53 +166,19 @@ export default async function Marketing() {
               </div>
 
               <div className="bg-blue-500 p-8 rounded-lg pop">
-                <p className="text-2xl">Not sure what to make?</p>
-                <p className="text-lg my-4">
-                  Here are some projects Hack Clubbers made over the summer:
-                </p>
-                <div className="mx-2">
-                  <p className="mb-4">
-                    Ajith (age 17) made a game where you can{" "}
-                    <a
-                      href="https://nalinplad.github.io/human-powered-computer/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="buildLink"
-                    >
-                      play as a CPU
-                    </a>
-                    !
-                  </p>
-                  <p className="mb-4">
-                    Brendan (age 17) built an entire{" "}
-                    <a
-                      href="https://github.com/AGB556/BISMUTH/tree/main"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="buildLink"
-                    >
-                      3D printer
-                    </a>{" "}
-                    from scratch!
-                  </p>
-                  <p>
-                    Shreyas (age 15) made an{" "}
-                    <a
-                      href="https://github.com/deoshreyas/Circular-Audio-Visualiser"
-                      target="blank"
-                      rel="noopenner noreferrer"
-                      className="buildLink"
-                    >
-                      Audio Visualizer
-                    </a>
-                    !
-                  </p>
-                </div>
+                <p className="text-2xl">Here is what others are making!</p>
+                <p>insert sam's ship map here</p>
+               
               </div>
             </div>
           </div>
 
-          <div className="my-24">
+          </div>
+        
+
+        </div>
+
+        <div className="my-24">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mb-2">{"What's in stock?"}</p>
               <p className="text-xl text-center">
@@ -345,15 +274,7 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="relative xl:top-[75%] md:top-[80%] top-[90%]">
-            <Image
-              src={divider}
-              alt="Divider"
-              className="mx-auto my-8 absolute w-full"
-            />
-          </div>
-        </div>
-
+        
         <div className="my-24">
           <div className="flex justify-center items-center mb-5">
             <p className="text-5xl text-center mt-12">FAQ</p>
@@ -363,20 +284,30 @@ export default async function Marketing() {
           </div>
         </div>
 
-        <Image src={divider2} alt="Divider" className="mx-auto my-8 w-full" />
+     
 
-        <div className="flex flex-col justify-center items-center mt-12 mb-24">
+
+
+
+       
+
+        <div className="flex flex-col justify-center items-center mt-12">
           <p className="text-xl mb-2">So, what are you waiting for?</p>
           <div className="">
             <SignIn session={session} />
           </div>
-          {/*<button className="bg-green-400 p-4 text-4xl rounded-lg mx-8 linkPop">
-            <a href="#">Enter the Thunderdome</a>
-          </button>*/}
           <p className="text-xl mt-2">Build. Battle. Repeat.</p>
         </div>
 
-        <div className="mb-24"></div>
+
+    </div>
+      <div>
+        <img src="/footerbkgr.svg" alt="background" className="h-screen object-cover"/>
+      </div>
+
+
+
+       {/*}
 
         <div className="bg-blue-500 p-8">
           <div className="xl:mx-44 md:mx-22 my-4">
@@ -426,8 +357,8 @@ export default async function Marketing() {
               .
             </p>
           </div>
-        </div>
-      </div>
+        </div> */}
+      
 
       {/*<div className="w-full h-full max-w-prose mx-auto">
       <Image
