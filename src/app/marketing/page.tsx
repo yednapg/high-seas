@@ -32,21 +32,32 @@ export default async function Marketing() {
     <div className="relative h-screen">
       <img src="/background.svg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
       <div className="relative h-screen flex items-center justify-center">
-        <div className="flex flex-col justify-center items-center text-center mb-64">
-          <img src="/highlogo.svg" alt="high seas logo" className="xl:max-w-3xl md:max-w-xl max-w-sm"/>
-          <p className="text-4xl text-white">Build. Battle. Repeat.</p>
-          <div className="flex flex-wrap md:gap-4 gap-2 text-3xl mt-6 justify-center items-center">
-            <button className="bg-[#214495] p-4 rounded-lg text-white">Sign in with Hack Club Slack</button>
-            <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get stuff</button>
-
+        <div className="flex flex-col justify-center items-center text-center">
+          <div className=" flex flex-col justify-center items-center mb-44">
+            <img src="/highlogo.svg" alt="high seas logo" className="xl:max-w-3xl md:max-w-xl max-w-sm"/>
+            <p className="text-4xl text-white">Build. Battle. Booty. Repeat.</p>
+            <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
+              <button className="bg-[#214495] p-4 rounded-lg text-white">Get started</button>
+              <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get free stickers</button>
+            </div>
+          </div>
+          <div className="text-[#214495]">
+            <p className="text-lg mx-10">In High Seas, code projects and get free hardware like Raspberry Pis, 3D Printers, and iPads.</p>
+            <p className="text-lg mb-10 mx-10">By Hack Club and GitHub. For teens. Starts October 30. Ends DATE.</p>
           </div>
           
-          <p className="text-white text-lg">High Seas is a program by Hack Club and Github, running Oct 30 to DATE.</p>
         </div>
       </div>
     </div>
 
-      <div className="watergradient">
+    <div className="watergradient">
+
+      <div className="flex flex-col justify-center items-center">
+        <div className="bg-blue-700 w-[1200px] h-1"></div>
+      </div>
+      
+
+
 
       <div className="py-24">
 
@@ -61,7 +72,7 @@ export default async function Marketing() {
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
                 <p className="text-3xl mb-4">Make cool projects!</p>
                 <p className="text-xl max-w-[600px]">
-                  Hack on something cool! Earn credit for your hours using Hackatime. Examples: making your own PCB, building a personal website, or creating a video game.
+                  Download the High Seas extension for your code editor, and hack on something cool! Examples: making your own PCB, building a personal website, or creating a video game.
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -74,18 +85,18 @@ export default async function Marketing() {
                 <Image src={how2} alt="dragons battling" width={400} height={400}/>
               </div>
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:ml-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
-                <p className="text-3xl mb-4">Ship your creations!</p>
+                <p className="text-3xl mb-4">Ship your creations for Doubloons!</p>
                 <p className="text-xl max-w-[600px]">
-                  Sign in with your Hack Club Slack account and submit your project to The Keep. Your project will be voted against in the Thunderdome against other projects; winners get Doubloons!
+                  Share your projects by submitting signing in and submitting them to the Harbour. For each hour coded, you'll earn Doubloons (our virtual currency). 
                 </p>
               </div>
             </div>
 
             <div className="flex flex-wrap m-8 p-8 rounded-md">
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
-                <p className="text-3xl mb-4">Redeem your prizes</p>
+                <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
                 <p className="text-xl max-w-[600px]">
-                  Use Doubloons to purchase loot for your next project! Items range from Raspberry Pi kits to 3D printers.
+                  Use Doubloons to purchase loot for your next project! Items range from soldering irons to 3D printers. In just 5 hours, you could earn a Raspberry Pi Zero! Full prize list below.
                 </p>
               </div>
               <div className="flex justify-center items-center w-full md:w-auto">
@@ -97,8 +108,31 @@ export default async function Marketing() {
 
         </div>
 
-        <div className="py-24">
-          <div className="my-12 lg:mt-24">
+
+        <div className="bg-black py-12 my-12">
+
+          <div className="flex flex-col justify-center items-center text-center mb-8">
+            <p className="text-3xl">Join a Community of Makers</p>
+            <p className="text-xl">Here are some things teens from Hack Club created this summer!</p>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center mb-8">
+            <div className="bg-blue-500 rounded-md p-4 max-w-sm"> 
+              <p className="text-xl mb-2">@name</p>
+              <p className="sm">project description type thing lorem lorem words words words words words words words words words words</p>
+              <p className="mt-4">insert pic here</p>
+            </div>
+            
+          </div>
+
+          <div className="flex flex-col justify-center text-center">
+            <p>Join the Hack Club Slack to ask for help and make friends worldwide.</p>
+          </div>
+          
+        </div>
+
+  
+          <div className="my-24">
             <div className="flex justify-center items-center mb-8">
               <p className="text-5xl text-center mx-4">
                 One battle at a time, what will you make?
@@ -173,16 +207,15 @@ export default async function Marketing() {
             </div>
           </div>
 
-          </div>
         
 
         </div>
 
-        <div className="my-24">
+        <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-2">{"What's in stock?"}</p>
+              <p className="text-5xl text-center mb-2">{"Prizes to power up your next project!"}</p>
               <p className="text-xl text-center">
-                Redeem these with your Scales! For high schoolers (or younger)
+                Redeem these with your Doubloons! For high schoolers (or younger)
                 only.
               </p>
             </div>
@@ -265,12 +298,13 @@ export default async function Marketing() {
                 </p>
               </div>
             </div>
-            <div className="flex justify-center items-center mt-8 m-10">
-              <div className="bg-blue-500 rounded-lg p-4 pop">
+            <div className="flex flex-col justify-center items-center mt-8 m-10">
+              <div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
                 <p className="text-3xl text-center">
                   Get the full list of items when you sign in!
                 </p>
               </div>
+              <p>This is just a sneak peak... new items will be added over the winter!</p>
             </div>
           </div>
 
@@ -284,25 +318,42 @@ export default async function Marketing() {
           </div>
         </div>
 
-     
-
-
-
-
-       
-
-        <div className="flex flex-col justify-center items-center mt-12">
-          <p className="text-xl mb-2">So, what are you waiting for?</p>
-          <div className="">
-            <SignIn session={session} />
+        <div className="my-24">
+          <div className="flex flex-col justify-center text-center items-center">
+            <p className="text-3xl">Hack Club is an open-source non-profit helping teenagers get into coding and making</p>
+            <p>We've partnered with GitHub to run High Seas</p>
+            <p>This past summer, we've ran Arcade, another program which got 10000+ projects, 5000+ prizes, 50+ countries.</p>
           </div>
-          <p className="text-xl mt-2">Build. Battle. Repeat.</p>
+
+          <div>
+            
+
+          </div>
+          
         </div>
 
-
     </div>
-      <div>
-        <img src="/footerbkgr.svg" alt="background" className="h-screen object-cover"/>
+
+
+      <div className="relative h-screen">
+        <img src="/footerbkgr.svg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="relative h-screen flex items-center justify-center">
+          <div className="flex flex-col justify-center items-center text-center">
+            <div className=" flex flex-col justify-center items-center">
+              <p className="text-4xl text-white">Build. Battle. Repeat.</p>
+              <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
+                <button className="bg-[#214495] p-4 rounded-lg text-white">Sign in with Hack Club Slack</button>
+                <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get stuff</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-[#F567D7] p-8">
+        <div className="flex flex-col justify-center text-center items-center">
+          <p>temp footer</p>
+        </div>
       </div>
 
 
