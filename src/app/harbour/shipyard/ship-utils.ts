@@ -105,7 +105,6 @@ export async function createShip(formData: FormData) {
         // @ts-expect-error No overload matches this call - but it does
         fields: {
           title: formData.get("title"),
-          hours: Number(hourCount),
           entrant: [entrantId],
           repo_url: formData.get("repo_url"),
           readme_url: formData.get("readme_url"),
