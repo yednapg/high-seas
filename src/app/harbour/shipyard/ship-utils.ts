@@ -48,9 +48,8 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       .all(),
   ]);
 
-  if (!wakaData || !records) {
+  if (!wakaData || !records)
     throw new Error("No Waka data or Airtable records");
-  }
 
   const hoursForProject = (wakatimeProjectName: string): number | null => {
     const seconds = wakaData.projects.find(
