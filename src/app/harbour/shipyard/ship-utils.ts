@@ -191,3 +191,28 @@ export async function stagedToShipped(ship: Ship) {
     },
   );
 }
+
+export async function deleteShip(shipId: string) {
+  const session = await getSession();
+  if (!session) {
+    const error = new Error(
+      "Tried to delete a ship with no Slack OAuth session",
+    );
+    console.log(error);
+    throw error;
+  }
+
+  base()(shipsTableName).update(
+    [
+      {
+        id: ship.id,
+        fields: {
+          ship_status: "deleted",
+        },
+      },
+    ],
+    (err: Error, records: any) => {
+      if (err) console.error(err);
+    },
+  );
+}

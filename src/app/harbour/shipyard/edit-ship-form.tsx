@@ -1,11 +1,18 @@
-import { Button } from "@/components/ui/button";
-import { Ship, updateShip } from "./ship-utils";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { deleteShip, Ship, updateShip } from "./ship-utils";
 import { useToast } from "@/hooks/use-toast";
+import Icon from "@hackclub/icons";
 
 const editMessages = [
   "Orpheus hopes you know that she put a lot of effort into recording your changes~",
   "Heidi scribbles down your changes hastily...",
   "Orpheus put your Ship changes in the logbook. They're going nowhere, rest assured.",
+];
+
+const deleteMessages = [
+  "is no more!",
+  "has been struck from the logbook",
+  "has been lost to time...",
 ];
 
 export default function EditShipForm({
@@ -55,6 +62,26 @@ export default function EditShipForm({
       title: "Ship updated!",
       description:
         editMessages[Math.floor(Math.random() * editMessages.length)],
+    });
+  };
+
+  const handleDelete = async () => {
+    await deleteShip(ship.id);
+
+    if (setShips) {
+      console.log(`Deleted ${ship.title} (${ship.id})`);
+
+      setShips((previousShips: Ship[]) =>
+        previousShips.filter((s: Ship) => s.id !== ship.id),
+      );
+    } else {
+      console.error("Deleted a ship but can't setShips bc you didn't pass it.");
+    }
+    closeForm();
+
+    toast({
+      title: "Ship deleted!",
+      description: `${ship.shipType === "update" ? "Your update to " : ""}${ship.title} ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
     });
   };
 
@@ -115,7 +142,15 @@ export default function EditShipForm({
         />
       </div>
 
-      <Button type="submit">Save edits</Button>
+      <Button className={buttonVariants({ variant: "default" })}>
+        <Icon glyph="thumbsup-fill" />
+        Save edits
+      </Button>
+
+      <Button className={buttonVariants({ variant: "destructive" })}>
+        <Icon glyph="forbidden" />
+        Delete Ship
+      </Button>
     </form>
   );
 }
