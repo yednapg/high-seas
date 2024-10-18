@@ -24,9 +24,9 @@ export default async function Nav() {
         <Image src={Logo} alt="low skies" height={48} />
       </div>
 
-      <div className="">
+      {/* <div className="">
         <Steps />
-      </div>
+      </div> */}
 
       <div className="flex gap-4 items-center text-nowrap">
         {session ? (
