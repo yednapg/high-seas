@@ -21,6 +21,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 421,
     shipType: "project",
     shipStatus: "shipped",
+    wakatimeProjectName: "flip slash sprig game",
   },
   {
     id: "example_ship_2",
@@ -37,6 +38,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 428,
     shipType: "project",
     shipStatus: "shipped",
+    wakatimeProjectName: "cotl music player",
   },
   {
     id: "example_ship_3",
@@ -52,6 +54,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 2121,
     shipType: "project",
     shipStatus: "shipped",
+    wakatimeProjectName: "example ship 3",
   },
   {
     id: "example_ship_4",
@@ -67,6 +70,7 @@ const exampleShips: Ship[] = [
     doubloonPayout: 731,
     shipType: "project",
     shipStatus: "shipped",
+    wakatimeProjectName: "example ship 4",
   },
 ];
 

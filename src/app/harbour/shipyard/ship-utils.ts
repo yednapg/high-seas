@@ -44,18 +44,23 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       '${slackId}' = {entrant__slack_id},
       {project_source} != 'arcade'
       )`,
-      }).all()
-  ])
+      })
+      .all(),
+  ]);
 
-  if (!wakaData || !records) { throw new Error("No Waka data or Airtable records") }
-
-  const hoursForProject = (projectName: string): number | null => {
-    const seconds = wakaData.projects.find((p: { key: string, total: number }) => p.key == projectName)?.total
-    if (!seconds) return null
-    return seconds / 60 / 60
+  if (!wakaData || !records) {
+    throw new Error("No Waka data or Airtable records");
   }
 
-  records.forEach(r => {
+  const hoursForProject = (projectName: string): number | null => {
+    const seconds = wakaData.projects.find(
+      (p: { key: string; total: number }) => p.key == projectName,
+    )?.total;
+    if (!seconds) return null;
+    return seconds / 60 / 60;
+  };
+
+  records.forEach((r) => {
     const projectRecord = {
       id: r.id as string,
       title: r.get("title") as string,
@@ -69,15 +74,15 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       shipStatus: r.get("ship_status") as string,
       wakatimeProjectName: r.get("wakatime_project_name") as string,
       hours: r.get("hours") as number | null,
+    };
+
+    if (projectRecord.shipType === "staged" || projectRecord.hours === null) {
+      projectRecord.hours = hoursForProject(projectRecord.wakatimeProjectName);
     }
 
-    if (projectRecord.hours === null) {
-      projectRecord.hours = hoursForProject(projectRecord.wakatimeProjectName)
-    }
-
-    ships.push(projectRecord)
-  })
-  return ships
+    ships.push(projectRecord);
+  });
+  return ships;
 }
 
 export async function createShip(formData: FormData) {
@@ -105,7 +110,6 @@ export async function createShip(formData: FormData) {
         // @ts-expect-error No overload matches this call - but it does
         fields: {
           title: formData.get("title"),
-          hours: Number(hourCount),
           entrant: [entrantId],
           repo_url: formData.get("repo_url"),
           readme_url: formData.get("readme_url"),
