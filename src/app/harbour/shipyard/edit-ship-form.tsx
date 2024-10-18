@@ -2,6 +2,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { deleteShip, Ship, updateShip } from "./ship-utils";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
+import { useState } from "react";
 
 const editMessages = [
   "Orpheus hopes you know that she put a lot of effort into recording your changes~",
@@ -24,9 +25,13 @@ export default function EditShipForm({
   closeForm: () => void;
   setShips: any;
 }) {
+  const [deleting, setDeleting] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   const { toast } = useToast();
 
   const handleSubmit = async (e) => {
+    setSaving(true);
     e.preventDefault();
     const formData = new FormData(e.target);
     const formValues = Object.fromEntries(formData.entries());
@@ -50,7 +55,8 @@ export default function EditShipForm({
         const newShips = previousShips.map((s: Ship) =>
           s.id === newShip.id ? newShip : s,
         );
-        console.info("ok so the new ships are", newShips);
+
+        setSaving(false);
         return newShips;
       });
     } else {
@@ -63,9 +69,15 @@ export default function EditShipForm({
       description:
         editMessages[Math.floor(Math.random() * editMessages.length)],
     });
+
+    setSaving(false);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    setDeleting(true);
+
+    e.preventDefault();
+    console.log("trying to delete ", ship.id, ship.title);
     await deleteShip(ship.id);
 
     if (setShips) {
@@ -83,6 +95,8 @@ export default function EditShipForm({
       title: "Ship deleted!",
       description: `${ship.shipType === "update" ? "Your update to " : ""}${ship.title} ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
     });
+
+    setDeleting(false);
   };
 
   return (
@@ -142,15 +156,25 @@ export default function EditShipForm({
         />
       </div>
 
-      <Button className={buttonVariants({ variant: "default" })}>
-        <Icon glyph="thumbsup-fill" />
-        Save edits
-      </Button>
+      <div className="flex justify-between">
+        <Button
+          className={buttonVariants({ variant: "default" })}
+          type="submit"
+          disabled={saving}
+        >
+          {saving ? <Icon glyph="more" /> : <Icon glyph="thumbsup-fill" />}
+          Save edits
+        </Button>
 
-      <Button className={buttonVariants({ variant: "destructive" })}>
-        <Icon glyph="forbidden" />
-        Delete Ship
-      </Button>
+        <Button
+          className={`${buttonVariants({ variant: "destructive" })} ml-auto`}
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          {deleting ? <Icon glyph="more" /> : <Icon glyph="forbidden" />}
+          Delete Ship
+        </Button>
+      </div>
     </form>
   );
 }

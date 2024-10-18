@@ -59,6 +59,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
   };
 
   records.forEach((r) => {
+    console.log("YEJAWWW", r.get("reshipped_to"), r.get("reshipped_from"));
     const projectRecord = {
       id: r.id as string,
       title: r.get("title") as string,
@@ -98,27 +99,88 @@ export async function createShip(formData: FormData) {
 
   const isShipUpdate = formData.get("isShipUpdate");
 
+  const fields = {
+    title: formData.get("title"),
+    entrant: [entrantId],
+    repo_url: formData.get("repo_url"),
+    readme_url: formData.get("readme_url"),
+    deploy_url: formData.get("deployment_url"),
+    screenshot_url: formData.get("screenshot_url"),
+    ship_type: isShipUpdate ? "update" : "project",
+    update_description: isShipUpdate ? formData.get("updateDescription") : null,
+    wakatime_project_name: formData.get("wakatime_project_name"),
+  };
+
   base()(shipsTableName).create(
     [
       {
         // @ts-expect-error No overload matches this call - but it does
-        fields: {
-          title: formData.get("title"),
-          entrant: [entrantId],
-          repo_url: formData.get("repo_url"),
-          readme_url: formData.get("readme_url"),
-          deploy_url: formData.get("deployment_url"),
-          screenshot_url: formData.get("screenshot_url"),
-          ship_type: isShipUpdate ? "update" : "project",
-          update_description: isShipUpdate
-            ? formData.get("updateDescription")
-            : null,
-          wakatime_project_name: formData.get("wakatime_project_name"),
-        },
+        fields,
       },
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
+    },
+  );
+}
+
+export async function createShipUpdate(
+  reshippedFromShipId: string,
+  formData: FormData,
+) {
+  const session = await getSession();
+  if (!session) {
+    const error = new Error(
+      "Tried to submit a ship with no Slack OAuth session",
+    );
+    console.log(error);
+    throw error;
+  }
+
+  const updateDescription = formData.get("update_description");
+
+  const slackId = session.payload.sub;
+  const entrantId = await getSelfPerson(slackId).then((p) => p.id);
+
+  const isShipUpdate = formData.get("isShipUpdate");
+
+  const fields = {
+    title: formData.get("title"),
+    entrant: [entrantId],
+    repo_url: formData.get("repo_url"),
+    readme_url: formData.get("readme_url"),
+    deploy_url: formData.get("deployment_url"),
+    screenshot_url: formData.get("screenshot_url"),
+    ship_type: isShipUpdate ? "update" : "project",
+    update_description: isShipUpdate ? formData.get("updateDescription") : null,
+    wakatime_project_name: formData.get("wakatime_project_name"),
+    reshipped_from: [reshippedFromShipId],
+  };
+
+  base()(shipsTableName).create(
+    [
+      {
+        // @ts-expect-error No overload matches this call - but it does
+        fields,
+      },
+    ],
+    (err: Error, records: any) => {
+      if (err) {
+        console.error(err);
+        return;
+      } else if (records) {
+        const reshippedToId = records[0].id; // TODO UHHH MAKE SURSE THIS IS CORRECT MSW
+
+        // Update previous ship to point reshipped_to to the newly created update record
+        base()(shipsTableName).update([
+          {
+            id: reshippedFromShipId,
+            fields: {
+              reshipped_to: [reshippedToId],
+            },
+          },
+        ]);
+      }
     },
   );
 }
@@ -205,7 +267,7 @@ export async function deleteShip(shipId: string) {
   base()(shipsTableName).update(
     [
       {
-        id: ship.id,
+        id: shipId,
         fields: {
           ship_status: "deleted",
         },

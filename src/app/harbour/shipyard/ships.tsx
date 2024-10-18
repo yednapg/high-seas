@@ -20,6 +20,7 @@ import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
 import ReadmeHelperImg from "/public/readme-helper.png";
+import NewUpdateForm from "./new-update-form";
 
 export default function Ships({
   ships,
@@ -37,6 +38,7 @@ export default function Ships({
 
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
+  const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null);
   const [session, setSession] = useState<JwtPayload | null>(null);
   const [isEditingShip, setIsEditingShip] = useState(false);
   const canvasRef = useRef(null);
@@ -88,7 +90,7 @@ export default function Ships({
     (ship: Ship) => ship.shipStatus === "shipped",
   );
 
-  const SingleShip = ({ s }: { s: Ship }) => (
+  const SingleShip = ({ s, bareShips, stagedToShipped, setNewShipVisible }) => (
     <motion.div
       key={s.id}
       onClick={() => setSelectedShip(s)}
@@ -96,38 +98,60 @@ export default function Ships({
       whileHover={{ rotate: "3deg" }}
       whileTap={{ rotate: "-2deg" }}
     >
-      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
-        <div className="w-16 h-16 relative mr-4">
-          <img
-            src={s.screenshotUrl}
-            alt={`Screenshot of ${s.title}`}
-            className="object-cover w-full h-full absolute top-0 left-0 rounded"
-            onError={({ target }) => {
-              target.src = NoImgDino.src;
-            }}
-          />
+      <Card className="flex flex-col sm:gap-2 sm:flex-row items-start sm:items-center p-4 hover:bg-gray-100 transition-colors duration-200">
+        <div className="flex gap-4 items-center">
+          <div className="w-16 h-16 relative mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
+            <img
+              src={s.screenshotUrl}
+              alt={`Screenshot of ${s.title}`}
+              className="object-cover w-full h-full absolute top-0 left-0 rounded"
+              onError={({ target }) => {
+                target.src = NoImgDino.src;
+              }}
+            />
+          </div>
+          <h2 className="text-xl font-semibold text-left mb-2 sm:hidden block">
+            {s.title}
+          </h2>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold text-left">{s.title}</h2>
-          <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
+        <div className="flex-grow">
+          <h2 className="text-xl font-semibold text-left mb-2 sm:block hidden">
+            {s.title}
+          </h2>
+
+          <div className="flex flex-wrap items-start gap-2 text-sm">
             <ShipPillCluster ship={s} />
           </div>
         </div>
 
-        {s.shipStatus === "staged" ? (
-          <div className="ml-auto">
-            <Button
-              onClick={async (e) => {
-                e.stopPropagation();
-                console.log("Shippingg", s);
-                await stagedToShipped(s);
-                location.reload();
-              }}
-            >
-              SHIP SHIP!
-            </Button>
+        {!bareShips && (
+          <div className="mt-4 sm:mt-0 sm:ml-auto">
+            {s.shipStatus === "staged" ? (
+              <Button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  console.log("Shipping", s);
+                  await stagedToShipped(s);
+                  location.reload();
+                }}
+              >
+                SHIP SHIP!
+              </Button>
+            ) : (
+              <Button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  console.log("Shipping an update...", s);
+                  setNewUpdateShip(s);
+                  // await stagedToShipped(s);
+                  // location.reload();
+                }}
+              >
+                Ship an update!
+              </Button>
+            )}
           </div>
-        ) : null}
+        )}
       </Card>
     </motion.div>
   );
@@ -160,7 +184,11 @@ export default function Ships({
 
           <div className="space-y-4">
             {stagedShips.map((ship: Ship, idx: number) => (
-              <SingleShip s={ship} key={ship.id} />
+              <SingleShip
+                s={ship}
+                key={ship.id}
+                setNewShipVisible={setNewShipVisible}
+              />
             ))}
           </div>
         </div>
@@ -181,7 +209,11 @@ export default function Ships({
             </div>
           ) : (
             shippedShips.map((ship: Ship, idx: number) => (
-              <SingleShip s={ship} key={ship.id} />
+              <SingleShip
+                s={ship}
+                key={ship.id}
+                setNewShipVisible={setNewShipVisible}
+              />
             ))
           )}
         </div>
@@ -197,7 +229,7 @@ export default function Ships({
             onClick={() => setNewShipVisible(false)}
           >
             <Card
-              className="relative w-full max-w-2xl"
+              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <NewShipForm
@@ -210,6 +242,39 @@ export default function Ships({
               <motion.button
                 className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
                 onClick={() => setNewShipVisible(false)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon glyph="view-close" />
+              </motion.button>
+            </Card>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {newUpdateShip && session && (
+          <div
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setNewUpdateShip(null)}
+          >
+            <Card
+              className="relative w-full max-w-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <NewUpdateForm
+                shipToUpdate={newUpdateShip}
+                canvasRef={canvasRef}
+                closeForm={() => setNewUpdateShip(null)}
+                session={session}
+              />
+
+              <motion.button
+                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+                onClick={() => setNewUpdateShip(null)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -253,6 +318,16 @@ export default function Ships({
                 <div className="overflow-y-auto flex-grow pt-48">
                   <CardHeader className="relative">
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
+                    <p className="opacity-50">
+                      {selectedShip.wakatimeProjectName ? (
+                        `Wakatime project name: ${selectedShip.wakatimeProjectName}`
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          <Icon glyph="important" />
+                          No Wakatime project name!
+                        </div>
+                      )}
+                    </p>
                   </CardHeader>
 
                   <CardContent className="space-y-4">

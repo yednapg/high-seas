@@ -91,8 +91,14 @@ export default function Shipyard({ ships, setShips, session }: any) {
     return (
       <div>
         <div className="text-center">
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
+          <h1 className="font-heading text-5xl font-bold text-blue-500 mb-6 text-center relative w-fit mx-auto">
             The Keep
+            <span
+              className="absolute text-xl animate-pulse mb-6 rotate-[-20deg] inline-block text-yellow-500 minecraft w-full"
+              style={{ textShadow: "#404100 3px 3px", translate: "-3em 1em" }}
+            >
+              Manage yer ships!
+            </span>
           </h1>
         </div>
         {voteBalance > 0 && (

@@ -22,6 +22,7 @@ import {
 import { getWakaSessions } from "@/app/utils/waka";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
+import Icon from "@hackclub/icons";
 
 export default function NewShipForm({
   ships,
@@ -34,6 +35,7 @@ export default function NewShipForm({
   closeForm: any;
   session: any;
 }) {
+  const [staging, setStaging] = useState(false);
   const confettiRef = useRef<JSConfetti | null>(null);
   const [projects, setProjects] = useState<{ key: string; total: number }[]>(
     [],
@@ -57,6 +59,7 @@ export default function NewShipForm({
         const slackId = session.payload.sub;
         const res = await getWakaSessions();
         const shippedShips = ships
+          .filter((s) => s.shipStatus !== "deleted")
           .map((s) => s.wakatimeProjectName)
           .filter((n) => n);
         setProjects(
@@ -74,15 +77,17 @@ export default function NewShipForm({
   }, [session.payload.sub]);
 
   const handleForm = async (formData: FormData) => {
-    // Append the selected project's hours to the form data
-    if (selectedProject) {
-      formData.append("hours", selectedProject.key.toString());
-    }
+    setStaging(true);
+    // // Append the selected project's hours to the form data
+    // if (selectedProject) {
+    //   formData.append("hours", selectedProject.key.toString());
+    // }
 
     await createShip(formData);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
+    setStaging(false);
   };
 
   return (
@@ -99,7 +104,24 @@ export default function NewShipForm({
             onChange={({ target }) => setIsShipUpdate(target.checked)}
           />
           <label htmlFor="isShipUpdate" className="select-none">
-            This is an update to an existing Ship
+            This is an update to an existing project
+            <br />
+            <span className="opacity-50 text-xs">
+              Only select this if {"it's"} a project you started before Low
+              Skies and {"haven't"} submitted before.
+              <br />
+              For example, maybe for Arcade you built a game, and for Low Skies
+              you want to Ship an amazing update to it! Click this box and
+              describe the update. If you {"don't"} understand this, please ask
+              in{" "}
+              <a
+                className="text-blue-500"
+                href="https://hackclub.slack.com/archives/C07PZNMBPBN"
+              >
+                #low-skies-help
+              </a>
+              !
+            </span>
           </label>
         </div>
 
@@ -270,8 +292,15 @@ export default function NewShipForm({
           />
         </div>
 
-        <Button type="submit" className="w-full">
-          Stage my Ship!
+        <Button type="submit" className="w-full" disabled={staging}>
+          {staging ? (
+            <>
+              <Icon glyph="more" />
+              Staging!
+            </>
+          ) : (
+            "Stage my Ship!"
+          )}
         </Button>
       </form>
     </div>
