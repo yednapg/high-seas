@@ -77,7 +77,7 @@ export async function getWakaSessions(): Promise<any> {
   const waka = await getWaka();
   if (!waka) {
     const err = new Error(
-      "While getting sessions, no waka session could be found or created"
+      "While getting sessions, no waka session could be found or created",
     );
     console.error(err);
     throw err;
@@ -86,7 +86,7 @@ export async function getWakaSessions(): Promise<any> {
   const session = await getSession();
   if (!session)
     throw new Error(
-      "No Slack OAuth session found while trying to get WakaTime sessions."
+      "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
 
   const slackId = session.payload.sub;
@@ -98,7 +98,7 @@ export async function getWakaSessions(): Promise<any> {
       headers: {
         Authorization: `Bearer ${WAKA_API_KEY}`,
       },
-    }
+    },
   );
 
   return await summaryRes.json();
@@ -109,7 +109,7 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
     const session = await getSession();
     if (!session)
       throw new Error(
-        "No Slack OAuth session found while trying to get WakaTime sessions."
+        "No Slack OAuth session found while trying to get WakaTime sessions.",
       );
 
     const slackId = session.payload.sub;
@@ -120,7 +120,7 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
         headers: {
           Authorization: `Bearer ${WAKA_API_KEY}`,
         },
-      }
+      },
     ).then((res) => res.json());
 
     return hasDataRes.hasData;
@@ -134,7 +134,7 @@ export async function getWakaEmail(): Promise<string | null> {
   const session = await getSession();
   if (!session)
     throw new Error(
-      "No Slack OAuth session found while trying to get WakaTime sessions."
+      "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
 
   const slackId = session.payload.sub;
@@ -145,7 +145,7 @@ export async function getWakaEmail(): Promise<string | null> {
       headers: {
         Authorization: `Bearer ${WAKA_API_KEY}`,
       },
-    }
+    },
   ).then((res) => res.json());
 
   return email.email;
