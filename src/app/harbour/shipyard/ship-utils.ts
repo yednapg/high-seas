@@ -30,7 +30,19 @@ export interface Ship {
   shipStatus: string;
   wakatimeProjectName: string;
   createdTime: string;
+  updateDescription: string | null;
 }
+const shipToFields = (ship: Ship, entrantId: string) => ({
+  title: ship.title,
+  entrant: [entrantId],
+  repo_url: ship.repoUrl,
+  readme_url: ship.readmeUrl,
+  deploy_url: ship.deploymentUrl,
+  screenshot_url: ship.screenshotUrl,
+  ship_type: ship.shipType,
+  update_description: ship.updateDescription,
+  wakatime_project_name: ship.wakatimeProjectName,
+});
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
   const ships: Ship[] = [];
@@ -75,6 +87,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       wakatimeProjectName: r.get("wakatime_project_name") as string,
       hours: r.get("hours") as number | null,
       createdTime: r.get("created_time") as string,
+      updateDescription: r.get("update_description") as string | null,
     };
 
     if (projectRecord.shipType === "staged" || projectRecord.hours === null) {
@@ -101,23 +114,23 @@ export async function createShip(formData: FormData) {
 
   const isShipUpdate = formData.get("isShipUpdate");
 
-  const fields = {
-    title: formData.get("title"),
-    entrant: [entrantId],
-    repo_url: formData.get("repo_url"),
-    readme_url: formData.get("readme_url"),
-    deploy_url: formData.get("deployment_url"),
-    screenshot_url: formData.get("screenshot_url"),
-    ship_type: isShipUpdate ? "update" : "project",
-    update_description: isShipUpdate ? formData.get("updateDescription") : null,
-    wakatime_project_name: formData.get("wakatime_project_name"),
-  };
-
   base()(shipsTableName).create(
     [
       {
         // @ts-expect-error No overload matches this call - but it does
-        fields,
+        fields: {
+          title: formData.get("title"),
+          entrant: [entrantId],
+          repo_url: formData.get("repo_url"),
+          readme_url: formData.get("readme_url"),
+          deploy_url: formData.get("deployment_url"),
+          screenshot_url: formData.get("screenshot_url"),
+          ship_type: isShipUpdate ? "update" : "project",
+          update_description: isShipUpdate
+            ? formData.get("updateDescription")
+            : null,
+          wakatime_project_name: formData.get("wakatime_project_name"),
+        },
       },
     ],
     (err: Error, records: any) => {
@@ -126,8 +139,9 @@ export async function createShip(formData: FormData) {
   );
 }
 
+// @malted: I'm confident this is secure.
 export async function createShipUpdate(
-  reshippedFromShipId: string,
+  dangerousReshippedFromShipId: string,
   formData: FormData,
 ) {
   const session = await getSession();
@@ -135,53 +149,70 @@ export async function createShipUpdate(
     const error = new Error(
       "Tried to submit a ship with no Slack OAuth session",
     );
-    console.log(error);
+    console.error(error);
     throw error;
   }
-
-  const updateDescription = formData.get("update_description");
 
   const slackId = session.payload.sub;
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
-  const isShipUpdate = formData.get("isShipUpdate");
+  // This pattern makes sure the ship data is not fraudulent
+  const reshippedFromShip = (await getUserShips(slackId)).find(
+    (ship: Ship) => ship.id === dangerousReshippedFromShipId,
+  );
+  if (!reshippedFromShip) {
+    const error = new Error("Invalid reshippedFromShipId!");
+    console.error(error);
+    throw error;
+  }
 
-  const fields = {
-    title: formData.get("title"),
-    entrant: [entrantId],
-    repo_url: formData.get("repo_url"),
-    readme_url: formData.get("readme_url"),
-    deploy_url: formData.get("deployment_url"),
-    screenshot_url: formData.get("screenshot_url"),
-    ship_type: isShipUpdate ? "update" : "project",
-    update_description: isShipUpdate ? formData.get("updateDescription") : null,
-    wakatime_project_name: formData.get("wakatime_project_name"),
-    reshipped_from: [reshippedFromShipId],
-  };
+  /* Two things are happening here.
+   * Firstly, the new ship of ship_type "update" needs to be created.
+   *  - This will have all the same fields as the reshipped ship.
+   *  - The update_descripton will be the new entered form field though.
+   *  - The reshipped_from field should have the record ID of the reshipped ship
+   * Secondly, the reshipped_to field on the reshipped ship should be updated to be the new update ship's record ID.
+   */
 
+  // Step 1:
   base()(shipsTableName).create(
     [
       {
         // @ts-expect-error No overload matches this call - but it does
-        fields,
+        fields: {
+          ...shipToFields(reshippedFromShip, entrantId),
+          ship_type: "update",
+          update_description: formData.get("updateDescription"),
+          reshipped_from: [reshippedFromShip.id],
+        },
       },
     ],
     (err: Error, records: any) => {
       if (err) {
-        console.error(err);
-        return;
+        console.error("createShipUpdate step 1:", err);
+        throw err;
       } else if (records) {
-        const reshippedToId = records[0].id; // TODO UHHH MAKE SURSE THIS IS CORRECT MSW
+        // Step 2
+        if (records.length !== 1) {
+          const error = new Error(
+            "createShipUpdate: step 1 created records result length is not 1",
+          );
+          console.error(error);
+          throw error;
+        }
+        const reshippedToShip = records[0];
 
         // Update previous ship to point reshipped_to to the newly created update record
         base()(shipsTableName).update([
           {
-            id: reshippedFromShipId,
+            id: reshippedFromShip.id,
             fields: {
-              reshipped_to: [reshippedToId],
+              reshipped_to: [reshippedToShip.id],
             },
           },
         ]);
+      } else {
+        console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
       }
     },
   );

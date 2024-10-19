@@ -1,6 +1,6 @@
 // Import necessary modules and components
 import Link from "next/link";
-import { createShip, Ship } from "./ship-utils";
+import { createShip, createShipUpdate, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef, useState } from "react";
@@ -83,10 +83,9 @@ export default function NewUpdateForm({
     //   formData.append("hours", selectedProject.key.toString());
     // }
 
-    await createShip(formData);
+    await createShipUpdate(shipToUpdate.id, formData);
     confettiRef.current?.addConfetti();
     closeForm();
-    window.location.reload();
     setStaging(false);
   };
 
