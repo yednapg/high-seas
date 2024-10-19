@@ -29,6 +29,7 @@ export interface Ship {
   shipType: string;
   shipStatus: string;
   wakatimeProjectName: string;
+  createdTime: string;
 }
 
 export async function getUserShips(slackId: string): Promise<Ship[]> {
@@ -72,6 +73,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       shipStatus: r.get("ship_status") as string,
       wakatimeProjectName: r.get("wakatime_project_name") as string,
       hours: r.get("hours") as number | null,
+      createdTime: r.get("created_time") as string,
     };
 
     if (projectRecord.shipType === "staged" || projectRecord.hours === null) {
