@@ -99,7 +99,7 @@ export default function Shop({ session }: { session: JwtPayload }) {
         <select onChange={onOptionChangeHandler} value={filterIndex}>
           <option value="0">️🐉 all regions</option>
           <option value="1">🇺🇸 US</option>
-          <option value="2">🇪🇺 EU</option>
+          <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
           <option value="3">🇮🇳 India</option>
           <option value="4">🍁 Canada</option>
           <option value="5">🗺 other countries worldwide...</option>
