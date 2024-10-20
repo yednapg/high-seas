@@ -35,7 +35,7 @@ export default async function Marketing() {
         <div className="flex flex-col justify-center items-center text-center">
           <div className=" flex flex-col justify-center items-center mb-44">
             <img src="/highlogo.svg" alt="high seas logo" className="xl:max-w-3xl md:max-w-xl max-w-sm"/>
-            <p className="text-4xl text-white">Build. Battle. Booty. Repeat.</p>
+            <p className="text-4xl text-white">Build personal projects. Get free stuff.</p>
             <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
               <button className="bg-[#214495] p-4 rounded-lg text-white">Get started</button>
               <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get free stickers</button>
@@ -53,7 +53,7 @@ export default async function Marketing() {
     <div className="watergradient">
 
       <div className="flex flex-col justify-center items-center">
-        <div className="bg-blue-700 w-[1200px] h-1"></div>
+        <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
       </div>
       
 
@@ -68,67 +68,53 @@ export default async function Marketing() {
 
         <div className="flex flex-col justify-center items-center text-white mx-8">
 
-            <div className="flex flex-wrap m-8 p-8 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
-                <p className="text-3xl mb-4">Make cool projects!</p>
-                <p className="text-xl max-w-[600px]">
-                  Download the High Seas extension for your code editor, and hack on something cool! Examples: making your own PCB, building a personal website, or creating a video game.
-                </p>
+            <div className="flex flex-wrap m-0 p-6 rounded-md">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
+                <div className="relative">
+                  <p className="text-3xl mb-4">Make cool projects!</p>
+                  <p className="text-xl max-w-[600px]">
+                    Download the High Seas extension for your code editor, and hack on something cool! Examples: making your own PCB, building a personal website, or creating a video game.
+                  </p>
+                </div>
               </div>
+              <div className="flex justify-center items-center w-full md:w-auto">
+                <Image src="/howtobacks.svg" alt="dragons battling" width={400} height={400}/>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap m-0 p-6 rounded-md">
               <div className="flex justify-center items-center w-full md:w-auto">
                 <Image src={how2} alt="dragons battling" width={400} height={400}/>
               </div>
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
+                <div className="relative">
+                  <p className="text-3xl mb-4">Submit your projects for Doubloons!</p>
+                  <p className="text-xl max-w-[600px]">
+                    Share your projects with our community of teen makers. Sign in with Hack Club Slack and ship them in the Harbour! For each hour coded, earn Doubloons (our virtual currency).
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-wrap m-8 p-8 rounded-md">
+            <div className="flex flex-wrap m-0 p-6 rounded-md">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
+                <div className="relative">
+                  <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
+                  <p className="text-xl max-w-[600px]">
+                    Use Doubloons to purchase loot for your next project! Items range from soldering irons to 3D printers. In just 5 hours, you could earn a Raspberry Pi Zero! Full prize list below.
+                  </p>
+                </div>
+              </div>
               <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how2} alt="dragons battling" width={400} height={400}/>
-              </div>
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:ml-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
-                <p className="text-3xl mb-4">Ship your creations for Doubloons!</p>
-                <p className="text-xl max-w-[600px]">
-                  Share your projects by submitting signing in and submitting them to the Harbour. For each hour coded, you'll earn Doubloons (our virtual currency). 
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap m-8 p-8 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center bg-green bg-opacity-60 p-8 rounded-md">
-                <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
-                <p className="text-xl max-w-[600px]">
-                  Use Doubloons to purchase loot for your next project! Items range from soldering irons to 3D printers. In just 5 hours, you could earn a Raspberry Pi Zero! Full prize list below.
-                </p>
-              </div>
-              <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how2} alt="dragons battling" width={400} height={400}/>
+                <Image src="/howtobacks.svg" alt="dragons battling" width={400} height={400}/>
               </div>
             </div>
 
 
 
-        </div>
-
-
-        <div className="bg-black py-12 my-12">
-
-          <div className="flex flex-col justify-center items-center text-center mb-8">
-            <p className="text-3xl">Join a Community of Makers</p>
-            <p className="text-xl">Here are some things teens from Hack Club created this summer!</p>
-          </div>
-
-          <div className="flex flex-wrap justify-center items-center mb-8">
-            <div className="bg-blue-500 rounded-md p-4 max-w-sm"> 
-              <p className="text-xl mb-2">@name</p>
-              <p className="sm">project description type thing lorem lorem words words words words words words words words words words</p>
-              <p className="mt-4">insert pic here</p>
-            </div>
-            
-          </div>
-
-          <div className="flex flex-col justify-center text-center">
-            <p>Join the Hack Club Slack to ask for help and make friends worldwide.</p>
-          </div>
-          
         </div>
 
   
@@ -205,6 +191,28 @@ export default async function Marketing() {
                
               </div>
             </div>
+          </div>
+
+          <div className="bg-black py-12 my-12">
+
+          <div className="flex flex-col justify-center items-center text-center mb-8">
+            <p className="text-3xl">Join a Community of Makers</p>
+            <p className="text-xl">Here are some things teens from Hack Club created this summer!</p>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center mb-8">
+            <div className="bg-blue-500 rounded-md p-4 max-w-sm"> 
+              <p className="text-xl mb-2">@name</p>
+              <p className="sm">project description type thing lorem lorem words words words words words words words words words words</p>
+              <p className="mt-4">insert pic here</p>
+            </div>
+            
+          </div>
+
+          <div className="flex flex-col justify-center text-center">
+            <p>Join the Hack Club Slack to ask for help and make friends worldwide.</p>
+          </div>
+
           </div>
 
         
@@ -340,7 +348,7 @@ export default async function Marketing() {
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center">
-              <p className="text-4xl text-white">Build. Battle. Repeat.</p>
+              <p className="text-4xl text-white">Build. Battle. Booty. Repeat.</p>
               <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
                 <button className="bg-[#214495] p-4 rounded-lg text-white">Sign in with Hack Club Slack</button>
                 <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get stuff</button>

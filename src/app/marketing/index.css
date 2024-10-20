@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Arial MTRoundedBold';
+    src: url('/fonts/arialroundedmtbold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
     background: black;
+    font-family: 'Arial MTRoundedBold', sans-serif;
 }
 
 .bodycss {
