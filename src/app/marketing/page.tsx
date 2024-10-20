@@ -69,7 +69,7 @@ export default async function Marketing() {
         <div className="flex flex-col justify-center items-center text-white mx-8">
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl">Make cool projects!</p>
@@ -90,7 +90,7 @@ export default async function Marketing() {
               <div className="flex justify-center items-center w-full md:w-auto">
                 <Image src={how2} alt="dragons battling" width={400} height={400}/>
               </div>
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Submit your projects for Doubloons!</p>
@@ -105,7 +105,7 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
