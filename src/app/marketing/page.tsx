@@ -72,7 +72,10 @@ export default async function Marketing() {
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
-                  <p className="text-3xl mb-4">Make cool projects!</p>
+                  <p className="text-3xl">Make cool projects!</p>
+                  <div className="flex flex-col justify-center items-center my-2">
+                    <img src="/divider.svg" alt="divider" className="opacity-40 h-3 w-auto object-contain"/>  
+                  </div>
                   <p className="text-xl max-w-[600px]">
                     Download the High Seas extension for your code editor, and hack on something cool! Examples: making your own PCB, building a personal website, or creating a video game.
                   </p>
@@ -91,6 +94,9 @@ export default async function Marketing() {
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Submit your projects for Doubloons!</p>
+                  <div className="flex flex-col justify-center items-center my-2">
+                    <img src="/divider.svg" alt="divider" className="opacity-40 h-3 w-auto object-contain"/>  
+                  </div>
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign in with Hack Club Slack and ship them in the Harbour! For each hour coded, earn Doubloons (our virtual currency).
                   </p>
@@ -103,6 +109,9 @@ export default async function Marketing() {
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
+                  <div className="flex flex-col justify-center items-center my-2">
+                    <img src="/divider.svg" alt="divider" className="opacity-40 h-3 w-auto object-contain"/>  
+                  </div>
                   <p className="text-xl max-w-[600px]">
                     Use Doubloons to purchase loot for your next project! Items range from soldering irons to 3D printers. In just 5 hours, you could earn a Raspberry Pi Zero! Full prize list below.
                   </p>
