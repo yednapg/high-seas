@@ -325,6 +325,39 @@ export default async function Marketing() {
             </div>
           </div>
 
+        <div className="my-24">
+          <div className="flex justify-center items-center mb-5">
+            <p className="text-5xl text-center mt-12">Hack Club is an open-source non-profit helping teens get into coding and making</p>
+          </div>
+          <div>
+            <div className="p-5 flex flex-wrap justify-center items-center">
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
+                <p className="mb-2 text-2xl">Hack Club is an open-source non-profit helping teens get into coding and making</p>
+                <p className="">And we've partnered with GitHub again to run High Seas! This summer, we ran Arcade, another program where you make stuff and get stuff. Here are some stats:</p>
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
+                <p className="mb-2 text-2xl">4000+ high schoolers</p>
+                <p className="">who logged a total of 130,000+ hours</p>
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
+                <p className="mb-2 text-2xl">11,111 total prizes shipped</p>
+                <p className="">to 119 different countries!</p>
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
+                <p className="mb-2 text-2xl">That's including:</p>
+                <p className="">392 YubiKeys, 348 Raspberry Pi Zeros, 150 Wacom Intuos, 120 iPads, 78 Flipper Zeros, and more!</p>
+              </div>
+
+              
+
+            </div>
+          </div>
+        </div>
+
         
         <div className="my-24">
           <div className="flex justify-center items-center mb-5">
@@ -368,9 +401,53 @@ export default async function Marketing() {
       </div>
 
       <div className="bg-[#F567D7] p-8">
-        <div className="flex flex-col justify-center text-center items-center">
-          <p>temp footer</p>
-        </div>
+      <div className="xl:mx-44 md:mx-22 my-4">
+            <p className="mb-4 text-lg text-pink-950">
+              A project by{" "}
+              <a
+                href="https://hackclub.com/"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="footLink"
+              >
+                Hack Club
+              </a>
+              .
+            </p>
+            <p className="max-w-2xl text-pink-800 text-sm">
+              Hack Club is a registered 501(c)3 nonprofit organization that
+              supports a network of 20k+ technical high schoolers. We believe
+              you learn best by building so we{"'"}re creating community and
+              providing grants so you can make. In the past few years, we{"'"}ve{" "}
+              <a
+                href="https://hackclub.com/arcade/"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="footLink"
+              >
+                partnered with GitHub to run Arcade
+              </a>
+              ,{" "}
+              <a
+                href="https://github.com/hackclub/the-hacker-zephyr"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="footLink"
+              >
+                {"hosted the world's longest hackathon on land"}
+              </a>
+              , and{" "}
+              <a
+                href="https://www.youtube.com/watch?v=QvCoISXfcE8"
+                target="_blank"
+                rel="noopenner noreferrer"
+                className="footLink"
+              >
+                {"ran Canada's largest high school hackathon"}
+              </a>
+              .
+            </p>
+          </div>
       </div>
 
 
