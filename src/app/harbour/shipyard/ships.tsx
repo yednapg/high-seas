@@ -22,12 +22,39 @@ import NoImgBanner from "/public/no-img-banner.png";
 import ReadmeHelperImg from "/public/readme-helper.png";
 import NewUpdateForm from "./new-update-form";
 
+function ago(date) {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+
+  const intervals = [
+    { label: "year", seconds: 31536000 },
+    { label: "month", seconds: 2592000 },
+    { label: "day", seconds: 86400 },
+    { label: "hour", seconds: 3600 },
+    { label: "minute", seconds: 60 },
+    { label: "second", seconds: 1 },
+  ];
+
+  for (let i = 0; i < intervals.length; i++) {
+    const interval = intervals[i];
+    const count = Math.floor(diffInSeconds / interval.seconds);
+
+    if (count >= 1) {
+      return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
+    }
+  }
+
+  return "just now";
+}
+
 export default function Ships({
   ships,
+  shipChains,
   bareShips = false,
   setShips,
 }: {
   ships: Ship[];
+  shipChains: Map<string, string[]>;
   bareShips: boolean;
   setShips: any;
 }) {
@@ -90,7 +117,18 @@ export default function Ships({
     (ship: Ship) => ship.shipStatus === "shipped",
   );
 
-  const SingleShip = ({ s, bareShips, stagedToShipped, setNewShipVisible }) => (
+  const shipMap = new Map();
+  ships.forEach((s: Ship) => shipMap.set(s.id, s));
+
+  const SingleShip = ({
+    s,
+    bareShips,
+    setNewShipVisible,
+  }: {
+    s: Ship;
+    bareShips: boolean;
+    setNewShipVisible: any;
+  }) => (
     <motion.div
       key={s.id}
       onClick={() => setSelectedShip(s)}
@@ -396,6 +434,26 @@ export default function Ships({
                         <ShipPillCluster ship={selectedShip} />
                       </motion.div>
 
+                      <div>
+                        {selectedShip.shipIdChain.length}
+                        {selectedShip.shipIdChain.map((sid: string, idx) => (
+                          <p key={idx}>
+                            {shipMap.get(sid).title} ({shipMap.get(sid).id}){" "}
+                            {ago(new Date(shipMap.get(sid).createdTime))}
+                          </p>
+                        ))}
+                      </div>
+
+                      {selectedShip.shipType === "update" ? (
+                        <>
+                          <hr className="my-5" />
+                          <div>
+                            <h3 className="text-xl">Update description</h3>
+                            <p>{selectedShip.updateDescription}</p>
+                          </div>
+                        </>
+                      ) : null}
+
                       <hr className="my-5" />
 
                       {readmeText ? (
@@ -420,12 +478,15 @@ export default function Ships({
                               />
                             </div>
                           ) : (
-                            <ReactMarkdown
-                              components={markdownComponents}
-                              rehypePlugins={[rehypeRaw]}
-                            >
-                              {readmeText}
-                            </ReactMarkdown>
+                            <>
+                              <h3 className="text-xl">Main Project README</h3>
+                              <ReactMarkdown
+                                components={markdownComponents}
+                                rehypePlugins={[rehypeRaw]}
+                              >
+                                {readmeText}
+                              </ReactMarkdown>
+                            </>
                           )}
                         </div>
                       ) : (

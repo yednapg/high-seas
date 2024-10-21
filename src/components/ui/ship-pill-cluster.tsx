@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function ShipPillCluster({ ship }: { ship: Ship }) {
   return (
     <>
-      <Pill msg={`${ship.hours ?? 0} hr`} glyph="clock" />
+      <Pill msg={`${ship.hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
         (ship.voteRequirementMet ? (

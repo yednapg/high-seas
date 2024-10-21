@@ -74,7 +74,12 @@ const exampleShips: Ship[] = [
   },
 ];
 
-export default function Shipyard({ ships, setShips, session }: any) {
+export default function Shipyard({
+  ships,
+  shipChains,
+  setShips,
+  session,
+}: any) {
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
     0,
@@ -110,7 +115,7 @@ export default function Shipyard({ ships, setShips, session }: any) {
             />
           </div>
         )}
-        <Ships ships={ships} setShips={setShips} />
+        <Ships ships={ships} shipChains={shipChains} setShips={setShips} />
 
         <div className="flex flex-col justify-center items-center">
           <p className="text-2xl mb-2 text-blue-500">

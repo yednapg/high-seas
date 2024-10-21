@@ -16,8 +16,6 @@ export async function getWaka(): Promise<WakaSignupResponse | null> {
     await createWaka();
     key = cookies().get("waka-key");
     if (!key) return null;
-  } else {
-    console.log("there was alr a waka key: ", key);
   }
 
   return JSON.parse(key.value) as WakaSignupResponse;

@@ -15,6 +15,8 @@ const base = () => {
   return Airtable.base(baseId);
 };
 
+type ShipType = "project" | "update";
+type ShipStatus = "shipped" | "staged" | "deleted";
 export interface Ship {
   id: string; // The Airtable row's ID.
   title: string;
@@ -26,13 +28,16 @@ export interface Ship {
   hours: number | null;
   voteRequirementMet: boolean;
   doubloonPayout: number;
-  shipType: string;
-  shipStatus: string;
+  shipType: ShipType;
+  shipStatus: ShipStatus;
   wakatimeProjectName: string;
   createdTime: string;
   updateDescription: string | null;
+  reshippedFromId: string | null;
+  reshippedToId: string | null;
 }
 const shipToFields = (ship: Ship, entrantId: string) => ({
+  // Think of this as `impl Clone`. Only include the fields you want in a cloned Ship.
   title: ship.title,
   entrant: [entrantId],
   repo_url: ship.repoUrl,
@@ -44,7 +49,9 @@ const shipToFields = (ship: Ship, entrantId: string) => ({
   wakatime_project_name: ship.wakatimeProjectName,
 });
 
-export async function getUserShips(slackId: string): Promise<Ship[]> {
+export async function getUserShips(
+  slackId: string,
+): Promise<{ ships: Ship[]; shipChains: Map<string, string[]> }> {
   const ships: Ship[] = [];
 
   const [wakaData, records] = await Promise.all([
@@ -72,7 +79,6 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
   };
 
   records.forEach((r) => {
-    console.log("YEJAWWW", r.get("reshipped_to"), r.get("reshipped_from"));
     const projectRecord = {
       id: r.id as string,
       title: r.get("title") as string,
@@ -82,21 +88,99 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       screenshotUrl: r.get("screenshot_url") as string,
       voteRequirementMet: Boolean(r.get("vote_requirement_met")),
       doubloonPayout: r.get("doubloon_payout") as number,
-      shipType: r.get("ship_type") as string,
-      shipStatus: r.get("ship_status") as string,
+      shipType: r.get("ship_type") as ShipType,
+      shipStatus: r.get("ship_status") as ShipStatus,
       wakatimeProjectName: r.get("wakatime_project_name") as string,
       hours: r.get("hours") as number | null,
       createdTime: r.get("created_time") as string,
       updateDescription: r.get("update_description") as string | null,
+      reshippedFromId: r.get("reshipped_from") as string | null,
+      reshippedToId: r.get("reshipped_to") as string | null,
     };
 
-    if (projectRecord.shipType === "staged" || projectRecord.hours === null) {
-      projectRecord.hours = hoursForProject(projectRecord.wakatimeProjectName);
-    }
+    if (projectRecord.shipStatus !== "deleted") {
+      if (projectRecord.shipStatus === "staged") {
+        projectRecord.hours = hoursForProject(
+          projectRecord.wakatimeProjectName,
+        );
+      }
 
-    ships.push(projectRecord);
+      // if (projectRecord.shipStatus !== "deleted")
+      ships.push(projectRecord);
+    }
   });
-  return ships;
+
+  // I'm going to construct the ship chains based on wakatime project names
+  const shipChains = new Map<string, string[]>(); // <wakatime_project_name, ship_id[]>
+
+  // Step 1: Get the wakatime project names
+  const wakatimeProjectNames = new Set(
+    ships.map((s: Ship) => s.wakatimeProjectName).filter((p) => p),
+  );
+  console.info("Step 1:", wakatimeProjectNames);
+
+  // For every wakatime project, get the root, ie the ship of type project.
+  // There should only be 1.
+  wakatimeProjectNames.forEach((wpn) => {
+    const rootShip = ships.find(
+      (s: Ship) => s.wakatimeProjectName === wpn && s.shipType === "project",
+    );
+    console.info(`Step 2: rootShip for ${wpn}: ${rootShip.title}`);
+
+    if (rootShip) {
+      // Assert that the first ship is of type project, and all the rest are of type update
+      if (rootShip.shipType !== "project") {
+        const err = new Error(
+          "First ship in update chain needs to be of type project",
+        );
+        console.error(err);
+        throw err;
+      }
+
+      const chain = [rootShip.id];
+
+      let nextShip: Ship | undefined = ships.find(
+        (s: Ship) => s.id === rootShip?.reshippedToId,
+      );
+
+      while (nextShip) {
+        if (chain.length >= 10_000) {
+          // What.
+          const err = new Error(
+            `Ship chain max got too long (rootshipId: ${rootShip.id})`,
+          );
+          console.error(err);
+          throw err;
+        }
+
+        if (nextShip.shipType === "project") {
+          const err = new Error(
+            `There's a project ship (${nextShip.id}) in the middle of (rootshipId: ${rootShip.id}) ship chain!`,
+          );
+          console.error(err);
+          throw err;
+        }
+
+        // Avoid circular references
+        if (chain.includes(nextShip.id)) {
+          const err = new Error(
+            `Circular ship chain reference detected in (rootshipId: ${rootShip.id}) ship chain (${nextShip.id} was detected twice)`,
+          );
+          console.error(err);
+          throw err;
+        }
+
+        chain.push(nextShip.id);
+        nextShip = ships.find((s: Ship) => s.id === nextShip?.reshippedToId);
+      }
+
+      shipChains.set(rootShip.id, chain);
+    } else {
+      console.error("No rootship for", wpn);
+    }
+  });
+
+  return { ships, shipChains };
 }
 
 export async function createShip(formData: FormData) {
@@ -157,7 +241,9 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const reshippedFromShip = (await getUserShips(slackId)).find(
+  const { ships } = await getUserShips(slackId);
+
+  const reshippedFromShip = ships.find(
     (ship: Ship) => ship.id === dangerousReshippedFromShipId,
   );
   if (!reshippedFromShip) {
@@ -182,7 +268,7 @@ export async function createShipUpdate(
         fields: {
           ...shipToFields(reshippedFromShip, entrantId),
           ship_type: "update",
-          update_description: formData.get("updateDescription"),
+          update_description: formData.get("update_description"),
           reshipped_from: [reshippedFromShip.id],
         },
       },
