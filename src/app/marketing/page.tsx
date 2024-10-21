@@ -33,7 +33,7 @@ export default async function Marketing() {
       <img src="/background.svg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
       <div className="relative h-screen flex items-center justify-center">
         <div className="flex flex-col justify-center items-center text-center">
-          <div className=" flex flex-col justify-center items-center mb-44">
+          <div className=" flex flex-col justify-center items-center mb-24">
             <img src="/highlogo.svg" alt="high seas logo" className="xl:max-w-3xl md:max-w-xl max-w-sm"/>
             <p className="text-4xl text-white">Build personal projects. Get free stuff.</p>
             <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
@@ -41,6 +41,7 @@ export default async function Marketing() {
               <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get free stickers</button>
             </div>
           </div>
+          <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60 bobble"/>
           <div className="text-[#214495]">
             <p className="text-lg mx-10">In High Seas, code projects and get free hardware like Raspberry Pis, 3D Printers, and iPads.</p>
             <p className="text-lg mb-10 mx-10">By Hack Club and GitHub. For teens. Starts October 30. Ends DATE.</p>
@@ -69,7 +70,7 @@ export default async function Marketing() {
         <div className="flex flex-col justify-center items-center text-white mx-8">
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl">Make cool projects!</p>
@@ -90,7 +91,7 @@ export default async function Marketing() {
               <div className="flex justify-center items-center w-full md:w-auto">
                 <Image src={how2} alt="dragons battling" width={400} height={400}/>
               </div>
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Submit your projects for Doubloons!</p>
@@ -105,7 +106,7 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:p-16 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
                 <div className="relative">
                   <p className="text-3xl mb-4">Spend Doubloons on awesome prizes!</p>
@@ -126,15 +127,157 @@ export default async function Marketing() {
 
         </div>
 
-  
-          <div className="my-24">
-            <div className="flex justify-center items-center mb-8">
-              <p className="text-5xl text-center mx-4">
-                One battle at a time, what will you make?
+        <div className="my-24">
+          <div className="flex justify-center items-center mb-5">
+            <p className="text-5xl text-center mt-12">Last time we did this...</p>
+          </div>
+          <div className="mx-5 md:mx-44">
+            <div className="flex flex-wrap justify-center items-stretch">
+
+              {/*<div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
+                <p className="mb-2 text-2xl">Hack Club is an open-source non-profit helping teens get into coding and making</p>
+                <p className="">And we've partnered with GitHub again to run High Seas! This summer, we ran Arcade, another program where you make stuff and get stuff. Here are some stats:</p>
+              </div>*/}
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
+                <p className="text-7xl mb-2">4,000</p>
+                <p className="text-xl">high schoolers participated</p>
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
+                <p className="text-7xl mb-2">130,000</p>
+                <p className="text-2xl">total hours logged</p>
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
+                <p className="text-7xl mb-2">11,111</p>
+                <p className="text-xl">total prizes shipped to 119 countries</p>
+              </div>
+
+            </div>
+            
+              <div className="flex flex-wrap gap-4 m-2 justify-center items-center">
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">That's including:</div>
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">348 Raspberry Pi Zeros</div>
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">150 Wacom Intuos</div>
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">120 iPads</div>
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">64 3D Printers</div>
+                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">and more!</div>
+              </div>
+            
+
+          </div>
+        </div>
+
+        <div className="my-12">
+          <div className="flex flex-col justify-center items-center mb-8 m-5">
+            <p className="text-5xl text-center mb-2">{"Prizes to power up your next project!"}</p>
+            <p className="text-xl text-center">
+              Redeem these with your Doubloons! For high schoolers (or younger)
+              only.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop1}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                Pile of Stickers
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
-              <div className="bg-blue-500 p-8 rounded-lg md:col-span-2 pop">
+
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop2}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                Yubikey
+              </p>
+            </div>
+
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop3}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                Blahaj (friend)
+              </p>
+            </div>
+
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop4}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                Raspberry Pi Zero
+              </p>
+            </div>
+
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop5}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                Pinecil
+              </p>
+            </div>
+
+            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
+              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
+                <Image
+                  src={shop6}
+                  alt="Shop item"
+                  className="w-full h-auto"
+                />
+              </div>
+              <p className="flex justify-center text-center text-3xl">
+                iFixit Kit
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center mt-8 m-10">
+            {/*<div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
+              <p className="text-3xl text-center">
+                Get the full list of items when you sign in!
+              </p>
+            </div>*/}
+            <p className="text-xl">This is just a sneak peak... new items will be added over the winter!</p>
+          </div>
+        </div>
+
+  
+        <div className="my-24">
+            <div className="flex justify-center items-center mb-8">
+              <p className="text-5xl text-center mx-4">
+                Check out what others are building!
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
+             
+              <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
+                <p>insert sam's map here</p>
+                {/*}
                 <p className="text-3xl">Build whatever you want!</p>
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
@@ -143,8 +286,13 @@ export default async function Marketing() {
                   compete against other similar-timed projects and you{"'"}ll
                   earn Scales based on how well you do.
                 </p>
+                */}
+              </div>
+
+              <div className="bg-blue-500 p-8 rounded-lg pop md:col-span-4">
+
                 <p className="text-2xl">{"Don't know where to start?"}</p>
-                <p className="text-lg mt-2">Hack Club has a ton of preexisting programs to help!</p>
+                <p className="text-lg mt-2">Try out one of these Hack Club programs!</p>
                 <ul className="mt-4 mb-2 text-lg list-disc ml-8">
                   <li>
                     <a
@@ -192,11 +340,7 @@ export default async function Marketing() {
                     !
                   </li>
                 </ul>
-              </div>
-
-              <div className="bg-blue-500 p-8 rounded-lg pop">
-                <p className="text-2xl">Here is what others are making!</p>
-                <p>insert sam's ship map here</p>
+                
                
               </div>
             </div>
@@ -204,182 +348,75 @@ export default async function Marketing() {
 
           <div className="bg-black py-12 my-12">
 
-          <div className="flex flex-col justify-center items-center text-center mb-8">
-            <p className="text-3xl">Join a Community of Makers</p>
-            <p className="text-xl">Here are some things teens from Hack Club created this summer!</p>
-          </div>
+            <div className="flex flex-col justify-center items-center text-center mb-8">
+              <p className="text-5xl my-12">Join a community of makers</p>
+            </div>
 
-          <div className="flex flex-wrap justify-center items-center mb-8">
-            <div className="bg-blue-500 rounded-md p-4 max-w-sm"> 
-              <p className="text-xl mb-2">@name</p>
-              <p className="sm">project description type thing lorem lorem words words words words words words words words words words</p>
-              <p className="mt-4">insert pic here</p>
+            <div className="flex flex-wrap justify-center items-center mb-12 gap-6">
+
+              <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
+                <div className="flex flex-row mb-2">
+                  <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
+                  <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
+                </div>
+                <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
+                <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
+              </div>
+
+              <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
+                <div className="flex flex-row mb-2">
+                  <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
+                  <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
+                </div>
+                <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
+                <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
+              </div>
+
+              <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
+                <div className="flex flex-row mb-2">
+                  <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
+                  <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
+                </div>
+                <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
+                <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
+              </div>
+
+
+
+
             </div>
             
-          </div>
 
-          <div className="flex flex-col justify-center text-center">
-            <p>Join the Hack Club Slack to ask for help and make friends worldwide.</p>
-          </div>
-
-          </div>
-
-        
-
-        </div>
-
-        <div className="my-12">
-            <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-2">{"Prizes to power up your next project!"}</p>
-              <p className="text-xl text-center">
-                Redeem these with your Doubloons! For high schoolers (or younger)
-                only.
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop1}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
+            <div className="my-12">
+              <div className="flex flex-col justify-center text-center items-center">
+                <div className="flex flex-row gap-4">
+                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
+                    <a href="https://scrapbook.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="text-2xl mx-4">See more projects →</a>  
+                  </div>
+                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
+                    <a href="#" className="text-2xl mx-4">Join the Hack Club Slack →</a>  
+                  </div>
                 </div>
-                <p className="flex justify-center text-center text-3xl">
-                  Pile of Stickers
-                </p>
-              </div>
-
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop2}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <p className="flex justify-center text-center text-3xl">
-                  Yubikey
-                </p>
-              </div>
-
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop3}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <p className="flex justify-center text-center text-3xl">
-                  Blahaj (friend)
-                </p>
-              </div>
-
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop4}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <p className="flex justify-center text-center text-3xl">
-                  Raspberry Pi Zero
-                </p>
-              </div>
-
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop5}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <p className="flex justify-center text-center text-3xl">
-                  Pinecil
-                </p>
-              </div>
-
-              <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-                <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop6}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  />
-                </div>
-                <p className="flex justify-center text-center text-3xl">
-                  iFixit Kit
-                </p>
+               
               </div>
             </div>
-            <div className="flex flex-col justify-center items-center mt-8 m-10">
-              <div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
-                <p className="text-3xl text-center">
-                  Get the full list of items when you sign in!
-                </p>
-              </div>
-              <p>This is just a sneak peak... new items will be added over the winter!</p>
-            </div>
-          </div>
 
-        <div className="my-24">
-          <div className="flex justify-center items-center mb-5">
-            <p className="text-5xl text-center mt-12">Hack Club is an open-source non-profit helping teens get into coding and making</p>
-          </div>
-          <div>
-            <div className="p-5 flex flex-wrap justify-center items-center">
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
-                <p className="mb-2 text-2xl">Hack Club is an open-source non-profit helping teens get into coding and making</p>
-                <p className="">And we've partnered with GitHub again to run High Seas! This summer, we ran Arcade, another program where you make stuff and get stuff. Here are some stats:</p>
-              </div>
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
-                <p className="mb-2 text-2xl">4000+ high schoolers</p>
-                <p className="">who logged a total of 130,000+ hours</p>
-              </div>
+          
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
-                <p className="mb-2 text-2xl">11,111 total prizes shipped</p>
-                <p className="">to 119 different countries!</p>
-              </div>
-
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
-                <p className="mb-2 text-2xl">That's including:</p>
-                <p className="">392 YubiKeys, 348 Raspberry Pi Zeros, 150 Wacom Intuos, 120 iPads, 78 Flipper Zeros, and more!</p>
-              </div>
-
-              
-
-            </div>
           </div>
         </div>
 
+
         
-        <div className="my-24">
+        <div className="">
           <div className="flex justify-center items-center mb-5">
             <p className="text-5xl text-center mt-12">FAQ</p>
           </div>
           <div>
             <Faq />
           </div>
-        </div>
-
-        <div className="my-24">
-          <div className="flex flex-col justify-center text-center items-center">
-            <p className="text-3xl">Hack Club is an open-source non-profit helping teenagers get into coding and making</p>
-            <p>We've partnered with GitHub to run High Seas</p>
-            <p>This past summer, we've ran Arcade, another program which got 10000+ projects, 5000+ prizes, 50+ countries.</p>
-          </div>
-
-          <div>
-            
-
-          </div>
-          
         </div>
 
     </div>
@@ -555,9 +592,12 @@ interface FaqCardProps {
 const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
   return (
     <div>
-      <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop">
-        <p className="mb-2 text-2xl">{question}</p>
-        <p className="" dangerouslySetInnerHTML={{ __html: answer }}></p>
+      <div className="relative p-8 rounded-lg my-2 max-w-xl pop">
+        <img src="/faqbkgr.svg" className="absolute inset-0 w-full h-full object-cover"/>
+        <div className="relative">
+          <p className="mb-2 text-2xl">{question}</p>
+          <p className="" dangerouslySetInnerHTML={{ __html: answer }}></p>
+        </div>
       </div>
     </div>
   );
