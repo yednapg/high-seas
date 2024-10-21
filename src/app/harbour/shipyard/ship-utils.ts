@@ -120,7 +120,7 @@ export async function getUserShips(
   // There should only be 1.
   wakatimeProjectNames.forEach((wpn) => {
     const rootShip = ships.find(
-      (s: Ship) => s.wakatimeProjectName === wpn && s.shipType === "project",
+      (s: Ship) => s.wakatimeProjectName === wpn && !s.reshippedFromId,
     );
     console.info(`Step 2: rootShip for ${wpn}: "${rootShip.title}"`);
 
