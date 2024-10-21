@@ -104,16 +104,7 @@ export async function getUserShips(
       reshippedToId,
     };
 
-    if (projectRecord.shipStatus !== "deleted") {
-      if (projectRecord.shipStatus === "staged") {
-        projectRecord.hours = hoursForProject(
-          projectRecord.wakatimeProjectName,
-        );
-      }
-
-      // if (projectRecord.shipStatus !== "deleted")
-      ships.push(projectRecord);
-    }
+    if (projectRecord.shipStatus !== "deleted") ships.push(projectRecord);
   });
 
   // I'm going to construct the ship chains based on wakatime project names
@@ -148,11 +139,7 @@ export async function getUserShips(
       let nextShip: Ship | undefined = ships.find(
         (s: Ship) => s.id === rootShip?.reshippedToId,
       );
-      console.log("root ship:", rootShip);
-      console.log("THE FIRST NEXT SHIP IS", nextShip);
-
       while (nextShip) {
-        console.log("NEXT SHIP IS", nextShip);
         if (chain.length >= 10_000) {
           // What.
           const err = new Error(
@@ -183,11 +170,37 @@ export async function getUserShips(
         nextShip = ships.find((s: Ship) => s.id === nextShip?.reshippedToId);
       }
 
-      shipChains.set(rootShip.id, chain);
+      shipChains.set(rootShip.wakatimeProjectName, chain);
     } else {
       console.error("No rootship for", wpn);
     }
   });
+
+  // Proper hours assignment for staged ships
+  for (const ship of ships) {
+    console.log(`RAW HOURS: ${ship.id}: ${ship.hours}`);
+    if (ship.shipStatus !== "staged") continue; // Shipped records have a static hours value that pulls from its airtable column.
+
+    const rawWakaHours = hoursForProject(ship.wakatimeProjectName) ?? 0;
+
+    if (ship.shipType === "project") {
+      ship.hours = rawWakaHours;
+    } else if (ship.shipType === "update") {
+      // Get the sum of the shipped hours
+      const shippedSum = ships
+        .filter(
+          (s: Ship) =>
+            s.wakatimeProjectName === ship.wakatimeProjectName &&
+            s.shipStatus === "shipped" &&
+            s.id !== ship.id,
+        )
+        .reduce((acc, s: Ship) => acc + (s.hours ?? 0), 0);
+
+      const hoursForDraftShip = rawWakaHours - shippedSum;
+      console.log(`\t\t\t${ship.id} ${shippedSum} of ${rawWakaHours}`);
+      ship.hours = hoursForDraftShip;
+    }
+  }
 
   return { ships, shipChains };
 }

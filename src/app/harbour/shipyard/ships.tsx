@@ -114,7 +114,8 @@ export default function Ships({
     (ship: Ship) => ship.shipStatus === "staged",
   );
   const shippedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "shipped",
+    (ship: Ship) =>
+      ship.shipStatus === "shipped" && ship.shipType === "project",
   );
 
   const shipMap = new Map();
@@ -158,7 +159,7 @@ export default function Ships({
           </h2>
 
           <div className="flex flex-wrap items-start gap-2 text-sm">
-            <ShipPillCluster ship={s} />
+            <ShipPillCluster ship={s} shipChains={shipChains} />
           </div>
         </div>
 
@@ -431,11 +432,18 @@ export default function Ships({
                       </AnimatePresence>
 
                       <motion.div className="flex items-center gap-4 mt-4">
-                        <ShipPillCluster ship={selectedShip} />
+                        <ShipPillCluster
+                          ship={selectedShip}
+                          shipChains={shipChains}
+                        />
                       </motion.div>
 
                       <div onClick={() => console.log(shipChains)}>
-                        {shipChains}
+                        {shipChains
+                          ? shipChains
+                              .get(selectedShip.wakatimeProjectName)
+                              .join(" ")
+                          : "can't find ship chain :((("}
                         {/* {selectedShip.shipIdChain.length}
                         {selectedShip.shipIdChain.map((sid: string, idx) => (
                           <p key={idx}>
