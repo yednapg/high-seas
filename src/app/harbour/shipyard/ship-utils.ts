@@ -79,6 +79,12 @@ export async function getUserShips(
   };
 
   records.forEach((r) => {
+    const reshippedToIdRaw = r.get("reshipped_to") as [string] | null;
+    const reshippedToId = reshippedToIdRaw ? reshippedToIdRaw[0] : null;
+
+    const reshippedFromIdRaw = r.get("reshipped_from") as [string] | null;
+    const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
+
     const projectRecord = {
       id: r.id as string,
       title: r.get("title") as string,
@@ -94,8 +100,8 @@ export async function getUserShips(
       hours: r.get("hours") as number | null,
       createdTime: r.get("created_time") as string,
       updateDescription: r.get("update_description") as string | null,
-      reshippedFromId: r.get("reshipped_from") as string | null,
-      reshippedToId: r.get("reshipped_to") as string | null,
+      reshippedFromId,
+      reshippedToId,
     };
 
     if (projectRecord.shipStatus !== "deleted") {
@@ -125,7 +131,7 @@ export async function getUserShips(
     const rootShip = ships.find(
       (s: Ship) => s.wakatimeProjectName === wpn && s.shipType === "project",
     );
-    console.info(`Step 2: rootShip for ${wpn}: ${rootShip.title}`);
+    console.info(`Step 2: rootShip for ${wpn}: "${rootShip.title}"`);
 
     if (rootShip) {
       // Assert that the first ship is of type project, and all the rest are of type update
@@ -142,8 +148,11 @@ export async function getUserShips(
       let nextShip: Ship | undefined = ships.find(
         (s: Ship) => s.id === rootShip?.reshippedToId,
       );
+      console.log("root ship:", rootShip);
+      console.log("THE FIRST NEXT SHIP IS", nextShip);
 
       while (nextShip) {
+        console.log("NEXT SHIP IS", nextShip);
         if (chain.length >= 10_000) {
           // What.
           const err = new Error(

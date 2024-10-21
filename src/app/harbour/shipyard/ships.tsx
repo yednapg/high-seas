@@ -434,14 +434,15 @@ export default function Ships({
                         <ShipPillCluster ship={selectedShip} />
                       </motion.div>
 
-                      <div>
-                        {selectedShip.shipIdChain.length}
+                      <div onClick={() => console.log(shipChains)}>
+                        {shipChains}
+                        {/* {selectedShip.shipIdChain.length}
                         {selectedShip.shipIdChain.map((sid: string, idx) => (
                           <p key={idx}>
                             {shipMap.get(sid).title} ({shipMap.get(sid).id}){" "}
                             {ago(new Date(shipMap.get(sid).createdTime))}
                           </p>
-                        ))}
+                        ))} */}
                       </div>
 
                       {selectedShip.shipType === "update" ? (
