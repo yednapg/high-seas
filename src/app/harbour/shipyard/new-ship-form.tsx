@@ -23,6 +23,7 @@ import { getWakaSessions } from "@/app/utils/waka";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
+import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
 export default function NewShipForm({
   ships,
@@ -37,9 +38,9 @@ export default function NewShipForm({
 }) {
   const [staging, setStaging] = useState(false);
   const confettiRef = useRef<JSConfetti | null>(null);
-  const [projects, setProjects] = useState<{ key: string; total: number }[]>(
-    [],
-  );
+  const [projects, setProjects] = useState<
+    { key: string; total: number }[] | null
+  >(null);
   const [selectedProject, setSelectedProject] = useState<{
     key: string;
     total: number;
@@ -64,7 +65,8 @@ export default function NewShipForm({
           .filter((n) => n);
         setProjects(
           res.projects.filter(
-            (p) => p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
+            (p: { key: string; total: number }) =>
+              p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
           ),
         );
 
@@ -175,6 +177,7 @@ export default function NewShipForm({
               </a>
             </span>
           </label>
+
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -182,10 +185,13 @@ export default function NewShipForm({
                 role="combobox"
                 aria-expanded={open}
                 className="w-full justify-between"
+                disabled={!projects}
               >
                 {selectedProject
                   ? `${selectedProject.key} (${(selectedProject.total / 60 / 60).toFixed(1)} hrs)`
-                  : "Select project..."}
+                  : projects
+                    ? "Select project..."
+                    : "Loading projects..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -193,34 +199,49 @@ export default function NewShipForm({
               <Command>
                 <CommandInput placeholder="Search projects..." />
                 <CommandList>
-                  <CommandEmpty>No WakaTime projects found 😭</CommandEmpty>
+                  <CommandEmpty className="p-4">
+                    <p>
+                      {"You don't seem to have any tracked projects."}
+                      <br />
+                      {"Start coding a project and it'll appear here!"}
+                    </p>
+
+                    <img
+                      className="mx-auto mt-4"
+                      width={128}
+                      src="/dino_debugging.svg"
+                      alt="a confused dinosaur"
+                    />
+                  </CommandEmpty>
                   <CommandGroup>
-                    {projects.map((project, idx) => (
-                      <CommandItem
-                        key={`${project.key}-${idx}`}
-                        onSelect={() => {
-                          setSelectedProject(project);
-                          setOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            selectedProject &&
-                              selectedProject.key === project.key
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                        {project.key} ({(project.total / 60 / 60).toFixed(1)}{" "}
-                        hrs)
-                      </CommandItem>
-                    ))}
+                    {projects &&
+                      projects.map((project, idx) => (
+                        <CommandItem
+                          key={`${project.key}-${idx}`}
+                          onSelect={() => {
+                            setSelectedProject(project);
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              selectedProject &&
+                                selectedProject.key === project.key
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          {project.key} ({(project.total / 60 / 60).toFixed(1)}{" "}
+                          hrs)
+                        </CommandItem>
+                      ))}
                   </CommandGroup>
                 </CommandList>
               </Command>
             </PopoverContent>
           </Popover>
+
           {/* Hidden input to include in formData */}
           {selectedProject && (
             <input

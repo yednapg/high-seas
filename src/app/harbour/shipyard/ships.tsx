@@ -163,7 +163,7 @@ export default function Ships({
           </div>
         </div>
 
-        {!bareShips && (
+        {bareShips ? null : (
           <div className="mt-4 sm:mt-0 sm:ml-auto">
             {s.shipStatus === "staged" ? (
               <Button
@@ -204,7 +204,7 @@ export default function Ships({
 
       {bareShips ? null : (
         <motion.div
-          className="w-fit mx-auto mb-10 mt-3"
+          className="w-fit mx-auto mb-3 mt-3"
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
           <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
@@ -233,29 +233,31 @@ export default function Ships({
         </div>
       )}
 
-      <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
-        {bareShips ? null : (
-          <h2 className="text-center text-2xl mb-2 text-blue-500">
-            Shipped Ships
-          </h2>
-        )}
+      <div className={`w-full relative ${bareShips ? "" : "mb-32"}`}>
+        {shippedShips.length > 0 ? (
+          <div className="space-y-4">
+            {bareShips ? null : (
+              <h2 className="text-center text-2xl text-blue-500">
+                Shipped Ships
+              </h2>
+            )}
 
-        <div className="space-y-4">
-          {shippedShips.length === 0 ? (
-            <div className="mx-auto w-fit">
-              <p className="text-center mb-3">No Ships yet!</p>
-              <img src="/dino_debugging.svg" alt="" width="100" />
-            </div>
-          ) : (
-            shippedShips.map((ship: Ship, idx: number) => (
+            {shippedShips.map((ship: Ship, idx: number) => (
               <SingleShip
                 s={ship}
                 key={ship.id}
                 setNewShipVisible={setNewShipVisible}
               />
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto w-fit flex absolute -left-28 right-0 -top-10 pointer-events-none">
+            <img src="/curly-arrow.svg" alt="" width="64" className="" />
+            <p className="pt-24 -translate-x-2 rotate-[8deg]">
+              Ship your first project!
+            </p>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -438,20 +440,22 @@ export default function Ships({
                         />
                       </motion.div>
 
-                      <div onClick={() => console.log(shipChains)}>
-                        {shipChains
-                          ? shipChains
-                              .get(selectedShip.wakatimeProjectName)
-                              .join(" ")
-                          : "can't find ship chain :((("}
-                        {/* {selectedShip.shipIdChain.length}
+                      {bareShips ? null : (
+                        <div onClick={() => console.log(shipChains)}>
+                          {shipChains
+                            ? shipChains
+                                .get(selectedShip.wakatimeProjectName)
+                                .join(" ")
+                            : "can't find ship chain :((("}
+                          {/* {selectedShip.shipIdChain.length}
                         {selectedShip.shipIdChain.map((sid: string, idx) => (
                           <p key={idx}>
                             {shipMap.get(sid).title} ({shipMap.get(sid).id}){" "}
                             {ago(new Date(shipMap.get(sid).createdTime))}
                           </p>
                         ))} */}
-                      </div>
+                        </div>
+                      )}
 
                       {selectedShip.shipType === "update" ? (
                         <>

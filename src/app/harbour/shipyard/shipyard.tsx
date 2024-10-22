@@ -99,8 +99,8 @@ export default function Shipyard({
           <h1 className="font-heading text-5xl font-bold text-blue-500 mb-6 text-center relative w-fit mx-auto">
             The Keep
             <span
-              className="absolute text-xl animate-pulse mb-6 rotate-[-20deg] inline-block text-yellow-500 minecraft w-full"
-              style={{ textShadow: "#404100 3px 3px", translate: "-3em 1em" }}
+              className="absolute text-sm animate-pulse mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
+              style={{ textShadow: "#404100 3px 3px", translate: "-6em 1.5em" }}
             >
               Manage yer ships!
             </span>
