@@ -19,9 +19,10 @@ export default function ShipPillCluster({ ship }: { ship: Ship }) {
             />
           ) : (
             <Pill
-              msg={"Pending: hang tight- we're counting the votes!"}
+              msg={`Pending: ${10-ship.matchups_count} votes left till you get scales`}
               color="blue"
               glyph="event-add"
+              percentage={ship.matchups_count*10}
             />
           )
         ) : (
