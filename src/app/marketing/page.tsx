@@ -220,17 +220,26 @@ export default async function Marketing() {
             </p>
           </div>
           <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop1}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
+
+
+            <div className="relative overflow-hidden p-6 rounded-lg m-4 pop">
+              <img src="/howtobacks.svg" alt="card backs" className="absolute w-full h-full inset-0 object-cover opacity-80"/>
+              <div className="relative my-2">
+                <p className="flex justify-center text-center text-3xl">
+                  Pile of Stickers
+                </p>
+                <img src="/divider.svg" className="w-full object-cover absolute mt-2 opacity-60"/>
+                <p className="mt-4 text-xl text-center">510 Doubloons</p>
+                <img src="/divider.svg" className="w-full object-cover absolute opacity-60"/>
+                <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center item-center">
+                  <Image
+                    src={shop1}
+                    alt="Shop item"
+                    className="w-full h-auto"
+                  /> 
+                </div>
               </div>
-              <p className="flex justify-center text-center text-3xl">
-                Pile of Stickers
-              </p>
+              
             </div>
 
             <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
