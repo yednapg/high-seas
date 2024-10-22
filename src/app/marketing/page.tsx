@@ -47,7 +47,7 @@ export default async function Marketing() {
           
           <div className="text-[#214495]">
             <p className="text-lg mx-10">In High Seas, code projects and get free hardware like Raspberry Pis, 3D Printers, and iPads.</p>
-            <p className="text-lg mb-10 mx-10">By Hack Club and GitHub. For teens. Starts October 30. Ends DATE.</p>
+            <p className="text-lg mb-10 mx-10">By Hack Club and GitHub. For teens. Starts October 30. Ends January 12.</p>
           </div>
           
         </div>
