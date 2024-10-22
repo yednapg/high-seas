@@ -53,10 +53,10 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
 
   const hoursForProject = (wakatimeProjectName: string): number | null => {
     const seconds = wakaData.projects.find(
-      (p: { key: string; total: number }) => p.key == wakatimeProjectName,
+      (p: { key: string; total: number }) => p.key == wakatimeProjectName
     )?.total;
     if (!seconds) return null;
-    return seconds / 60 / 60;
+    return Math.round(seconds / 60 / 6) / 10;
   };
 
   records.forEach((r) => {
@@ -78,6 +78,8 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
 
     if (projectRecord.shipType === "staged" || projectRecord.hours === null) {
       projectRecord.hours = hoursForProject(projectRecord.wakatimeProjectName);
+    } else {
+      projectRecord.hours = Math.round(projectRecord.hours * 10) / 10;
     }
 
     ships.push(projectRecord);
@@ -89,7 +91,7 @@ export async function createShip(formData: FormData) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -121,7 +123,7 @@ export async function createShip(formData: FormData) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -129,7 +131,7 @@ export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to stage a ship with no Slack OAuth session",
+      "Tried to stage a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -152,7 +154,7 @@ export async function updateShip(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -160,7 +162,7 @@ export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to ship a staged ship with no Slack OAuth session",
+      "Tried to ship a staged ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -171,7 +173,7 @@ export async function stagedToShipped(ship: Ship) {
     const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
     hours =
       wakatimeProjects.find(
-        ({ key }: { key: string }) => key === ship.wakatimeProjectName,
+        ({ key }: { key: string }) => key === ship.wakatimeProjectName
       ).total /
       60 /
       60;
@@ -190,6 +192,6 @@ export async function stagedToShipped(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
