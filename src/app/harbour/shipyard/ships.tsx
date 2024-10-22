@@ -204,7 +204,7 @@ export default function Ships({
 
       {bareShips ? null : (
         <motion.div
-          className="w-fit mx-auto mb-3 mt-3"
+          className="w-fit mx-auto mb-0 mt-3"
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
           <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
@@ -214,7 +214,7 @@ export default function Ships({
       )}
 
       {stagedShips.length === 0 ? null : (
-        <div className={`w-full ${bareShips ? "" : "mb-10"}`}>
+        <div className={`w-full mt-8`}>
           {bareShips ? null : (
             <h2 className="text-center text-2xl mb-2 text-blue-500">
               Draft Ships
@@ -233,9 +233,9 @@ export default function Ships({
         </div>
       )}
 
-      <div className={`w-full relative ${bareShips ? "" : "mb-32"}`}>
+      <div className="w-full relative">
         {shippedShips.length > 0 ? (
-          <div className="space-y-4">
+          <div className={`space-y-4 ${bareShips ? "" : "mt-8"}`}>
             {bareShips ? null : (
               <h2 className="text-center text-2xl text-blue-500">
                 Shipped Ships
@@ -250,14 +250,22 @@ export default function Ships({
               />
             ))}
           </div>
-        ) : (
-          <div className="mx-auto w-fit flex absolute -left-28 right-0 -top-10 pointer-events-none">
-            <img src="/curly-arrow.svg" alt="" width="64" className="" />
-            <p className="pt-24 -translate-x-2 rotate-[8deg]">
-              Ship your first project!
-            </p>
-          </div>
-        )}
+        ) : null}
+
+        {shippedShips.length < 1 && stagedShips.length < 1 ? (
+          <>
+            <div className="mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
+              <img src="/curly-arrow.svg" alt="" width="64" className="" />
+              <div className="flex flex-col justify-between">
+                <p></p>
+                <p className="-translate-x-3 translate-y-2">
+                  Ship your first project!
+                </p>
+              </div>
+            </div>
+            <div className="mt-24"></div>
+          </>
+        ) : null}
       </div>
 
       <AnimatePresence>

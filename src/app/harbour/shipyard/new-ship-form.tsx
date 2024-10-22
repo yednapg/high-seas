@@ -313,16 +313,20 @@ export default function NewShipForm({
           />
         </div>
 
-        <Button type="submit" className="w-full" disabled={staging}>
+        <Button type="submit" disabled={staging}>
           {staging ? (
             <>
               <Icon glyph="more" />
               Staging!
             </>
           ) : (
-            "Stage my Ship!"
+            "Submit as a draft"
           )}
         </Button>
+        <p className="text-xs opacity-50">
+          Drafting a Ship means you can preview it before sending it off to be
+          voted on!
+        </p>
       </form>
     </div>
   );
