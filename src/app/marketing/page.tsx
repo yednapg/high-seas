@@ -144,7 +144,7 @@ export default async function Marketing() {
 
               <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70" />
-                <div className="relative">
+                <div className="relative text-center">
                   <p className="text-7xl mb-2">4,000+</p>
                   <p className="text-xl">high schoolers participated</p>
                 </div>
@@ -152,7 +152,7 @@ export default async function Marketing() {
 
               <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70" />
-                <div className="relative">
+                <div className="relative text-center">
                   <p className="text-7xl mb-2">130,00+</p>
                   <p className="text-2xl">total hours logged</p>
                 </div>
@@ -160,7 +160,7 @@ export default async function Marketing() {
 
               <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
-                <div className="relative">
+                <div className="relative text-center">
                   <p className="text-7xl mb-2">11,111+</p>
                   <p className="text-xl">total prizes shipped to 119 countries</p>
                 </div>
@@ -168,7 +168,7 @@ export default async function Marketing() {
 
             </div>
             
-              <div className="flex flex-wrap gap-4 m-2 justify-center items-center">
+              <div className="flex flex-wrap gap-2 m-2 justify-center items-center">
                 <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
                   <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
                   <div className="relative">
@@ -304,22 +304,31 @@ export default async function Marketing() {
                 Get the full list of items when you sign in!
               </p>
             </div>*/}
-            <p className="text-xl">This is just a sneak peak... new items will be added over the winter!</p>
+            <p className="text-xl text-center m-5">This is just a sneak peak... new items will be added over the winter!</p>
           </div>
         </div>
 
   
         <div className="my-24">
-            <div className="flex justify-center items-center mb-8">
+            <div className="flex justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mx-4">
                 Check out what others are building!
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
+
+            <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
+              <iframe
+                src="https://high-seas-map.vercel.app/"
+                className="w-full h-96 rounded-lg"
+                title="High Seas Map"
+              ></iframe>
+              <p className="flex flex-col justify-center text-center mt-2">Drag around this map and click on the ships!</p>
+            </div>
              
-              <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
+             {/* <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
                 <p>insert sam's map here</p>
-                {/*}
+                }
                 <p className="text-3xl">Build whatever you want!</p>
                 <p className="my-4 text-lg">
                   Any technical project counts. You could build an AR game,
@@ -328,61 +337,60 @@ export default async function Marketing() {
                   compete against other similar-timed projects and you{"'"}ll
                   earn Scales based on how well you do.
                 </p>
-                */}
-              </div>
-
-              <div className="bg-blue-500 p-8 rounded-lg pop md:col-span-4">
-
-                <p className="text-2xl">{"Don't know where to start?"}</p>
-                <p className="text-lg mt-2">Try out one of these Hack Club programs!</p>
-                <ul className="mt-4 mb-2 text-lg list-disc ml-8">
-                  <li>
-                    <a
-                      href="https://boba.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      Boba drops
-                    </a>
-                    : Build a site, get boba!
-                  </li>
-                  <li>
-                    <a
-                      href="https://fraps.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      Hackaccino
-                    </a>
-                    : Ship a 3D website, get a free Frappuccino!
-                  </li>
-                  <li>
-                    <a
-                      href="https://cider.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      Cider
-                    </a>
-                    : Develop an iOS app, we&apos;ll cover the $100 AppStore fee.
-                  </li>
-                  <li>
-                    Or, go though plenty of other workshops{" "}
-                    <a
-                      href="https://jams.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="aboutLink"
-                    >
-                      here
-                    </a>
-                    !
-                  </li>
-                </ul>
                 
+              </div>*/}
+
+              <div className="relative p-8 rounded-lg pop md:col-span-4 overflow-hidden">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                <div className="relative mx-5 md:my-5 md:mx-0">
+                  <p className="text-2xl">{"Don't know where to start?"}</p>
+                  <p className="text-lg mt-2">Try out one of these Hack Club programs!</p>
+                  <ul className="mt-4 mb-2 text-lg list-disc ml-8">
+                    <li>
+                      <a
+                        href="https://boba.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Boba drops
+                      </a>
+                      : Build a site, get boba!
+                    </li>
+                    <li>
+                      <a
+                        href="https://fraps.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Hackaccino
+                      </a>
+                      : Ship a 3D website, get a free Frappuccino!
+                    </li>
+                    <li>
+                      <a
+                        href="https://cider.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Cider
+                      </a>
+                      : Develop an iOS app, we&apos;ll cover the $100 AppStore fee.
+                    </li>
+                  </ul>
+                  <p className="text-xl">More workshops {" "}
+                      <a
+                        href="https://jams.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        here
+                      </a>
+                      !</p>
+                </div>
                
               </div>
             </div>
@@ -394,7 +402,7 @@ export default async function Marketing() {
               <p className="text-5xl my-12 mx-5">Join a community of makers</p>
             </div>
 
-            <div className="flex flex-wrap justify-center items-center mb-12 gap-6">
+            <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
 
               <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
                 <div className="flex flex-row mb-2">
