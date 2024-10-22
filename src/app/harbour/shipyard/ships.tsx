@@ -96,38 +96,57 @@ export default function Ships({
       whileHover={{ rotate: "3deg" }}
       whileTap={{ rotate: "-2deg" }}
     >
-      <Card className="flex items-center p-4 hover:bg-gray-100 transition-colors duration-200">
-        <div className="w-16 h-16 relative mr-4">
-          <img
-            src={s.screenshotUrl}
-            alt={`Screenshot of ${s.title}`}
-            className="object-cover w-full h-full absolute top-0 left-0 rounded"
-            onError={({ target }) => {
-              target.src = NoImgDino.src;
-            }}
-          />
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold text-left">{s.title}</h2>
-          <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
-            <ShipPillCluster ship={s} />
+      <Card className="flex flex-col p-4 hover:bg-gray-100 transition-colors duration-200">
+        <div className="flex items-center pb-2">
+          <div className="w-16 h-16 relative mr-4">
+            <img
+              src={s.screenshotUrl}
+              alt={`Screenshot of ${s.title}`}
+              className="object-cover w-full h-full absolute top-0 left-0 rounded"
+              onError={({ target }) => {
+                target.src = NoImgDino.src;
+              }}
+            />
           </div>
+          <div>
+            <h2 className="text-xl font-semibold text-left">{s.title}</h2>
+            <div className="flex items-stretch gap-4 text-sm mt-1 h-7">
+              <ShipPillCluster ship={s} />
+            </div>
+          </div>
+
+          {(s.shipStatus === "shipped" && s.voteRequirementMet && !s.doubloonPayout) ? (
+            <div className="ml-auto">
+              {s.matchups_count}/10 votes
+            </div>
+          ) : null}
+
+          {s.shipStatus === "staged" ? (
+            <div className="ml-auto">
+              <Button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  console.log("Shippingg", s);
+                  await stagedToShipped(s);
+                  location.reload();
+                }}
+              >
+                SHIP SHIP!
+              </Button>
+            </div>
+          ) : null}
         </div>
 
-        {s.shipStatus === "staged" ? (
-          <div className="ml-auto">
-            <Button
-              onClick={async (e) => {
-                e.stopPropagation();
-                console.log("Shippingg", s);
-                await stagedToShipped(s);
-                location.reload();
-              }}
-            >
-              SHIP SHIP!
-            </Button>
+        {(s.shipStatus === "shipped" && s.voteRequirementMet && !s.doubloonPayout) && (
+          <div className="w-full mt-2">
+            <div className="h-2 bg-gray-200 rounded-full">
+              <div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${(s.matchups_count / 10) * 100}%` }}
+              />
+            </div>
           </div>
-        ) : null}
+        )}
       </Card>
     </motion.div>
   );
