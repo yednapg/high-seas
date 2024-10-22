@@ -23,6 +23,7 @@ export interface Ship {
   readmeUrl: string;
   screenshotUrl: string;
   // doubloonsPaid?: number;
+  matchups_count: number;
   hours: number | null;
   voteRequirementMet: boolean;
   doubloonPayout: number;
@@ -68,6 +69,7 @@ export async function getUserShips(slackId: string): Promise<Ship[]> {
       readmeUrl: r.get("readme_url") as string,
       screenshotUrl: r.get("screenshot_url") as string,
       voteRequirementMet: Boolean(r.get("vote_requirement_met")),
+      matchups_count: r.get("matchups_count") as number,
       doubloonPayout: r.get("doubloon_payout") as number,
       shipType: r.get("ship_type") as string,
       shipStatus: r.get("ship_status") as string,
