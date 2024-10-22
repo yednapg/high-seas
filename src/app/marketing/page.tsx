@@ -41,7 +41,10 @@ export default async function Marketing() {
               <button className="bg-[#3852CD] p-4 rounded-lg text-white">Get free stickers</button>
             </div>
           </div>
-          <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60 bobble"/>
+          <a href="#howthisworks">
+            <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60 bobble"/>
+          </a>
+          
           <div className="text-[#214495]">
             <p className="text-lg mx-10">In High Seas, code projects and get free hardware like Raspberry Pis, 3D Printers, and iPads.</p>
             <p className="text-lg mb-10 mx-10">By Hack Club and GitHub. For teens. Starts October 30. Ends DATE.</p>
@@ -60,7 +63,7 @@ export default async function Marketing() {
 
 
 
-      <div className="py-24">
+      <div className="py-24" id="howthisworks">
 
         <div className="flex justify-center items-center mb-6">
           <p className="text-5xl text-center">How this works:</p>
@@ -139,30 +142,69 @@ export default async function Marketing() {
                 <p className="">And we've partnered with GitHub again to run High Seas! This summer, we ran Arcade, another program where you make stuff and get stuff. Here are some stats:</p>
               </div>*/}
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
-                <p className="text-7xl mb-2">4,000</p>
-                <p className="text-xl">high schoolers participated</p>
+              <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70" />
+                <div className="relative">
+                  <p className="text-7xl mb-2">4,000+</p>
+                  <p className="text-xl">high schoolers participated</p>
+                </div>
               </div>
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
-                <p className="text-7xl mb-2">130,000</p>
-                <p className="text-2xl">total hours logged</p>
+              <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70" />
+                <div className="relative">
+                  <p className="text-7xl mb-2">130,00+</p>
+                  <p className="text-2xl">total hours logged</p>
+                </div>
               </div>
 
-              <div className="bg-blue-500 p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
-                <p className="text-7xl mb-2">11,111</p>
-                <p className="text-xl">total prizes shipped to 119 countries</p>
+              <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                <div className="relative">
+                  <p className="text-7xl mb-2">11,111+</p>
+                  <p className="text-xl">total prizes shipped to 119 countries</p>
+                </div>
               </div>
 
             </div>
             
               <div className="flex flex-wrap gap-4 m-2 justify-center items-center">
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">That's including:</div>
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">348 Raspberry Pi Zeros</div>
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">150 Wacom Intuos</div>
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">120 iPads</div>
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">64 3D Printers</div>
-                <div className="bg-blue-500 p-2 px-6 rounded-lg text-xl pop">and more!</div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>That's including:</p>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>348 Raspberry Pi Zeros</p>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>150 Wacom Intuos</p>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>120 iPads</p>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>64 3D Printers</p>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
+                  <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
+                  <div className="relative">
+                    <p>and more!</p>
+                  </div>
+                </div>
               </div>
             
 
@@ -349,18 +391,27 @@ export default async function Marketing() {
           <div className="bg-black py-12 my-12">
 
             <div className="flex flex-col justify-center items-center text-center mb-8">
-              <p className="text-5xl my-12">Join a community of makers</p>
+              <p className="text-5xl my-12 mx-5">Join a community of makers</p>
             </div>
 
             <div className="flex flex-wrap justify-center items-center mb-12 gap-6">
 
               <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
                 <div className="flex flex-row mb-2">
-                  <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
-                  <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
+                  <img src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2024-05-06%2F7077145829972_8597fe575e09a698859c_192.png&w=48&q=75" className="w-10 h-10 rounded-full mr-2"/>
+                  <p className="text-lg mb-2 flex flex-col justify-center">@elijah</p>
                 </div>
-                <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
-                <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
+                <p className="text-sm mb-4">Finally shipped my personal ai clone and had a ton of fun playing around with it and seeing what other people did with it! Personal favorite was when it threatened to kill me and got very unhinged when the person threatened to send screenshots to me</p>
+                <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/4d4ecc40-c388-4b9d-997f-1f3d6a21302c-image.png"/>
+              </div>
+
+              <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
+                <div className="flex flex-row mb-2">
+                  <img src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2023-04-15%2F5116546887938_afb907f96fa13e434a49_192.png&w=48&q=75" className="w-10 h-10 rounded-full mr-2"/>
+                  <p className="text-lg mb-2 flex flex-col justify-center">@cupcakes</p>
+                </div>
+                <p className="text-sm mb-4">Assembling blot robot! 🪛 </p>
+                <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/e75cf24a-46d9-45fa-92d3-b9e5862d0d47-img_2442.jpg" className="w-56"/>
               </div>
 
               <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
@@ -371,31 +422,18 @@ export default async function Marketing() {
                 <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
                 <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
               </div>
-
-              <div className="bg-blue-500 rounded-md p-6 max-w-[22rem]"> 
-                <div className="flex flex-row mb-2">
-                  <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
-                  <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
-                </div>
-                <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
-                <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>
-              </div>
-
-
-
-
             </div>
             
 
-            <div className="my-12">
+            <div className="my-12 mt-20">
               <div className="flex flex-col justify-center text-center items-center">
                 <div className="flex flex-row gap-4">
                   <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
                     <a href="https://scrapbook.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="text-2xl mx-4">See more projects →</a>  
                   </div>
-                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
+                  {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
                     <a href="#" className="text-2xl mx-4">Join the Hack Club Slack →</a>  
-                  </div>
+                  </div>*/}
                 </div>
                
               </div>
@@ -438,7 +476,7 @@ export default async function Marketing() {
       </div>
 
       <div className="bg-[#F567D7] p-8">
-      <div className="xl:mx-44 md:mx-22 my-4">
+        <div className="xl:mx-44 md:mx-22 mt-4">
             <p className="mb-4 text-lg text-pink-950">
               A project by{" "}
               <a
@@ -485,7 +523,52 @@ export default async function Marketing() {
               .
             </p>
           </div>
+
+          <div className="xl:mx-44 md:mx-22 mt-8">
+            <div className="flex flex-wrap gap-x-24 gap-y-8">
+
+              <div className="flex flex-col">
+                <p className="mb-2 text-pink-800 text-xl">Hack Club</p>
+                <div className="text-pink-700">
+                  <a href="https://hackclub.com/philosophy/">Philosophy</a>
+                  <br />
+                  <a href="https://hackclub.com/team/">Our Team & Board</a>
+                  <br />
+                  <a href="https://hackclub.com/jobs/">Jobs</a>
+                  <br />
+                  <a href="https://hackclub.com/brand/">Branding</a>
+                  <br />
+                  <a href="https://hackclub.com/press/">Press Inquiries</a>
+                  <br />
+                  <a href="https://hackclub.com/philanthropy/">Donate</a>
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <p className="mb-2 text-pink-800 text-xl">Resources</p>
+                <div className="text-pink-700">
+                  <a href="https://events.hackclub.com/">Community Events</a>
+                  <br />
+                  <a href="https://jams.hackclub.com/">Jams</a>
+                  <br />
+                  <a href="https://workshops.hackclub.com/">Workshops</a>
+                  <br />
+                  <a href="https://toolbox.hackclub.com/">Toolbox</a>
+                  <br />
+                  <a href="https://directory.hackclub.com/">Clubs Directory</a>
+                  <br />
+                  <a href="https://hackclub.com/conduct/">Code of Conduct</a>
+                  <br />
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+
       </div>
+
+      <img src="/footerbelow.svg" alt="under footer image" className="w-full h-full object-cover"/>
 
 
 
