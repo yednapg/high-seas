@@ -31,8 +31,8 @@ const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
 };
 
 const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
-  const unixCommand = `export BEARER_TOKEN=${wakaToken} && curl -s -L https://hack.club/tpndvo | bash`;
-  const windowsCommand = `$env:BEARER_TOKEN="${wakaToken}"; iex (curl https://hack.club/yqk85q)`;
+  const unixCommand = `export BEARER_TOKEN=${wakaToken} && curl -s -L https://low-skies.hackclub.com/setup.sh | bash`;
+  const windowsCommand = `$env:BEARER_TOKEN="${wakaToken}"; iex (curl https://low-skies.hackclub.com/setup.ps1)`;
 
   return (
     <Tabs defaultValue="unix">
