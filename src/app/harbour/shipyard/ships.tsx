@@ -121,6 +121,10 @@ export default function Ships({
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
 
+  const selectedProjectWakatimeProjectShipChain = selectedShip
+    ? shipChains.get(selectedShip.wakatimeProjectName)
+    : null;
+
   const SingleShip = ({
     s,
     setNewShipVisible,
@@ -446,30 +450,58 @@ export default function Ships({
 
                       {bareShips ? null : (
                         <div>
-                          <ol>
-                            {shipChains
-                              .get(selectedShip.wakatimeProjectName)
-                              .map((shipChainId: string) => {
-                                const foundShip: Ship = ships.find(
-                                  (s: Ship) => s.id === shipChainId,
-                                );
+                          <hr className="my-5" />
+                          <h3>Ship update chain</h3>
+                          <ol className="flex flex-col">
+                            {selectedProjectWakatimeProjectShipChain ? (
+                              selectedProjectWakatimeProjectShipChain.map(
+                                (shipChainId: string, shipChainIdx: number) => {
+                                  const foundShip = ships.find(
+                                    (s: Ship) => s.id === shipChainId,
+                                  );
 
-                                return (
-                                  <li className="inline-flex gap-3">
-                                    <span>
-                                      {foundShip.title} ({foundShip.shipType})
-                                    </span>
-                                    <span className="text-sm opacity-50">
-                                      {ago(foundShip.createdTime)}
-                                    </span>
-                                    <span className="text-sm opacity-50">
-                                      {foundShip.shipType === "update"
-                                        ? foundShip.updateDescription
-                                        : null}
-                                    </span>
-                                  </li>
-                                );
-                              })}
+                                  if (!foundShip)
+                                    return (
+                                      <p>
+                                        {
+                                          "selectedProjectWakatimeProjectShipChain -> foundShip is None"
+                                        }
+                                      </p>
+                                    );
+
+                                  return (
+                                    <li
+                                      className={`inline-flex items-center gap-3 ${shipChainIdx === 0 ? "" : "ml-7"}`}
+                                      key={shipChainIdx}
+                                    >
+                                      {shipChainIdx === 0 ? (
+                                        <Icon glyph="home" />
+                                      ) : (
+                                        <Icon
+                                          glyph="reply"
+                                          style={{
+                                            transform: "scaleX(-1) scaleY(-1)",
+                                          }}
+                                        />
+                                      )}
+                                      <span>
+                                        {foundShip.title} ({foundShip.shipType})
+                                      </span>
+                                      <span className="text-sm opacity-50">
+                                        {ago(foundShip.createdTime)}
+                                      </span>
+                                      <span className="text-sm opacity-50">
+                                        {foundShip.shipType === "update"
+                                          ? foundShip.updateDescription
+                                          : null}
+                                      </span>
+                                    </li>
+                                  );
+                                },
+                              )
+                            ) : (
+                              <p>wat</p>
+                            )}
                           </ol>
                         </div>
                       )}
