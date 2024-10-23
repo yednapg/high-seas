@@ -3,6 +3,7 @@ import { redirect, notFound } from "next/navigation";
 import Harbour from "../harbour/tabs/tabs";
 import { getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
+import { SoundButton } from "../../components/sound-button.js";
 
 export default async function Page({ params }: { params: { tab: string } }) {
   const { tab } = params;
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
         }}
       />
       <div className="w-full min-h-screen pt-14 flex items-start justify-center p-8">
+        <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
           <Harbour session={session} currentTab={tab} />
         </Card>
