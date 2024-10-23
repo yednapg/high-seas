@@ -92,7 +92,8 @@ export default async function Marketing() {
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
               <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src={how2} alt="dragons battling" width={400} height={400}/>
+                <Image src="/hydra.svg" alt="dragons battling" width={400} height={400} className="left-0 absolute bobble opacity-95"/>
+                <Image src="/howtobacks.svg" alt="dragons battling" width={400} height={400} className="opacity-0"/>
               </div>
               <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
                 <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover rounded-md z-0" />
@@ -230,7 +231,7 @@ export default async function Marketing() {
                 Get the full list of items when you sign in!
               </p>
             </div>*/}
-            <p className="text-xl text-center m-5">This is just a sneak peak... new items will be added over the winter!</p>
+            <p className="text-xl text-center mx-5 mb-5">This is just a sneak peak... new items will be added over the winter!</p>
           </div>
         </div>
 
