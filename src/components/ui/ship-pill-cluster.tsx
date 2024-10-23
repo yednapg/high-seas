@@ -11,10 +11,10 @@ export default function ShipPillCluster({
   ship: Ship;
   shipChains: Map<string, string[]>;
 }) {
-  const shipUpdates = shipChains
-    ? shipChains.get(ship.wakatimeProjectName)
-    : null;
-  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
+  // const shipUpdates = shipChains
+  //   ? shipChains.get(ship.wakatimeProjectName)
+  //   : null;
+  // const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
 
   return (
     <>
@@ -30,24 +30,24 @@ export default function ShipPillCluster({
             />
           ) : (
             <Pill
-              msg={`Pending: ${10-ship.matchups_count} votes left till you get scales`}
+              msg={`Pending: ${10 - ship.matchups_count} votes left till you get scales`}
               color="blue"
               glyph="event-add"
-              percentage={ship.matchups_count*10}
+              percentage={ship.matchups_count * 10}
             />
           )
         ) : (
           <Pill msg={"Pending: Vote to unlock"} color="blue" glyph="enter" />
         ))}
 
-      {shipUpdateCount && shipUpdateCount > 0 ? (
+      {/* {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
           msg={`${shipUpdateCount} Ship update${shipUpdateCount === 1 ? "" : "s"}`}
           color="purple"
           glyph="reply"
           glyphStyles={{ transform: "scaleX(-1)" }}
         />
-      ) : null}
+      ) : null} */}
     </>
   );
 }
