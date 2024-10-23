@@ -45,14 +45,14 @@ export default async function Marketing() {
               <p className="text-4xl text-white">
                 Build personal projects. Get free stuff.
               </p>
-              <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
-                <button className="bg-[#214495] p-4 rounded-lg text-white">
-                  Get started
-                </button>
-                <button className="bg-[#3852CD] p-4 rounded-lg text-white">
-                  Get free stickers
-                </button>
-              </div>
+              <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
+              <input
+                type="text"
+                placeholder="name@email.com"
+                className="px-4 py-2 rounded-lg text-md"
+              />
+              <button className="bg-[#3852CD] px-4 py-2 text-white text-xl">Get started + get free stickers →</button>
+            </div>
             </div>
             <a href="#howthisworks">
               <img
