@@ -462,7 +462,7 @@ export default function Ships({
 
                                   if (!foundShip)
                                     return (
-                                      <p>
+                                      <p key={shipChainIdx}>
                                         {
                                           "selectedProjectWakatimeProjectShipChain -> foundShip is None"
                                         }
@@ -488,12 +488,12 @@ export default function Ships({
                                         {foundShip.title} ({foundShip.shipType})
                                       </span>
                                       <span className="text-sm opacity-50">
-                                        {ago(foundShip.createdTime)}
-                                      </span>
-                                      <span className="text-sm opacity-50">
                                         {foundShip.shipType === "update"
                                           ? foundShip.updateDescription
                                           : null}
+                                      </span>
+                                      <span className="text-sm opacity-50">
+                                        {ago(foundShip.createdTime)}
                                       </span>
                                     </li>
                                   );
