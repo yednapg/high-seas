@@ -116,7 +116,7 @@ export async function getUserShips(
   );
   console.info("Step 1:", wakatimeProjectNames);
 
-  // For every wakatime project, get the root, ie the ship of type project.
+  // For every wakatime project, get the root, ie the ship without a reshippedFromId.
   // There should only be 1.
   wakatimeProjectNames.forEach((wpn) => {
     const rootShip = ships.find(
@@ -125,15 +125,6 @@ export async function getUserShips(
     console.info(`Step 2: rootShip for ${wpn}: "${rootShip.title}"`);
 
     if (rootShip) {
-      // Assert that the first ship is of type project, and all the rest are of type update
-      if (rootShip.shipType !== "project") {
-        const err = new Error(
-          "First ship in update chain needs to be of type project",
-        );
-        console.error(err);
-        throw err;
-      }
-
       const chain = [rootShip.id];
 
       let nextShip: Ship | undefined = ships.find(

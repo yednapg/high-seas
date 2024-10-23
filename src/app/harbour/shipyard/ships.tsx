@@ -123,19 +123,15 @@ export default function Ships({
 
   const SingleShip = ({
     s,
-    bareShips,
     setNewShipVisible,
   }: {
     s: Ship;
-    bareShips: boolean;
     setNewShipVisible: any;
   }) => (
-    <motion.div
+    <div
       key={s.id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
-      whileHover={{ rotate: "3deg" }}
-      whileTap={{ rotate: "-2deg" }}
     >
       <Card className="flex flex-col sm:gap-2 sm:flex-row items-start sm:items-center p-4 hover:bg-gray-100 transition-colors duration-200">
         <div className="flex gap-4 items-center">
@@ -192,7 +188,7 @@ export default function Ships({
           </div>
         )}
       </Card>
-    </motion.div>
+    </div>
   );
 
   return (
@@ -270,10 +266,10 @@ export default function Ships({
 
       <AnimatePresence>
         {newShipVisible && session && (
-          <div
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 0 }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setNewShipVisible(false)}
           >
@@ -297,16 +293,16 @@ export default function Ships({
                 <Icon glyph="view-close" />
               </motion.button>
             </Card>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence>
         {newUpdateShip && session && (
-          <div
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 0 }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setNewUpdateShip(null)}
           >
@@ -330,7 +326,7 @@ export default function Ships({
                 <Icon glyph="view-close" />
               </motion.button>
             </Card>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -449,19 +445,32 @@ export default function Ships({
                       </motion.div>
 
                       {bareShips ? null : (
-                        <div onClick={() => console.log(shipChains)}>
-                          {shipChains
-                            ? shipChains
-                                .get(selectedShip.wakatimeProjectName)
-                                .join(" ")
-                            : "can't find ship chain :((("}
-                          {/* {selectedShip.shipIdChain.length}
-                        {selectedShip.shipIdChain.map((sid: string, idx) => (
-                          <p key={idx}>
-                            {shipMap.get(sid).title} ({shipMap.get(sid).id}){" "}
-                            {ago(new Date(shipMap.get(sid).createdTime))}
-                          </p>
-                        ))} */}
+                        <div>
+                          <ol>
+                            {shipChains
+                              .get(selectedShip.wakatimeProjectName)
+                              .map((shipChainId: string) => {
+                                const foundShip: Ship = ships.find(
+                                  (s: Ship) => s.id === shipChainId,
+                                );
+
+                                return (
+                                  <li className="inline-flex gap-3">
+                                    <span>
+                                      {foundShip.title} ({foundShip.shipType})
+                                    </span>
+                                    <span className="text-sm opacity-50">
+                                      {ago(foundShip.createdTime)}
+                                    </span>
+                                    <span className="text-sm opacity-50">
+                                      {foundShip.shipType === "update"
+                                        ? foundShip.updateDescription
+                                        : null}
+                                    </span>
+                                  </li>
+                                );
+                              })}
+                          </ol>
                         </div>
                       )}
 
