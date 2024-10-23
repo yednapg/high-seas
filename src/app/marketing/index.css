@@ -146,3 +146,16 @@ html {
       transform: translateY(-10px);
     }
   }
+
+  @keyframes moveLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animate-moveLeft {
+    animation: moveLeft 100s linear infinite;
+  }

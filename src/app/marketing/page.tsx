@@ -68,7 +68,7 @@ export default async function Marketing() {
               </p>
               <p className="text-lg mb-10 mx-10">
                 By <a href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</a> and <a href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</a>. For teens. Starts October 30. Ends
-                January 12.
+                January 31.
               </p>
             </div>
           </div>
@@ -438,109 +438,123 @@ export default async function Marketing() {
           </div>
 
           <div className="bg-black py-12 my-12">
-            <div className="flex flex-col justify-center items-center text-center mb-8">
-              <p className="text-5xl my-12 mx-5">Join a community of makers</p>
+            <div className="relative overflow-hidden h-64">
+              <div className="flex justify-start absolute">
+                <img src="/pictures/pic1.png" alt="picture" className="opacity-30" />
+                <img src="/pictures/pic2.png" alt="picture" className="opacity-30" />
+                <img src="/pictures/pic3.png" alt="picture" className="opacity-30" />
+                <img src="/pictures/pic4.png" alt="picture" className="opacity-30" />
+              </div>
             </div>
 
-            <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
-              <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
-                <img
-                  src="/howtobacks.svg"
-                  alt="image backing"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
-                />
-                <div className="relative my-4">
-                  <div className="flex flex-row mb-2">
-                    <img
-                      src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2024-05-06%2F7077145829972_8597fe575e09a698859c_192.png&w=48&q=75"
-                      className="w-10 h-10 rounded-full mr-2"
-                    />
-                    <p className="text-lg mb-2 flex flex-col justify-center">
-                      @elijah
-                    </p>
-                  </div>
-                  <p className="text-sm mb-4">
-                    Finally shipped my personal ai clone and had a ton of fun
-                    playing around with it and seeing what other people did with
-                    it! Personal favorite was when it threatened to kill me and
-                    got very unhinged when the person threatened to send
-                    screenshots to me
-                  </p>
-                  <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/4d4ecc40-c388-4b9d-997f-1f3d6a21302c-image.png" />
-                </div>
+            <div className="relative">
+              <div className="flex flex-col justify-center items-center text-center mb-8">
+                <p className="text-5xl my-12 mx-5">Join a community of makers</p>
               </div>
 
-              <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
-                <img
-                  src="howtobacks.svg"
-                  alt="image backing"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
-                />
-                <div className="relative my-4">
-                  <div className="flex flex-row mb-2">
-                    <img
-                      src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2023-04-15%2F5116546887938_afb907f96fa13e434a49_192.png&w=48&q=75"
-                      className="w-10 h-10 rounded-full mr-2"
-                    />
-                    <p className="text-lg mb-2 flex flex-col justify-center">
-                      @cupcakes
-                    </p>
-                  </div>
-                  <p className="text-sm mb-4">Assembling blot robot! 🪛 </p>
+              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
+                <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/e75cf24a-46d9-45fa-92d3-b9e5862d0d47-img_2442.jpg"
-                    className="w-56"
+                    src="/howtobacks.svg"
+                    alt="image backing"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
-                </div>
-              </div>
-
-              <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
-                <img
-                  src="/howtobacks.svg"
-                  alt="image backing"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
-                />
-                <div className="relative my-4">
-                  <div className="flex flex-row mb-2">
-                    <img
-                      src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75"
-                      className="w-10 h-10 rounded-full mr-2"
-                    />
-                    <p className="text-lg mb-2 flex flex-col justify-center">
-                      @KonstantinosFragkoulis
+                  <div className="relative my-4">
+                    <div className="flex flex-row mb-2">
+                      <img
+                        src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2024-05-06%2F7077145829972_8597fe575e09a698859c_192.png&w=48&q=75"
+                        className="w-10 h-10 rounded-full mr-2"
+                      />
+                      <p className="text-lg mb-2 flex flex-col justify-center">
+                        @elijah
+                      </p>
+                    </div>
+                    <p className="text-sm mb-4">
+                      Finally shipped my personal ai clone and had a ton of fun
+                      playing around with it and seeing what other people did with
+                      it! Personal favorite was when it threatened to kill me and
+                      got very unhinged when the person threatened to send
+                      screenshots to me
                     </p>
+                    <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/4d4ecc40-c388-4b9d-997f-1f3d6a21302c-image.png" />
                   </div>
-                  <p className="text-sm mb-4">
-                    Well, the drone now should be able to follow the biggest
-                    object that it sees with a specific color. I {"haven't"}{" "}
-                    tested it yet though 😞 ({"I'm"} too scared to crash it).
-                    Here is a clip from earlier today, my genuine reaction to
-                    the first takeoff ever (got a bit scared at the end) 👍{" "}
-                  </p>
-                  <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png" />
+                </div>
+
+                <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
+                  <img
+                    src="howtobacks.svg"
+                    alt="image backing"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100"
+                  />
+                  <div className="relative my-4">
+                    <div className="flex flex-row mb-2">
+                      <img
+                        src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2023-04-15%2F5116546887938_afb907f96fa13e434a49_192.png&w=48&q=75"
+                        className="w-10 h-10 rounded-full mr-2"
+                      />
+                      <p className="text-lg mb-2 flex flex-col justify-center">
+                        @cupcakes
+                      </p>
+                    </div>
+                    <p className="text-sm mb-4">Assembling blot robot! 🪛 </p>
+                    <img
+                      src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/e75cf24a-46d9-45fa-92d3-b9e5862d0d47-img_2442.jpg"
+                      className="w-56"
+                    />
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
+                  <img
+                    src="/howtobacks.svg"
+                    alt="image backing"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100"
+                  />
+                  <div className="relative my-4">
+                    <div className="flex flex-row mb-2">
+                      <img
+                        src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75"
+                        className="w-10 h-10 rounded-full mr-2"
+                      />
+                      <p className="text-lg mb-2 flex flex-col justify-center">
+                        @KonstantinosFragkoulis
+                      </p>
+                    </div>
+                    <p className="text-sm mb-4">
+                      Well, the drone now should be able to follow the biggest
+                      object that it sees with a specific color. I {"haven't"}{" "}
+                      tested it yet though 😞 ({"I'm"} too scared to crash it).
+                      Here is a clip from earlier today, my genuine reaction to
+                      the first takeoff ever (got a bit scared at the end) 👍{" "}
+                    </p>
+                    <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="my-12 mt-20">
+                <div className="flex flex-col justify-center text-center items-center">
+                  <div className="flex flex-row gap-4">
+                    <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
+                      <a
+                        href="https://scrapbook.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="text-2xl mx-4"
+                      >
+                        See more projects →
+                      </a>
+                    </div>
+                    {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
+                      <a href="#" className="text-2xl mx-4">Join the Hack Club Slack →</a>
+                    </div>*/}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="my-12 mt-20">
-              <div className="flex flex-col justify-center text-center items-center">
-                <div className="flex flex-row gap-4">
-                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
-                    <a
-                      href="https://scrapbook.hackclub.com/"
-                      target="_blank"
-                      rel="noopenner noreferrer"
-                      className="text-2xl mx-4"
-                    >
-                      See more projects →
-                    </a>
-                  </div>
-                  {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
-                    <a href="#" className="text-2xl mx-4">Join the Hack Club Slack →</a>
-                  </div>*/}
-                </div>
-              </div>
-            </div>
+
+
           </div>
         </div>
 
