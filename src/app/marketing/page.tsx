@@ -67,7 +67,7 @@ export default async function Marketing() {
                 Pis, 3D Printers, and iPads.
               </p>
               <p className="text-lg mb-10 mx-10">
-                By Hack Club and GitHub. For teens. Starts October 30. Ends
+                By <a href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</a> and <a href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</a>. For teens. Starts October 30. Ends
                 January 12.
               </p>
             </div>
