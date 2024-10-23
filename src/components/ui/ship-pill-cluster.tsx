@@ -4,10 +4,21 @@ import Pill from "./pill";
 import ScalesImage from "/public/scales.svg";
 import Image from "next/image";
 
-export default function ShipPillCluster({ ship }: { ship: Ship }) {
+export default function ShipPillCluster({
+  ship,
+  shipChains,
+}: {
+  ship: Ship;
+  shipChains: Map<string, string[]>;
+}) {
+  const shipUpdates = shipChains
+    ? shipChains.get(ship.wakatimeProjectName)
+    : null;
+  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
+
   return (
     <>
-      <Pill msg={`${ship.hours} hr`} glyph="clock" />
+      <Pill msg={`${ship.hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
         (ship.voteRequirementMet ? (
@@ -29,9 +40,9 @@ export default function ShipPillCluster({ ship }: { ship: Ship }) {
           <Pill msg={"Pending: Vote to unlock"} color="blue" glyph="enter" />
         ))}
 
-      {ship.shipType === "update" ? (
+      {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
-          msg={"Ship update"}
+          msg={`${shipUpdateCount} Ship update${shipUpdateCount === 1 ? "" : "s"}`}
           color="purple"
           glyph="reply"
           glyphStyles={{ transform: "scaleX(-1)" }}
