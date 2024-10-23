@@ -121,17 +121,17 @@ export default function Ships({
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
 
-  let selectedProjectWakatimeProjectShipChain;
+  // let selectedProjectWakatimeProjectShipChain;
 
-  if (selectedShip) {
-    try {
-      selectedProjectWakatimeProjectShipChain = shipChains.get(
-        selectedShip.wakatimeProjectName,
-      );
-    } catch (e) {
-      console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
-    }
-  }
+  // if (selectedShip) {
+  //   try {
+  //     selectedProjectWakatimeProjectShipChain = shipChains.get(
+  //       selectedShip.wakatimeProjectName,
+  //     );
+  //   } catch (e) {
+  //     console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
+  //   }
+  // }
 
   const SingleShip = ({
     s,
@@ -456,7 +456,7 @@ export default function Ships({
                         />
                       </motion.div>
 
-                      {bareShips ? null : (
+                      {/* {bareShips ? null : (
                         <div>
                           <hr className="my-5" />
                           <h3>Ship update chain</h3>
@@ -512,7 +512,7 @@ export default function Ships({
                             )}
                           </ol>
                         </div>
-                      )}
+                      )} */}
 
                       {selectedShip.shipType === "update" ? (
                         <>
