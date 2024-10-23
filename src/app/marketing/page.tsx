@@ -85,8 +85,8 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src="/howtobacks.svg" alt="dragons battling" width={400} height={400}/>
+              <div className="flex justify-center items-center w-full md:w-auto bobble opacity-90">
+                <Image src="/ship.svg" alt="dragons battling" width={400} height={400}/>
               </div>
             </div>
 
@@ -121,8 +121,8 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto">
-                <Image src="/howtobacks.svg" alt="dragons battling" width={400} height={400}/>
+              <div className="flex justify-center items-center w-full md:w-auto bobble">
+                <Image src="/chest.svg" alt="treasure chest" width={400} height={400}/>
               </div>
             </div>
 
@@ -221,91 +221,8 @@ export default async function Marketing() {
           </div>
           <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
 
+            <Prizes />
 
-            <div className="relative overflow-hidden p-6 rounded-lg m-4 pop">
-              <img src="/howtobacks.svg" alt="card backs" className="absolute w-full h-full inset-0 object-cover opacity-80"/>
-              <div className="relative my-2">
-                <p className="flex justify-center text-center text-3xl">
-                  Pile of Stickers
-                </p>
-                <img src="/divider.svg" className="w-full object-cover absolute mt-2 opacity-60"/>
-                <p className="mt-4 text-xl text-center">510 Doubloons</p>
-                <img src="/divider.svg" className="w-full object-cover absolute opacity-60"/>
-                <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center item-center">
-                  <Image
-                    src={shop1}
-                    alt="Shop item"
-                    className="w-full h-auto"
-                  /> 
-                </div>
-              </div>
-              
-            </div>
-
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop2}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
-              </div>
-              <p className="flex justify-center text-center text-3xl">
-                Yubikey
-              </p>
-            </div>
-
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop3}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
-              </div>
-              <p className="flex justify-center text-center text-3xl">
-                Blahaj (friend)
-              </p>
-            </div>
-
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop4}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
-              </div>
-              <p className="flex justify-center text-center text-3xl">
-                Raspberry Pi Zero
-              </p>
-            </div>
-
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop5}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
-              </div>
-              <p className="flex justify-center text-center text-3xl">
-                Pinecil
-              </p>
-            </div>
-
-            <div className="bg-blue-500 p-6 rounded-lg m-4 pop">
-              <div className="bg-blue-400 w-64 h-72 mb-4 rounded-sm flex flex-col justify-center item-center">
-                <Image
-                  src={shop6}
-                  alt="Shop item"
-                  className="w-full h-auto"
-                />
-              </div>
-              <p className="flex justify-center text-center text-3xl">
-                iFixit Kit
-              </p>
-            </div>
           </div>
           <div className="flex flex-col justify-center items-center mt-8 m-10">
             {/*<div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
@@ -454,7 +371,7 @@ export default async function Marketing() {
             <div className="my-12 mt-20">
               <div className="flex flex-col justify-center text-center items-center">
                 <div className="flex flex-row gap-4">
-                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
+                  <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
                     <a href="https://scrapbook.hackclub.com/" target="_blank" rel="noopenner noreferrer" className="text-2xl mx-4">See more projects →</a>  
                   </div>
                   {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
@@ -757,6 +674,134 @@ const Faq: React.FC = () => {
     <div className="p-5 flex flex-wrap justify-center items-center">
       {faqData.map((item, index) => (
         <FaqCard key={index} question={item.question} answer={item.answer} />
+      ))}
+    </div>
+  );
+};
+
+const Prize = () => {
+  return (
+    <div className="relative overflow-hidden p-6 rounded-lg m-4 pop border-2 border-dashed border-white">
+      <img src="/howtobacks.svg" alt="card backs" className="absolute w-full h-full inset-0 object-cover opacity-80" />
+      <div className="relative my-2">
+        <p className="flex justify-center text-center text-3xl">
+          Pile of Stickers
+        </p>
+        <img src="/divider.svg" className="w-full object-cover absolute mt-2 opacity-60" />
+        <p className="mt-4 text-xl text-center">510 Doubloons</p>
+        <img src="/divider.svg" className="w-full object-cover absolute opacity-60" />
+        <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center items-center">
+          <Image
+            src={shop1}
+            alt="Shop item"
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface PrizeProps {
+  name: string;
+  doubloons: number;
+  image: string;
+}
+
+const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
+  return (
+    <div className="relative overflow-hidden p-6 rounded-lg m-4 pop">
+      <img src="/howtobacks.svg" alt="card backs" className="absolute w-full h-full inset-0 object-cover opacity-80" />
+      <div className="relative my-2">
+        <p className="flex justify-center text-center text-3xl">
+          {name}
+        </p>
+        <img src="/divider.svg" className="w-full object-cover absolute mt-2 opacity-60" />
+        <p className="mt-4 text-xl text-center">{doubloons} doubloons</p>
+        <img src="/divider.svg" className="w-full object-cover absolute opacity-60" />
+        <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center items-center">
+          <Image
+            src={image}
+            alt="Shop item"
+            className="w-full h-auto"
+            width="500"
+            height="500"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface PrizeItem {
+  name: string;
+  doubloons: string;
+  image: string;
+}
+
+const PrizeData = [
+  {
+    name: 'Micro SD Card',
+    doubloons: 202,
+    image: 'https://cloud-6d9peiend-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'OpenAI credits',
+    doubloons: 294,
+    image: 'https://cloud-i6i8qs7x0-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Bite Sized Linux',
+    doubloons: 400,
+    image: 'https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Domain',
+    doubloons: 420,
+    image: 'https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Raspberry Pi Zero',
+    doubloons: 486,
+    image: 'https://cloud-a823iqif6-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Pinecil',
+    doubloons: 876,
+    image: 'https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'iFixit Kit',
+    doubloons: 883,
+    image: 'https://cloud-1e0x3bwfz-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Hack Club Socks',
+    doubloons: 1300,
+    image: 'https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Blahåj',
+    doubloons: 1312,
+    image: 'https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'Skeletool',
+    doubloons: 1420,
+    image: 'https://cloud-ak5er2k0m-hack-club-bot.vercel.app/0image.png',
+  },
+  {
+    name: 'YubiKey',
+    doubloons: 1512,
+    image: 'https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png',
+  },
+];
+
+const Prizes: React.FC = () => {
+  return (
+    <div className="p-5 flex flex-wrap justify-center items-center">
+      {PrizeData.map((item, index) => (
+        <PrizeCard key={index} name={item.name} doubloons={item.doubloons} image={item.image} />
       ))}
     </div>
   );
