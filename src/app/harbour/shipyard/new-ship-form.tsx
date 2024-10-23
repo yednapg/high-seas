@@ -22,6 +22,7 @@ import {
 import { getWakaSessions } from "@/app/utils/waka";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 
 export default function NewShipForm({
   ships,
@@ -84,7 +85,7 @@ export default function NewShipForm({
     closeForm();
     window.location.reload();
   };
-
+  const { toast } = useToast();
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">
@@ -241,6 +242,16 @@ export default function NewShipForm({
             name="deployment_url"
             required
             className="w-full p-2 border rounded"
+            onChange={(e) => {
+                const git = ["github.com", "gitlab.com", "bitbucket.org"];
+                if (git.some((tool) => e.target.value.includes(tool))) {
+                toast({
+                  title: "A repository URL isn't a ship!.",
+                  description: "Submit a link to a deployed project or a video demo of what your project is instead!",
+                });
+                e.target.value = "";
+                }
+            }}
           />
         </div>
 
