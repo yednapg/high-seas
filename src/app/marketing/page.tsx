@@ -173,7 +173,7 @@ export default async function Marketing() {
                 <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
                   <img src="/howtobacks.svg" alt="background" className="absolute inset-0 w-full h-full object-cover opacity-70"/>
                   <div className="relative">
-                    <p>That's including:</p>
+                    <p>{"That's including:"}</p>
                   </div>
                 </div>
                 <div className="relative overflow-hidden p-2 px-6 rounded-xl text-xl pop">
@@ -362,7 +362,7 @@ export default async function Marketing() {
                     <img src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75" className="w-10 h-10 rounded-full mr-2"/>
                     <p className="text-lg mb-2 flex flex-col justify-center">@KonstantinosFragkoulis</p>
                   </div>
-                  <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I haven't tested it yet though 😞 (I'm too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
+                  <p className="text-sm mb-4">Well, the drone now should be able to follow the biggest object that it sees with a specific color. I {"haven't"} tested it yet though 😞 ({"I'm"} too scared to crash it). Here is a clip from earlier today, my genuine reaction to the first takeoff ever (got a bit scared at the end) 👍 </p>
                   <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png"/>                  
                 </div>
               </div>
