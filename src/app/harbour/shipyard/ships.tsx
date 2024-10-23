@@ -123,12 +123,14 @@ export default function Ships({
 
   let selectedProjectWakatimeProjectShipChain;
 
-  try {
-    selectedProjectWakatimeProjectShipChain = shipChains.get(
-      selectedShip.wakatimeProjectName,
-    );
-  } catch (e) {
-    console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
+  if (selectedShip) {
+    try {
+      selectedProjectWakatimeProjectShipChain = shipChains.get(
+        selectedShip.wakatimeProjectName,
+      );
+    } catch (e) {
+      console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
+    }
   }
 
   const SingleShip = ({
