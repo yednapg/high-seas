@@ -71,7 +71,8 @@ export default function Shop({ session }: { session: JwtPayload }) {
     "1": (item: any) => item.enabledUs,
     "2": (item: any) => item.enabledEu,
     "3": (item: any) => item.enabledIn,
-    "4": (item: any) => item.enabledXx,
+    "4": (item: any) => item.enabledCa,
+    "5": (item: any) => item.enabledXx,
   };
   const getFilter = () => {
     // @ts-expect-error reason reason reason
@@ -96,11 +97,12 @@ export default function Shop({ session }: { session: JwtPayload }) {
       <div className="text-center mb-6 mt-12">
         <label>pick a region to buy something! </label>
         <select onChange={onOptionChangeHandler} value={filterIndex}>
-          <option value="0">all regions</option>
-          <option value="1">US</option>
-          <option value="2">EU</option>
-          <option value="3">India</option>
-          <option value="4">other countries worldwide</option>
+          <option value="0">️🐉 all regions</option>
+          <option value="1">🇺🇸 US</option>
+          <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
+          <option value="3">🇮🇳 India</option>
+          <option value="4">🍁 Canada</option>
+          <option value="5">🗺 other countries worldwide...</option>
         </select>
       </div>
 

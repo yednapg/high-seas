@@ -25,6 +25,7 @@ export interface Ship {
   readmeUrl: string;
   screenshotUrl: string;
   // doubloonsPaid?: number;
+  matchups_count: number;
   hours: number | null;
   voteRequirementMet: boolean;
   doubloonPayout: number;
@@ -72,10 +73,10 @@ export async function getUserShips(
 
   const hoursForProject = (wakatimeProjectName: string): number | null => {
     const seconds = wakaData.projects.find(
-      (p: { key: string; total: number }) => p.key == wakatimeProjectName,
+      (p: { key: string; total: number }) => p.key == wakatimeProjectName
     )?.total;
     if (!seconds) return null;
-    return seconds / 60 / 60;
+    return Math.round(seconds / 60 / 6) / 10;
   };
 
   records.forEach((r) => {
@@ -93,6 +94,7 @@ export async function getUserShips(
       readmeUrl: r.get("readme_url") as string,
       screenshotUrl: r.get("screenshot_url") as string,
       voteRequirementMet: Boolean(r.get("vote_requirement_met")),
+      matchups_count: r.get("matchups_count") as number,
       doubloonPayout: r.get("doubloon_payout") as number,
       shipType: r.get("ship_type") as ShipType,
       shipStatus: r.get("ship_status") as ShipStatus,
@@ -200,7 +202,7 @@ export async function createShip(formData: FormData) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -232,7 +234,7 @@ export async function createShip(formData: FormData) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -321,7 +323,7 @@ export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to stage a ship with no Slack OAuth session",
+      "Tried to stage a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -344,7 +346,7 @@ export async function updateShip(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -352,7 +354,7 @@ export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to ship a staged ship with no Slack OAuth session",
+      "Tried to ship a staged ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -363,7 +365,7 @@ export async function stagedToShipped(ship: Ship) {
     const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
     hours =
       wakatimeProjects.find(
-        ({ key }: { key: string }) => key === ship.wakatimeProjectName,
+        ({ key }: { key: string }) => key === ship.wakatimeProjectName
       ).total /
       60 /
       60;
@@ -382,7 +384,7 @@ export async function stagedToShipped(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 

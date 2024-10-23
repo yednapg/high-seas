@@ -133,7 +133,7 @@ export default function WakatimeSetupInstructions({
               </Card>
               <br />
               <p>
-                {"If you know what you're doing, go ahead and paste that in."}
+                {"If you know what you're doing, go ahead and paste that in. "}
                 Alternatively, you can run this script in your terminal!
               </p>
               {wakaToken ? <WakaTimeConfigTabs wakaToken={wakaToken} /> : null}

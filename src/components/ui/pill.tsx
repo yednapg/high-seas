@@ -9,6 +9,7 @@ export default function Pill({
   glyphImage,
   glyphSize = 24,
   glyphStyles = {},
+  percentage,
 }: {
   msg: string;
   color?: "red" | "yellow" | "green" | "blue" | "purple" | "gray";
@@ -17,6 +18,7 @@ export default function Pill({
   glyphImage?: React.ReactNode;
   glyphSize?: number;
   glyphStyles?: React.CSSProperties;
+  percentage?: number;
 }) {
   const colorClasses = {
     red: "text-red-600 bg-red-50 border-red-500/10",
@@ -27,10 +29,16 @@ export default function Pill({
     gray: "text-gray-600 bg-gray-50 border-gray-500/10",
   };
 
+  const progressBarStyle = percentage
+    ? {
+        background: `linear-gradient(to right, #dee9f7, ${percentage}%, transparent ${percentage}%)`,
+      }
+    : {};
+
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2 border text-sm leading-none ${colorClasses[color]} ${classes}`}
-      style={{ verticalAlign: "middle" }}
+      style={{ verticalAlign: "middle", ...progressBarStyle }}
     >
       {glyphImage}
       {glyph && (
