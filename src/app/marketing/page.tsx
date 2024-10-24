@@ -43,7 +43,7 @@ export default async function Marketing() {
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
               <p className="text-2xl md:text-4xl text-white mx-16">
-                Build personal projects. Get free stuff.
+                Build personal projects. Get free stuff. Hi! This is Acon from GitHub Universe!
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
               <input
