@@ -13,6 +13,7 @@ import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import { JwtPayload } from "jsonwebtoken";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
+import Link from "next/link";
 
 const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { itemId: string, slackId: string, filterIndex: number, verificationStatus: string }) => {
   const buyWord = useMemo(() => sample(purchaseWords), [itemId])
@@ -27,7 +28,7 @@ const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { item
   } else {
     return (
       <p className="text-red-500 text-sm text-center w-full">Verification required!<br />
-        <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</a></p>
+        <Link href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</Link></p>
     )
   }
 }

@@ -11,10 +11,10 @@ export interface WakaSignupResponse {
 }
 
 export async function getWaka(): Promise<WakaSignupResponse | null> {
-  let key = cookies().get("waka-key");
+  let key = (await cookies()).get("waka-key");
   if (!key) {
     await createWaka();
-    key = cookies().get("waka-key");
+    key = (await cookies()).get("waka-key");
     if (!key) return null;
   }
 
@@ -24,12 +24,12 @@ export async function getWaka(): Promise<WakaSignupResponse | null> {
 async function setWaka(resp: WakaSignupResponse) {
   console.log("setting waka key: ", resp);
 
-  cookies().set("waka-key", JSON.stringify(resp), {
+  (await cookies()).set("waka-key", JSON.stringify(resp), {
     secure: process.env.NODE_ENV !== "development",
     httpOnly: true,
   });
 
-  console.log("set the waka key!", cookies().get("waka-key"));
+  console.log("set the waka key!", (await cookies()).get("waka-key"));
 }
 
 const errRedir = (err: any) => redirect("/slack-error?err=" + err.toString());

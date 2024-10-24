@@ -22,6 +22,7 @@ import shop4 from "./art/shop/shop4.png";
 import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
+import Link from "next/link";
 
 export default async function Marketing() {
   const session = await getSession();
@@ -54,12 +55,12 @@ export default async function Marketing() {
               <button className="bg-[#3852CD] px-4 py-2 text-white text-xl">Get started + get free stickers →</button>
             </div>
             </div>
-            <a href="#howthisworks">
+            <Link href="#howthisworks">
               <img
                 src="/arrows.svg"
                 className="w-16 h-16 mb-6 opacity-60 bobble"
               />
-            </a>
+            </Link>
 
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
@@ -67,7 +68,7 @@ export default async function Marketing() {
                 Pis, 3D Printers, and iPads.
               </p>
               <p className="text-lg mb-10 mx-10">
-                By <a href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</a> and <a href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</a>. For teens. Starts October 30. Ends
+                By <Link href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</Link> and <Link href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</Link>. For teens. Starts October 30. Ends
                 January 31.
               </p>
             </div>
@@ -386,50 +387,50 @@ export default async function Marketing() {
                   </p>
                   <ul className="mt-4 mb-2 text-lg list-disc ml-8">
                     <li>
-                      <a
+                      <Link
                         href="https://boba.hackclub.com/"
                         target="_blank"
                         rel="noopenner noreferrer"
                         className="aboutLink"
                       >
                         Boba drops
-                      </a>
+                      </Link>
                       : Build a site, get boba!
                     </li>
                     <li>
-                      <a
+                      <Link
                         href="https://fraps.hackclub.com/"
                         target="_blank"
                         rel="noopenner noreferrer"
                         className="aboutLink"
                       >
                         Hackaccino
-                      </a>
+                      </Link>
                       : Ship a 3D website, get a free Frappuccino!
                     </li>
                     <li>
-                      <a
+                      <Link
                         href="https://cider.hackclub.com/"
                         target="_blank"
                         rel="noopenner noreferrer"
                         className="aboutLink"
                       >
                         Cider
-                      </a>
+                      </Link>
                       : Develop an iOS app, we&apos;ll cover the $100 AppStore
                       fee.
                     </li>
                   </ul>
                   <p className="text-xl">
                     More workshops{" "}
-                    <a
+                    <Link
                       href="https://jams.hackclub.com/"
                       target="_blank"
                       rel="noopenner noreferrer"
                       className="aboutLink"
                     >
                       here
-                    </a>
+                    </Link>
                     !
                   </p>
                 </div>
@@ -560,17 +561,17 @@ export default async function Marketing() {
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
                     <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
-                      <a
+                      <Link
                         href="https://scrapbook.hackclub.com/"
                         target="_blank"
                         rel="noopenner noreferrer"
                         className="text-2xl mx-4"
                       >
                         See more projects →
-                      </a>
+                      </Link>
                     </div>
                     {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
-                      <a href="#" className="text-2xl mx-4">Join the Hack Club Slack →</a>
+                      <Link href="#" className="text-2xl mx-4">Join the Hack Club Slack →</Link>
                     </div>*/}
                   </div>
                 </div>
@@ -623,14 +624,14 @@ export default async function Marketing() {
         <div className="xl:mx-44 md:mx-22 mt-4">
           <p className="mb-4 text-lg text-pink-950">
             A project by{" "}
-            <a
+            <Link
               href="https://hackclub.com/"
               target="_blank"
               rel="noopenner noreferrer"
               className="footLink"
             >
               Hack Club
-            </a>
+            </Link>
             .
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
@@ -638,32 +639,32 @@ export default async function Marketing() {
             supports a network of 20k+ technical high schoolers. We believe you
             learn best by building so we{"'"}re creating community and providing
             grants so you can make. In the past few years, we{"'"}ve{" "}
-            <a
+            <Link
               href="https://hackclub.com/arcade/"
               target="_blank"
               rel="noopenner noreferrer"
               className="footLink"
             >
               partnered with GitHub to run Arcade
-            </a>
+            </Link>
             ,{" "}
-            <a
+            <Link
               href="https://github.com/hackclub/the-hacker-zephyr"
               target="_blank"
               rel="noopenner noreferrer"
               className="footLink"
             >
               {"hosted the world's longest hackathon on land"}
-            </a>
+            </Link>
             , and{" "}
-            <a
+            <Link
               href="https://www.youtube.com/watch?v=QvCoISXfcE8"
               target="_blank"
               rel="noopenner noreferrer"
               className="footLink"
             >
               {"ran Canada's largest high school hackathon"}
-            </a>
+            </Link>
             .
           </p>
         </div>
@@ -673,34 +674,34 @@ export default async function Marketing() {
             <div className="flex flex-col">
               <p className="mb-2 text-pink-800 text-xl">Hack Club</p>
               <div className="text-pink-700">
-                <a href="https://hackclub.com/philosophy/">Philosophy</a>
+                <Link href="https://hackclub.com/philosophy/">Philosophy</Link>
                 <br />
-                <a href="https://hackclub.com/team/">Our Team & Board</a>
+                <Link href="https://hackclub.com/team/">Our Team & Board</Link>
                 <br />
-                <a href="https://hackclub.com/jobs/">Jobs</a>
+                <Link href="https://hackclub.com/jobs/">Jobs</Link>
                 <br />
-                <a href="https://hackclub.com/brand/">Branding</a>
+                <Link href="https://hackclub.com/brand/">Branding</Link>
                 <br />
-                <a href="https://hackclub.com/press/">Press Inquiries</a>
+                <Link href="https://hackclub.com/press/">Press Inquiries</Link>
                 <br />
-                <a href="https://hackclub.com/philanthropy/">Donate</a>
+                <Link href="https://hackclub.com/philanthropy/">Donate</Link>
               </div>
             </div>
 
             <div className="flex flex-col">
               <p className="mb-2 text-pink-800 text-xl">Resources</p>
               <div className="text-pink-700">
-                <a href="https://events.hackclub.com/">Community Events</a>
+                <Link href="https://events.hackclub.com/">Community Events</Link>
                 <br />
-                <a href="https://jams.hackclub.com/">Jams</a>
+                <Link href="https://jams.hackclub.com/">Jams</Link>
                 <br />
-                <a href="https://workshops.hackclub.com/">Workshops</a>
+                <Link href="https://workshops.hackclub.com/">Workshops</Link>
                 <br />
-                <a href="https://toolbox.hackclub.com/">Toolbox</a>
+                <Link href="https://toolbox.hackclub.com/">Toolbox</Link>
                 <br />
-                <a href="https://directory.hackclub.com/">Clubs Directory</a>
+                <Link href="https://directory.hackclub.com/">Clubs Directory</Link>
                 <br />
-                <a href="https://hackclub.com/conduct/">Code of Conduct</a>
+                <Link href="https://hackclub.com/conduct/">Code of Conduct</Link>
                 <br />
               </div>
             </div>
@@ -720,14 +721,14 @@ export default async function Marketing() {
           <div className="xl:mx-44 md:mx-22 my-4">
             <p className="mb-4 text-xl">
               A project by{" "}
-              <a
+              <Link
                 href="https://hackclub.com/"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
                 Hack Club
-              </a>
+              </Link>
               .
             </p>
             <p className="max-w-3xl">
@@ -735,32 +736,32 @@ export default async function Marketing() {
               supports a network of 20k+ technical high schoolers. We believe
               you learn best by building so we{"'"}re creating community and
               providing grants so you can make. In the past few years, we{"'"}ve{" "}
-              <a
+              <Link
                 href="https://hackclub.com/arcade/"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
                 partnered with GitHub to run Arcade
-              </a>
+              </Link>
               ,{" "}
-              <a
+              <Link
                 href="https://github.com/hackclub/the-hacker-zephyr"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
                 {"hosted the world's longest hackathon on land"}
-              </a>
+              </Link>
               , and{" "}
-              <a
+              <Link
                 href="https://www.youtube.com/watch?v=QvCoISXfcE8"
                 target="_blank"
                 rel="noopenner noreferrer"
                 className="footLink"
               >
                 {"ran Canada's largest high school hackathon"}
-              </a>
+              </Link>
               .
             </p>
           </div>
@@ -838,7 +839,7 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). You just need a <a href="https://waka.hackclub.com/" target="_blank" ref="noopenner noreferrer" class="faqLink">Hackatime</a> account to participate. Different prizes have different country restrictions. Sign in with Hack Club Slack to get started!`,
+    answer: `You need to be a high schooler (or younger). You just need a <Link href="https://waka.hackclub.com/" target="_blank" ref="noopenner noreferrer" class="faqLink">Hackatime</Link> account to participate. Different prizes have different country restrictions. Sign in with Hack Club Slack to get started!`,
   },
   {
     question: "How much does it cost?",
@@ -854,7 +855,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "I need help!",
-    answer: `Contact us! Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</a> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
+    answer: `Contact us! Reach out in <Link href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</Link> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
   },
   {
     question: "Does a team project count?",
@@ -866,7 +867,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <a class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</a> this summer!`,
+    answer: `Yup! This summer, we ran <Link class="faqLink" href="https://hackclub.com/arcade/">Arcade</Link>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <Link class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</Link> this summer!`,
   },
 ];
 

@@ -23,18 +23,18 @@ export async function setSession(slack_openid_token: string) {
   if (!decoded) throw new Error("Failed to decode the Slack OpenId JWT");
 
   const signedToken = sign(decoded, authSecret, { expiresIn: "7d" });
-  cookies().set(cookieName, signedToken, {
+  (await cookies()).set(cookieName, signedToken, {
     secure: process.env.NODE_ENV !== "development",
     httpOnly: true,
     maxAge: 60 * 60 * 24 * 7,
   });
-  console.log("set the token!", cookies().get(cookieName), getSession());
+  console.log("set the token!", (await cookies()).get(cookieName), getSession());
 }
 
 export async function getSession(): Promise<JwtPayload | null> {
   const { authSecret, cookieName } = vars();
 
-  const cookie = cookies().get(cookieName);
+  const cookie = (await cookies()).get(cookieName);
   if (!cookie) return null;
 
   const payload = verify(cookie.value, authSecret, {
@@ -47,12 +47,12 @@ export async function getSession(): Promise<JwtPayload | null> {
 }
 
 export async function deleteSession() {
-  cookies().delete(vars().cookieName);
-  cookies().delete("waka-key");
+  (await cookies()).delete(vars().cookieName);
+  (await cookies()).delete("waka-key");
 }
 
 export async function getRedirectUri(): Promise<string> {
-  const headersList = headers();
+  const headersList = await headers();
   const host = headersList.get("host") || "";
   const proto = headersList.get("x-forwarded-proto") || "http";
   const uri = encodeURIComponent(`${proto}://${host}/api/slack_redirect`);

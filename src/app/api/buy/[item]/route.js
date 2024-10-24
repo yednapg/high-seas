@@ -4,7 +4,8 @@ import {NextResponse} from "next/server";
 import { getSelfPersonId, base} from "@/app/utils/airtable";
 import {getPersonBySlackId} from "@/../lib/battles/airtable";
 
-export async function POST(request, {params}) {
+export async function POST(request, props) {
+    const params = await props.params;
     const session = await getSession();
     const person = await getPersonBySlackId(session.payload.sub)
     if(!person) {

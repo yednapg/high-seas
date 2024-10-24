@@ -2,11 +2,12 @@ import { AlertCircle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function SlackAuthErrorPage({
-  searchParams,
-}: {
-  searchParams: { msg?: string };
-}) {
+export default async function SlackAuthErrorPage(
+  props: {
+    searchParams: Promise<{ msg?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const { msg } = searchParams;
 
   return (

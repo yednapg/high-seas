@@ -21,9 +21,9 @@ const WakaLock = ({ wakaOverride, wakaToken, tabName }) => {
         {tabName} will unlock once we see you{"'"}ve set it up.
         Once you{"'"}ve been coding for a couple of minutes,
         refresh this page. If you have already used hackatime dm{" "}
-        <a href="https://hackclub.slack.com/team/U062UG485EE">
+        <Link href="https://hackclub.slack.com/team/U062UG485EE">
           @krn
-        </a>{" "}
+        </Link>{" "}
         and he will migrate your account :)
       </p>
 

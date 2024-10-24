@@ -116,12 +116,12 @@ export default function NewShipForm({
               you want to Ship an amazing update to it! Click this box and
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
-              <a
+              <Link
                 className="text-blue-500"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
                 #low-skies-help
-              </a>
+              </Link>
               !
             </span>
           </label>
@@ -168,13 +168,13 @@ export default function NewShipForm({
             <span className="text-xs opacity-50">
               If you need to include several of the listed projects in this
               dropdown, you need to update your project labels in the{" "}
-              <a
+              <Link
                 className="text-blue-600"
                 href="https://waka.hackclub.com"
                 target="_blank"
               >
                 Wakatime dashboard
-              </a>
+              </Link>
             </span>
           </label>
 

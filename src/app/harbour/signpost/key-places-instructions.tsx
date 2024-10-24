@@ -72,7 +72,7 @@ export default function WakatimeSetupInstructions() {
         <div>
           <div
             className="text-white"
-            style={{ "-webkit-user-select": "none", userSelect: "none" }}
+            style={{ WebkitUserSelect: "none", userSelect: "none" }}
           >
             <p className="m-0 opacity-80">Step 2</p>
             <p className="m-0 text-xl">{"Visit the key locations"}</p>
@@ -81,7 +81,7 @@ export default function WakatimeSetupInstructions() {
       </div>
 
       <AnimatePresence>
-        {open ? (
+        {open && (
           <motion.div
             initial={{ height: 0, marginTop: "0" }}
             animate={{ height: "auto", marginTop: "1rem" }}
@@ -98,14 +98,13 @@ export default function WakatimeSetupInstructions() {
                 >
                   <Card className="p-2 text-left">
                     <p className="text-xl">{location.title}</p>
-
                     {location.subtitle}
                   </Card>
                 </motion.a>
               ))}
             </div>
           </motion.div>
-        ) : null}
+        )}
       </AnimatePresence>
     </JaggedCard>
   );

@@ -5,7 +5,8 @@ import { getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
 
-export default async function Page({ params }: { params: { tab: string } }) {
+export default async function Page(props: { params: Promise<{ tab: string }> }) {
+  const params = await props.params;
   const { tab } = params;
   const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
