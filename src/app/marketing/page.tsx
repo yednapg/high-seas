@@ -479,7 +479,7 @@ export default async function Marketing() {
               <div className="flex flex-wrap justify-center items-center gap-10">
                 <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96"/>
                 <iframe width="640" height="360"
-                  src="https://www.youtube.com/watch?v=hiG3fYq3xUU">
+                  src="https://www.youtube.com/embed/hiG3fYq3xUU">
                 </iframe>
               </div>
 
