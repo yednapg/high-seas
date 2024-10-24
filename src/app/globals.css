@@ -110,3 +110,18 @@ main {
 .minecraft {
     font-family: "Minecraft", monospace;
 }
+
+.minecraft-splash {
+    animation: splash 0.25s alternate infinite;
+    transform: rotate(-7deg);
+    color: #f5ca0b;
+}
+
+@keyframes splash {
+    0% {
+      transform: scale(0.875) rotate(-20deg);
+    }
+    100% {
+      transform: scale(1) rotate(-20deg);
+    }
+  }

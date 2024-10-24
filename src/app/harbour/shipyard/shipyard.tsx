@@ -2,9 +2,10 @@ import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import Ships from "./ships";
 import type { Ship } from "./ship-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
+import { sample, shipSplashes } from "../../../../lib/flavor";
 
 const exampleShips: Ship[] = [
   {
@@ -90,6 +91,8 @@ export default function Shipyard({
     );
   });
 
+  const shipSplash = useMemo(() => sample(shipSplashes), [])
+
   if (!ships) {
     <LoadingSpinner />;
   } else {
@@ -99,10 +102,10 @@ export default function Shipyard({
           <h1 className="font-heading text-5xl font-bold text-blue-500 mb-6 text-center relative w-fit mx-auto">
             The Keep
             <span
-              className="absolute text-sm animate-pulse mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
-              style={{ textShadow: "#404100 3px 3px", translate: "-6em 1.5em" }}
+              className="absolute text-sm minecraft-splash mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
+              style={{ textShadow: "#404100 1px 1px", translate: "-6em 1.5em" }}
             >
-              Manage yer ships!
+              {shipSplash}
             </span>
           </h1>
         </div>
