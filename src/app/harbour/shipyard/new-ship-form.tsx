@@ -215,25 +215,27 @@ export default function NewShipForm({
                   </CommandEmpty>
                   <CommandGroup>
                     {projects &&
-                      projects.map((project, idx) => (
+                      projects
+                      .filter((project) => (project.total / 60 / 60) >= 1)
+                      .map((project, idx) => (
                         <CommandItem
-                          key={`${project.key}-${idx}`}
-                          onSelect={() => {
-                            setSelectedProject(project);
-                            setOpen(false);
-                          }}
+                        key={`${project.key}-${idx}`}
+                        onSelect={() => {
+                          setSelectedProject(project);
+                          setOpen(false);
+                        }}
                         >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              selectedProject &&
-                                selectedProject.key === project.key
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                          {project.key} ({(project.total / 60 / 60).toFixed(1)}{" "}
-                          hrs)
+                        <Check
+                          className={cn(
+                          "mr-2 h-4 w-4",
+                          selectedProject &&
+                            selectedProject.key === project.key
+                            ? "opacity-100"
+                            : "opacity-0",
+                          )}
+                        />
+                        {project.key} ({(project.total / 60 / 60).toFixed(1)}{" "}
+                        hrs)
                         </CommandItem>
                       ))}
                   </CommandGroup>
