@@ -312,6 +312,7 @@ export async function createShipUpdate(
             id: reshippedFromShip.id,
             fields: {
               reshipped_to: [reshippedToShip.id],
+              reshipped_all: [reshippedToShip, reshippedFromShip],
             },
           },
         ]);
