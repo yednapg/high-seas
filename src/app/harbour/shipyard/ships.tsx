@@ -60,7 +60,7 @@ export default function Ships({
 }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
-    null
+    null,
   );
 
   const [readmeText, setReadmeText] = useState<string | null>(null);
@@ -111,10 +111,11 @@ export default function Ships({
   };
 
   const stagedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "staged"
+    (ship: Ship) => ship.shipStatus === "staged",
   );
   const shippedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "shipped" && ship.shipType === "project"
+    (ship: Ship) =>
+      ship.shipStatus === "shipped" && ship.shipType === "project",
   );
 
   const shipMap = new Map();
@@ -208,6 +209,17 @@ export default function Ships({
         ref={canvasRef}
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
+
+      {bareShips ? null : (
+        <motion.div
+          className="w-fit mx-auto mb-0 mt-3"
+          whileHover={{ rotate: "-5deg", scale: 1.02 }}
+        >
+          <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
+            Draft a new Ship!
+          </Button>
+        </motion.div>
+      )}
 
       {stagedShips.length === 0 ? null : (
         <div className={`w-full mt-8`}>
@@ -393,9 +405,7 @@ export default function Ships({
                         </Button>
 
                         <Link
-                          className={`${buttonVariants({
-                            variant: "outline",
-                          })} h-full`}
+                          className={`${buttonVariants({ variant: "outline" })} h-full`}
                           href={selectedShip.repoUrl}
                           prefetch={false}
                         >
@@ -403,9 +413,7 @@ export default function Ships({
                         </Link>
 
                         <Button
-                          className={`${buttonVariants({
-                            variant: "outline",
-                          })} w-fit p-2 h-full text-black`}
+                          className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
                           onClick={() => setIsEditingShip((p) => !p)}
                         >
                           <Icon glyph="edit" width={24} /> Edit
