@@ -13,7 +13,11 @@ export interface WakaSignupResponse {
 export async function getWaka(): Promise<WakaSignupResponse | null> {
   let key = cookies().get("waka-key");
   if (!key) {
-    await createWaka();
+    const session = await getSession();
+    if (!session?.email)
+      throw new Error("You can't make a wakatime account without an email!");
+    await createWaka(session.email, session?.name ?? null, session?.slackId);
+    console.log("Created a wakatime account from getWaka. Session: ", session);
     key = cookies().get("waka-key");
     if (!key) return null;
   }
@@ -34,41 +38,44 @@ async function setWaka(resp: WakaSignupResponse) {
 
 const errRedir = (err: any) => redirect("/slack-error?err=" + err.toString());
 
-async function createWaka() {
-  const newSession = await getSession();
-  if (!newSession) return errRedir("No session was set");
-
-  const slackId = newSession.slackId;
-  if (!slackId) return errRedir("No Slack ID in session OpenID payload");
-
-  const slackEmail = newSession.email;
-  if (!slackEmail) return errRedir("No Slack email in session OpenID payload");
-
-  const slackDisplayName = newSession.name;
-  if (!slackDisplayName)
-    return errRedir("No Slack display name in session OpenID payload");
+export async function createWaka(
+  email: string,
+  name: string | null,
+  slackId: string | null,
+) {
+  // Checking session is not necessary
 
   const password = crypto.randomUUID();
+
+  const payload: any = {
+    location: "America/New_York",
+    email,
+    password,
+    password_repeat: password,
+  };
+
+  if (name) payload["name"] = name;
+
+  if (slackId) {
+    payload["username"] = slackId;
+  } else {
+    payload["username"] =
+      `$high-seas-provisional-${email.replace("+", "$plus$")}`;
+  }
+
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${WAKA_API_KEY}`,
     },
-    body: new URLSearchParams({
-      location: "America/New_York",
-      username: slackId,
-      name: slackDisplayName,
-      email: slackEmail,
-      password: password,
-      password_repeat: password,
-    }),
+    body: new URLSearchParams(payload),
   });
-
   const signupResponse = await signup.json();
 
   console.log("created a new wakatime token: ", signupResponse);
 
   await setWaka(signupResponse);
+  return signupResponse;
 }
 
 export async function getWakaSessions(): Promise<any> {

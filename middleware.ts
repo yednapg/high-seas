@@ -1,4 +1,4 @@
-import { createMagicSession } from "@/app/utils/auth";
+import { constructMagicSession, verifySession } from "@/app/utils/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -9,7 +9,13 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   if (magicAuthToken) {
-    await createMagicSession(magicAuthToken);
+    // First check for is_full_user, if so, redirect to slack auth
+    // const person =
+
+    const mc = await constructMagicSession(magicAuthToken);
+    console.log("VERIFYING", mc, await verifySession(mc));
+
+    response.cookies.set("hs-session", JSON.stringify(mc));
   }
 
   return response;

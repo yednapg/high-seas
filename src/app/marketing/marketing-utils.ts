@@ -2,6 +2,7 @@
 import { headers } from "next/headers";
 import { type NextRequest } from "next/server";
 import Airtable from "airtable";
+import { createWaka } from "../utils/waka";
 
 const highSeasBase = () => {
   const highSeasBaseId = process.env.BASE_ID;
@@ -78,22 +79,7 @@ export async function handleEmailSubmission(
   });
 
   // Create HackaTime user
-  const username = `$high-seas-provisional-${email.replace("+", "$plus$")}`;
-  const password = crypto.randomUUID();
-
-  const signup = await fetch("https://waka.hackclub.com/signup", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
-    },
-    body: new URLSearchParams({
-      location: "America/New_York",
-      username,
-      email,
-      password: password,
-      password_repeat: password,
-    }),
-  });
+  const signup = await createWaka(email, null, null);
 
   if (!signup.ok) {
     console.error("Waka signup failed:");

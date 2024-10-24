@@ -84,7 +84,9 @@ async function signAndSet(session: HsSession) {
   });
 }
 
-async function verifySession(session: HsSession): Promise<HsSession | null> {
+export async function verifySession(
+  session: HsSession,
+): Promise<HsSession | null> {
   const hashCheck = await hashSession(session);
 
   if (session.sig === hashCheck) {
@@ -122,7 +124,9 @@ export async function createSlackSession(slackOpenidToken: string) {
   }
 }
 
-export async function createMagicSession(magicCode: string) {
+export async function constructMagicSession(
+  magicCode: string,
+): Promise<HsSession> {
   const partialPersonData = await getPersonByMagicToken(magicCode);
   if (!partialPersonData)
     throw new Error(`Failed to look up Person by magic code: ${magicCode}`);
@@ -131,14 +135,16 @@ export async function createMagicSession(magicCode: string) {
 
   console.log("SOTNRESTNSREINTS", { id, email, slackId });
 
-  const sessionData: HsSession = {
+  const session: HsSession = {
     personId: id,
     authType: "magic-link",
     slackId,
     email,
   };
 
-  await signAndSet(sessionData);
+  session.sig = await hashSession(session);
+
+  return session;
 }
 
 export async function getSession(): Promise<HsSession | null> {
