@@ -604,13 +604,15 @@ export default async function Marketing() {
               <p className="text-4xl text-white">
                 Build. Battle. Booty. Repeat.
               </p>
-              <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl mt-6 justify-center items-center mx-4">
-                <button className="bg-[#214495] p-4 rounded-lg text-white">
-                  Sign in with Hack Club Slack
-                </button>
-                <button className="bg-[#3852CD] p-4 rounded-lg text-white">
-                  Get stuff
-                </button>
+              <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl justify-center items-center mx-4">
+                <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
+                  <input
+                    type="text"
+                    placeholder="name@email.com"
+                    className="p-4 rounded-lg text-md"
+                  />
+                  <button className="bg-[#3852CD] p-4  text-white text-2xl">Get started + get free stickers →</button>
+                </div>
               </div>
             </div>
           </div>
