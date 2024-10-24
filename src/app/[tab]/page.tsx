@@ -25,10 +25,6 @@ export default async function Page({ params }: { params: { tab: string } }) {
       <div className="w-full min-h-screen pt-14 flex items-start justify-center p-8">
         <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
-          <p className="text-center text-xl p-2">
-            Low Skies will be closed Saturday at Midnight EST. Start spending
-            those scales!!!
-          </p>
           <Harbour session={session} currentTab={tab} />
         </Card>
       </div>
