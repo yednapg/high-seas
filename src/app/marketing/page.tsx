@@ -446,8 +446,8 @@ export default async function Marketing() {
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
 
-          <div className="relative">
-            <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+          <div className="relative my-12">
+            {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
             <div className="images-ani relative z-0">
               <div className="images-slide">
                 <img src="/pictures/pic1.png" alt="picture" className="" />
@@ -461,10 +461,10 @@ export default async function Marketing() {
                 <img src="/pictures/pic3.png" alt="picture" className="" />
                 <img src="/pictures/pic4.png" alt="picture" className="" />
               </div>
-            </div>
+            </div>*/}
 
 
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20">
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
               <p className="text-5xl my-12 mx-5 text-white">Join a community of makers</p>
             </div>
 
@@ -474,9 +474,11 @@ export default async function Marketing() {
 
 
 
-            <div className="relative">
+            <div className="">
 
-              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
+              
+
+              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-36">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
                     src="/howtobacks.svg"
