@@ -134,7 +134,7 @@ export default function WakatimeSetupInstructions({
               <br />
               <p>
                 {"If you know what you're doing, go ahead and paste that in. "}
-                Alternatively, you can run this script in your terminal!
+                Alternatively, you can run this script in your terminal! (run the windows script in powershell)
               </p>
               {wakaToken ? <WakaTimeConfigTabs wakaToken={wakaToken} /> : null}
               <br />

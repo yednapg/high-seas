@@ -31,8 +31,8 @@ const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
 };
 
 const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
-  const unixCommand = `echo -e "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = ${wakaToken}" > ~/.wakatime.cfg && echo "WakaTime configuration file has been created/updated at ~/.wakatime.cfg"`;
-  const windowsCommand = `echo "[settings]\`napi_url = https://waka.hackclub.com/api\`napi_key = ${wakaToken}" | Out-File -FilePath "$env:USERPROFILE\\.wakatime.cfg" -Encoding ASCII; Write-Host "WakaTime configuration file has been created/updated at $env:USERPROFILE\\.wakatime.cfg"`;
+  const unixCommand = `export BEARER_TOKEN=${wakaToken} && curl -s -L https://low-skies.hackclub.com/setup.sh | bash`;
+  const windowsCommand = `$env:BEARER_TOKEN="${wakaToken}"; iex (curl https://low-skies.hackclub.com/setup.ps1)`;
 
   return (
     <Tabs defaultValue="unix">
