@@ -47,6 +47,29 @@ export const getSelfPerson = async (slackId: string) => {
   }
 };
 
+export async function getPersonByMagicToken(token: string): Promise<{
+  id: string;
+  email: string;
+  slackId: string;
+} | null> {
+  const peopleTableName = "people";
+  const b = await base();
+  const page = await b(peopleTableName)
+    .select({ filterByFormula: `{magic_auth_token} = '${token}'` })
+    .firstPage();
+
+  if (page.length < 1) return null;
+
+  const p = page[0];
+  const id = p.get("id") as string;
+  const email = p.get("email") as string;
+  const slackId = p.get("slack_id") as string;
+
+  if (!id || !email || !slackId) return null;
+
+  return { id, email, slackId };
+}
+
 export async function getSelfPersonId(slackId: string) {
   const person = await getSelfPerson(slackId);
   return person.get("identifier");

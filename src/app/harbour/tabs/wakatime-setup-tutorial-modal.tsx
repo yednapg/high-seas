@@ -10,10 +10,12 @@ export default function WakatimeSetupTutorialModal({
   isOpen,
   setIsOpen,
   wakaKey,
+  handleContinueFromModal,
 }: {
   isOpen: any;
   setIsOpen: any;
   wakaKey: string;
+  handleContinueFromModal: any;
 }) {
   const [userOS, setUserOS] = useState<
     "windows" | "macos" | "linux" | "unknown"
@@ -22,17 +24,6 @@ export default function WakatimeSetupTutorialModal({
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
 
   const { toast } = useToast();
-
-  useEffect(() => {
-    const ua = window.navigator.userAgent.toLowerCase();
-    if (ua.includes("win")) {
-      setUserOS("windows");
-    } else if (ua.includes("mac")) {
-      setUserOS("macos");
-    } else if (ua.includes("linux")) {
-      setUserOS("linux");
-    }
-  }, []);
 
   const getInstallCommand = (platform: string) => {
     switch (platform) {
@@ -55,9 +46,27 @@ export default function WakatimeSetupTutorialModal({
           lang: "bash",
         };
       default:
-        setShowAllPlatforms(true);
+        return {
+          label: "Unknown Platform",
+          command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/waka-setup.sh | sh`,
+          lang: "bash",
+        };
     }
   };
+
+  useEffect(() => {
+    const ua = window.navigator.userAgent.toLowerCase();
+    if (ua.includes("win")) {
+      setUserOS("windows");
+    } else if (ua.includes("mac")) {
+      setUserOS("macos");
+    } else if (ua.includes("linux")) {
+      setUserOS("linux");
+    } else {
+      setUserOS("unknown");
+      setShowAllPlatforms(true); // Move the setState here
+    }
+  }, []);
 
   const installInfo = getInstallCommand(userOS);
 
@@ -150,6 +159,10 @@ export default function WakatimeSetupTutorialModal({
                 className="mt-8 rounded"
               />
             </div>
+
+            <Button className="w-full mt-4" onClick={handleContinueFromModal}>
+              Skip
+            </Button>
 
             <motion.button
               className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"

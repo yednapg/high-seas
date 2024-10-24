@@ -1,8 +1,13 @@
 "use server";
-
 import { headers } from "next/headers";
 import { type NextRequest } from "next/server";
 import Airtable from "airtable";
+
+const highSeasBase = () => {
+  const highSeasBaseId = process.env.BASE_ID;
+  if (!highSeasBaseId) throw new Error("No Base ID env var set");
+  return Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB");
+};
 
 export async function handleEmailSubmission(
   email: string,
@@ -17,43 +22,65 @@ export async function handleEmailSubmission(
 
   const ip = headers().get("x-forwarded-for");
 
-  // Crate row in Slack Join Requests base (high seas table)
-  Airtable.base("appaqcJtn33vb59Au")("tblQORJfOQcm4CoWn").create(
-    [
-      {
-        fields: {
-          Email: email,
-          "Form Submission IP": ip,
+  // Create row in Slack Join Requests base (high seas table)
+  await new Promise((resolve, reject) => {
+    Airtable.base("appaqcJtn33vb59Au")("tblQORJfOQcm4CoWn").create(
+      [
+        {
+          fields: {
+            Email: email,
+            "Form Submission IP": ip,
+          },
         },
+      ],
+      (err: Error) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(null);
+        }
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err);
-    },
-  );
+    );
+  });
 
   // Create person record (email & IP) in High Seas base
-  const highSeasBaseId = process.env.BASE_ID;
-  if (!highSeasBaseId) throw new Error("No Base ID env var set");
-
-  Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB").create(
-    [
-      {
-        fields: {
-          email,
-          ip_address: ip,
+  const personRecordId = await new Promise((resolve, reject) => {
+    highSeasBase().create(
+      [
+        {
+          fields: {
+            email,
+            ip_address: ip,
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else if (!records || records.length < 1) {
+          const error = new Error("No person record was created");
+          console.error(error);
+          reject(error);
+        } else {
+          const id = records[0].id;
+          if (!id) {
+            const error = new Error("Person record ID is missing");
+            console.error(error);
+            reject(error);
+          } else {
+            resolve(id);
+          }
+        }
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err);
-    },
-  );
+    );
+  });
 
   // Create HackaTime user
   const username = `$high-seas-provisional-${email.replace("+", "$plus$")}`;
-
   const password = crypto.randomUUID();
+
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
@@ -68,5 +95,38 @@ export async function handleEmailSubmission(
     }),
   });
 
-  return await signup.json();
+  const wakaResponseJson = await signup.json();
+
+  if (!signup.ok) {
+    console.error("Waka signup failed:", wakaResponseJson);
+    throw new Error("Failed to create HackaTime user");
+  }
+
+  return {
+    ...wakaResponseJson,
+    personRecordId,
+  };
+}
+
+export async function markArrpheusReadyToInvite(id: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    highSeasBase().update(
+      [
+        {
+          id,
+          fields: {
+            arrpheus_ready_to_invite: true,
+          },
+        },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      },
+    );
+  });
 }
