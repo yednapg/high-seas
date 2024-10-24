@@ -11,7 +11,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import NewShipForm from "./new-ship-form";
 import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
-import { JwtPayload } from "jsonwebtoken";
 import Link from "next/link";
 
 import ScalesImage from "/public/scales.svg";
@@ -66,7 +65,7 @@ export default function Ships({
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
   const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null);
-  const [session, setSession] = useState<JwtPayload | null>(null);
+  const [session, setSession] = useState<HsSession | null>(null);
   const [isEditingShip, setIsEditingShip] = useState(false);
   const canvasRef = useRef(null);
 
@@ -121,9 +120,9 @@ export default function Ships({
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
 
-  const selectedProjectWakatimeProjectShipChain = selectedShip
-    ? shipChains.get(selectedShip.wakatimeProjectName)
-    : null;
+  // const selectedProjectWakatimeProjectShipChain = selectedShip
+  //   ? shipChains.get(selectedShip.wakatimeProjectName)
+  //   : null;
 
   const SingleShip = ({
     s,
@@ -448,7 +447,7 @@ export default function Ships({
                         />
                       </motion.div>
 
-                      {bareShips ? null : (
+                      {/* {bareShips ? null : (
                         <div>
                           <hr className="my-5" />
                           <h3>Ship update chain</h3>
@@ -504,7 +503,7 @@ export default function Ships({
                             )}
                           </ol>
                         </div>
-                      )}
+                      )} */}
 
                       {selectedShip.shipType === "update" ? (
                         <>

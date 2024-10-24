@@ -7,12 +7,12 @@ import Pill from "@/components/ui/pill";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
-import { JwtPayload } from "jsonwebtoken";
 
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useToast } from "@/hooks/use-toast";
+import { HsSession } from "@/app/utils/auth";
 
 interface Matchup {
   project1: Ships;
@@ -205,7 +205,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export default function Matchups({ session }: { session: JwtPayload }) {
+export default function Matchups({ session }: { session: HsSession }) {
   const [matchup, setMatchup] = useState<Matchup | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
@@ -223,9 +223,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   const { toast } = useToast();
 
   const fetchVoteBalance = async () => {
-    setVoteBalance(
-      await getVotesRemainingForNextPendingShip(session.payload?.slackId),
-    );
+    setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
   };
 
   const fetchMatchup = async (
@@ -283,7 +281,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
     if (selectedProject && matchup && session) {
       setIsSubmitting(true);
       try {
-        const slackId = session.payload?.slackId;
+        const slackId = session.slackId;
         const winner = selectedProject;
         const loser =
           selectedProject.id === matchup.project1.id

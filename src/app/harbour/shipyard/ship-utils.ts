@@ -208,7 +208,7 @@ export async function createShip(formData: FormData) {
     throw error;
   }
 
-  const slackId = session.payload.slackId;
+  const slackId = session.slackId;
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   const isShipUpdate = formData.get("isShipUpdate");
@@ -252,7 +252,7 @@ export async function createShipUpdate(
     throw error;
   }
 
-  const slackId = session.payload.slackId;
+  const slackId = session.slackId;
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent

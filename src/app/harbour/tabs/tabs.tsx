@@ -6,7 +6,6 @@ import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
 import { getUserShips, Ship } from "../shipyard/ship-utils";
-import { JwtPayload } from "jsonwebtoken";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
@@ -16,13 +15,14 @@ import { WakaLock } from "../../../components/ui/waka-lock.js";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
+import { HsSession } from "@/app/utils/auth";
 
 export default function Harbour({
   currentTab,
   session,
 }: {
   currentTab: string;
-  session: JwtPayload;
+  session: HsSession;
 }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useLocalStorageState("cache.myShips", null);
@@ -53,14 +53,14 @@ export default function Harbour({
   };
 
   useEffect(() => {
-    getUserShips(session.payload.slackId).then(({ ships, shipChains }) => {
+    getUserShips(session.slackId).then(({ ships, shipChains }) => {
       setMyShips(ships);
       setMyShipChains(shipChains);
     });
 
     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
 
-    getPersonTicketBalance(session.payload.slackId).then((balance) =>
+    getPersonTicketBalance(session.slackId).then((balance) =>
       setPersonTicketBalance(balance.toString()),
     );
 
@@ -71,7 +71,7 @@ export default function Harbour({
 
   // Keep ships and shipChain in sync
   useEffect(() => {
-    getUserShips(session.payload.slackId).then(({ shipChains }) =>
+    getUserShips(session.slackId).then(({ shipChains }) =>
       setMyShipChains(shipChains),
     );
   }, [myShips]);

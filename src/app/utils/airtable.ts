@@ -3,11 +3,13 @@
 import Airtable from "airtable";
 import { getSession } from "./auth";
 
+const at = () => new Airtable({ apiKey: process.env.AIRTABLE_API_KEY });
+
 export const base = async () => {
   const baseId = process.env.BASE_ID;
   if (!baseId) throw new Error("No Base ID env var set");
 
-  return Airtable.base(baseId);
+  return at().base(baseId);
 };
 
 export const getSelfPerson = async (slackId: string) => {
@@ -52,18 +54,30 @@ export async function getPersonByMagicToken(token: string): Promise<{
   email: string;
   slackId: string;
 } | null> {
-  const peopleTableName = "people";
-  const b = await base();
-  const page = await b(peopleTableName)
-    .select({ filterByFormula: `{magic_auth_token} = '${token}'` })
-    .firstPage();
+  const baseId = process.env.BASE_ID;
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const table = "people";
 
-  if (page.length < 1) return null;
+  const url = `https://api.airtable.com/v0/${baseId}/${table}?filterByFormula={magic_auth_token}='${encodeURIComponent(token)}'`;
 
-  const p = page[0];
-  const id = p.get("id") as string;
-  const email = p.get("email") as string;
-  const slackId = p.get("slack_id") as string;
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error("Airtable API error:", await response.text());
+    return null;
+  }
+
+  const data = await response.json();
+  if (!data.records || data.records.length === 0) return null;
+
+  const id = data.records[0].id;
+  const email = data.records[0].fields.email;
+  const slackId = data.records[0].fields.slack_id;
 
   if (!id || !email || !slackId) return null;
 

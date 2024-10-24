@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       ts: voteData.ts,
     };
     // @ts-expect-error because i don't understand typescript
-    const isVerified = verifyMatchup(matchup, session.payload.slackId);
+    const isVerified = verifyMatchup(matchup, session.slackId);
     if (!isVerified) {
       return NextResponse.json(
         { error: "Invalid matchup signature" },
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
     const isUnique = await ensureUniqueVote(
-      session.payload.slackId,
+      session.slackId,
       voteData.winner,
       voteData.loser,
     );

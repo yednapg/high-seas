@@ -6,7 +6,7 @@ import { getPersonBySlackId } from "@/../lib/battles/airtable";
 
 export async function POST(request, { params }) {
   const session = await getSession();
-  const person = await getPersonBySlackId(session.payload.slackId);
+  const person = await getPersonBySlackId(session.slackId);
   if (!person) {
     return NextResponse.json(
       { error: "i don't even know who you are" },

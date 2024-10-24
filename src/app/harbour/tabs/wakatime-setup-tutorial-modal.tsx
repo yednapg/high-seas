@@ -10,11 +10,13 @@ export default function WakatimeSetupTutorialModal({
   isOpen,
   setIsOpen,
   wakaKey,
+  isSubmitting,
   handleContinueFromModal,
 }: {
   isOpen: any;
   setIsOpen: any;
   wakaKey: string;
+  isSubmitting: any;
   handleContinueFromModal: any;
 }) {
   const [userOS, setUserOS] = useState<
@@ -160,8 +162,12 @@ export default function WakatimeSetupTutorialModal({
               />
             </div>
 
-            <Button className="w-full mt-4" onClick={handleContinueFromModal}>
-              Skip
+            <Button
+              className="w-full mt-4"
+              disabled={isSubmitting}
+              onClick={handleContinueFromModal}
+            >
+              {isSubmitting ? "Skipping" : "Skip"}
             </Button>
 
             <motion.button

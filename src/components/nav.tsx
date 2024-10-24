@@ -29,18 +29,16 @@ export default async function Nav() {
       </div> */}
 
       <div className="flex gap-4 items-center text-nowrap">
-        {session ? (
+        {session && session.picture && session.givenName ? (
           <div className="flex gap-2 items-center">
             <Image
-              src={session.payload.picture}
+              src={session.picture}
               width={32}
               height={32}
               alt="profile picture"
               className="rounded-full"
             />
-            <p className="hidden lg:block">
-              Hey, {session.payload.given_name}!
-            </p>{" "}
+            <p className="hidden lg:block">Hey, {session.givenName}!</p>{" "}
           </div>
         ) : null}
         {session ? <SignOut /> : <SignIn variant="small" session={session} />}

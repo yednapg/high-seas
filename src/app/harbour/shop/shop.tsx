@@ -11,8 +11,8 @@ import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { purchaseWords, sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
-import { JwtPayload } from "jsonwebtoken";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
+import { HsSession } from "@/app/utils/auth.js";
 
 const ActionArea = ({
   itemId,
@@ -55,7 +55,7 @@ const ActionArea = ({
   }
 };
 
-export default function Shop({ session }: { session: JwtPayload }) {
+export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
     "shop.country.filter",
     0,
@@ -65,8 +65,8 @@ export default function Shop({ session }: { session: JwtPayload }) {
     null,
   );
   const [bannerText, setBannerText] = useState("");
-  const verificationStatus = session.verificationStatus[0] || "unverified";
-  const slackId = session.payload.slackId;
+  const verificationStatus = /*session.verificationStatus[0] ||*/ "unverified";
+  const slackId = session.slackId;
 
   useEffect(() => {
     setBannerText(sample(shopBanner));

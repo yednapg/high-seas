@@ -95,12 +95,12 @@ export async function handleEmailSubmission(
     }),
   });
 
-  const wakaResponseJson = await signup.json();
-
   if (!signup.ok) {
-    console.error("Waka signup failed:", wakaResponseJson);
+    console.error("Waka signup failed:");
     throw new Error("Failed to create HackaTime user");
   }
+
+  const wakaResponseJson = await signup.json();
 
   return {
     ...wakaResponseJson,

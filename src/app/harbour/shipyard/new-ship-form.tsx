@@ -57,7 +57,7 @@ export default function NewShipForm({
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const slackId = session.payload.slackId;
+        const slackId = session.slackId;
         const res = await getWakaSessions();
         const shippedShips = ships
           .filter((s) => s.shipStatus !== "deleted")
@@ -76,7 +76,7 @@ export default function NewShipForm({
       }
     }
     fetchProjects();
-  }, [session.payload.slackId]);
+  }, [session.slackId]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
