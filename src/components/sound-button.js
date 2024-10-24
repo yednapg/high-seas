@@ -6,7 +6,8 @@ import { sample } from "../../lib/flavor";
 // const musicUrl = 
 const musicSamples = [
   'https://cloud-22krjnymh-hack-club-bot.vercel.app/0fanfare_2__zthdwj7smms__audio.mp4',
-  'https://cloud-kh9lkbnpq-hack-club-bot.vercel.app/0lowskies_song_audio.mp4'
+  'https://cloud-kh9lkbnpq-hack-club-bot.vercel.app/0lowskies_song_audio.mp4',
+  'https://cloud-hrqk6nzbv-hack-club-bot.vercel.app/0old_runescape_soundtrack____sea_shanty2__bjhf0l7pfo8__audio.mp4',
 ]
 
 const musicUrl = sample(musicSamples)
