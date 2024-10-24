@@ -107,7 +107,7 @@ export default function Harbour({
 			path: "thunderdome",
 			component: <Battles session={session} />,
 			lockOnNoHb: true,
-			closes: new Date("2024-10-27T03:59:59Z"),
+			closes: new Date("2024-10-24T24:59:59-04:00"),
 		},
 		{
 			name: "Shoppe",
