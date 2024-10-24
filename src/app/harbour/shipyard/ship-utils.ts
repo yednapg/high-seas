@@ -1,6 +1,6 @@
 "use server";
 
-import { getSelfPerson, getSelfPersonId } from "@/app/utils/airtable";
+import { getSelfPerson } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
 import { getWakaSessions } from "@/app/utils/waka";
 import Airtable from "airtable";

@@ -1,8 +1,7 @@
 "use server";
 
 import { cookies, headers } from "next/headers";
-import { getPersonBySlackId } from "../../../lib/battles/airtable";
-import { getPersonByMagicToken } from "./airtable";
+import { getPersonByMagicToken, getSelfPerson } from "./airtable";
 
 export interface HsSession {
   /// The Person record ID in the high seas base
@@ -11,6 +10,8 @@ export interface HsSession {
   authType: "slack-oauth" | "magic-link";
   slackId: string;
   name?: string;
+  firstName?: string;
+  lastName?: string;
   givenName?: string;
   email: string;
   picture?: string;
@@ -20,9 +21,9 @@ export interface HsSession {
 const sessionCookieName = "hs-session";
 
 function parseJwt(token: string) {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
     atob(base64)
       .split("")
       .map(function (c) {
@@ -40,6 +41,8 @@ async function hashSession(session: HsSession) {
     session.authType,
     session.slackId,
     session.name || "",
+    session.firstName || "",
+    session.lastName || "",
     session.givenName || "",
     session.email,
     session.picture || "",
@@ -102,7 +105,7 @@ export async function createSlackSession(slackOpenidToken: string) {
 
     if (!payload) throw new Error("Failed to decode the Slack OpenId JWT");
 
-    const person = (await getPersonBySlackId(payload.sub as string)) as any;
+    const person = (await getSelfPerson(payload.sub as string)) as any;
     if (!person) {
       throw new Error(`Failed to look up Person by Slack ID: ${payload.sub}`);
     }

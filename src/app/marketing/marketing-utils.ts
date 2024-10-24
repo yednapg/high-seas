@@ -4,7 +4,7 @@ import { type NextRequest } from "next/server";
 import Airtable from "airtable";
 import { createWaka } from "../utils/waka";
 
-const highSeasBase = () => {
+const highSeasPeopleTable = () => {
   const highSeasBaseId = process.env.BASE_ID;
   if (!highSeasBaseId) throw new Error("No Base ID env var set");
   return Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB");
@@ -47,7 +47,7 @@ export async function handleEmailSubmission(
 
   // Create person record (email & IP) in High Seas base
   const personRecordId = await new Promise((resolve, reject) => {
-    highSeasBase().create(
+    highSeasPeopleTable().create(
       [
         {
           fields: {
@@ -79,24 +79,28 @@ export async function handleEmailSubmission(
   });
 
   // Create HackaTime user
-  const signup = await createWaka(email, null, null);
-
-  if (!signup.ok) {
-    console.error("Waka signup failed:");
-    throw new Error("Failed to create HackaTime user");
+  let signup;
+  try {
+    signup = await createWaka(email, null, null);
+  } catch (e) {
+    const error = new Error("Failed to create HackaTime user:", e);
+    console.error(error);
+    throw error;
   }
 
-  const wakaResponseJson = await signup.json();
+  const apiKey = signup.api_key;
+  const created = signup.created;
 
   return {
-    ...wakaResponseJson,
+    apiKey,
+    created,
     personRecordId,
   };
 }
 
 export async function markArrpheusReadyToInvite(id: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    highSeasBase().update(
+    highSeasPeopleTable().update(
       [
         {
           id,

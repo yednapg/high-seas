@@ -47,16 +47,16 @@ export default function EmailSubmissionForm() {
       if (!email) throw new Error("No email submitted!");
       formRef.current?.reset();
 
-      const { created, api_key, personRecordId } =
+      const { created, apiKey, personRecordId } =
         await handleEmailSubmission(email);
       console.log("Waka account response:", {
         created,
-        api_key,
+        apiKey,
         personRecordId,
       });
 
       setPersonRecId(personRecordId);
-      setWakaKey(api_key);
+      setWakaKey(apiKey);
       setIsOpen(true);
     } catch (error) {
       console.error("Error submitting email:", error);

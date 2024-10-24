@@ -1,12 +1,11 @@
 import { getSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
-import { getSelfPersonId, base } from "@/app/utils/airtable";
-import { getPersonBySlackId } from "@/../lib/battles/airtable";
+import { getSelfPerson } from "@/app/utils/airtable";
 
 export async function POST(request, { params }) {
   const session = await getSession();
-  const person = await getPersonBySlackId(session.slackId);
+  const person = await getSelfPerson(session.slackId);
   if (!person) {
     return NextResponse.json(
       { error: "i don't even know who you are" },
@@ -14,10 +13,8 @@ export async function POST(request, { params }) {
     );
   }
 
-  const b = await base();
-  const items = await b("shop_items");
+  const items = await Airtable.base(process.env.BASE_ID)("shop_items");
 
-  console.log("awawawawawa", `{identifier} = '${params.item}'`);
   const recs = await items
     .select({
       filterByFormula: `{identifier} = '${params.item}'`,

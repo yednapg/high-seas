@@ -43,8 +43,6 @@ export async function createWaka(
   name: string | null,
   slackId: string | null,
 ) {
-  // Checking session is not necessary
-
   const password = crypto.randomUUID();
 
   const payload: any = {
