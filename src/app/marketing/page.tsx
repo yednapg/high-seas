@@ -464,8 +464,8 @@ export default async function Marketing() {
             </div>*/}
 
 
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
-              <p className="text-5xl my-12 mx-5 text-white">Join a community of makers</p>
+            <div className="flex flex-col justify-center text-center">
+              <p className="text-5xl mt-12 mx-5 text-white">Join a community of makers</p>
             </div>
 
             
@@ -476,9 +476,14 @@ export default async function Marketing() {
 
             <div className="">
 
-              
+              <div className="flex flex-wrap justify-center items-center gap-10">
+                <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96"/>
+                <iframe width="640" height="360"
+                  src="https://www.youtube.com/watch?v=hiG3fYq3xUU">
+                </iframe>
+              </div>
 
-              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-36">
+              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
                     src="/howtobacks.svg"
