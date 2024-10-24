@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
+import { useToast } from "@/hooks/use-toast";
 
 export default function NewShipForm({
   ships,
@@ -66,8 +67,8 @@ export default function NewShipForm({
         setProjects(
           res.projects.filter(
             (p: { key: string; total: number }) =>
-              p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-          ),
+              p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key)
+          )
         );
 
         console.log(res);
@@ -78,12 +79,23 @@ export default function NewShipForm({
     fetchProjects();
   }, [session.payload.sub]);
 
+  const { toast } = useToast();
+
   const handleForm = async (formData: FormData) => {
     setStaging(true);
     // // Append the selected project's hours to the form data
     // if (selectedProject) {
     //   formData.append("hours", selectedProject.key.toString());
     // }
+
+    if (selectedProject && selectedProject.total / 60 / 60 < 1) {
+      toast({
+        title: "Selected project must have at least 1 hour of tracked time.",
+        description: "Work more on your project can come back!",
+      });
+      setStaging(false);
+      return;
+    }
 
     await createShip(formData);
     confettiRef.current?.addConfetti();
@@ -188,10 +200,14 @@ export default function NewShipForm({
                 disabled={!projects}
               >
                 {selectedProject
-                  ? `${selectedProject.key} (${(selectedProject.total / 60 / 60).toFixed(1)} hrs)`
+                  ? `${selectedProject.key} (${(
+                      selectedProject.total /
+                      60 /
+                      60
+                    ).toFixed(1)} hrs)`
                   : projects
-                    ? "Select project..."
-                    : "Loading projects..."}
+                  ? "Select project..."
+                  : "Loading projects..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -216,28 +232,27 @@ export default function NewShipForm({
                   <CommandGroup>
                     {projects &&
                       projects
-                      .filter((project) => (project.total / 60 / 60) >= 1)
-                      .map((project, idx) => (
-                        <CommandItem
-                        key={`${project.key}-${idx}`}
-                        onSelect={() => {
-                          setSelectedProject(project);
-                          setOpen(false);
-                        }}
-                        >
-                        <Check
-                          className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedProject &&
-                            selectedProject.key === project.key
-                            ? "opacity-100"
-                            : "opacity-0",
-                          )}
-                        />
-                        {project.key} ({(project.total / 60 / 60).toFixed(1)}{" "}
-                        hrs)
-                        </CommandItem>
-                      ))}
+                        .map((project, idx) => (
+                          <CommandItem
+                            key={`${project.key}-${idx}`}
+                            onSelect={() => {
+                              setSelectedProject(project);
+                              setOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                selectedProject &&
+                                  selectedProject.key === project.key
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {project.key} (
+                            {(project.total / 60 / 60).toFixed(1)} hrs)
+                          </CommandItem>
+                        ))}
                   </CommandGroup>
                 </CommandList>
               </Command>
