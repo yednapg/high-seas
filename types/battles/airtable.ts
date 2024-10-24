@@ -4,7 +4,9 @@ export interface Ships extends FieldSet {
   id?: string;
   identifier?: string;
   title: string;
+  credited_hours: number;
   hours: number;
+  total_hours: number;
   rating?: number;
   entrant: string[];
   contest?: string[];

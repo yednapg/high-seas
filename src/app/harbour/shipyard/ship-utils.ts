@@ -27,6 +27,8 @@ export interface Ship {
   // doubloonsPaid?: number;
   matchups_count: number;
   hours: number | null;
+  credited_hours: number | null;
+  total_hours: number | null;
   voteRequirementMet: boolean;
   doubloonPayout: number;
   shipType: ShipType;
@@ -100,6 +102,7 @@ export async function getUserShips(
       shipStatus: r.get("ship_status") as ShipStatus,
       wakatimeProjectName: r.get("wakatime_project_name") as string,
       hours: r.get("hours") as number | null,
+      credited_hours: r.get("credited_hours") as number | null,
       createdTime: r.get("created_time") as string,
       updateDescription: r.get("update_description") as string | null,
       reshippedFromId,
@@ -171,13 +174,13 @@ export async function getUserShips(
 
   // Proper hours assignment for staged ships
   for (const ship of ships) {
-    console.log(`RAW HOURS: ${ship.id}: ${ship.hours}`);
+    console.log(`RAW HOURS: ${ship.id}: ${ship.total_hours}`);
     if (ship.shipStatus !== "staged") continue; // Shipped records have a static hours value that pulls from its airtable column.
 
     const rawWakaHours = hoursForProject(ship.wakatimeProjectName) ?? 0;
 
     if (ship.shipType === "project") {
-      ship.hours = rawWakaHours;
+      ship.credited_hours = rawWakaHours;
     } else if (ship.shipType === "update") {
       // Get the sum of the shipped hours
       const shippedSum = ships
@@ -187,11 +190,11 @@ export async function getUserShips(
             s.shipStatus === "shipped" &&
             s.id !== ship.id,
         )
-        .reduce((acc, s: Ship) => acc + (s.hours ?? 0), 0);
+        .reduce((acc, s: Ship) => acc + (s.total_hours ?? 0), 0);
 
       const hoursForDraftShip = rawWakaHours - shippedSum;
       console.log(`\t\t\t${ship.id} ${shippedSum} of ${rawWakaHours}`);
-      ship.hours = hoursForDraftShip;
+      ship.credited_hours = hoursForDraftShip;
     }
   }
 
@@ -360,10 +363,10 @@ export async function stagedToShipped(ship: Ship) {
     throw error;
   }
 
-  let hours;
+  let credited_hours;
   if (ship.wakatimeProjectName) {
     const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
-    hours =
+    credited_hours =
       wakatimeProjects.find(
         ({ key }: { key: string }) => key === ship.wakatimeProjectName
       ).total /
@@ -377,7 +380,7 @@ export async function stagedToShipped(ship: Ship) {
         id: ship.id,
         fields: {
           ship_status: "shipped",
-          hours,
+          credited_hours,
           ship_time: new Date().toISOString(),
         },
       },
