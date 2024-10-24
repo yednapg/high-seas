@@ -7,7 +7,7 @@ import { getPersonByMagicToken } from "./airtable";
 
 export interface HsSession {
   /// The Person record ID in the high seas base
-  id: string;
+  personId: string;
 
   authType: "slack-oauth" | "magic-link";
   slackId: string;
@@ -47,7 +47,7 @@ export async function createSlackSession(slackOpenidToken: string) {
   const decoded = decode(slackOpenidToken, { complete: true }) as any;
   if (!decoded) throw new Error("Failed to decode the Slack OpenId JWT");
 
-  const person = getPersonBySlackId(decoded.payload.sub) as any;
+  const person = (await getPersonBySlackId(decoded.payload.sub)) as any;
   if (!person)
     throw new Error(
       "Failed to look up Person by Slack ID",
@@ -55,7 +55,7 @@ export async function createSlackSession(slackOpenidToken: string) {
     );
 
   const sessionData: HsSession = {
-    id: person.id,
+    personId: person.id,
     authType: "slack-oauth",
     slackId: decoded.payload.sub,
     email: decoded.payload.email,
@@ -75,7 +75,7 @@ async function createMagicSession(magicCode: string) {
   const { id, email, slackId } = partialPersonData;
 
   const sessionData: HsSession = {
-    id,
+    personId: id,
     authType: "magic-link",
     slackId,
     email,
@@ -86,6 +86,7 @@ async function createMagicSession(magicCode: string) {
 
 export async function getSession(): Promise<Jwt | null> {
   const sessionCookie = verifySessionCookie();
+  console.log(sessionCookie);
   if (sessionCookie) return sessionCookie;
 
   const magicCookie = cookies().get("magic-auth-token"); // From middleware. Temporary.

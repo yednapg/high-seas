@@ -14,30 +14,59 @@ import { getShop, ShopItem } from "./shop-utils";
 import { JwtPayload } from "jsonwebtoken";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 
-const ActionArea = ({ itemId, slackId, filterIndex, verificationStatus }: { itemId: string, slackId: string, filterIndex: number, verificationStatus: string }) => {
-  const buyWord = useMemo(() => sample(purchaseWords), [itemId])
+const ActionArea = ({
+  itemId,
+  slackId,
+  filterIndex,
+  verificationStatus,
+}: {
+  itemId: string;
+  slackId: string;
+  filterIndex: number;
+  verificationStatus: string;
+}) => {
+  const buyWord = useMemo(() => sample(purchaseWords), [itemId]);
   if (filterIndex == 0) {
-    return null
-  } else if (verificationStatus === 'Eligible L1' || verificationStatus === 'Eligible L2') {
+    return null;
+  } else if (
+    verificationStatus === "Eligible L1" ||
+    verificationStatus === "Eligible L2"
+  ) {
     return (
       <form action={`/api/buy/${itemId}`} method="POST" className="w-full">
-        <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">{buyWord}</Button>
+        <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">
+          {buyWord}
+        </Button>
       </form>
-    )
+    );
   } else {
     return (
-      <p className="text-red-500 text-sm text-center w-full">Verification required!<br />
-        <a href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`} className="underline">Verify here</a></p>
-    )
+      <p className="text-red-500 text-sm text-center w-full">
+        Verification required!
+        <br />
+        <a
+          href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`}
+          className="underline"
+        >
+          Verify here
+        </a>
+      </p>
+    );
   }
-}
+};
 
 export default function Shop({ session }: { session: JwtPayload }) {
-  const [filterIndex, setFilterIndex] = useLocalStorageState("shop.country.filter", 0)
-  const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>('cache.shopItems', null);
-  const [bannerText, setBannerText] = useState('')
-  const verificationStatus = session.verificationStatus[0] || 'unverified';
-  const slackId = session.payload.sub
+  const [filterIndex, setFilterIndex] = useLocalStorageState(
+    "shop.country.filter",
+    0,
+  );
+  const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>(
+    "cache.shopItems",
+    null,
+  );
+  const [bannerText, setBannerText] = useState("");
+  const verificationStatus = session.verificationStatus[0] || "unverified";
+  const slackId = session.payload.slackId;
 
   useEffect(() => {
     setBannerText(sample(shopBanner));
@@ -82,7 +111,6 @@ export default function Shop({ session }: { session: JwtPayload }) {
   const onOptionChangeHandler = (e) => {
     setFilterIndex(e.target.value);
   };
-
 
   return (
     <motion.div className="container mx-auto px-4 py-8">
@@ -143,7 +171,12 @@ export default function Shop({ session }: { session: JwtPayload }) {
                 </CardContent>
               )}
               <CardFooter className="pt-4">
-                <ActionArea itemId={item.id} slackId={slackId} filterIndex={filterIndex} verificationStatus={verificationStatus} />
+                <ActionArea
+                  itemId={item.id}
+                  slackId={slackId}
+                  filterIndex={filterIndex}
+                  verificationStatus={verificationStatus}
+                />
               </CardFooter>
             </Card>
           </motion.div>

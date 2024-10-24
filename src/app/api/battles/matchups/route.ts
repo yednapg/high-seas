@@ -33,9 +33,9 @@ export async function GET() {
     // TODO: this filtering could happen in the generateMatchup function!
     const votableProjects = projects.filter(
       (project) =>
-        project?.["entrant__slack_id"]?.[0] !== session?.payload?.sub,
+        project?.["entrant__slack_id"]?.[0] !== session?.payload?.slackId,
     );
-    const userSlackId = session.payload.sub;
+    const userSlackId = session.payload.slackId;
     const matchup = await generateMatchup(votableProjects, userSlackId);
 
     if (!matchup) {

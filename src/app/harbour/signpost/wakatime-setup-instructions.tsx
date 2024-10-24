@@ -140,7 +140,7 @@ export default function WakatimeSetupInstructions({
               <br />
               <p>
                 To log in to the dashboard, your username is your Slack ID (
-                <code>{session ? session?.payload?.sub : "???"}</code>), and
+                <code>{session ? session?.payload?.slackId : "???"}</code>), and
                 your email is <code>{email ? email : "???"}</code>. {"You'll"}{" "}
                 need to request a password reset link (unless {"you've"} already
                 signed up for Hackatime!)

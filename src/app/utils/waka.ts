@@ -38,7 +38,7 @@ async function createWaka() {
   const newSession = await getSession();
   if (!newSession) return errRedir("No session was set");
 
-  const slackId: string = newSession.payload.sub;
+  const slackId: string = newSession.payload.slackId;
   if (!slackId) return errRedir("No Slack ID in session OpenID payload");
 
   const slackEmail: string = newSession.payload.email;
@@ -87,7 +87,7 @@ export async function getWakaSessions(): Promise<any> {
       "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
 
-  const slackId = session.payload.sub;
+  const slackId = session.payload.slackId;
 
   const summaryRes = await fetch(
     // TODO: this date needs to change dynamically and can't be too far in the future
@@ -110,7 +110,7 @@ export async function hasRecvFirstHeartbeat(): Promise<boolean> {
         "No Slack OAuth session found while trying to get WakaTime sessions.",
       );
 
-    const slackId = session.payload.sub;
+    const slackId = session.payload.slackId;
 
     const hasDataRes: { hasData: boolean } = await fetch(
       `https://waka.hackclub.com/api/special/hasData/?user=${slackId}`,
@@ -135,7 +135,7 @@ export async function getWakaEmail(): Promise<string | null> {
       "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
 
-  const slackId = session.payload.sub;
+  const slackId = session.payload.slackId;
 
   const email: { email: string | null } = await fetch(
     `https://waka.hackclub.com/api/special/email/?user=${slackId}`,

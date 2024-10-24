@@ -53,14 +53,14 @@ export default function Harbour({
   };
 
   useEffect(() => {
-    getUserShips(session.payload.sub).then(({ ships, shipChains }) => {
+    getUserShips(session.payload.slackId).then(({ ships, shipChains }) => {
       setMyShips(ships);
       setMyShipChains(shipChains);
     });
 
     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
 
-    getPersonTicketBalance(session.payload.sub).then((balance) =>
+    getPersonTicketBalance(session.payload.slackId).then((balance) =>
       setPersonTicketBalance(balance.toString()),
     );
 
@@ -71,7 +71,7 @@ export default function Harbour({
 
   // Keep ships and shipChain in sync
   useEffect(() => {
-    getUserShips(session.payload.sub).then(({ shipChains }) =>
+    getUserShips(session.payload.slackId).then(({ shipChains }) =>
       setMyShipChains(shipChains),
     );
   }, [myShips]);

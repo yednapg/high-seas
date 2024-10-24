@@ -7,7 +7,7 @@ import Pill from "@/components/ui/pill";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown, { Components } from "react-markdown";
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload } from "jsonwebtoken";
 
 import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
@@ -33,21 +33,20 @@ const notFoundImages = [
   "https://cloud-6laa73jem-hack-club-bot.vercel.app/2not_found3.png",
   "https://cloud-6laa73jem-hack-club-bot.vercel.app/3not_found2.png",
   "https://cloud-6laa73jem-hack-club-bot.vercel.app/4not_found1.png",
-]
+];
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onVote,
   onReadmeClick,
 }) => {
-
   const notFoundImage = useMemo(() => {
-    return notFoundImages[Math.floor(Math.random() * notFoundImages.length)]
-  }, [])
+    return notFoundImages[Math.floor(Math.random() * notFoundImages.length)];
+  }, []);
   const imageStyle = {
     backgroundImage: `url(${notFoundImage})`,
     backgroundSize: "cover",
-  }
+  };
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
@@ -76,7 +75,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Pill msg="Repository" color="blue" glyph="code" classes="text-lg" />
+              <Pill
+                msg="Repository"
+                color="blue"
+                glyph="code"
+                classes="text-lg"
+              />
             </Link>
           )}
           {project.deploy_url && (
@@ -85,14 +89,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Pill msg="Live Demo" color="green" glyph="link" classes="text-lg" />
+              <Pill
+                msg="Live Demo"
+                color="green"
+                glyph="link"
+                classes="text-lg"
+              />
             </Link>
           )}
           {project.readme_url && (
-            <button
-              onClick={onReadmeClick}
-            >
-              <Pill msg="README" color="purple" glyph="docs-fill" classes="text-lg" />
+            <button onClick={onReadmeClick}>
+              <Pill
+                msg="README"
+                color="purple"
+                glyph="docs-fill"
+                classes="text-lg"
+              />
             </button>
           )}
         </div>
@@ -106,8 +118,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const markdownComponents: Components = {
   h1: ({ ...props }) => (
@@ -203,19 +215,29 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   const [isReadmeView, setIsReadmeView] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [voteBalance, setVoteBalance] = useLocalStorageState<number>('cache.voteBalance', 0);
+  const [voteBalance, setVoteBalance] = useLocalStorageState<number>(
+    "cache.voteBalance",
+    0,
+  );
 
   const { toast } = useToast();
 
   const fetchVoteBalance = async () => {
-    setVoteBalance(await getVotesRemainingForNextPendingShip(session.payload?.sub));
-  }
+    setVoteBalance(
+      await getVotesRemainingForNextPendingShip(session.payload?.slackId),
+    );
+  };
 
-  const fetchMatchup = async ({ retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 }) => {
+  const fetchMatchup = async (
+    { retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 },
+  ) => {
     setLoading(true);
     try {
       // require at least 1.25 seconds of loading time for full loop of loading animations
-      const [response, _] = await Promise.all([fetch("/api/battles/matchups"), new Promise(r => setTimeout(r, 1250))]);
+      const [response, _] = await Promise.all([
+        fetch("/api/battles/matchups"),
+        new Promise((r) => setTimeout(r, 1250)),
+      ]);
       if (response.ok) {
         const data: Matchup = await response.json();
         setMatchup(data);
@@ -227,7 +249,13 @@ export default function Matchups({ session }: { session: JwtPayload }) {
           description: "Retrying automatically...",
         });
 
-        setTimeout(() => fetchMatchup({retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2)}), retryTimeout);
+        setTimeout(
+          () =>
+            fetchMatchup({
+              retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2),
+            }),
+          retryTimeout,
+        );
       }
     } catch (error) {
       console.error("Error fetching matchup:", error);
@@ -239,7 +267,7 @@ export default function Matchups({ session }: { session: JwtPayload }) {
   useEffect(() => {
     fetchMatchup();
     fetchVoteBalance();
-  }, [])
+  }, []);
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
@@ -255,9 +283,12 @@ export default function Matchups({ session }: { session: JwtPayload }) {
     if (selectedProject && matchup && session) {
       setIsSubmitting(true);
       try {
-        const slackId = session.payload?.sub;
+        const slackId = session.payload?.slackId;
         const winner = selectedProject;
-        const loser = selectedProject.id === matchup.project1.id ? matchup.project2 : matchup.project1;
+        const loser =
+          selectedProject.id === matchup.project1.id
+            ? matchup.project2
+            : matchup.project1;
 
         const response = await fetch("/api/battles/vote", {
           method: "POST",
@@ -287,7 +318,9 @@ export default function Matchups({ session }: { session: JwtPayload }) {
         }
       } catch (error) {
         console.error("Error submitting vote:", error);
-        setError("An error occurred while submitting your vote. Please try again.");
+        setError(
+          "An error occurred while submitting your vote. Please try again.",
+        );
       } finally {
         setIsSubmitting(false);
       }
@@ -316,7 +349,9 @@ export default function Matchups({ session }: { session: JwtPayload }) {
             <Icon glyph="view-back" size={24} /> Back to Matchup
           </button>
           <div className="prose dark:prose-invert max-w-none">
-            <ReactMarkdown components={markdownComponents}>{readmeContent}</ReactMarkdown>
+            <ReactMarkdown components={markdownComponents}>
+              {readmeContent}
+            </ReactMarkdown>
           </div>
         </div>
       </div>
@@ -331,13 +366,15 @@ export default function Matchups({ session }: { session: JwtPayload }) {
             Project Matchup
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
-            A good project is technical, creative, and pushes the author out of their comfort zone.
-            By that definition, which of these two projects is better? (If you are not sure, just refresh to skip!)
+            A good project is technical, creative, and pushes the author out of
+            their comfort zone. By that definition, which of these two projects
+            is better? (If you are not sure, just refresh to skip!)
           </p>
 
           {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
-              {voteBalance} vote(s) remaining for your next ship to enter the thunderdome!
+              {voteBalance} vote(s) remaining for your next ship to enter the
+              thunderdome!
             </div>
           )}
         </header>
@@ -348,7 +385,9 @@ export default function Matchups({ session }: { session: JwtPayload }) {
           </div>
         ) : !matchup ? (
           <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6">No matchup available</p>
+            <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6">
+              No matchup available
+            </p>
             <button
               onClick={fetchMatchup}
               className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg"
@@ -393,8 +432,9 @@ export default function Matchups({ session }: { session: JwtPayload }) {
                 <button
                   onClick={handleVoteSubmit}
                   disabled={isSubmitting}
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
+                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
                   {isSubmitting ? (
                     <>
