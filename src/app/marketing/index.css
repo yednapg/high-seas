@@ -173,6 +173,7 @@ html {
     .images-slide img {
         width: 500px;
         height: auto;
+        margin: 0px;
     }
 
 

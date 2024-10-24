@@ -44,7 +44,7 @@ export default async function Marketing() {
                 alt="high seas logo"
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
-              <p className="text-4xl text-white">
+              <p className="text-2xl md:text-4xl text-white mx-16">
                 Build personal projects. Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
@@ -98,7 +98,7 @@ export default async function Marketing() {
 
           <div className="flex flex-col justify-center items-center text-white mx-8">
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -120,7 +120,7 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto bobble opacity-90">
+              <div className="flex justify-center items-center w-full xl:w-auto bobble opacity-90">
                 <Image
                   src="/ship.svg"
                   alt="dragons battling"
@@ -147,7 +147,7 @@ export default async function Marketing() {
                   className="opacity-0"
                 />
               </div>
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -174,7 +174,7 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -198,7 +198,7 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto bobble">
+              <div className="flex justify-center items-center w-full xl:w-auto bobble">
                 <Image
                   src="/chest.svg"
                   alt="treasure chest"
@@ -451,32 +451,45 @@ export default async function Marketing() {
           <div></div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
-            <div className="relative">
-              <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-              <div className="images-ani relative z-0">
-                <div className="images-slide">
-                  <img src="/pictures/pic1.png" alt="picture" className="" />
-                  <img src="/pictures/pic2.png" alt="picture" className="" />
-                  <img src="/pictures/pic3.png" alt="picture" className="" />
-                  <img src="/pictures/pic4.png" alt="picture" className="" />
-                </div>
-                <div className="images-slide">
-                  <img src="/pictures/pic1.png" alt="picture" className="" />
-                  <img src="/pictures/pic2.png" alt="picture" className="" />
-                  <img src="/pictures/pic3.png" alt="picture" className="" />
-                  <img src="/pictures/pic4.png" alt="picture" className="" />
-                </div>
-              </div>
 
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20">
-                <p className="text-5xl my-12 mx-5 text-white">
-                  Join a community of makers
-                </p>
+          <div className="relative my-12">
+            {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+            <div className="images-ani relative z-0">
+              <div className="images-slide">
+                <img src="/pictures/pic1.png" alt="picture" className="" />
+                <img src="/pictures/pic2.png" alt="picture" className="" />
+                <img src="/pictures/pic3.png" alt="picture" className="" />
+                <img src="/pictures/pic4.png" alt="picture" className="" />
               </div>
+              <div className="images-slide">
+                <img src="/pictures/pic1.png" alt="picture" className="" />
+                <img src="/pictures/pic2.png" alt="picture" className="" />
+                <img src="/pictures/pic3.png" alt="picture" className="" />
+                <img src="/pictures/pic4.png" alt="picture" className="" />
+              </div>
+            </div>*/}
+
+
+            <div className="flex flex-col justify-center text-center">
+              <p className="text-5xl mt-12 mx-5 text-white">Join a community of makers</p>
             </div>
 
-            <div className="relative">
-              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
+            
+          </div>
+
+
+
+
+            <div className="">
+
+              <div className="flex flex-wrap justify-center items-center gap-10">
+                <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96"/>
+                <iframe width="640" height="360"
+                  src="https://www.youtube.com/embed/hiG3fYq3xUU">
+                </iframe>
+              </div>
+
+              <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
                     src="/howtobacks.svg"
