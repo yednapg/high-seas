@@ -211,7 +211,7 @@ export default async function Marketing() {
                 <p className="">And we've partnered with GitHub again to run High Seas! This summer, we ran Arcade, another program where you make stuff and get stuff. Here are some stats:</p>
               </div>*/}
 
-                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
                   <img
                     src="/howtobacks.svg"
                     alt="background"
@@ -223,7 +223,7 @@ export default async function Marketing() {
                   </div>
                 </div>
 
-                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
                   <img
                     src="/howtobacks.svg"
                     alt="background"
@@ -235,7 +235,7 @@ export default async function Marketing() {
                   </div>
                 </div>
 
-                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center overflow-hidden">
+                <div className="relative p-8 rounded-lg m-2 max-w-xl pop flex-1 flex flex-col justify-center">
                   <img
                     src="/howtobacks.svg"
                     alt="background"
@@ -437,20 +437,44 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="bg-black py-12 my-12">
-            <div className="relative overflow-hidden h-64">
-              <div className="flex justify-start absolute">
-                <img src="/pictures/pic1.png" alt="picture" className="opacity-30" />
-                <img src="/pictures/pic2.png" alt="picture" className="opacity-30" />
-                <img src="/pictures/pic3.png" alt="picture" className="opacity-30" />
-                <img src="/pictures/pic4.png" alt="picture" className="opacity-30" />
+         
+          <div>
+
+          </div>
+
+          
+
+          <div className="bg-black bg-opacity-50 py-12 my-12">
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+            <div className="images-ani relative z-0">
+              <div className="images-slide">
+                <img src="/pictures/pic1.png" alt="picture" className="" />
+                <img src="/pictures/pic2.png" alt="picture" className="" />
+                <img src="/pictures/pic3.png" alt="picture" className="" />
+                <img src="/pictures/pic4.png" alt="picture" className="" />
+              </div>
+              <div className="images-slide">
+                <img src="/pictures/pic1.png" alt="picture" className="" />
+                <img src="/pictures/pic2.png" alt="picture" className="" />
+                <img src="/pictures/pic3.png" alt="picture" className="" />
+                <img src="/pictures/pic4.png" alt="picture" className="" />
               </div>
             </div>
 
+
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20">
+              <p className="text-5xl my-12 mx-5 text-white">Join a community of makers</p>
+            </div>
+
+            
+          </div>
+
+
+
+
             <div className="relative">
-              <div className="flex flex-col justify-center items-center text-center mb-8">
-                <p className="text-5xl my-12 mx-5">Join a community of makers</p>
-              </div>
 
               <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">

@@ -147,15 +147,32 @@ html {
     }
   }
 
-  @keyframes moveLeft {
+  @keyframes scroll {
     0% {
-      transform: translateX(100%);
+      transform: translateX(0);
     }
     100% {
       transform: translateX(-100%);
     }
   }
   
-  .animate-moveLeft {
-    animation: moveLeft 100s linear infinite;
+  .images-ani {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    width:200%; /* Double the width to accommodate two sets of images */
   }
+  
+  .images-slide {
+    display: flex;
+    width: 50%; /* Each set of images takes up half the width */
+    animation: scroll 40s linear infinite;
+  }
+
+    .images-slide img {
+        width: 500px;
+        height: auto;
+    }
+
+
