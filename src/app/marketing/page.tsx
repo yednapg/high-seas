@@ -42,7 +42,7 @@ export default async function Marketing() {
                 alt="high seas logo"
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
-              <p className="text-4xl text-white">
+              <p className="text-2xl md:text-4xl text-white mx-16">
                 Build personal projects. Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
@@ -51,7 +51,7 @@ export default async function Marketing() {
                 placeholder="name@email.com"
                 className="px-4 py-2 rounded-lg text-md"
               />
-              <button className="bg-[#3852CD] px-4 py-2 text-white text-xl">Get started + get free stickers →</button>
+              <button className="bg-[#3852CD] px-4 py-2 text-white text-sm md:text-xl ">Get started + get free stickers →</button>
             </div>
             </div>
             <a href="#howthisworks">
