@@ -87,7 +87,7 @@ export default async function Marketing() {
 
           <div className="flex flex-col justify-center items-center text-white mx-8">
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -109,7 +109,7 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto bobble opacity-90">
+              <div className="flex justify-center items-center w-full xl:w-auto bobble opacity-90">
                 <Image
                   src="/ship.svg"
                   alt="dragons battling"
@@ -136,7 +136,7 @@ export default async function Marketing() {
                   className="opacity-0"
                 />
               </div>
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -163,7 +163,7 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-wrap m-0 p-6 rounded-md">
-              <div className="flex flex-col justify-center items-center mb-8 md:mb-0 md:mr-8 w-full md:w-auto text-center p-8 md:px-16 md:py-10 rounded-md relative pop">
+              <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
@@ -187,7 +187,7 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full md:w-auto bobble">
+              <div className="flex justify-center items-center w-full xl:w-auto bobble">
                 <Image
                   src="/chest.svg"
                   alt="treasure chest"
