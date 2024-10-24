@@ -76,7 +76,7 @@ export default function WakatimeSetupTutorialModal({
       <div>
         <p className="mb-1 inline-flex items-end gap-2">
           <Icon glyph="terminal" size={26} />
-          <span>Instructions for {platform.label}</span>
+          <span>Install instructions for {platform.label}</span>
         </p>
         <div className="flex flex-col sm:flex-row items-stretch gap-2">
           <pre className="text-sm bg-gray-200 rounded-lg p-5 overflow-x-auto w-full flex-grow relative">
