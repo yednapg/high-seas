@@ -85,7 +85,7 @@ export default function Shipyard({
     0,
   );
   useEffect(() => {
-    getVotesRemainingForNextPendingShip(session.payload.sub).then((balance) =>
+    getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
       setVoteBalance(balance),
     );
   });

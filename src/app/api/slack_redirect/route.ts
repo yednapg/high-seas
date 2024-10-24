@@ -1,4 +1,8 @@
-import { getRedirectUri, getSession, setSession } from "@/app/utils/auth";
+import {
+  getRedirectUri,
+  getSession,
+  createSlackSession,
+} from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -23,7 +27,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    setSession(data.id_token);
+    await createSlackSession(data.id_token);
+    console.log("cretaed slack session!! :)))))");
   } catch (e) {
     return errRedir(e);
   }
