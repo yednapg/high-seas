@@ -103,6 +103,13 @@ export default function Harbour({
 			lockOnNoHb: true,
 		},
 		{
+			name: "Thunderdome",
+			path: "thunderdome",
+			component: <Battles session={session} />,
+			lockOnNoHb: true,
+			closes: new Date("2024-10-27T03:59:59Z"),
+		},
+		{
 			name: "Shoppe",
 			path: "shop",
 			component: <Shop session={session} />,
@@ -116,8 +123,12 @@ export default function Harbour({
 			onValueChange={handleTabChange}
 		>
 			<TabsList className="mx-2 my-2 relative">
-				{tabs.map((tab) =>
-					tab.name === "📮" ? (
+				{tabs.map((tab) => {
+					const now = new Date();
+					if (tab.closes && now > tab.closes) {
+						return null;
+					}
+					return tab.name === "📮" ? (
 						<TabsTrigger
 							className="left-px absolute"
 							key={tab.name}
@@ -129,8 +140,8 @@ export default function Harbour({
 						<TabsTrigger key={tab.name} value={tab.path}>
 							{tab.name}
 						</TabsTrigger>
-					),
-				)}
+					);
+				})}
 				<div className="right-px absolute mr-px text-green-400 text-sm">
 					<div className="flex items-center gap-1">
 						<img src="scales.svg" alt="scales" width={24} height={24} />
