@@ -495,7 +495,12 @@ export default async function Marketing() {
             <div className="">
 
               <div className="flex flex-wrap justify-center items-center gap-10">
-                <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96 border-dashed border-4 p-4 border-blue-800"/>
+                <div>
+                  <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96 border-dashed border-4 p-4 border-blue-800"/>
+                  <div className="relative"></div>
+                  <p className="flex flex-col justify-center items-center text-center">Hack Club is an open-source nonprofit!</p>
+                </div>
+                
                 <iframe width="640" height="360"
                   src="https://www.youtube.com/embed/hiG3fYq3xUU">
                 </iframe>
