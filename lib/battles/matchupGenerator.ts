@@ -1,32 +1,9 @@
 import { createHmac } from 'node:crypto'
 
 import { Ships } from "../../types/battles/airtable"; 
-import { ensureUniqueVote } from './airtable';
+import { ensureUniqueVote, getPersonBySlackId } from './airtable';
 
-const HOUR_VARIATION_THRESHOLD = 0.5;
-const PROBABILITY_SCALE = 50;
-const MIN_MATCHUPS_THRESHOLD = 10;
-
-function calculateMatchProbability(hours1: number, hours2: number): number {
-  const diff = Math.abs(hours1 - hours2);
-  return Math.exp(-(diff * diff) / (2 * PROBABILITY_SCALE * PROBABILITY_SCALE));
-}
-
-function hoursWithinRange(hours1: number, hours2: number): boolean {
-  const maxHours = Math.max(hours1, hours2);
-  const minHours = Math.min(hours1, hours2);
-  return (maxHours - minHours) / minHours <= HOUR_VARIATION_THRESHOLD;
-}
-
-function calculateMatchupScore(project: Ships): number {
-  const matchupsCount = project.matchups_count || 0;
-  if (matchupsCount < MIN_MATCHUPS_THRESHOLD) {
-    return 1000 - matchupsCount; // Prioritize projects with less than 10 matchups
-  }
-  return 1 / (matchupsCount - MIN_MATCHUPS_THRESHOLD + 1);
-}
-
-export function signMatchup(matchup: { project1: Ships; project2: Ships; matchQuality: number }, userSlackId: string): { project1: Ships; project2: Ships; matchQuality: number, signature: string, ts: number } {
+export function signMatchup(matchup: { project1: Ships; project2: Ships; }, userSlackId: string): { project1: Ships; project2: Ships; signature: string, ts: number } {
   const secret = process.env.MATCHUP_SECRET
   if (!secret) throw new Error("No MATCHUP_SECRET env var set")
   if (secret.length < 32) throw new Error("MATCHUP_SECRET must be at least 32 characters long")
@@ -41,7 +18,7 @@ export function signMatchup(matchup: { project1: Ships; project2: Ships; matchQu
   const objToSign = { ts, matchupIDs, userSlackId }
   const signature = createHmac("sha256", secret).update(JSON.stringify(objToSign)).digest('hex')
 
-  return { project1, project2, matchQuality: matchup.matchQuality, ts, signature };
+  return { project1, project2, ts, signature };
 }
 
 export function verifyMatchup(signedMatchup: { winner: string; loser: string; matchQuality: number, signature: string, ts: number }, userSlackId: string): boolean {
@@ -68,41 +45,62 @@ export function verifyMatchup(signedMatchup: { winner: string; loser: string; ma
 export async function generateMatchup(
   projects: Ships[],
   userSlackId: string,
-): Promise<{ project1: Ships; project2: Ships; matchQuality: number; signature: string } | null> {
-  const sortedProjects = projects.sort((a, b) => calculateMatchupScore(b) - calculateMatchupScore(a));
-  
-  const topProjectsCount = Math.max(1, Math.floor(sortedProjects.length * 0.2));
-  const project1 = sortedProjects[Math.floor(Math.random() * topProjectsCount)];
-
-  const validMatches = sortedProjects
-    .filter((p) => p.id !== project1.id && hoursWithinRange(project1.hours, p.hours));
-
-  // if (validMatches.length === 0) return null;
-
-  const probabilities = validMatches.map((p) =>
-    calculateMatchProbability(project1.hours, p.hours)
-  );
-  const totalProbability = probabilities.reduce((a, b) => a + b, 0);
-  const normalizedProbabilities = probabilities.map((p) => p / totalProbability);
-
-  const randomValue = Math.random();
-  let cumulativeProbability = 0;
-  let project2Index = 0;
-
-  for (let i = 0; i < normalizedProbabilities.length; i++) {
-    cumulativeProbability += normalizedProbabilities[i];
-    if (randomValue <= cumulativeProbability) {
-      project2Index = i;
-      break;
-    }
+  attempts: number = 0
+): Promise<{ project1: Ships; project2: Ships; signature: string; ts: number } | null> {
+  if (attempts >= 5) {
+    console.error("Failed to generate a unique matchup after 5 attempts");
+    return null;
   }
 
-  const project2 = validMatches[project2Index];
-  // do we even need this anymorw? It's a remant of past
-  const matchQuality = 1 / (1 + Math.abs(project1.hours - project2.hours) / Math.max(project1.hours, project2.hours));
-  
-  const uniqueVote = await ensureUniqueVote(userSlackId, project1.id, project2.id)
-  if (!uniqueVote) return null;
+  const user = await getPersonBySlackId(userSlackId);
+  if (!user) return null;
+  const userVotedShips = new Set(user.all_battle_ship_autonumbers || []);
 
-  return signMatchup({ project1, project2, matchQuality }, userSlackId);
+  // First project selection
+  const eligibleProjects = projects.filter(p => 
+    !p.doubloon_payout && 
+    !userVotedShips.has(p.autonumber?.toString()) && 
+    p.entrant__slack_id[0] !== userSlackId
+  );
+
+  let project1: Ships;
+
+  if (eligibleProjects.length > 0) {
+    const sortedProjects = eligibleProjects.sort((a, b) => 
+      new Date(a.ship_time).getTime() - new Date(b.ship_time).getTime()
+    );
+    const randomIndex = Math.floor(Math.pow(Math.random(), 2) * sortedProjects.length);
+    project1 = sortedProjects[randomIndex];
+  } else {
+    project1 = projects.find(p => p.entrant__slack_id[0] !== userSlackId)!;
+  }
+
+  // Second project selection
+  const paidProjects = projects.filter(p => 
+    p.doubloon_payout && 
+    p.entrant__slack_id[0] !== userSlackId && 
+    p.id !== project1.id
+  );
+
+  const project2 = paidProjects.reduce((closest, current) => 
+    Math.abs(current.total_hours - project1.total_hours) < Math.abs(closest.total_hours - project1.total_hours) 
+      ? current 
+      : closest
+  );
+
+  // Randomize order
+  const [finalProject1, finalProject2] = Math.random() < 0.5 
+    ? [project1, project2] 
+    : [project2, project1];
+
+  const uniqueVote = await ensureUniqueVote(userSlackId, finalProject1.id, finalProject2.id);
+  if (!uniqueVote) {
+    // If not a unique vote, recursively try again
+    return generateMatchup(projects, userSlackId, attempts + 1);
+  }
+
+  return signMatchup({
+    project1: finalProject1,
+    project2: finalProject2,
+  }, userSlackId);
 }
