@@ -47,6 +47,8 @@ export default function EmailSubmissionForm() {
       if (!email) throw new Error("No email submitted!");
       formRef.current?.reset();
 
+      setIsOpen(true);
+
       const { created, apiKey, personRecordId } =
         await handleEmailSubmission(email);
       console.log("Waka account response:", {
@@ -57,7 +59,6 @@ export default function EmailSubmissionForm() {
 
       setPersonRecId(personRecordId);
       setWakaKey(apiKey);
-      setIsOpen(true);
     } catch (error) {
       console.error("Error submitting email:", error);
     } finally {
@@ -98,7 +99,6 @@ export default function EmailSubmissionForm() {
           className="p-4 rounded-lg text-md"
           disabled={isSubmitting}
         />
-        {isSubmitting ? "is submtiting" : "is not submitting"}
         <button
           disabled={isSubmitting}
           className="bg-[#3852CD] p-4 text-white text-2xl disabled:opacity-50"
