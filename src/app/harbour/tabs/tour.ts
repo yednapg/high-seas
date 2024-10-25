@@ -183,7 +183,8 @@ function setupSteps(tourManager: Tour) {
             "input",
             ({ target }: { target: HTMLInputElement }) => {
               if (target.value.trim().toLowerCase() === "hack club site")
-                tourManager.next();
+                f.blur();
+              tourManager.next();
             },
           );
           r();
@@ -235,18 +236,19 @@ function setupSteps(tourManager: Tour) {
         return new Promise((r) => {
           controller.abort();
 
-          document
-            .querySelector("#readme-field")!
-            .addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (
-                  target.value.trim() ===
-                  "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md"
-                )
-                  tourManager.next();
-              },
-            );
+          const f: HTMLInputElement = document.querySelector("#readme-field")!;
+
+          f.addEventListener(
+            "input",
+            ({ target }: { target: HTMLInputElement }) => {
+              if (
+                target.value.trim() ===
+                "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md"
+              )
+                f.blur();
+              tourManager.next();
+            },
+          );
           r();
         });
       },
@@ -260,15 +262,17 @@ function setupSteps(tourManager: Tour) {
       },
       beforeShowPromise: () => {
         return new Promise((r) => {
-          document
-            .querySelector("#deployment-field")!
-            .addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (target.value.trim() === "https://hackclub.com")
-                  tourManager.next();
-              },
-            );
+          const f: HTMLInputElement =
+            document.querySelector("#deployment-field")!;
+          f.addEventListener(
+            "input",
+            ({ target }: { target: HTMLInputElement }) => {
+              if (target.value.trim() === "https://hackclub.com") {
+                f.blur();
+                tourManager.next();
+              }
+            },
+          );
           r();
         });
       },
@@ -406,8 +410,10 @@ function setupSteps(tourManager: Tour) {
                 if (
                   target.value.trim().toLowerCase() ===
                   "hack club's awesome website"
-                )
+                ) {
+                  f.blur();
                   tourManager.next();
+                }
               },
             );
           },
