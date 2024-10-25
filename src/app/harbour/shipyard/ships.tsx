@@ -126,13 +126,16 @@ export default function Ships({
 
   const SingleShip = ({
     s,
+    id,
     setNewShipVisible,
   }: {
     s: Ship;
+    id: string;
     setNewShipVisible: any;
   }) => (
     <div
       key={s.id}
+      id={id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
     >
@@ -166,6 +169,7 @@ export default function Ships({
           <div className="mt-4 sm:mt-0 sm:ml-auto">
             {s.shipStatus === "staged" ? (
               <Button
+                id="ship-ship"
                 onClick={async (e) => {
                   e.stopPropagation();
                   console.log("Shipping", s);
@@ -206,7 +210,11 @@ export default function Ships({
           className="w-fit mx-auto mb-0 mt-3"
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
-          <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
+          <Button
+            className="text-xl"
+            id="start-ship-draft"
+            onClick={() => setNewShipVisible(true)}
+          >
             Draft a new Ship!
           </Button>
         </motion.div>
@@ -220,11 +228,12 @@ export default function Ships({
             </h2>
           )}
 
-          <div className="space-y-4">
+          <div id="staged-ships-container" className="space-y-4">
             {stagedShips.map((ship: Ship, idx: number) => (
               <SingleShip
                 s={ship}
                 key={ship.id}
+                id={`staged-ship-${idx}`}
                 setNewShipVisible={setNewShipVisible}
               />
             ))}
@@ -245,6 +254,7 @@ export default function Ships({
               <SingleShip
                 s={ship}
                 key={ship.id}
+                id={`shipped-ship-${idx}`}
                 setNewShipVisible={setNewShipVisible}
               />
             ))}
@@ -278,6 +288,7 @@ export default function Ships({
           >
             <Card
               className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+              id="new-ship-form-container-card"
               onClick={(e) => e.stopPropagation()}
             >
               <NewShipForm
@@ -339,6 +350,7 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            id="selected-ship-card-parent"
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setSelectedShip(null)}
           >
@@ -363,7 +375,10 @@ export default function Ships({
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </div>
 
-                <div className="overflow-y-auto flex-grow pt-48">
+                <div
+                  className="overflow-y-auto flex-grow pt-48"
+                  id="selected-ship-card"
+                >
                   <CardHeader className="relative">
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
                     <p className="opacity-50">
@@ -383,10 +398,12 @@ export default function Ships({
                       <div className="flex flex-row gap-3 h-12">
                         <Button
                           className="flex-grow h-full"
+                          id="selected-ship-play-button"
                           disabled={!selectedShip.deploymentUrl}
                         >
                           <Link
                             className="flex items-center"
+                            target="_blank"
                             href={selectedShip.deploymentUrl || "#"}
                             prefetch={false}
                           >
@@ -396,6 +413,8 @@ export default function Ships({
                         </Button>
 
                         <Link
+                          id="selected-ship-repo-button"
+                          target="_blank"
                           className={`${buttonVariants({ variant: "outline" })} h-full`}
                           href={selectedShip.repoUrl}
                           prefetch={false}
@@ -404,6 +423,7 @@ export default function Ships({
                         </Link>
 
                         <Button
+                          id="selected-ship-edit-button"
                           className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
                           onClick={() => setIsEditingShip((p) => !p)}
                         >
