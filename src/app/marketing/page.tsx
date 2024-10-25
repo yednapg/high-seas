@@ -23,6 +23,8 @@ import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
 
+import EmailSubmissionForm from "./components/email-submission-form";
+
 export default async function Marketing() {
   const session = await getSession();
 
@@ -46,19 +48,11 @@ export default async function Marketing() {
                 Build personal projects. Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
-              <input
-                type="text"
-                placeholder="name@email.com"
-                className="px-4 py-2 rounded-lg text-md"
-              />
-              <button className="bg-[#3852CD] px-4 py-2 text-white text-sm md:text-xl ">Get started + get free stickers →</button>
-            </div>
+                <EmailSubmissionForm />
+              </div>
             </div>
             <a href="#howthisworks">
-              <img
-                src="/arrows.svg"
-                className="w-16 h-16 mb-6 opacity-60 bobble"
-              />
+              <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60" />
             </a>
 
             <div className="text-[#214495]">
@@ -67,8 +61,25 @@ export default async function Marketing() {
                 Pis, 3D Printers, and iPads.
               </p>
               <p className="text-lg mb-10 mx-10">
-                By <a href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</a> and <a href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</a>. For teens. Starts October 30. Ends
-                January 31.
+                By{" "}
+                <a
+                  href="https://hackclub.com"
+                  target="blank"
+                  rel="noopenner noreferrer"
+                  className="underline"
+                >
+                  Hack Club
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://github.com/"
+                  target="blank"
+                  rel="noopenner noreferrer"
+                  className="underline"
+                >
+                  GitHub
+                </a>
+                . For teens. Starts October 30. Ends January 31.
               </p>
             </div>
           </div>
@@ -437,12 +448,7 @@ export default async function Marketing() {
             </div>
           </div>
 
-         
-          <div>
-
-          </div>
-
-          
+          <div></div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
 
@@ -502,10 +508,10 @@ export default async function Marketing() {
                     </div>
                     <p className="text-sm mb-4">
                       Finally shipped my personal ai clone and had a ton of fun
-                      playing around with it and seeing what other people did with
-                      it! Personal favorite was when it threatened to kill me and
-                      got very unhinged when the person threatened to send
-                      screenshots to me
+                      playing around with it and seeing what other people did
+                      with it! Personal favorite was when it threatened to kill
+                      me and got very unhinged when the person threatened to
+                      send screenshots to me
                     </p>
                     <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/4d4ecc40-c388-4b9d-997f-1f3d6a21302c-image.png" />
                   </div>
@@ -583,9 +589,6 @@ export default async function Marketing() {
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
 
@@ -611,16 +614,7 @@ export default async function Marketing() {
               <p className="text-4xl text-white">
                 Build. Battle. Booty. Repeat.
               </p>
-              <div className="flex flex-wrap md:gap-4 gap-2 text-xl md:text-3xl justify-center items-center mx-4">
-                <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
-                  <input
-                    type="text"
-                    placeholder="name@email.com"
-                    className="p-4 rounded-lg text-md"
-                  />
-                  <button className="bg-[#3852CD] p-4  text-white text-2xl">Get started + get free stickers →</button>
-                </div>
-              </div>
+              <EmailSubmissionForm />
             </div>
           </div>
         </div>
