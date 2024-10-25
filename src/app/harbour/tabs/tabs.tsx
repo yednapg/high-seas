@@ -11,7 +11,7 @@ import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { getPersonTicketBalance } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock.js";
-
+import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
@@ -54,6 +54,7 @@ export default function Harbour({
 
   useEffect(() => {
     getUserShips(session.slackId).then(({ ships, shipChains }) => {
+      console.warn(ships);
       setMyShips(ships);
       setMyShipChains(shipChains);
     });
@@ -75,6 +76,10 @@ export default function Harbour({
       setMyShipChains(shipChains),
     );
   }, [myShips]);
+
+  useEffect(() => {
+    tour();
+  }, []);
 
   const tabs = [
     {
@@ -121,6 +126,7 @@ export default function Harbour({
       className="flex-1 flex flex-col"
       onValueChange={handleTabChange}
     >
+      <button onClick={() => tour()}>restart tour</button>
       <TabsList className="mx-2 my-2 relative">
         {tabs.map((tab) =>
           tab.name === "📮" ? (
