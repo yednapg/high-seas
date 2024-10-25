@@ -102,7 +102,7 @@ export default function Harbour({
           session={session}
           ships={myShips}
           shipChains={myShipChains}
-          setShips={() => {}}
+          setShips={setMyShips}
         />
       ),
       lockOnNoHb: true,
