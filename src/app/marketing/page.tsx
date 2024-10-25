@@ -64,7 +64,7 @@ export default async function Marketing() {
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
                 In High Seas, code projects and get free hardware like Raspberry
-                Pis, 3D Printers, and iPads.
+                Pis, 3D Printers, and iPads. Hi - This is Acon from GitHub Universe!
               </p>
               <p className="text-lg mb-10 mx-10">
                 By <a href="https://hackclub.com" target="blank" rel="noopenner noreferrer" className="underline">Hack Club</a> and <a href="https://github.com/" target="blank" rel="noopenner noreferrer" className="underline">GitHub</a>. For teens. Starts October 30. Ends
