@@ -90,7 +90,7 @@ export default function EmailSubmissionForm() {
       <form
         ref={formRef}
         action={handleForm}
-        className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]"
+        className="flex flex-wrap text-xl md:text-xl justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]"
       >
         <input
           type="text"
