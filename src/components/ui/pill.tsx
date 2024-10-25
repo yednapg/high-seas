@@ -10,6 +10,7 @@ export default function Pill({
   glyphSize = 24,
   glyphStyles = {},
   percentage,
+  id,
 }: {
   msg: string;
   color?: "red" | "yellow" | "green" | "blue" | "purple" | "gray";
@@ -19,6 +20,7 @@ export default function Pill({
   glyphSize?: number;
   glyphStyles?: React.CSSProperties;
   percentage?: number;
+  id: string;
 }) {
   const colorClasses = {
     red: "text-red-600 bg-red-50 border-red-500/10",
@@ -37,6 +39,7 @@ export default function Pill({
 
   return (
     <span
+      id={id}
       className={`inline-flex items-center gap-1 rounded-full px-2 border text-sm leading-none ${colorClasses[color]} ${classes}`}
       style={{ verticalAlign: "middle", ...progressBarStyle }}
     >

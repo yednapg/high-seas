@@ -6,23 +6,23 @@ import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
 import { getUserShips, Ship } from "../shipyard/ship-utils";
-import { JwtPayload } from "jsonwebtoken";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
 import { getPersonTicketBalance } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock.js";
-
+import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
+import { HsSession } from "@/app/utils/auth";
 
 export default function Harbour({
   currentTab,
   session,
 }: {
   currentTab: string;
-  session: JwtPayload;
+  session: HsSession;
 }) {
   // All the content management for all the tabs goes here.
   const [myShips, setMyShips] = useLocalStorageState("cache.myShips", null);
@@ -53,14 +53,15 @@ export default function Harbour({
   };
 
   useEffect(() => {
-    getUserShips(session.payload.sub).then(({ ships, shipChains }) => {
+    getUserShips(session.slackId).then(({ ships, shipChains }) => {
+      console.warn(ships);
       setMyShips(ships);
       setMyShipChains(shipChains);
     });
 
     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
 
-    getPersonTicketBalance(session.payload.sub).then((balance) =>
+    getPersonTicketBalance(session.slackId).then((balance) =>
       setPersonTicketBalance(balance.toString()),
     );
 
@@ -71,10 +72,14 @@ export default function Harbour({
 
   // Keep ships and shipChain in sync
   useEffect(() => {
-    getUserShips(session.payload.sub).then(({ shipChains }) =>
+    getUserShips(session.slackId).then(({ shipChains }) =>
       setMyShipChains(shipChains),
     );
   }, [myShips]);
+
+  useEffect(() => {
+    tour();
+  }, []);
 
   const tabs = [
     {
@@ -121,6 +126,7 @@ export default function Harbour({
       className="flex-1 flex flex-col"
       onValueChange={handleTabChange}
     >
+      <button onClick={() => tour()}>restart tour</button>
       <TabsList className="mx-2 my-2 relative">
         {tabs.map((tab) =>
           tab.name === "📮" ? (
