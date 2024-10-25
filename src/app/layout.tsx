@@ -11,8 +11,8 @@ const mainFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Low Skies | Hack Club",
-  description: "Hack Club's Low Skies event",
+  title: "High Seas | Hack Club",
+  description: "Build cool projects. Get cool stuff.",
 };
 
 export default function RootLayout({
