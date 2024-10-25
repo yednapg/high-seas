@@ -169,35 +169,6 @@ export default function Ships({
             <ShipPillCluster ship={s} shipChains={shipChains} />
           </div>
         </div>
-
-        {bareShips ? null : (
-          <div className="mt-4 sm:mt-0 sm:ml-auto">
-            {s.shipStatus === "staged" ? (
-              <Button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping", s);
-                  await stagedToShipped(s);
-                  location.reload();
-                }}
-              >
-                SHIP SHIP!
-              </Button>
-            ) : (
-              <Button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping an update...", s);
-                  setNewUpdateShip(s);
-                  // await stagedToShipped(s);
-                  // location.reload();
-                }}
-              >
-                Ship an update!
-              </Button>
-            )}
-          </div>
-        )}
       </Card>
     </div>
   );
