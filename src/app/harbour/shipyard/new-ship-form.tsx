@@ -58,7 +58,7 @@ export default function NewShipForm({
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const slackId = session.payload.sub;
+        const slackId = session.slackId;
         const res = await getWakaSessions();
         const shippedShips = ships
           .filter((s) => s.shipStatus !== "deleted")
@@ -77,7 +77,7 @@ export default function NewShipForm({
       }
     }
     fetchProjects();
-  }, [session.payload.sub]);
+  }, [session.slackId]);
 
   const { toast } = useToast();
 

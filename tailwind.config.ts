@@ -55,6 +55,7 @@ const config: Config = {
 				'slide_in_left': 'slide_in_left 0.5s ease-in-out',
 			},
   		colors: {
+        	green: '#10B981',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
