@@ -109,7 +109,7 @@ function setupSteps(tourManager: Tour) {
             const card = document.querySelector(
               "#new-ship-form-container-card",
             );
-            !card?.addEventListener("click", (e) => e.preventDefault(), {
+            card?.addEventListener("click", (e) => e.preventDefault(), {
               signal,
             });
             card?.addEventListener("mousedown", (e) => e.preventDefault(), {
