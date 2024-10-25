@@ -120,9 +120,17 @@ export default function Ships({
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
 
-  // const selectedProjectWakatimeProjectShipChain = selectedShip
-  //   ? shipChains.get(selectedShip.wakatimeProjectName)
-  //   : null;
+  // let selectedProjectWakatimeProjectShipChain;
+
+  // if (selectedShip) {
+  //   try {
+  //     selectedProjectWakatimeProjectShipChain = shipChains.get(
+  //       selectedShip.wakatimeProjectName,
+  //     );
+  //   } catch (e) {
+  //     console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
+  //   }
+  // }
 
   const SingleShip = ({
     s,

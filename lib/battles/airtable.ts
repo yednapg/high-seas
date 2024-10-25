@@ -45,10 +45,10 @@ export const createProject = async (
   if (!person) {
     throw new Error("User not found");
   }
-  const hours = Number(shipsData.hours);
+  const credited_hours = Number(shipsData.credited_hours);
   const projectData = {
     title: shipsData.title,
-    hours: hours,
+    credited_hours: credited_hours,
     repo_url: shipsData.repoUrl,
     readme_url: shipsData.readmeUrl,
     deploy_url: shipsData.deployUrl,
