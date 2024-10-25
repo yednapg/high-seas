@@ -36,6 +36,18 @@ export default async function Marketing() {
           alt="background"
           className="absolute inset-0 w-full h-full object-cover"
         />
+
+        <div className="flex flex-col justify-center items-center">
+          <div className="absolute flex flex-col justify-center items-center text-center">
+            <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
+            <div className="relative z-10">
+              <p className="p-5 px-24 text-white text-2xl">
+                coming soon!!! (tm) :eyes: 
+              </p>
+            </div>
+          </div>
+        </div>
+        
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center mb-24">
