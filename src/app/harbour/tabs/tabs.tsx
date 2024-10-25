@@ -107,13 +107,13 @@ export default function Harbour({
 			path: "thunderdome",
 			component: <Battles session={session} />,
 			lockOnNoHb: true,
-			closes: new Date("2024-10-24T24:59:59-04:00"),
+			closes: new Date("2024-10-25T04:00:00.000Z"),
 		},
 		{
 			name: "Shoppe",
 			path: "shop",
 			component: <Shop session={session} />,
-			closes: new Date("2024-10-26T24:59:59-04:00"),
+			closes: new Date("2024-10-26T04:00:00.000Z"),
 		},
 	];
 
@@ -126,6 +126,7 @@ export default function Harbour({
 			<TabsList className="mx-2 my-2 relative">
 				{tabs.map((tab) => {
 					const now = new Date();
+					console.log(now, tab.closes);
 					if (tab.closes && now > tab.closes) {
 						return null;
 					}
