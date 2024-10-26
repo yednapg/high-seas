@@ -92,7 +92,7 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                . For any teenager under 18. Starts October 30. Ends January 31.
+                . For teenagers 18 and under. Starts October 30. Ends January 31.
               </p>
             </div>
           </div>
