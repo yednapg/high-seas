@@ -100,7 +100,11 @@ export default function EditShipForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-2"
+      id="selected-ship-edit-form"
+    >
       <div>
         <label htmlFor="title">Title</label>
         <input
@@ -158,6 +162,7 @@ export default function EditShipForm({
 
       <div className="flex justify-between">
         <Button
+          id="submit"
           className={buttonVariants({ variant: "default" })}
           type="submit"
           disabled={saving}

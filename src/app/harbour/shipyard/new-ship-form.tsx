@@ -71,6 +71,13 @@ export default function NewShipForm({
           ),
         );
 
+        if (sessionStorage.getItem("tutorial") === "true") {
+          setProjects((p) => [
+            { key: "hack-club-site", total: 123 * 60 * 60 },
+            ...p!,
+          ]);
+        }
+
         console.log(res);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -151,7 +158,7 @@ export default function NewShipForm({
           ) : null}
         </AnimatePresence>
 
-        <div>
+        <div id="title-field">
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -163,7 +170,7 @@ export default function NewShipForm({
         </div>
 
         {/* Project Dropdown */}
-        <div>
+        <div id="project-field">
           <label htmlFor="project" className="leading-0">
             Select Project <br />
             <span className="text-xs opacity-50">
@@ -196,7 +203,7 @@ export default function NewShipForm({
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="w-full p-0 z-[9998]">
               <Command>
                 <CommandInput placeholder="Search projects..." />
                 <CommandList>
@@ -244,16 +251,17 @@ export default function NewShipForm({
           </Popover>
 
           {/* Hidden input to include in formData */}
-          {selectedProject && (
-            <input
-              type="hidden"
-              name="wakatime_project_name"
-              value={selectedProject.key}
-            />
-          )}
+          {/* {selectedProject && ( */}
+          <input
+            type="hidden"
+            id="wakatime-project-name"
+            name="wakatime_project_name"
+            value={selectedProject?.key || ""}
+          />
+          {/* )} */}
         </div>
 
-        <div>
+        <div id="repo-field">
           <label htmlFor="repo_url">Repo URL</label>
           <input
             type="url"
@@ -264,7 +272,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="readme-field">
           <label htmlFor="readme_url">README URL</label>
           <input
             type="url"
@@ -275,7 +283,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="deployment-field">
           <label htmlFor="deployment_url">
             Demo Link (Project / Video URL)
           </label>
@@ -298,7 +306,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="screenshot-field">
           <label htmlFor="screenshot_url">
             Screenshot URL
             <br />
@@ -324,7 +332,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <Button type="submit" disabled={staging}>
+        <Button type="submit" disabled={staging} id="new-ship-submit">
           {staging ? (
             <>
               <Icon glyph="more" />

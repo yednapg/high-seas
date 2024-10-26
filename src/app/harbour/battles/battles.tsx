@@ -22,6 +22,7 @@ interface Matchup {
 }
 
 interface ProjectCardProps {
+  key: number;
   project: Ships;
   onVote: () => void;
   onReadmeClick: () => void;
@@ -36,6 +37,7 @@ const notFoundImages = [
 ];
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
+  key,
   project,
   onVote,
   onReadmeClick,
@@ -90,6 +92,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
             >
               <Pill
+                id={`live-demo-link-${key}`}
                 msg="Live Demo"
                 color="green"
                 glyph="link"
@@ -396,7 +399,7 @@ export default function Matchups({ session }: { session: HsSession }) {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-7 gap-8 items-stretch mb-12">
-              <div className="md:col-span-3">
+              <div id="voting-project-left" className="md:col-span-3">
                 <ProjectCard
                   project={matchup.project1}
                   onVote={() => handleVoteClick(matchup.project1)}
@@ -406,7 +409,7 @@ export default function Matchups({ session }: { session: HsSession }) {
               <div className="flex items-center justify-center text-6xl font-bold text-indigo-600 dark:text-indigo-300">
                 VS
               </div>
-              <div className="md:col-span-3">
+              <div id="voting-project-right" className="md:col-span-3">
                 <ProjectCard
                   project={matchup.project2}
                   onVote={() => handleVoteClick(matchup.project2)}
@@ -415,19 +418,29 @@ export default function Matchups({ session }: { session: HsSession }) {
               </div>
             </div>
             {selectedProject && (
-              <div className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
-                  Why are you voting for {selectedProject.title} over the other?
-                </h3>
-                <textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="Provide your reason here (minimum 10 words)"
-                  className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
-                  rows={6}
-                />
-                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+              <div
+                id="voting-reason-container-parent"
+                className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+              >
+                <div id="voting-reason-container">
+                  <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
+                    Why are you voting for {selectedProject.title} over the
+                    other?
+                  </h3>
+                  <textarea
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Provide your reason here (minimum 10 words)"
+                    className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
+                    rows={6}
+                  />
+
+                  {error && (
+                    <p className="text-red-500 text-sm mb-4">{error}</p>
+                  )}
+                </div>
                 <button
+                  id="submit-vote"
                   onClick={handleVoteSubmit}
                   disabled={isSubmitting}
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${

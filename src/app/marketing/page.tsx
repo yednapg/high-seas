@@ -36,6 +36,18 @@ export default async function Marketing() {
           alt="background"
           className="absolute inset-0 w-full h-full object-cover"
         />
+
+        <div className="flex flex-col justify-center items-center">
+          <div className="absolute flex flex-col justify-center items-center text-center">
+            <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
+            <div className="relative z-10">
+              <p className="p-5 px-24 text-white text-2xl">
+                coming soon!!! (tm) :eyes: 
+              </p>
+            </div>
+          </div>
+        </div>
+        
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center mb-24">
@@ -483,7 +495,12 @@ export default async function Marketing() {
             <div className="">
 
               <div className="flex flex-wrap justify-center items-center gap-10">
-                <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96"/>
+                <div>
+                  <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96 border-dashed border-4 p-4 border-blue-800"/>
+                  <div className="relative"></div>
+                  <p className="flex flex-col justify-center items-center text-center">Hack Club is an open-source nonprofit!</p>
+                </div>
+                
                 <iframe width="640" height="360"
                   src="https://www.youtube.com/embed/hiG3fYq3xUU">
                 </iframe>

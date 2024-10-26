@@ -75,12 +75,12 @@ export async function generateMatchup(
   const project1 = sortedProjects[Math.floor(Math.random() * topProjectsCount)];
 
   const validMatches = sortedProjects
-    .filter((p) => p.id !== project1.id && hoursWithinRange(project1.hours, p.hours));
+    .filter((p) => p.id !== project1.id && hoursWithinRange(project1.total_hours, p.total_hours));
 
   // if (validMatches.length === 0) return null;
 
   const probabilities = validMatches.map((p) =>
-    calculateMatchProbability(project1.hours, p.hours)
+    calculateMatchProbability(project1.total_hours, p.total_hours)
   );
   const totalProbability = probabilities.reduce((a, b) => a + b, 0);
   const normalizedProbabilities = probabilities.map((p) => p / totalProbability);
@@ -99,7 +99,7 @@ export async function generateMatchup(
 
   const project2 = validMatches[project2Index];
   // do we even need this anymorw? It's a remant of past
-  const matchQuality = 1 / (1 + Math.abs(project1.hours - project2.hours) / Math.max(project1.hours, project2.hours));
+  const matchQuality = 1 / (1 + Math.abs(project1.total_hours - project2.total_hours) / Math.max(project1.total_hours, project2.total_hours));
   
   const uniqueVote = await ensureUniqueVote(userSlackId, project1.id, project2.id)
   if (!uniqueVote) return null;
