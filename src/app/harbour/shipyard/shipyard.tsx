@@ -16,7 +16,7 @@ const exampleShips: Ship[] = [
       "https://cloud-hkx2soawz-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
       "https://raw.githubusercontent.com/kaj07/FLIP-SLASH--sprig-/refs/heads/main/README.md",
-    credited_hours: 8.184,
+    credited_hours: 8,
     voteRequirementMet: true,
     doubloonPayout: 421,
     shipType: "project",
@@ -39,8 +39,8 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-pfbh20k1i-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/GalexY727/cotl-music-player/blob/main/README.md",
-    credited_hours: 5.195,
+      "https://raw.githubusercontent.com/GalexY727/cotl-music-player/refs/heads/main/README.md",
+    credited_hours: 5,
     voteRequirementMet: true,
     doubloonPayout: 428,
     shipType: "project",
@@ -62,8 +62,8 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-ma98mn299-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/Beenana02/Portoise_USB_Hub/blob/main/README.md",
-    credited_hours: 15.994,
+      "https://raw.githubusercontent.com/Beenana02/Portoise_USB_Hub/refs/heads/main/README.md",
+    credited_hours: 16,
     voteRequirementMet: true,
     doubloonPayout: 2121,
     shipType: "project",
@@ -85,8 +85,8 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-j29zpdbig-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/MONKEYFACE678/Programming-Theory-Repo/blob/main/ReadMe.txt",
-    credited_hours: 11.018,
+      "https://raw.githubusercontent.com/MONKEYFACE678/Programming-Theory-Repo/refs/heads/main/ReadMe.txt",
+    credited_hours: 11,
     voteRequirementMet: true,
     doubloonPayout: 731,
     shipType: "project",
