@@ -2,6 +2,7 @@ import { hasRecvFirstHeartbeat } from "../../utils/waka";
 import { motion } from "framer-motion";
 import { useEffect, useMemo } from "react";
 import WakatimeSetupInstructions from "./wakatime-setup-instructions";
+import Link from "next/link";
 import KeyPlacesInstructions from "./key-places-instructions";
 
 export default function SignPost({
@@ -50,12 +51,12 @@ export default function SignPost({
 
       <p className="mt-4 text-center">
         Have questions? Need help? Reach out to us in{" "}
-        <a
+        <Link
           className="text-blue-500"
           href="https://hackclub.slack.com/archives/C07PZNMBPBN"
         >
           #low-skies-help
-        </a>
+        </Link>
         !
       </p>
     </motion.div>

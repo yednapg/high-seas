@@ -13,6 +13,7 @@ import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 import { HsSession } from "@/app/utils/auth.js";
+import Link from "next/link";
 
 const ActionArea = ({
   item,
