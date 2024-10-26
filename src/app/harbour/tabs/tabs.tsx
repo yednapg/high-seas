@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
@@ -17,6 +17,28 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { HsSession } from "@/app/utils/auth";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { sample, zeroMessage } from "../../../../lib/flavor";
+
+const Balance = ({ balance }: {balance: number}) => {
+  const [open, setOpen] = useState(false);
+  const brokeMessage = useMemo(() => sample(zeroMessage), [])
+  return (
+    <Popover open={open && balance == 0} onOpenChange={setOpen}>
+      <PopoverTrigger asChild onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+        <div className="flex items-center gap-1">
+          <img src="scales.svg" alt="scales" width={24} height={24} />
+          <span className="mr-2">{Math.floor(balance)} Scales</span>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="text-sm">
+          {brokeMessage} Ship something to earn more!
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 export default function Harbour({
   currentTab,
@@ -145,12 +167,7 @@ export default function Harbour({
           ),
         )}
         <div className="right-px absolute mr-px text-green-400 text-sm">
-          <div className="flex items-center gap-1">
-            <img src="scales.svg" alt="scales" width={24} height={24} />
-            <span className="mr-2">
-              {Math.floor(personTicketBalance)} Scales
-            </span>
-          </div>
+          <Balance balance={personTicketBalance} />
         </div>
       </TabsList>
       <div className="flex-1 overflow-auto p-3" id="harbour-tab-scroll-element">
