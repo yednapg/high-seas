@@ -47,6 +47,7 @@ const ActionArea = ({
         <a
           href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`}
           className="underline"
+          target="_blank"
         >
           Verify here
         </a>
