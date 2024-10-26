@@ -65,7 +65,7 @@ export default async function Marketing() {
               </div>
             </div>
             <Link href="#howthisworks">
-              <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60" />
+              <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
             </Link>
 
             <div className="text-[#214495]">
