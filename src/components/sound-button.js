@@ -9,7 +9,6 @@ const musicSamples = [
   'https://cloud-kh9lkbnpq-hack-club-bot.vercel.app/0lowskies_song_audio.mp4'
 ]
 
-const musicUrl = sample(musicSamples)
 const trumpetUrl = 'https://cloud-74zjdhued-hack-club-bot.vercel.app/1frame_12.png'
 const flagUrl = 'https://cloud-pfu2uqcdh-hack-club-bot.vercel.app/0frame_6.png'
 
@@ -49,11 +48,11 @@ const Flag = ({bot, rot, ani, dur, flip=false}) => {
   }
   const slide_in = flip ? 'animate-slide_in_left' : 'animate-slide_in_right'
   return (
-    <div class={`fixed opacity-0 ${slide_in}`} style={{animationDelay: '8000ms', animationFillMode: 'forwards', top: `0%`, ...pos}}>
+    <div className={`fixed opacity-0 ${slide_in}`} style={{animationDelay: '8000ms', animationFillMode: 'forwards', top: `0%`, ...pos}}>
       <div style={{transform: `rotate(${rot}deg)`}}>
-        <div class={`inline-block animate-[${ani}_750ms_ease-out_0ms_alternate_infinite]`} >
-          <div class="animate-quick_yapping">
-            <img src={flagUrl} class={`w-24 ${flip ? 'scale-x-[-1]' : ''}`} alt="trumpet" />
+        <div className={`inline-block animate-[${ani}_750ms_ease-out_0ms_alternate_infinite]`} >
+          <div className="animate-quick_yapping">
+            <img src={flagUrl} className={`w-24 ${flip ? 'scale-x-[-1]' : ''}`} alt="trumpet" />
           </div>
         </div>
       </div>
@@ -108,6 +107,11 @@ const SoundButton = () => {
       audioRef.current.pause()
     }
   }, [soundState])
+
+  const [ musicUrl, setMusicUrl ] = useState(musicSamples[0])
+  useEffect(() => {
+    setMusicUrl(sample(musicSamples))
+  }, [])
 
   return (
     <>
