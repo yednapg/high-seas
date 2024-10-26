@@ -24,7 +24,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
+import { useSession, signIn, signOut } from "next-auth/react"
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
+import { SiGithub } from "react-icons/si";
 
 export default function NewShipForm({
   ships,
@@ -48,7 +50,7 @@ export default function NewShipForm({
   } | null>(null);
   const [open, setOpen] = useState(false);
   const [isShipUpdate, setIsShipUpdate] = useState(false);
-
+  const { data: gitSession } = useSession()
   // Initialize confetti on mount
   useEffect(() => {
     confettiRef.current = new JSConfetti({ canvas: canvasRef.current });
@@ -271,16 +273,32 @@ export default function NewShipForm({
           {/* )} */}
         </div>
 
-        <div id="repo-field">
-          <label htmlFor="repo_url">Repo URL</label>
-          <input
-            type="url"
-            id="repo_url"
-            name="repo_url"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        <div className="pt-1"/>
+        {gitSession ? (
+          <div id="repo-field">
+            <label htmlFor="repo_url">Repo URL</label>
+            <input
+              type="url"
+              id="repo_url"
+              name="repo_url"
+              required
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        ) : (
+            <>
+            <label className="">Sign in with GitHub
+              <br />
+              <span className="text-xs opacity-50">
+              We need this to verify your ownership of the GitHub repo.
+            </span>
+            </label>
+            <button className="p-2 px-3 flex items-center rounded bg-black text-white" onClick={() => signIn("github")}>
+            <SiGithub className="mr-2" />
+            Sign in with GitHub
+            </button>
+            </>
+        )}
 
         <div id="readme-field">
           <label htmlFor="readme_url">README URL</label>
