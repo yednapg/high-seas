@@ -9,8 +9,12 @@ export default async function Page({ params }: { params: { tab: string } }) {
   const { tab } = params;
   const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
+
   const session = await getSession();
-  if (!session) return redirect("/");
+  if (!session)
+    return redirect(
+      "/slack-error?err='OH NO. Please let Ben know this happened'",
+    );
 
   return (
     <>

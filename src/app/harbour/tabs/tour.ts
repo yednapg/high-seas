@@ -41,6 +41,7 @@ const getCookie = (name: string): string | null => {
 
 const t = new Shepherd.Tour({
   useModalOverlay: true,
+  keyboardNavigation: false,
   defaultStepOptions: {
     scrollTo: false,
     modalOverlayOpeningPadding: 4,
@@ -69,12 +70,8 @@ function setupSteps(tourManager: Tour) {
   signal = controller.signal;
 
   tourManager.on("show", (e) => {
-    const currentStepIndex = tourManager.steps.findIndex(
-      (step) => step === e.step,
-    );
-    if (currentStepIndex === 8) {
-      setCookie("tour-step", "9");
-      console.log("Tour step saved:", currentStepIndex);
+    if (e.step.id === "ts-draft-field-submit") {
+      setCookie("tour-step", "ts-staged-ship-0");
     }
   });
 
@@ -182,9 +179,10 @@ function setupSteps(tourManager: Tour) {
           f.addEventListener(
             "input",
             ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim().toLowerCase() === "hack club site")
+              if (target.value.trim().toLowerCase() === "hack club site") {
                 f.blur();
-              tourManager.next();
+                tourManager.next();
+              }
             },
           );
           r();
@@ -227,7 +225,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-readme",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md');document.getElementById('hc-site-readme-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Paste it into the <code>README</code> field!",
+      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md');document.getElementById('hc-site-readme-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-readme-copy-button'>Click to copy</button></div><br />Paste it into the <code>README</code> field!",
       attachTo: {
         element: "#readme-field",
         on: "right",
@@ -244,9 +242,10 @@ function setupSteps(tourManager: Tour) {
               if (
                 target.value.trim() ===
                 "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md"
-              )
+              ) {
                 f.blur();
-              tourManager.next();
+                tourManager.next();
+              }
             },
           );
           r();
@@ -287,7 +286,11 @@ function setupSteps(tourManager: Tour) {
       buttons: [
         {
           text: "Aye aye!",
-          action: tourManager.next,
+          action: () => {
+            document.querySelector("input#screenshot_url")!.value =
+              "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
+            tourManager.next();
+          },
         },
       ],
     },
@@ -419,10 +422,6 @@ function setupSteps(tourManager: Tour) {
           },
         );
       },
-      advanceOn: {
-        selector: "form#selected-ship-edit-form input#title",
-        event: "change",
-      },
     },
     {
       id: "ts-staged-ship-edit-save",
@@ -443,7 +442,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Let's go!",
           action: () => {
-            setCookie("tour-step", "17");
+            setCookie("tour-step", "ts-vote-left");
             window.location.href = "/thunderdome";
           },
         },
@@ -499,7 +498,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "ok",
           action: () => {
-            setCookie("tour-step", "20");
+            setCookie("tour-step", "ts-shop-welcome");
             location.href = "/shop";
           },
         },
@@ -517,8 +516,16 @@ function setupSteps(tourManager: Tour) {
     },
   ];
 
-  const tourStep = parseInt(getCookie("tour-step") || "0") || 0;
+  const currentStepId = getCookie("tour-step");
 
-  steps.splice(0, tourStep);
+  if (currentStepId) {
+    const currentStepIndex = steps.findIndex(
+      (step) => step.id === currentStepId,
+    );
+    if (currentStepIndex !== -1) {
+      steps.splice(0, currentStepIndex);
+    }
+  }
+
   tourManager.addSteps(steps);
 }

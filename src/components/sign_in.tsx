@@ -21,7 +21,7 @@ export default async function SignIn({
   const textSize = variant === "small" ? "text-base" : "text-2xl";
   return (
     <Link
-      className={`bg-green-400 text-white p-2 px-6 w-fit rounded-lg ${textSize} linkPop`}
+      className={`bg-green-400 text-black p-2 px-6 w-fit rounded-lg ${textSize} linkPop`}
       href={session ? "/signpost" : slackAuthUrl}
     >
       {session ? "Enter the keep" : "Sign in with Hack Club Slack"}
