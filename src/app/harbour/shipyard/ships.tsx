@@ -404,22 +404,21 @@ export default function Ships({
                   <CardContent className="space-y-4">
                     <div>
                       <div className="flex flex-row gap-3 h-12">
-                        <Button
-                          className="flex-grow h-full"
+                        <Link
                           id="selected-ship-play-button"
-                          disabled={!selectedShip.deploymentUrl}
+                          className="flex items-center flex-grow"
+                          target="_blank"
+                          href={selectedShip.deploymentUrl || "#"}
+                          prefetch={false}
                         >
-                          <Link
-                            className="flex items-center"
-                            target="_blank"
-                            href={selectedShip.deploymentUrl || "#"}
-                            prefetch={false}
+                          <Button
+                            className="w-full h-full"
+                            disabled={!selectedShip.deploymentUrl}
                           >
                             Play
                             <Icon glyph="view-forward" />
-                          </Link>
-                        </Button>
-
+                          </Button>
+                        </Link>
                         <Link
                           id="selected-ship-repo-button"
                           target="_blank"

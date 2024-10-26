@@ -70,12 +70,8 @@ function setupSteps(tourManager: Tour) {
   signal = controller.signal;
 
   tourManager.on("show", (e) => {
-    const currentStepIndex = tourManager.steps.findIndex(
-      (step) => step === e.step,
-    );
-    if (currentStepIndex === 8) {
-      setCookie("tour-step", "9");
-      console.log("Tour step saved:", currentStepIndex);
+    if (e.step.id === "ts-draft-field-submit") {
+      setCookie("tour-step", "ts-staged-ship-0");
     }
   });
 
@@ -291,7 +287,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Aye aye!",
           action: () => {
-            document.querySelector("#screenshot-field")!.value =
+            document.querySelector("input#screenshot_url")!.value =
               "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
             tourManager.next();
           },
@@ -426,10 +422,6 @@ function setupSteps(tourManager: Tour) {
           },
         );
       },
-      advanceOn: {
-        selector: "form#selected-ship-edit-form input#title",
-        event: "change",
-      },
     },
     {
       id: "ts-staged-ship-edit-save",
@@ -450,7 +442,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Let's go!",
           action: () => {
-            setCookie("tour-step", "17");
+            setCookie("tour-step", "ts-vote-left");
             window.location.href = "/thunderdome";
           },
         },
@@ -506,7 +498,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "ok",
           action: () => {
-            setCookie("tour-step", "20");
+            setCookie("tour-step", "ts-shop-welcome");
             location.href = "/shop";
           },
         },
@@ -524,8 +516,16 @@ function setupSteps(tourManager: Tour) {
     },
   ];
 
-  const tourStep = parseInt(getCookie("tour-step") || "0") || 0;
+  const currentStepId = getCookie("tour-step");
 
-  steps.splice(0, tourStep);
+  if (currentStepId) {
+    const currentStepIndex = steps.findIndex(
+      (step) => step.id === currentStepId,
+    );
+    if (currentStepIndex !== -1) {
+      steps.splice(0, currentStepIndex);
+    }
+  }
+
   tourManager.addSteps(steps);
 }
