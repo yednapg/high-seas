@@ -3,10 +3,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+  console.log("middleware running");
+
   const searchParams = request.nextUrl.searchParams;
   const magicAuthToken = searchParams.get("magic_auth_token");
 
   const response = NextResponse.next();
+  console.log("middleware running2");
 
   if (magicAuthToken) {
     console.info("maigc auth token:", magicAuthToken);
