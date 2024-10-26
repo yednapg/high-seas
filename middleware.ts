@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   if (magicAuthToken) {
+    console.info("maigc auth token:", magicAuthToken);
     // First check for is_full_user, if so, redirect to slack auth
     // const person =
 
