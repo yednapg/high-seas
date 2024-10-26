@@ -246,9 +246,10 @@ function setupSteps(tourManager: Tour) {
               if (
                 target.value.trim() ===
                 "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md"
-              )
+              ) {
                 f.blur();
-              tourManager.next();
+                tourManager.next();
+              }
             },
           );
           r();
