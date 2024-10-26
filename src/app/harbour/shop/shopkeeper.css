@@ -1,0 +1,43 @@
+#shopkeeper-img {
+  min-width: 100px;
+  max-width: 30%;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+}
+
+#shopkeeper-img.idle {
+  animation: idle 2s infinite alternate;
+  filter: contrast(60%);
+}
+
+#shopkeeper-img.talking {
+  animation: talking 0.5s infinite alternate;
+}
+
+@keyframes idle {
+  from {
+    transform: translateY(0%);
+  } to {
+    transform: translateY(2%);
+  }
+}
+
+@keyframes talking {
+  from {
+    transform: scale(1.01, 0.99) translateY(2%);
+  } to {
+    transform: scale(0.99, 1.01) translateY(0%);
+  }
+}
+
+#shopkeeper-bar {
+  position: sticky;
+  bottom: 0;
+  transition-duration: 2s;
+  pointer-events: none;
+}
+
+#shopkeeper-bar.out-of-view {
+  bottom: -100%;
+}

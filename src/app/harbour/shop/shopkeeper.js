@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { Howl } from 'howler'
 
-import {Howl} from 'howler';
+import './shopkeeper.css'
 
 const bellSoundUrls = [
   "https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/0ding-2-90199_audio.mp4",
@@ -16,6 +17,8 @@ export const ShopkeeperComponent = () => {
   const [bellIndex, setBellIndex] = useState(0)
   const [bellClickCount, setBellClickCount] = useState(0)
   const [continuousBellClicks, setContinuousBellClicks] = useState(0)
+  const [shopkeeperActive, setShopkeeperActive] = useState(false)
+  const [shopkeeperImg, setShopkeeperImg] = useState('racc_avast.png')
 
   const handleServiceBellClick = () => {
     setAtCounter(true)
@@ -30,10 +33,9 @@ export const ShopkeeperComponent = () => {
       <div className="cursor-pointer" onClick={handleServiceBellClick}>🛎️</div>
       <div>(ring for service)</div>
 
-      {atCounter && (
-        <div className="shopkeeper">
-        </div>
-      )}
+      <div id="shopkeeper-bar" className={`shop-stand ${atCounter ? '' : "out-of-view"}`}>
+        <img id="shopkeeper-img" src={shopkeeperImg} className={shopkeeperActive ? 'talking' : 'idle'} />
+      </div>
     </>
   )
 }

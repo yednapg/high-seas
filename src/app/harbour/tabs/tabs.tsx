@@ -171,7 +171,7 @@ export default function Harbour({
       </TabsList>
       <div className="flex-1 overflow-auto p-3" id="harbour-tab-scroll-element">
         {tabs.map((tab) => (
-          <TabsContent key={tab.name} value={tab.path} className="h-full">
+          <TabsContent key={tab.name} value={tab.path} style={{minHeight: '100vh'}}>
             {tab.lockOnNoHb && hasWakaHb !== false && hasWakaHb !== true && (
               <div className="flex justify-center items-center h-64">
                 <LoadingSpinner />

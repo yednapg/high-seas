@@ -65,7 +65,6 @@ export default function Shop({ session }: { session: HsSession }) {
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">
           {bannerText}
         </p>
-        <ShopkeeperComponent />
       </div>
       <div className="text-center mb-6 mt-12">
         <label>pick a region to buy something! </label>
@@ -79,14 +78,20 @@ export default function Shop({ session }: { session: HsSession }) {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {shopItems.filter(getFilter()).map((item: any) => (
-          <ShopItemComponent
-            key={item.id}
-            item={item}
-            filterIndex={filterIndex}
-            personTicketBalance={personTicketBalance} />
-        ))}
+      <div className="relative" style={{minHeight: '100vh'}}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {shopItems.filter(getFilter()).map((item: any) => (
+            <ShopItemComponent
+              key={item.id}
+              item={item}
+              filterIndex={filterIndex}
+              personTicketBalance={personTicketBalance} />
+          ))}
+        </div>
+        <ShopkeeperComponent />
+        <div id="shopkeeper-bar" className={`shop-stand`}>
+          <img id="shopkeeper-img" src={'#'} className={true ? 'talking' : 'idle'} />
+        </div>
       </div>
     </motion.div>
   );
