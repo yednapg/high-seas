@@ -22,6 +22,8 @@ export interface ShopItem {
   priceUs: number;
   priceGlobal: number;
   fulfilledAtEnd: boolean;
+  comingSoon: boolean;
+  outOfStock: boolean;
 }
 
 export async function getShop(): Promise<ShopItem[]> {
@@ -46,6 +48,8 @@ export async function getShop(): Promise<ShopItem[]> {
               priceUs: Number(record.get("tickets_us")) as number,
               priceGlobal: Number(record.get("tickets_global")) as number,
               fulfilledAtEnd: Boolean(record.get("fulfilled_at_end")) as boolean,
+              comingSoon: Boolean(record.get("coming_soon")) as boolean,
+              outOfStock: Boolean(record.get("out_of_stock")) as boolean,
             });
           });
 
