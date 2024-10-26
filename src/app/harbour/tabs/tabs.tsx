@@ -146,7 +146,7 @@ export default function Harbour({
         <div className="right-px absolute mr-px text-green-400 text-sm">
           <div className="flex items-center gap-1">
             <img src="scales.svg" alt="scales" width={24} height={24} />
-            <span className="mr-2">{personTicketBalance} Scales</span>
+            <span className="mr-2">{Math.floor(personTicketBalance)} Scales</span>
           </div>
         </div>
       </TabsList>

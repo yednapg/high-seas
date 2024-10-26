@@ -22,6 +22,7 @@ import {
 import { getWakaSessions } from "@/app/utils/waka";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
@@ -92,13 +93,23 @@ export default function NewShipForm({
     //   formData.append("hours", selectedProject.key.toString());
     // }
 
+    const deploymentUrl = formData.get("deployment_url") as string;
+    if (["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(domain => deploymentUrl.includes(domain))) {
+      toast({
+        title: "That's not a demo link!",
+        description: "Submit a link to a deployed project or a video demo of what your project is instead!",
+      });
+      setStaging(false);
+      return;
+    }
+
     await createShip(formData);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
     setStaging(false);
   };
-
+  const { toast } = useToast();
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">
@@ -123,12 +134,12 @@ export default function NewShipForm({
               you want to Ship an amazing update to it! Click this box and
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
-              <a
+              <Link
                 className="text-blue-500"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
                 #low-skies-help
-              </a>
+              </Link>
               !
             </span>
           </label>
@@ -175,13 +186,13 @@ export default function NewShipForm({
             <span className="text-xs opacity-50">
               If you need to include several of the listed projects in this
               dropdown, you need to update your project labels in the{" "}
-              <a
+              <Link
                 className="text-blue-600"
                 href="https://waka.hackclub.com"
                 target="_blank"
               >
                 Wakatime dashboard
-              </a>
+              </Link>
             </span>
           </label>
 

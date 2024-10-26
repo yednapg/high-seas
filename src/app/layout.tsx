@@ -13,6 +13,16 @@ const mainFont = localFont({
 export const metadata: Metadata = {
   title: "High Seas | Hack Club",
   description: "Build cool projects. Get cool stuff.",
+  openGraph: {
+    images: [
+      {
+        url: "/ogcard.png",
+        width: 1200,
+        height: 630,
+        alt: "High Seas OG Image",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

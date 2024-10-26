@@ -64,9 +64,9 @@ export default function WakatimeSetupInstructions({
                   }
                 />{" "}
                 you get when your projects are voted on in the{" "}
-                <a href="/thunderdome" className="text-blue-500">
+                <Link href="/thunderdome" className="text-blue-500">
                   Thunderdome
-                </a>{" "}
+                </Link>{" "}
                 by other Hack Clubbers.{" "}
                 <Pill
                   msg="Scales"
@@ -76,9 +76,9 @@ export default function WakatimeSetupInstructions({
                   }
                 />{" "}
                 can be exchnged for items in the{" "}
-                <a href="/shop" className="text-blue-500">
+                <Link href="/shop" className="text-blue-500">
                   Shoppe
-                </a>
+                </Link>
                 .
               </p>
               <br />
@@ -98,12 +98,12 @@ export default function WakatimeSetupInstructions({
               <br />
               <p>
                 {"Let's set up WakaTime! First, install the "}
-                <a
+                <Link
                   href="https://wakatime.com/vs-code"
                   className="text-blue-500"
                 >
                   VS Code extension
-                </a>
+                </Link>
                 . Next, we need to edit the configuration file to put in our
                 WakaTime token (to identify you), and a custom URL (to tell the
                 extension to send the data it collects to Low Skies).
