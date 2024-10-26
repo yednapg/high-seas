@@ -96,7 +96,7 @@ export default function NewShipForm({
     const deploymentUrl = formData.get("deployment_url") as string;
     if (["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(domain => deploymentUrl.includes(domain))) {
       toast({
-        title: "A repository URL isn't a ship!",
+        title: "That's not a demo link!",
         description: "Submit a link to a deployed project or a video demo of what your project is instead!",
       });
       setStaging(false);
