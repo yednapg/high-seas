@@ -10,7 +10,6 @@ import JSConfetti from "js-confetti";
 export default function EmailSubmissionForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [wakaKey, setWakaKey] = useState(null);
-  const [wakaUsername, setWakaUsername] = useState(null);
   const [personRecId, setPersonRecId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const confettiRef = useRef<JSConfetti | null>(null);
@@ -61,7 +60,6 @@ export default function EmailSubmissionForm() {
 
       setPersonRecId(personRecordId);
       setWakaKey(apiKey);
-      setWakaUsername(username);
     } catch (error) {
       console.error("Error submitting email:", error);
     } finally {
@@ -80,6 +78,7 @@ export default function EmailSubmissionForm() {
 
       await markArrpheusReadyToInvite(personRecId);
       triggerConfetti();
+      setIsOpen(false);
     } catch (err) {
       console.error("Error while handling modal continue:", err);
     } finally {
@@ -114,8 +113,9 @@ export default function EmailSubmissionForm() {
         <WakatimeSetupTutorialModal
           wakaKey={wakaKey}
           isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isSubmitting={isSubmitting}
           handleContinueFromModal={handleContinueFromModal}
-          wakatimeUsername={wakaUsername}
         />
       ) : null}
     </>

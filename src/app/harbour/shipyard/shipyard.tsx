@@ -8,7 +8,7 @@ import Pill from "@/components/ui/pill";
 
 const exampleShips: Ship[] = [
   {
-    id: "xX_$EXAMPLESHIP$_Xx-1",
+    id: "example_ship_1",
     title: "Flip Slash Sprig Game",
     repoUrl: "https://github.com/kaj07/FLIP-SLASH--sprig-",
     deploymentUrl: "https://sprig.hackclub.com/share/FNUdELr7n4CvmavQAr8d",
@@ -28,10 +28,10 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null,
+    reshippedToId: null
   },
   {
-    id: "xX_$EXAMPLESHIP$_Xx-2",
+    id: "example_ship_2",
     title: "COTL Music Player",
     repoUrl: "https://github.com/galexy727/cotl-music-player",
     deploymentUrl:
@@ -52,10 +52,10 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null,
+    reshippedToId: null
   },
   {
-    id: "xX_$EXAMPLESHIP$_Xx-3",
+    id: "example_ship_3",
     title: "Portoise USB Hub",
     repoUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
     deploymentUrl: "",
@@ -75,10 +75,10 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null,
+    reshippedToId: null
   },
   {
-    id: "xX_$EXAMPLESHIP$_Xx-4",
+    id: "example_ship_4",
     title: "Skeleton Summoner Game",
     repoUrl: "https://github.com/MONKEYFACE678/Programming-Theory-Repo",
     deploymentUrl: "",
@@ -98,7 +98,7 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null,
+    reshippedToId: null
   },
 ];
 
@@ -144,23 +144,13 @@ export default function Shipyard({
             />
           </div>
         )}
-        <Ships
-          ships={ships}
-          shipChains={shipChains}
-          setShips={setShips}
-          bareShips={false}
-        />
+        <Ships ships={ships} shipChains={shipChains} setShips={setShips} bareShips={false} />
 
         <div className="flex flex-col justify-center items-center mt-8">
           <h2 className="text-xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </h2>
-          <Ships
-            ships={exampleShips}
-            bareShips={true}
-            shipChains={new Map()}
-            setShips={() => {}}
-          />
+          <Ships ships={exampleShips} bareShips={true} shipChains={new Map()} setShips={() => {}} />
         </div>
       </>
     );
