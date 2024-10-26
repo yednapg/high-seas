@@ -13,6 +13,7 @@ import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 import { HsSession } from "@/app/utils/auth.js";
+import Link from "next/link";
 
 const ActionArea = ({
   itemId,
@@ -44,12 +45,12 @@ const ActionArea = ({
       <p className="text-red-500 text-sm text-center w-full">
         Verification required!
         <br />
-        <a
+        <Link
           href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`}
           className="underline"
         >
           Verify here
-        </a>
+        </Link>
       </p>
     );
   }
