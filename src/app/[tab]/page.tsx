@@ -17,7 +17,13 @@ export default function Page({
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    getSession().then((s) => setSession(s));
+    getSession().then((s) => {
+      if (s) {
+        setSession(s);
+      } else {
+        window.location.pathname = "/?msg=Oi oi oi, you can't be going there";
+      }
+    });
   }, []);
 
   const { tab } = params;
@@ -36,8 +42,6 @@ export default function Page({
     );
   }
 
-  if (!session) return <div>Loading session...</div>;
-
   return (
     <>
       <div
@@ -51,7 +55,11 @@ export default function Page({
       <div className="w-full min-h-screen pt-14 flex items-start justify-center p-8">
         <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
-          <Harbour session={session} currentTab={tab} />
+          {session ? (
+            <Harbour session={session} currentTab={tab} />
+          ) : (
+            <p className="text-center">Session is loading...</p>
+          )}
         </Card>
       </div>
     </>
