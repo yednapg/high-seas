@@ -71,7 +71,7 @@ export async function generateMatchup(
   const eligibleProjects = projects.filter(p => 
     !p.doubloon_payout && 
     !userVotedShips.has(p.autonumber?.toString()) && 
-    p.entrant__slack_id[0] !== userSlackId
+    p.entrant__slack_id[0] !== userSlackId                        
   );
 
   let project1: Ships;
@@ -109,7 +109,6 @@ export async function generateMatchup(
   if (!uniqueVote) {
     // If not a user has already voted on this matchup, recursively try again until new matchups is found or 5 attempts are made that fail
     return generateMatchup(projects, userSlackId, attempts + 1);
-  }
 
   return signMatchup({
     project1: finalProject1,

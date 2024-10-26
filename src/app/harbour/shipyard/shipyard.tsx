@@ -16,12 +16,19 @@ const exampleShips: Ship[] = [
       "https://cloud-hkx2soawz-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
       "https://raw.githubusercontent.com/kaj07/FLIP-SLASH--sprig-/refs/heads/main/README.md",
-    hours: 8.184,
+    credited_hours: 8,
     voteRequirementMet: true,
     doubloonPayout: 421,
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "flip slash sprig game",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_2",
@@ -32,13 +39,20 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-pfbh20k1i-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/GalexY727/cotl-music-player/blob/main/README.md",
-    hours: 5.195,
+      "https://raw.githubusercontent.com/GalexY727/cotl-music-player/refs/heads/main/README.md",
+    credited_hours: 5,
     voteRequirementMet: true,
     doubloonPayout: 428,
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "cotl music player",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_3",
@@ -48,13 +62,20 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-ma98mn299-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/Beenana02/Portoise_USB_Hub/blob/main/README.md",
-    hours: 15.994,
+      "https://raw.githubusercontent.com/Beenana02/Portoise_USB_Hub/refs/heads/main/README.md",
+    credited_hours: 16,
     voteRequirementMet: true,
     doubloonPayout: 2121,
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "example ship 3",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_4",
@@ -64,13 +85,20 @@ const exampleShips: Ship[] = [
     screenshotUrl:
       "https://cloud-j29zpdbig-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
-      "https://github.com/MONKEYFACE678/Programming-Theory-Repo/blob/main/ReadMe.txt",
-    hours: 11.018,
+      "https://raw.githubusercontent.com/MONKEYFACE678/Programming-Theory-Repo/refs/heads/main/ReadMe.txt",
+    credited_hours: 11,
     voteRequirementMet: true,
     doubloonPayout: 731,
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "example ship 4",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
 ];
 
@@ -94,10 +122,10 @@ export default function Shipyard({
     <LoadingSpinner />;
   } else {
     return (
-      <div>
-        <div className="text-center">
-          <h1 className="font-heading text-5xl font-bold text-blue-500 mb-6 text-center relative w-fit mx-auto">
-            The Keep
+      <>
+        <div className="text-center text-white">
+          <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
+            The Shipyard
             <span
               className="absolute text-sm animate-pulse mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
               style={{ textShadow: "#404100 3px 3px", translate: "-6em 1.5em" }}
@@ -112,18 +140,19 @@ export default function Shipyard({
               msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Thunderdome!`}
               color="red"
               glyph="important"
+              id={""}
             />
           </div>
         )}
-        <Ships ships={ships} shipChains={shipChains} setShips={setShips} />
+        <Ships ships={ships} shipChains={shipChains} setShips={setShips} bareShips={false} />
 
         <div className="flex flex-col justify-center items-center mt-8">
           <h2 className="text-xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </h2>
-          <Ships ships={exampleShips} bareShips={true} />
+          <Ships ships={exampleShips} bareShips={true} shipChains={new Map()} setShips={() => {}} />
         </div>
-      </div>
+      </>
     );
   }
 }

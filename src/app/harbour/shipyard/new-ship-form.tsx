@@ -22,6 +22,7 @@ import {
 import { getWakaSessions } from "@/app/utils/waka";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
@@ -70,6 +71,13 @@ export default function NewShipForm({
           ),
         );
 
+        if (sessionStorage.getItem("tutorial") === "true") {
+          setProjects((p) => [
+            { key: "hack-club-site", total: 123 * 60 * 60 },
+            ...p!,
+          ]);
+        }
+
         console.log(res);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -85,13 +93,23 @@ export default function NewShipForm({
     //   formData.append("hours", selectedProject.key.toString());
     // }
 
+    const deploymentUrl = formData.get("deployment_url") as string;
+    if (["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(domain => deploymentUrl.includes(domain))) {
+      toast({
+        title: "That's not a demo link!",
+        description: "Submit a link to a deployed project or a video demo of what your project is instead!",
+      });
+      setStaging(false);
+      return;
+    }
+
     await createShip(formData);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
     setStaging(false);
   };
-
+  const { toast } = useToast();
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">
@@ -116,12 +134,12 @@ export default function NewShipForm({
               you want to Ship an amazing update to it! Click this box and
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
-              <a
+              <Link
                 className="text-blue-500"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
                 #low-skies-help
-              </a>
+              </Link>
               !
             </span>
           </label>
@@ -150,7 +168,7 @@ export default function NewShipForm({
           ) : null}
         </AnimatePresence>
 
-        <div>
+        <div id="title-field">
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -162,19 +180,19 @@ export default function NewShipForm({
         </div>
 
         {/* Project Dropdown */}
-        <div>
+        <div id="project-field">
           <label htmlFor="project" className="leading-0">
             Select Project <br />
             <span className="text-xs opacity-50">
               If you need to include several of the listed projects in this
               dropdown, you need to update your project labels in the{" "}
-              <a
+              <Link
                 className="text-blue-600"
                 href="https://waka.hackclub.com"
                 target="_blank"
               >
                 Wakatime dashboard
-              </a>
+              </Link>
             </span>
           </label>
 
@@ -195,7 +213,7 @@ export default function NewShipForm({
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="w-full p-0 z-[9998]">
               <Command>
                 <CommandInput placeholder="Search projects..." />
                 <CommandList>
@@ -243,16 +261,17 @@ export default function NewShipForm({
           </Popover>
 
           {/* Hidden input to include in formData */}
-          {selectedProject && (
-            <input
-              type="hidden"
-              name="wakatime_project_name"
-              value={selectedProject.key}
-            />
-          )}
+          {/* {selectedProject && ( */}
+          <input
+            type="hidden"
+            id="wakatime-project-name"
+            name="wakatime_project_name"
+            value={selectedProject?.key || ""}
+          />
+          {/* )} */}
         </div>
 
-        <div>
+        <div id="repo-field">
           <label htmlFor="repo_url">Repo URL</label>
           <input
             type="url"
@@ -263,7 +282,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="readme-field">
           <label htmlFor="readme_url">README URL</label>
           <input
             type="url"
@@ -274,7 +293,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="deployment-field">
           <label htmlFor="deployment_url">
             Demo Link (Project / Video URL)
           </label>
@@ -287,7 +306,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <div>
+        <div id="screenshot-field">
           <label htmlFor="screenshot_url">
             Screenshot URL
             <br />
@@ -313,7 +332,7 @@ export default function NewShipForm({
           />
         </div>
 
-        <Button type="submit" disabled={staging}>
+        <Button type="submit" disabled={staging} id="new-ship-submit">
           {staging ? (
             <>
               <Icon glyph="more" />

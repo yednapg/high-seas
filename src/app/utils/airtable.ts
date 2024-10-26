@@ -16,7 +16,13 @@ export const getSelfPerson = async (slackId: string) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error(e, await response.text());
+    throw e;
+  }
   return data.records[0];
 };
 
@@ -39,8 +45,9 @@ export async function getPersonByMagicToken(token: string): Promise<{
   });
 
   if (!response.ok) {
-    console.error("Airtable API error:", await response.text());
-    return null;
+    const err = new Error(`Airtable API error: ${await response.text()}`);
+    console.error(err);
+    throw err;
   }
 
   const data = await response.json();

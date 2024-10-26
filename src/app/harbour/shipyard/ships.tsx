@@ -13,42 +13,15 @@ import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
 import Link from "next/link";
 
-import ScalesImage from "/public/scales.svg";
-import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
 import ReadmeHelperImg from "/public/readme-helper.png";
 import NewUpdateForm from "./new-update-form";
 
-function ago(date) {
-  const now = new Date();
-  const diffInSeconds = Math.floor((now - date) / 1000);
-
-  const intervals = [
-    { label: "year", seconds: 31536000 },
-    { label: "month", seconds: 2592000 },
-    { label: "day", seconds: 86400 },
-    { label: "hour", seconds: 3600 },
-    { label: "minute", seconds: 60 },
-    { label: "second", seconds: 1 },
-  ];
-
-  for (let i = 0; i < intervals.length; i++) {
-    const interval = intervals[i];
-    const count = Math.floor(diffInSeconds / interval.seconds);
-
-    if (count >= 1) {
-      return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
-    }
-  }
-
-  return "just now";
-}
-
 export default function Ships({
   ships,
-  shipChains,
+  shipChains = new Map(),
   bareShips = false,
   setShips,
 }: {
@@ -70,15 +43,15 @@ export default function Ships({
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    getSession().then((sesh) => setSession(sesh));
+  }, []);
+
+  useEffect(() => {
     setSelectedShip((s: Ship | null) => {
       if (!s) return null;
       return ships.find((x) => x.id === s.id) || null;
     });
   }, [ships]);
-
-  useEffect(() => {
-    getSession().then((sesh) => setSession(sesh));
-  }, []);
 
   useEffect(() => {
     // I.e. if the user has just edited a ship
@@ -120,19 +93,48 @@ export default function Ships({
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
 
-  // const selectedProjectWakatimeProjectShipChain = selectedShip
-  //   ? shipChains.get(selectedShip.wakatimeProjectName)
-  //   : null;
+  // let selectedProjectWakatimeProjectShipChain;
+
+  // if (selectedShip) {
+  //   try {
+  //     selectedProjectWakatimeProjectShipChain = shipChains.get(
+  //       selectedShip.wakatimeProjectName,
+  //     );
+  //   } catch (e) {
+  //     console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
+  //   }
+  // }
+
+  useEffect(() => {
+    if (newShipVisible) {
+      // Lock body scroll when modal opens
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = "15px"; // Prevent layout shift from scrollbar removal
+    } else {
+      // Restore body scroll when modal closes
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    }
+
+    // Cleanup when component unmounts
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    };
+  }, [newShipVisible]);
 
   const SingleShip = ({
     s,
+    id,
     setNewShipVisible,
   }: {
     s: Ship;
+    id: string;
     setNewShipVisible: any;
   }) => (
     <div
       key={s.id}
+      id={id}
       onClick={() => setSelectedShip(s)}
       className="cursor-pointer"
     >
@@ -166,6 +168,7 @@ export default function Ships({
           <div className="mt-4 sm:mt-0 sm:ml-auto">
             {s.shipStatus === "staged" ? (
               <Button
+                id="ship-ship"
                 onClick={async (e) => {
                   e.stopPropagation();
                   console.log("Shipping", s);
@@ -206,7 +209,12 @@ export default function Ships({
           className="w-fit mx-auto mb-0 mt-3"
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
-          <Button className="text-xl" onClick={() => setNewShipVisible(true)}>
+          <Button
+            className="text-xl text-white"
+            style={{ background: "#D236E2" }}
+            id="start-ship-draft"
+            onClick={() => setNewShipVisible(true)}
+          >
             Draft a new Ship!
           </Button>
         </motion.div>
@@ -220,11 +228,12 @@ export default function Ships({
             </h2>
           )}
 
-          <div className="space-y-4">
+          <div id="staged-ships-container" className="space-y-4">
             {stagedShips.map((ship: Ship, idx: number) => (
               <SingleShip
                 s={ship}
                 key={ship.id}
+                id={`staged-ship-${idx}`}
                 setNewShipVisible={setNewShipVisible}
               />
             ))}
@@ -245,6 +254,7 @@ export default function Ships({
               <SingleShip
                 s={ship}
                 key={ship.id}
+                id={`shipped-ship-${idx}`}
                 setNewShipVisible={setNewShipVisible}
               />
             ))}
@@ -268,34 +278,31 @@ export default function Ships({
       </div>
 
       <AnimatePresence>
-        {newShipVisible && session && (
+        {newShipVisible && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
             onClick={() => setNewShipVisible(false)}
           >
-            <Card
-              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <NewShipForm
-                ships={ships}
-                canvasRef={canvasRef}
-                closeForm={() => setNewShipVisible(false)}
-                session={session}
-              />
-
-              <motion.button
-                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-                onClick={() => setNewShipVisible(false)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icon glyph="view-close" />
-              </motion.button>
-            </Card>
+            <div className="min-h-screen px-4 pt-32 pb-20">
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-full max-w-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Card className="relative w-full">
+                    <NewShipForm
+                      ships={ships}
+                      canvasRef={canvasRef}
+                      closeForm={() => setNewShipVisible(false)}
+                      session={session}
+                    />
+                  </Card>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -339,6 +346,7 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            id="selected-ship-card-parent"
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             onClick={() => setSelectedShip(null)}
           >
@@ -363,7 +371,10 @@ export default function Ships({
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
                 </div>
 
-                <div className="overflow-y-auto flex-grow pt-48">
+                <div
+                  className="overflow-y-auto flex-grow pt-48"
+                  id="selected-ship-card"
+                >
                   <CardHeader className="relative">
                     <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
                     <p className="opacity-50">
@@ -381,21 +392,24 @@ export default function Ships({
                   <CardContent className="space-y-4">
                     <div>
                       <div className="flex flex-row gap-3 h-12">
-                        <Button
-                          className="flex-grow h-full"
-                          disabled={!selectedShip.deploymentUrl}
+                        <Link
+                          id="selected-ship-play-button"
+                          className="flex items-center flex-grow"
+                          target="_blank"
+                          href={selectedShip.deploymentUrl || "#"}
+                          prefetch={false}
                         >
-                          <Link
-                            className="flex items-center"
-                            href={selectedShip.deploymentUrl || "#"}
-                            prefetch={false}
+                          <Button
+                            className="w-full h-full"
+                            disabled={!selectedShip.deploymentUrl}
                           >
                             Play
                             <Icon glyph="view-forward" />
-                          </Link>
-                        </Button>
-
+                          </Button>
+                        </Link>
                         <Link
+                          id="selected-ship-repo-button"
+                          target="_blank"
                           className={`${buttonVariants({ variant: "outline" })} h-full`}
                           href={selectedShip.repoUrl}
                           prefetch={false}
@@ -404,6 +418,7 @@ export default function Ships({
                         </Link>
 
                         <Button
+                          id="selected-ship-edit-button"
                           className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
                           onClick={() => setIsEditingShip((p) => !p)}
                         >

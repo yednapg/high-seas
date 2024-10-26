@@ -90,11 +90,13 @@ export async function handleEmailSubmission(
 
   const apiKey = signup.api_key;
   const created = signup.created;
+  const username = signup.username;
 
   return {
     apiKey,
     created,
     personRecordId,
+    username,
   };
 }
 
