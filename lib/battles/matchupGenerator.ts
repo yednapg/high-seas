@@ -37,10 +37,22 @@ export function verifyMatchup(signedMatchup: { winner: string; loser: string; ma
 /**
  * Generates a matchup between two projects for voting.
  * 
- * Process:
- * 1. Sort projects by matchup score (prioritizing less-matched projects).
- * 2. Select first project from top 20% of sorted projects.
- * 3. Filter valid matches based on hours similarity.
+ * 1. Check if maximum attempts (5) have been reached.
+ * 2. Retrieve user information by Slack ID.
+ * 3. Filter eligible projects:
+ *    - Not paid out (no doubloon_payout)
+ *    - Not previously voted on by the user
+ *    - Not created by the current user
+ * 4. Select project1:
+ *    - If eligible projects exist, sort by ship_time and use weighted random selection
+ *    - If no eligible projects, select any project not created by the current user
+ * 5. Select project2:
+ *    - Filter paid projects (with doubloon_payout)
+ *    - Choose the paid project with the closest total_hours to project1
+ * 6. Randomize the order of project1 and project2
+ * 7. Ensure the matchup is unique (not previously voted on)
+ * 8. If not unique, recursively try again (up to 5 attempts)
+ * 9. Sign and return the matchup
  */
 export async function generateMatchup(
   projects: Ships[],
@@ -56,7 +68,6 @@ export async function generateMatchup(
   if (!user) return null;
   const userVotedShips = new Set(user.all_battle_ship_autonumbers || []);
 
-  // First project selection
   const eligibleProjects = projects.filter(p => 
     !p.doubloon_payout && 
     !userVotedShips.has(p.autonumber?.toString()) && 
@@ -75,7 +86,6 @@ export async function generateMatchup(
     project1 = projects.find(p => p.entrant__slack_id[0] !== userSlackId)!;
   }
 
-  // Second project selection
   const paidProjects = projects.filter(p => 
     p.doubloon_payout && 
     p.entrant__slack_id[0] !== userSlackId && 
@@ -88,14 +98,16 @@ export async function generateMatchup(
       : closest
   );
 
-  // Randomize order
+  // Randomize order to eliminate left-right bias
   const [finalProject1, finalProject2] = Math.random() < 0.5 
     ? [project1, project2] 
     : [project2, project1];
 
+
+  // tbh, this should not be needed as we are fltering projects that have been already voted by user in project 1, but this is a failsafe
   const uniqueVote = await ensureUniqueVote(userSlackId, finalProject1.id, finalProject2.id);
   if (!uniqueVote) {
-    // If not a unique vote, recursively try again
+    // If not a user has already voted on this matchup, recursively try again until new matchups is found or 5 attempts are made that fail
     return generateMatchup(projects, userSlackId, attempts + 1);
   }
 
