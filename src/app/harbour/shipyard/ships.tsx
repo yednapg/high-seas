@@ -105,24 +105,6 @@ export default function Ships({
   //   }
   // }
 
-  useEffect(() => {
-    if (newShipVisible) {
-      // Lock body scroll when modal opens
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = "15px"; // Prevent layout shift from scrollbar removal
-    } else {
-      // Restore body scroll when modal closes
-      document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "0px";
-    }
-
-    // Cleanup when component unmounts
-    return () => {
-      document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "0px";
-    };
-  }, [newShipVisible]);
-
   const SingleShip = ({
     s,
     id,
@@ -283,7 +265,7 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
+            className="absolute inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
             onClick={() => setNewShipVisible(false)}
           >
             <div className="min-h-screen px-4 pt-32 pb-20">
@@ -292,7 +274,10 @@ export default function Ships({
                   className="w-full max-w-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Card className="relative w-full">
+                  <Card
+                    id="new-ship-form-container-card"
+                    className="relative w-full"
+                  >
                     <NewShipForm
                       ships={ships}
                       canvasRef={canvasRef}
@@ -347,14 +332,24 @@ export default function Ships({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             id="selected-ship-card-parent"
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="absolute inset-0 bg-black bg-opacity-50 z-50"
             onClick={() => setSelectedShip(null)}
           >
+            {/* <div className="min-h-screen px-4 pt-32 pb-20">
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-full max-w-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Card
+                    id="new-ship-form-container-card"
+                    className="relative w-full"
+                  > */}
             <motion.div
-              className="bg-white rounded-lg w-full max-w-2xl"
+              className="w-full max-w-2xl mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <Card className="relative h-[80vh] overflow-hidden flex flex-col">
+              <Card className="relative h-full overflow-hidden flex flex-col">
                 <div className="absolute top-0 left-0 right-0 h-48 z-10">
                   <Image
                     src={selectedShip.screenshotUrl}
