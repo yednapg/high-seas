@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
-import { purchaseWords, sample, shopBanner } from "../../../../lib/flavor.js";
+import { purchaseWords, sample, shopBanner , cantAffordWords} from "../../../../lib/flavor.js";
 import { useState, useEffect, useMemo } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
@@ -16,44 +16,56 @@ import { HsSession } from "@/app/utils/auth.js";
 import Link from "next/link";
 
 const ActionArea = ({
-  itemId,
+  item,
   slackId,
   filterIndex,
   verificationStatus,
+  affordable
 }: {
-  itemId: string;
+  item: ShopItem;
   slackId: string;
   filterIndex: number;
   verificationStatus: string;
+  affordable: boolean;
 }) => {
-  const buyWord = useMemo(() => sample(purchaseWords), [itemId]);
+  const buyWord = useMemo(() => sample(purchaseWords), [item.id]);
+  const getYourRacksUp = useMemo(() => sample(cantAffordWords), [item.id]);
+
   if (filterIndex == 0) {
-    return null;
-  } else if (
-    verificationStatus === "Eligible L1" ||
-    verificationStatus === "Eligible L2"
-  ) {
     return (
-      <form action={`/api/buy/${itemId}`} method="POST" className="w-full">
+        <Button disabled={true}>
+          pick a region to buy!
+        </Button>
+    );
+  }
+    if(item.comingSoon) {
+      return (
+          <Button disabled={true}>
+            🕑 coming soon...
+          </Button>
+      )
+    }
+    if(item.outOfStock) {
+      return (
+          <Button disabled={true}>
+            out of stock...
+          </Button>
+      )
+    }
+    if(!affordable) {
+      return (
+          <Button disabled={true}>
+            💸 {getYourRacksUp}
+          </Button>
+      )
+    }
+    return (
+      <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
         <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">
           {buyWord}
         </Button>
       </form>
     );
-  } else {
-    return (
-      <p className="text-red-500 text-sm text-center w-full">
-        Verification required!
-        <br />
-        <Link
-          href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`}
-          className="underline"
-        >
-          Verify here
-        </Link>
-      </p>
-    );
-  }
 };
 
 export default function Shop({ session }: { session: HsSession }) {
@@ -65,8 +77,10 @@ export default function Shop({ session }: { session: HsSession }) {
     "cache.shopItems",
     null,
   );
+  const [personTicketBalance] = useLocalStorageState<string>("cache.personTicketBalance", "-");
+
   const [bannerText, setBannerText] = useState("");
-  const verificationStatus = /*session.verificationStatus[0] ||*/ "unverified";
+  const verificationStatus = /*session.verificationStatus[0] ||*/ "Eligible L1";
   const slackId = session.slackId;
 
   useEffect(() => {
@@ -143,7 +157,6 @@ export default function Shop({ session }: { session: HsSession }) {
                 <div className="flex justify-between items-start">
                   <CardTitle className="text-xl font-bold">
                     {item.name}
-                    {item.fulfilledAtEnd && "*"}
                   </CardTitle>
                   <span className="text-green-500 font-semibold flex items-center">
                     <img
@@ -156,8 +169,7 @@ export default function Shop({ session }: { session: HsSession }) {
                     {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  {item.subtitle || ""}
+                <p className="text-sm text-gray-600 mt-1" dangerouslySetInnerHTML={{__html: item.subtitle ?? ""}}>
                 </p>
               </CardHeader>
               {item.imageUrl && (
@@ -173,20 +185,16 @@ export default function Shop({ session }: { session: HsSession }) {
               )}
               <CardFooter className="pt-4">
                 <ActionArea
-                  itemId={item.id}
+                  item={item}
                   slackId={slackId}
                   filterIndex={filterIndex}
                   verificationStatus={verificationStatus}
+                  affordable={(filterIndex == 1 ? item.priceUs : item.priceGlobal) < parseInt(personTicketBalance)}
                 />
               </CardFooter>
             </Card>
           </motion.div>
         ))}
-      </div>
-      <div className="text-center mb-6 mt-12">
-        <label>
-          Items marked with * will ship out after the event concludes.
-        </label>
       </div>
     </motion.div>
   );
