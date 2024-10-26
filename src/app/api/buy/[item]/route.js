@@ -1,7 +1,8 @@
 import { getSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
-import { getSelfPerson } from "@/app/utils/airtable";
+import { getSelfPerson} from "@/app/utils/airtable";
+import {base} from "airtable";
 
 export async function POST(request, { params }) {
   const session = await getSession();
@@ -12,8 +13,8 @@ export async function POST(request, { params }) {
       { status: 418 },
     );
   }
-
-  const items = await Airtable.base(process.env.BASE_ID)("shop_items");
+  const b = await base(process.env.BASE_ID)
+  const items = await b("shop_items");
 
   const recs = await items
     .select({
