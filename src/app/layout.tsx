@@ -6,7 +6,7 @@ import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
 
 const mainFont = localFont({
-  src: "../../public/fonts/ADLaMDisplay-Regular.ttf",
+  src: "../../public/fonts/arialroundedmtbold.ttf",
   variable: "--font-main",
 });
 
