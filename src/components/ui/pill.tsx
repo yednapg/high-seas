@@ -20,7 +20,7 @@ export default function Pill({
   glyphSize?: number;
   glyphStyles?: React.CSSProperties;
   percentage?: number;
-  id: string;
+  id?: string;
 }) {
   const colorClasses = {
     red: "text-red-600 bg-red-50 border-red-500/10",
