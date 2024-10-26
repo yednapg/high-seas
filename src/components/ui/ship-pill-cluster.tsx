@@ -18,13 +18,13 @@ export default function ShipPillCluster({
 
   return (
     <>
-      <Pill msg={`${ship.hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
+      <Pill msg={`${ship.credited_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
         (ship.voteRequirementMet ? (
           ship.doubloonPayout ? (
             <Pill
-              msg={`${ship.doubloonPayout} Scales`}
+              msg={`${Math.floor(ship.doubloonPayout)} Scales`}
               color="green"
               glyphImage={<Image src={ScalesImage} alt="scales" height={20} />}
             />
