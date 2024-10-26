@@ -158,14 +158,17 @@ export default function Harbour({
                 <LoadingSpinner />
               </div>
             )}
-            {tab.lockOnNoHb && hasWakaHb === false && (
+            {tab.lockOnNoHb &&
+            hasWakaHb === false &&
+            sessionStorage.getItem("tutorial") !== "true" ? (
               <WakaLock
                 wakaOverride={() => setHasWakaHb(true)}
                 wakaToken={wakaToken}
                 tabName={tab.name}
               />
+            ) : (
+              tab.component
             )}
-            {(!tab.lockOnNoHb || hasWakaHb) && tab.component}
           </TabsContent>
         ))}
       </div>

@@ -49,12 +49,13 @@ export default function EmailSubmissionForm() {
 
       setIsOpen(true);
 
-      const { created, apiKey, personRecordId } =
+      const { created, apiKey, personRecordId, username } =
         await handleEmailSubmission(email);
       console.log("Waka account response:", {
         created,
         apiKey,
         personRecordId,
+        username,
       });
 
       setPersonRecId(personRecordId);
