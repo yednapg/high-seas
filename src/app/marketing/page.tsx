@@ -65,7 +65,7 @@ export default async function Marketing() {
               </div>
             </div>
             <Link href="#howthisworks">
-              <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60" />
+              <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
             </Link>
 
             <div className="text-[#214495]">
@@ -92,7 +92,7 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                . For teens. Starts October 30. Ends January 31.
+                . For teenagers 18 and under. Starts October 30. Ends January 31.
               </p>
             </div>
           </div>
@@ -629,7 +629,7 @@ export default async function Marketing() {
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center">
-              <p className="text-4xl text-white">
+              <p className="text-4xl text-white mb-4">
                 Build. Battle. Booty. Repeat.
               </p>
               <EmailSubmissionForm />

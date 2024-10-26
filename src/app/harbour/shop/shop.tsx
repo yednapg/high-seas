@@ -7,6 +7,7 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 import { HsSession } from "@/app/utils/auth.js";
 
 import { ShopItemComponent } from "./shop-item-component.js"
+import { ShopkeeperComponent } from "./shopkeeper.js"
 
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
@@ -64,11 +65,12 @@ export default function Shop({ session }: { session: HsSession }) {
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">
           {bannerText}
         </p>
+        <ShopkeeperComponent />
       </div>
       <div className="text-center mb-6 mt-12">
         <label>pick a region to buy something! </label>
         <select onChange={onOptionChangeHandler} value={filterIndex} className="text-gray-600">
-          <option value="0">️🐉 all regions</option>
+          <option value="0">️🏴‍☠️ all across the 7 seas</option>
           <option value="1">🇺🇸 US</option>
           <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
           <option value="3">🇮🇳 India</option>
@@ -82,9 +84,7 @@ export default function Shop({ session }: { session: HsSession }) {
           <ShopItemComponent
             key={item.id}
             item={item}
-            slackId={slackId}
             filterIndex={filterIndex}
-            verificationStatus={verificationStatus}
             personTicketBalance={personTicketBalance} />
         ))}
       </div>

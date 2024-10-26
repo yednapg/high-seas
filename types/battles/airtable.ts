@@ -5,7 +5,6 @@ export interface Ships extends FieldSet {
   identifier?: string;
   title: string;
   credited_hours: number;
-  hours: number;
   total_hours: number;
   rating?: number;
   entrant: string[];
@@ -46,4 +45,5 @@ export interface Person extends FieldSet {
   email: string;
   slack_id: string;
   verification_status?: string;
+  all_battle_ship_autonumbers?: string[];
 }
