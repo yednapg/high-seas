@@ -22,6 +22,13 @@ const exampleShips: Ship[] = [
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "flip slash sprig game",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_2",
@@ -39,6 +46,13 @@ const exampleShips: Ship[] = [
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "cotl music player",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_3",
@@ -55,6 +69,13 @@ const exampleShips: Ship[] = [
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "example ship 3",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
   {
     id: "example_ship_4",
@@ -71,6 +92,13 @@ const exampleShips: Ship[] = [
     shipType: "project",
     shipStatus: "shipped",
     wakatimeProjectName: "example ship 4",
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null
   },
 ];
 
