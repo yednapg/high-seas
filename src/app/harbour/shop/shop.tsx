@@ -156,8 +156,7 @@ export default function Shop({ session }: { session: HsSession }) {
                     {filterIndex == 1 ? item.priceUs : item.priceGlobal}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">
-                  {item.subtitle || ""}
+                <p className="text-sm text-gray-600 mt-1" dangerouslySetInnerHTML={{__html: item.subtitle ?? ""}}>
                 </p>
               </CardHeader>
               {item.imageUrl && (
