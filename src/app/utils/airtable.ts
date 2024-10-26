@@ -16,7 +16,13 @@ export const getSelfPerson = async (slackId: string) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error(e, await response.text());
+    throw e;
+  }
   return data.records[0];
 };
 
