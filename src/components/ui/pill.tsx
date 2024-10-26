@@ -10,7 +10,7 @@ export default function Pill({
   glyphSize = 24,
   glyphStyles = {},
   percentage,
-  id,
+  id = "",
 }: {
   msg: string;
   color?: "red" | "yellow" | "green" | "blue" | "purple" | "gray";

@@ -140,16 +140,17 @@ export default function Shipyard({
               msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Thunderdome!`}
               color="red"
               glyph="important"
+              id={""}
             />
           </div>
         )}
-        <Ships ships={ships} shipChains={shipChains} setShips={setShips} />
+        <Ships ships={ships} shipChains={shipChains} setShips={setShips} bareShips={false} />
 
         <div className="flex flex-col justify-center items-center mt-8">
           <h2 className="text-xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </h2>
-          <Ships ships={exampleShips} bareShips={true} />
+          <Ships ships={exampleShips} bareShips={true} shipChains={new Map()} setShips={() => {}} />
         </div>
       </div>
     );

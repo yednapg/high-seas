@@ -48,7 +48,7 @@ function ago(date) {
 
 export default function Ships({
   ships,
-  shipChains,
+  shipChains = new Map(),
   bareShips = false,
   setShips,
 }: {
