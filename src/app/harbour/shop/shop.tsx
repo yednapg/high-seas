@@ -68,7 +68,7 @@ export default function Shop({ session }: { session: HsSession }) {
       <div className="text-center mb-6 mt-12">
         <label>pick a region to buy something! </label>
         <select onChange={onOptionChangeHandler} value={filterIndex} className="text-gray-600">
-          <option value="0">️🐉 all regions</option>
+          <option value="0">️🏴‍☠️ all across the 7 seas</option>
           <option value="1">🇺🇸 US</option>
           <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
           <option value="3">🇮🇳 India</option>
@@ -82,9 +82,7 @@ export default function Shop({ session }: { session: HsSession }) {
           <ShopItemComponent
             key={item.id}
             item={item}
-            slackId={slackId}
             filterIndex={filterIndex}
-            verificationStatus={verificationStatus}
             personTicketBalance={personTicketBalance} />
         ))}
       </div>
