@@ -36,10 +36,7 @@ const ActionArea = ({
           pick a region to buy!
         </Button>
     );
-  } else if (
-    verificationStatus === "Eligible L1" ||
-    verificationStatus === "Eligible L2"
-  ) {
+  }
     if(item.comingSoon) {
       return (
           <Button disabled={true}>
@@ -68,21 +65,6 @@ const ActionArea = ({
         </Button>
       </form>
     );
-  } else {
-    return (
-      <p className="text-red-500 text-sm text-center w-full">
-        Verification required!
-        <br />
-        <a
-          href={`https://forms.hackclub.com/eligibility?slack_id=${slackId}`}
-          className="underline"
-          target="_blank"
-        >
-          Verify here
-        </a>
-      </p>
-    );
-  }
 };
 
 export default function Shop({ session }: { session: HsSession }) {
