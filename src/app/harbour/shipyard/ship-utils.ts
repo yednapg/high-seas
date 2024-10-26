@@ -51,6 +51,35 @@ const shipToFields = (ship: Ship, entrantId: string) => ({
   update_description: ship.updateDescription,
   wakatime_project_name: ship.wakatimeProjectName,
 });
+const shipFromRecord = (r: any): Ship => {
+  const reshippedToIdRaw = r.get("reshipped_to") as [string] | null;
+  const reshippedToId = reshippedToIdRaw ? reshippedToIdRaw[0] : null;
+
+  const reshippedFromIdRaw = r.get("reshipped_from") as [string] | null;
+  const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
+
+  return {
+    id: r.id as string,
+    title: r.get("title") as string,
+    repoUrl: r.get("repo_url") as string,
+    deploymentUrl: r.get("deploy_url") as string,
+    readmeUrl: r.get("readme_url") as string,
+    screenshotUrl: r.get("screenshot_url") as string,
+    voteRequirementMet: Boolean(r.get("vote_requirement_met")),
+    matchups_count: r.get("matchups_count") as number,
+    doubloonPayout: r.get("doubloon_payout") as number,
+    shipType: r.get("ship_type") as ShipType,
+    shipStatus: r.get("ship_status") as ShipStatus,
+    wakatimeProjectName: r.get("wakatime_project_name") as string,
+    hours: r.get("hours") as number | null,
+    credited_hours: r.get("credited_hours") as number | null,
+    total_hours: r.get("total_hours") as number | null,
+    createdTime: r.get("created_time") as string,
+    updateDescription: r.get("update_description") as string | null,
+    reshippedFromId,
+    reshippedToId,
+  };
+};
 
 export async function getUserShips(
   slackId: string,
@@ -82,32 +111,7 @@ export async function getUserShips(
   };
 
   records.forEach((r) => {
-    const reshippedToIdRaw = r.get("reshipped_to") as [string] | null;
-    const reshippedToId = reshippedToIdRaw ? reshippedToIdRaw[0] : null;
-
-    const reshippedFromIdRaw = r.get("reshipped_from") as [string] | null;
-    const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
-
-    const projectRecord = {
-      id: r.id as string,
-      title: r.get("title") as string,
-      repoUrl: r.get("repo_url") as string,
-      deploymentUrl: r.get("deploy_url") as string,
-      readmeUrl: r.get("readme_url") as string,
-      screenshotUrl: r.get("screenshot_url") as string,
-      voteRequirementMet: Boolean(r.get("vote_requirement_met")),
-      matchups_count: r.get("matchups_count") as number,
-      doubloonPayout: r.get("doubloon_payout") as number,
-      shipType: r.get("ship_type") as ShipType,
-      shipStatus: r.get("ship_status") as ShipStatus,
-      wakatimeProjectName: r.get("wakatime_project_name") as string,
-      hours: r.get("hours") as number | null,
-      credited_hours: r.get("credited_hours") as number | null,
-      createdTime: r.get("created_time") as string,
-      updateDescription: r.get("update_description") as string | null,
-      reshippedFromId,
-      reshippedToId,
-    };
+    const projectRecord = shipFromRecord(r);
 
     if (projectRecord.shipStatus !== "deleted") ships.push(projectRecord);
   });
@@ -201,7 +205,10 @@ export async function getUserShips(
   return { ships, shipChains };
 }
 
-export async function createShip(formData: FormData) {
+export async function createShip(
+  formData: FormData,
+  isTutorial: boolean,
+): Promise<Ship> {
   const session = await getSession();
   if (!session) {
     const error = new Error(
@@ -210,35 +217,42 @@ export async function createShip(formData: FormData) {
     console.log(error);
     throw error;
   }
-
   const slackId = session.slackId;
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
-
   const isShipUpdate = formData.get("isShipUpdate");
 
-  base()(shipsTableName).create(
-    [
-      {
-        // @ts-expect-error No overload matches this call - but it does
-        fields: {
-          title: formData.get("title"),
-          entrant: [entrantId],
-          repo_url: formData.get("repo_url"),
-          readme_url: formData.get("readme_url"),
-          deploy_url: formData.get("deployment_url"),
-          screenshot_url: formData.get("screenshot_url"),
-          ship_type: isShipUpdate ? "update" : "project",
-          update_description: isShipUpdate
-            ? formData.get("updateDescription")
-            : null,
-          wakatime_project_name: formData.get("wakatime_project_name"),
+  // Convert callback-based create() to Promise
+  return new Promise((resolve, reject) => {
+    base()(shipsTableName).create(
+      [
+        {
+          // @ts-expect-error No overload matches this call - but it does
+          fields: {
+            title: formData.get("title"),
+            entrant: [entrantId],
+            repo_url: formData.get("repo_url"),
+            readme_url: formData.get("readme_url"),
+            deploy_url: formData.get("deployment_url"),
+            screenshot_url: formData.get("screenshot_url"),
+            ship_type: isShipUpdate ? "update" : "project",
+            update_description: isShipUpdate
+              ? formData.get("updateDescription")
+              : null,
+            wakatime_project_name: formData.get("wakatime_project_name"),
+            project_source: isTutorial ? "tutorial" : null,
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+          return;
+        }
+        resolve(shipFromRecord(records[0]));
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err);
-    },
-  );
+    );
+  });
 }
 
 // @malted: I'm confident this is secure.
