@@ -38,7 +38,7 @@ export async function POST(request, { params }) {
           new Date().getTime() + 60 * 60 * 1000,
       ).toISOString(),
     });
-    return redirect(`https://forms.hackclub.com/eligibility?slack_id=${session.slackId}&program=High Seas&continue=${encodeURIComponent(item.fields.fillout_base_url+otp)}`);
+    return redirect(`https://forms.hackclub.com/eligibility?slack_id=${session.slackId}&program=High Seas&continue=${encodeURIComponent(item.fields.fillout_base_url.replace("shop-order","hs-order")+otp)}`);
   }
   await people.update(person.id, {
     shop_otp: otp,
@@ -47,5 +47,5 @@ export async function POST(request, { params }) {
     ).toISOString(),
   });
   console.log(item);
-  return redirect(`${item.fields.fillout_base_url}${otp}`);
+  return redirect(`${item.fields.fillout_base_url.replace("shop-order","hs-order")}${otp}`);
 }
