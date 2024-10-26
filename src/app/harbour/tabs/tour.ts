@@ -446,7 +446,7 @@ function setupSteps(tourManager: Tour) {
           text: "Let's go!",
           action: () => {
             setCookie("tour-step", "ts-vote-left");
-            window.location.href = "/thunderdome";
+            window.location.href = "/wonderdome";
           },
         },
       ],
