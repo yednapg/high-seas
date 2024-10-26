@@ -13,38 +13,11 @@ import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
 import Link from "next/link";
 
-import ScalesImage from "/public/scales.svg";
-import Pill from "@/components/ui/pill";
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
 import ReadmeHelperImg from "/public/readme-helper.png";
 import NewUpdateForm from "./new-update-form";
-
-function ago(date) {
-  const now = new Date();
-  const diffInSeconds = Math.floor((now - date) / 1000);
-
-  const intervals = [
-    { label: "year", seconds: 31536000 },
-    { label: "month", seconds: 2592000 },
-    { label: "day", seconds: 86400 },
-    { label: "hour", seconds: 3600 },
-    { label: "minute", seconds: 60 },
-    { label: "second", seconds: 1 },
-  ];
-
-  for (let i = 0; i < intervals.length; i++) {
-    const interval = intervals[i];
-    const count = Math.floor(diffInSeconds / interval.seconds);
-
-    if (count >= 1) {
-      return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
-    }
-  }
-
-  return "just now";
-}
 
 export default function Ships({
   ships,
@@ -219,7 +192,8 @@ export default function Ships({
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
           <Button
-            className="text-xl"
+            className="text-xl text-white"
+            style={{background: "#D236E2"}}
             id="start-ship-draft"
             onClick={() => setNewShipVisible(true)}
           >

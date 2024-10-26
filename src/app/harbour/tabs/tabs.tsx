@@ -6,7 +6,7 @@ import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
-import { getUserShips, Ship } from "../shipyard/ship-utils";
+import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
@@ -71,13 +71,12 @@ export default function Harbour({
 
   const router = useRouter();
 
-  const handleTabChange = (newTab) => {
+  const handleTabChange = (newTab:string) => {
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
   useEffect(() => {
     getUserShips(session.slackId).then(({ ships, shipChains }) => {
-      console.warn(ships);
       setMyShips(ships);
       setMyShipChains(shipChains);
     });

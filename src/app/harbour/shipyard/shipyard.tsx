@@ -122,9 +122,9 @@ export default function Shipyard({
     <LoadingSpinner />;
   } else {
     return (
-      <div>
-        <div className="text-center">
-          <h1 className="font-heading text-5xl text-white mb-6 text-center relative w-fit mx-auto">
+      <>
+        <div className="text-center text-white">
+          <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
             The Shipyard
             <span
               className="absolute text-sm animate-pulse mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
@@ -152,7 +152,7 @@ export default function Shipyard({
           </h2>
           <Ships ships={exampleShips} bareShips={true} shipChains={new Map()} setShips={() => {}} />
         </div>
-      </div>
+      </>
     );
   }
 }
