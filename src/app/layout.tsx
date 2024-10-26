@@ -5,6 +5,8 @@ import "./globals.css";
 import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
 
+import Analytics from "@/components/analytics";
+
 const mainFont = localFont({
   src: "../../public/fonts/arialroundedmtbold.ttf",
   variable: "--font-main",
@@ -35,6 +37,7 @@ export default function RootLayout({
       <body className={`${mainFont.variable} antialiased`}>
         <Nav />
         <main className="pt-14">{children}</main>
+        <Analytics />
         <SpeedInsights />
         <Toaster />
       </body>
