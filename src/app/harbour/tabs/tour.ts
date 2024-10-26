@@ -290,7 +290,11 @@ function setupSteps(tourManager: Tour) {
       buttons: [
         {
           text: "Aye aye!",
-          action: tourManager.next,
+          action: () => {
+            document.querySelector("#screenshot-field")!.value =
+              "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
+            tourManager.next();
+          },
         },
       ],
     },
