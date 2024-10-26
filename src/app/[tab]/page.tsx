@@ -16,6 +16,10 @@ export default function Page({
 }) {
   const [session, setSession] = useState(null);
 
+  useEffect(() => {
+    getSession().then((s) => setSession(s));
+  }, []);
+
   const { tab } = params;
   const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
@@ -31,10 +35,6 @@ export default function Page({
       () => (window.location.href = window.location.pathname),
     );
   }
-
-  useEffect(() => {
-    getSession().then((s) => setSession(s));
-  }, []);
 
   if (!session) return <div>Loading session...</div>;
 
