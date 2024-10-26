@@ -629,7 +629,7 @@ export default async function Marketing() {
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center">
-              <p className="text-4xl text-white">
+              <p className="text-4xl text-white mb-4">
                 Build. Battle. Booty. Repeat.
               </p>
               <EmailSubmissionForm />
