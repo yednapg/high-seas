@@ -39,8 +39,9 @@ export async function getPersonByMagicToken(token: string): Promise<{
   });
 
   if (!response.ok) {
-    console.error("Airtable API error:", await response.text());
-    return null;
+    const err = new Error(`Airtable API error: ${await response.text()}`);
+    console.error(err);
+    throw err;
   }
 
   const data = await response.json();
