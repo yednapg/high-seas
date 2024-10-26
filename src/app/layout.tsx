@@ -4,8 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
+
 import Analytics from "@/components/analytics";
-import { Providers } from "./providers";
 
 const mainFont = localFont({
   src: "../../public/fonts/arialroundedmtbold.ttf",
@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${mainFont.variable} antialiased`}>
         <Nav />
-        <main className="pt-14"><Providers>{children}</Providers></main>
+        <main className="pt-14">{children}</main>
         <Analytics />
         <SpeedInsights />
         <Toaster />
