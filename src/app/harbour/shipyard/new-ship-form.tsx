@@ -84,7 +84,7 @@ export default function NewShipForm({
       }
     }
     fetchProjects();
-  }, [session.slackId]);
+  }, [session?.slackId]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
@@ -94,10 +94,15 @@ export default function NewShipForm({
     // }
 
     const deploymentUrl = formData.get("deployment_url") as string;
-    if (["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(domain => deploymentUrl.includes(domain))) {
+    if (
+      ["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(
+        (domain) => deploymentUrl.includes(domain),
+      )
+    ) {
       toast({
         title: "That's not a demo link!",
-        description: "Submit a link to a deployed project or a video demo of what your project is instead!",
+        description:
+          "Submit a link to a deployed project or a video demo of what your project is instead!",
       });
       setStaging(false);
       return;
