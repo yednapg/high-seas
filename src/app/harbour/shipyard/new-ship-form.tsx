@@ -48,6 +48,7 @@ export default function NewShipForm({
   } | null>(null);
   const [open, setOpen] = useState(false);
   const [isShipUpdate, setIsShipUpdate] = useState(false);
+  const [isGithubRepo, setIsGithubRepo] = useState(false);
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -103,13 +104,26 @@ export default function NewShipForm({
       return;
     }
 
+    const repoUrl = formData.get("repo_url") as string;
+    if (isGithubRepo) {
+      formData.set(
+        "readme_url",
+        repoUrl.replace(
+          /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
+          "https://raw.githubusercontent.com/$1/$2/refs/heads/main/README.md"
+        )
+      );
+    }
+
     await createShip(formData);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
     setStaging(false);
   };
+
   const { toast } = useToast();
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">
@@ -261,14 +275,12 @@ export default function NewShipForm({
           </Popover>
 
           {/* Hidden input to include in formData */}
-          {/* {selectedProject && ( */}
           <input
             type="hidden"
             id="wakatime-project-name"
             name="wakatime_project_name"
             value={selectedProject?.key || ""}
           />
-          {/* )} */}
         </div>
 
         <div id="repo-field">
@@ -279,19 +291,22 @@ export default function NewShipForm({
             name="repo_url"
             required
             className="w-full p-2 border rounded"
+            onChange={({ target }) => setIsGithubRepo(target.value.includes("github.com"))}
           />
         </div>
 
-        <div id="readme-field">
-          <label htmlFor="readme_url">README URL</label>
-          <input
-            type="url"
-            id="readme_url"
-            name="readme_url"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        {!isGithubRepo && (
+          <div id="readme-field">
+            <label htmlFor="readme_url">README URL</label>
+            <input
+              type="url"
+              id="readme_url"
+              name="readme_url"
+              required
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        )}
 
         <div id="deployment-field">
           <label htmlFor="deployment_url">
