@@ -31,6 +31,7 @@ export const getAllProjects = async (): Promise<Ships[]> => {
       {ship_status} != 'staged',
       {ship_status} != 'deleted'
       {ship_type} != 'project'
+      {project_source} != 'tutorial_battle'
       )` })
     .all();
   return records.map((record) => ({
