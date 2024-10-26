@@ -113,7 +113,7 @@ export default function Harbour({
 			name: "Shoppe",
 			path: "shop",
 			component: <Shop session={session} />,
-			closes: new Date("2024-10-26T04:00:00.000Z"),
+			closes: new Date("2024-10-27T04:00:00.000Z"),
 		},
 	];
 
