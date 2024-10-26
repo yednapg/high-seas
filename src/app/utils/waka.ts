@@ -73,7 +73,7 @@ export async function createWaka(
   console.log("created a new wakatime token: ", signupResponse);
 
   await setWaka(signupResponse);
-  return signupResponse;
+  return { ...signupResponse, username: payload["username"] };
 }
 
 export async function getWakaSessions(): Promise<any> {
