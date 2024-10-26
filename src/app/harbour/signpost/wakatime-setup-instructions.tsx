@@ -2,8 +2,8 @@ import JaggedCard from "@/components/jagged-card";
 import Pill from "@/components/ui/pill";
 import Icon from "@hackclub/icons";
 import Image from "next/image";
-import { useMemo, useState } from "react";
-import ScalesImage from "/public/scales.svg";
+import { useState } from "react";
+import DoubloonsImage from "/public/doubloon.svg";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import WakaTimeConfigTabs from "./wakatime-config-tabs";
@@ -57,10 +57,10 @@ export default function WakatimeSetupInstructions({
                 Low Skies tracks your time spent coding, which factors into how
                 many
                 <Pill
-                  msg="Scales"
+                  msg="Doubloons"
                   color="green"
                   glyphImage={
-                    <Image src={ScalesImage} alt="scales" height={20} />
+                    <Image src={DoubloonsImage} alt="Doubloons" height={20} />
                   }
                 />{" "}
                 you get when your projects are voted on in the{" "}
@@ -69,10 +69,10 @@ export default function WakatimeSetupInstructions({
                 </Link>{" "}
                 by other Hack Clubbers.{" "}
                 <Pill
-                  msg="Scales"
+                  msg="Doubloons"
                   color="green"
                   glyphImage={
-                    <Image src={ScalesImage} alt="scales" height={20} />
+                    <Image src={DoubloonsImage} alt="Doubloons" height={20} />
                   }
                 />{" "}
                 can be exchnged for items in the{" "}

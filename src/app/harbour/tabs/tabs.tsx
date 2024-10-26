@@ -27,8 +27,8 @@ const Balance = ({ balance }: {balance: number}) => {
     <Popover open={open && balance == 0} onOpenChange={setOpen}>
       <PopoverTrigger asChild onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
         <div className="flex items-center gap-1">
-          <img src="scales.svg" alt="scales" width={24} height={24} />
-          <span className="mr-2">{Math.floor(balance)} Scales</span>
+          <img src="doubloon.svg" alt="doubloons" width={24} height={24} />
+          <span className="mr-2">{Math.floor(balance)} Doubloons</span>
         </div>
       </PopoverTrigger>
       <PopoverContent>

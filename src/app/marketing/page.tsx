@@ -392,7 +392,7 @@ export default async function Marketing() {
                   pixel art display, drawing robot, and more! After you{"'"}re
                   done your project, submit it to The Keep! Your project will
                   compete against other similar-timed projects and you{"'"}ll
-                  earn Scales based on how well you do.
+                  earn Doubloons based on how well you do.
                 </p>
 
               </div>*/}

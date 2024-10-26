@@ -1,7 +1,7 @@
 import type { Ship } from "@/app/harbour/shipyard/ship-utils";
 import Pill from "./pill";
 
-import ScalesImage from "/public/scales.svg";
+import DoubloonsImage from "/public/doubloon.svg";
 import Image from "next/image";
 
 export default function ShipPillCluster({
@@ -24,13 +24,13 @@ export default function ShipPillCluster({
         (ship.voteRequirementMet ? (
           ship.doubloonPayout ? (
             <Pill
-              msg={`${Math.floor(ship.doubloonPayout)} Scales`}
+              msg={`${Math.floor(ship.doubloonPayout)} Doubloons`}
               color="green"
-              glyphImage={<Image src={ScalesImage} alt="scales" height={20} />}
+              glyphImage={<Image src={DoubloonsImage} alt="doubloons" height={20} />}
             />
           ) : (
             <Pill
-              msg={`Pending: ${10 - ship.matchups_count} votes left till you get scales`}
+              msg={`Pending: ${10 - ship.matchups_count} votes left till you get doubloons`}
               color="blue"
               glyph="event-add"
               percentage={ship.matchups_count * 10}
