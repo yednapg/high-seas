@@ -143,7 +143,6 @@ export default function Shop({ session }: { session: HsSession }) {
                 <div className="flex justify-between items-start">
                   <CardTitle className="text-xl font-bold">
                     {item.name}
-                    {item.fulfilledAtEnd && "*"}
                   </CardTitle>
                   <span className="text-green-500 font-semibold flex items-center">
                     <img
@@ -182,7 +181,6 @@ export default function Shop({ session }: { session: HsSession }) {
           </motion.div>
         ))}
       </div>
-      <div className="text-center mb-6 mt-12">
         <label>
           Items marked with * will ship out after the event concludes.
         </label>
