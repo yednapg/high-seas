@@ -41,6 +41,7 @@ const getCookie = (name: string): string | null => {
 
 const t = new Shepherd.Tour({
   useModalOverlay: true,
+  keyboardNavigation: false,
   defaultStepOptions: {
     scrollTo: false,
     modalOverlayOpeningPadding: 4,
@@ -182,9 +183,10 @@ function setupSteps(tourManager: Tour) {
           f.addEventListener(
             "input",
             ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim().toLowerCase() === "hack club site")
+              if (target.value.trim().toLowerCase() === "hack club site") {
                 f.blur();
-              tourManager.next();
+                tourManager.next();
+              }
             },
           );
           r();
@@ -227,7 +229,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-readme",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md');document.getElementById('hc-site-readme-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Paste it into the <code>README</code> field!",
+      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md');document.getElementById('hc-site-readme-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-readme-copy-button'>Click to copy</button></div><br />Paste it into the <code>README</code> field!",
       attachTo: {
         element: "#readme-field",
         on: "right",
