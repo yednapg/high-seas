@@ -29,7 +29,10 @@ export async function getShop(): Promise<ShopItem[]> {
 
   return new Promise((resolve, reject) => {
     base()("shop_items")
-      .select({ filterByFormula: "{enabled}", sort:[{field: "tickets_us", direction: "asc"}]})
+      .select({
+        filterByFormula: "{enabled_high_seas}",
+        sort: [{ field: "tickets_us", direction: "asc" }],
+      })
       .eachPage(
         (records, fetchNextPage) => {
           records.forEach((record) => {
@@ -45,7 +48,9 @@ export async function getShop(): Promise<ShopItem[]> {
               enabledCa: Boolean(record.get("enabled_ca")) as boolean,
               priceUs: Number(record.get("tickets_us")) as number,
               priceGlobal: Number(record.get("tickets_global")) as number,
-              fulfilledAtEnd: Boolean(record.get("fulfilled_at_end")) as boolean,
+              fulfilledAtEnd: Boolean(
+                record.get("fulfilled_at_end"),
+              ) as boolean,
             });
           });
 
