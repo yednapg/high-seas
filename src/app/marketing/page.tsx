@@ -38,7 +38,7 @@ export default async function Marketing() {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        <div className="flex flex-col justify-center items-center">
+        {/* <div className="flex flex-col justify-center items-center">
           <div className="absolute flex flex-col justify-center items-center text-center">
             <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
             <div className="relative z-10">
@@ -47,7 +47,7 @@ export default async function Marketing() {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
         
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
@@ -65,7 +65,7 @@ export default async function Marketing() {
               </div>
             </div>
             <Link href="#howthisworks">
-              <img src="/arrows.svg" className="w-16 h-16 mb-6 opacity-60" />
+              <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
             </Link>
 
             <div className="text-[#214495]">
@@ -179,7 +179,7 @@ export default async function Marketing() {
                   </div>
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign
-                    in with Hack Club Slack and ship them in the Harbour! For
+                    in with Hack Club Slack and ship them in the Harbor! For
                     each hour coded, earn Doubloons (our virtual currency).
                   </p>
                 </div>
@@ -392,7 +392,7 @@ export default async function Marketing() {
                   pixel art display, drawing robot, and more! After you{"'"}re
                   done your project, submit it to The Keep! Your project will
                   compete against other similar-timed projects and you{"'"}ll
-                  earn Scales based on how well you do.
+                  earn Doubloons based on how well you do.
                 </p>
 
               </div>*/}
@@ -629,7 +629,7 @@ export default async function Marketing() {
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center">
-              <p className="text-4xl text-white">
+              <p className="text-4xl text-white mb-4">
                 Build. Battle. Booty. Repeat.
               </p>
               <EmailSubmissionForm />

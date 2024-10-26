@@ -362,11 +362,11 @@ export default function Matchups({ session }: { session: HsSession }) {
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-12">
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-600 dark:text-indigo-300 mb-4">
+        <header className="text-center text-white mb-12">
+          <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
             Project Matchup
           </h1>
-          <p className="text-xl text-gray-700 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
             A good ship is technical, creative, and presented well so that
             others can understand and experience it. By that definition, which
             of these two projects is better? (If you are not sure, just refresh

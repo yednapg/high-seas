@@ -45,9 +45,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         style={{
-          backgroundImage: "url(/textures/paper.png)",
-          backgroundSize: "auto 500%",
-          backgroundRepeat: "repeat-x",
+          border: '1px solid',
+          // backgroundSize: "auto 500%",
+          // backgroundRepeat: "repeat-x",
         }}
         className={`${cn(buttonVariants({ variant, size, className }))} bg-blend-color-burn`}
         ref={ref}

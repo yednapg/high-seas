@@ -3,7 +3,7 @@ import Pill from "@/components/ui/pill";
 import Icon from "@hackclub/icons";
 import Image from "next/image";
 import { useState } from "react";
-import ScalesImage from "/public/scales.svg";
+import DoubloonsImage from "/public/doubloon.svg";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -20,15 +20,15 @@ const keyLocations = [
         Vote between projects others have made! After submitting your project,
         you must vote between project matchups in order to earn{" "}
         <Pill
-          msg="Scales"
+          msg="Doubloons"
           color="green"
-          glyphImage={<Image src={ScalesImage} alt="scales" height={20} />}
+          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
         />
         . Note that the number of{" "}
         <Pill
-          msg="Scales"
+          msg="Doubloons"
           color="green"
-          glyphImage={<Image src={ScalesImage} alt="scales" height={20} />}
+          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
         />{" "}
         you earn is based on the number of hours you have put in your own
         project, and how it competes against other projects. Everything is peer
@@ -43,9 +43,9 @@ const keyLocations = [
       <p>
         Spend all your{" "}
         <Pill
-          msg="Scales"
+          msg="Doubloons"
           color="green"
-          glyphImage={<Image src={ScalesImage} alt="scales" height={20} />}
+          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
         />{" "}
         here! Get items, ranging from Blahajs to Yubikeys. More items to come in
         the future!

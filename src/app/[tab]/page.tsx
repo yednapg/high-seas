@@ -1,8 +1,8 @@
 "use client";
 
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Harbour from "../harbour/tabs/tabs";
-import { createMagicSession, getSession, verifySession } from "../utils/auth";
+import { createMagicSession, getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
 import { useEffect, useState } from "react";

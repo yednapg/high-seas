@@ -6,18 +6,18 @@ const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  let backgroundColor, backgroundImage, backgroundSize, backgroundRepeat;
+  let backgroundColor, backgroundImage, backgroundSize, backgroundRepeat, backdropFilter;
 
   switch (props?.type) {
     case "cardboard":
-      backgroundColor = "#ffffffc0";
-      backgroundImage = "url(/textures/cardboard.png)";
+      backgroundColor = "#140726c0";
       backgroundSize = "50rem auto";
       backgroundRepeat = "repeat";
+      backdropFilter = "blur(1px)";
       break;
     default: // paper
       backgroundColor = "#fffffff0";
-      backgroundImage = "url(/textures/paper.png)";
+      // backgroundImage = "url(/textures/paper.png)";
       backgroundSize = "10rem 100%";
       backgroundRepeat = "repeat-x";
   }
@@ -30,9 +30,10 @@ const Card = React.forwardRef<
         backgroundSize,
         backgroundRepeat,
         backgroundColor,
+        backdropFilter,
       }}
       className={cn(
-        "rounded-lg border bg-card text-card-foreground shadow-sm bg-blend-color-burn",
+        "rounded-lg bg-card text-card-foreground shadow-sm bg-blend-color-burn",
         className,
       )}
       {...props}
