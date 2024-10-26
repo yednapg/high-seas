@@ -52,6 +52,9 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
+  const shouldSkip = sessionStorage.getItem("tutorial.skip")
+  if (shouldSkip) {return}
+
   if (!hasSetUp) {
     setupSteps(t);
     hasSetUp = true;
