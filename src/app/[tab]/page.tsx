@@ -1,20 +1,42 @@
-import React from "react";
+"use client";
+
 import { redirect, notFound } from "next/navigation";
 import Harbour from "../harbour/tabs/tabs";
-import { getSession } from "../utils/auth";
+import { createMagicSession, getSession, verifySession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
+import { useEffect, useState } from "react";
 
-export default async function Page({ params }: { params: { tab: string } }) {
+export default function Page({
+  params,
+  searchParams,
+}: {
+  params: { tab: string };
+  searchParams: any;
+}) {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    getSession().then((s) => setSession(s));
+  }, []);
+
   const { tab } = params;
   const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
 
-  const session = await getSession();
-  if (!session)
-    return redirect(
-      "/slack-error?err='OH NO. Please let Ben know this happened'",
+  const { magic_auth_token } = searchParams;
+
+  if (magic_auth_token) {
+    console.info("maigc auth token:", magic_auth_token);
+    // First check for is_full_user, if so, redirect to slack auth
+    // const person =
+
+    createMagicSession(magic_auth_token).then(
+      () => (window.location.href = window.location.pathname),
     );
+  }
+
+  if (!session) return <div>Loading session...</div>;
 
   return (
     <>
