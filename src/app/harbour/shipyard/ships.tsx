@@ -105,6 +105,24 @@ export default function Ships({
   //   }
   // }
 
+  useEffect(() => {
+    if (newShipVisible) {
+      // Lock body scroll when modal opens
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = "15px"; // Prevent layout shift from scrollbar removal
+    } else {
+      // Restore body scroll when modal closes
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    }
+
+    // Cleanup when component unmounts
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    };
+  }, [newShipVisible]);
+
   const SingleShip = ({
     s,
     id,
@@ -193,7 +211,7 @@ export default function Ships({
         >
           <Button
             className="text-xl text-white"
-            style={{background: "#D236E2"}}
+            style={{ background: "#D236E2" }}
             id="start-ship-draft"
             onClick={() => setNewShipVisible(true)}
           >
@@ -260,35 +278,31 @@ export default function Ships({
       </div>
 
       <AnimatePresence>
-        {newShipVisible && session && (
+        {newShipVisible && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
             onClick={() => setNewShipVisible(false)}
           >
-            <Card
-              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto"
-              id="new-ship-form-container-card"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <NewShipForm
-                ships={ships}
-                canvasRef={canvasRef}
-                closeForm={() => setNewShipVisible(false)}
-                session={session}
-              />
-
-              <motion.button
-                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-                onClick={() => setNewShipVisible(false)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icon glyph="view-close" />
-              </motion.button>
-            </Card>
+            <div className="min-h-screen px-4 pt-32 pb-20">
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-full max-w-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Card className="relative w-full">
+                    <NewShipForm
+                      ships={ships}
+                      canvasRef={canvasRef}
+                      closeForm={() => setNewShipVisible(false)}
+                      session={session}
+                    />
+                  </Card>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
