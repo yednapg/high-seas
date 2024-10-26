@@ -12,7 +12,6 @@ import NewShipForm from "./new-ship-form";
 import EditShipForm from "./edit-ship-form";
 import { getSession } from "@/app/utils/auth";
 import Link from "next/link";
-import ShipCard from "./ship-card";
 
 import ShipPillCluster from "@/components/ui/ship-pill-cluster";
 import NoImgDino from "/public/no-img-dino.png";
@@ -38,6 +37,7 @@ export default function Ships({
 
   const [readmeText, setReadmeText] = useState<string | null>(null);
   const [newShipVisible, setNewShipVisible] = useState(false);
+  const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null);
   const [session, setSession] = useState<HsSession | null>(null);
   const [isEditingShip, setIsEditingShip] = useState(false);
   const canvasRef = useRef(null);
@@ -105,6 +105,24 @@ export default function Ships({
   //   }
   // }
 
+  useEffect(() => {
+    if (newShipVisible) {
+      // Lock body scroll when modal opens
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = "15px"; // Prevent layout shift from scrollbar removal
+    } else {
+      // Restore body scroll when modal closes
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    }
+
+    // Cleanup when component unmounts
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.paddingRight = "0px";
+    };
+  }, [newShipVisible]);
+
   const SingleShip = ({
     s,
     id,
@@ -146,8 +164,6 @@ export default function Ships({
           </div>
         </div>
 
-        <NewUpdateForm shipToUpdate={s} canvasRef={canvasRef} />
-
         {bareShips ? null : (
           <div className="mt-4 sm:mt-0 sm:ml-auto">
             {s.shipStatus === "staged" ? (
@@ -162,7 +178,19 @@ export default function Ships({
               >
                 SHIP SHIP!
               </Button>
-            ) : null}
+            ) : (
+              <Button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  console.log("Shipping an update...", s);
+                  setNewUpdateShip(s);
+                  // await stagedToShipped(s);
+                  // location.reload();
+                }}
+              >
+                Ship an update!
+              </Button>
+            )}
           </div>
         )}
       </Card>
@@ -176,17 +204,19 @@ export default function Ships({
         className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
       />
 
-      {bareShips && session ? null : (
+      {bareShips ? null : (
         <motion.div
           className="w-fit mx-auto mb-0 mt-3"
           whileHover={{ rotate: "-5deg", scale: 1.02 }}
         >
-          <NewShipForm
-            ships={ships}
-            setShips={setShips}
-            canvasRef={canvasRef}
-            session={session}
-          />
+          <Button
+            className="text-xl text-white"
+            style={{ background: "#D236E2" }}
+            id="start-ship-draft"
+            onClick={() => setNewShipVisible(true)}
+          >
+            Draft a new Ship!
+          </Button>
         </motion.div>
       )}
 
@@ -200,13 +230,12 @@ export default function Ships({
 
           <div id="staged-ships-container" className="space-y-4">
             {stagedShips.map((ship: Ship, idx: number) => (
-              <ShipCard ship={ship} shipChains={shipChains} key={ship.id} />
-              // <SingleShip
-              //   s={ship}
-              //   key={ship.id}
-              //   id={`staged-ship-${idx}`}
-              //   setNewShipVisible={setNewShipVisible}
-              // />
+              <SingleShip
+                s={ship}
+                key={ship.id}
+                id={`staged-ship-${idx}`}
+                setNewShipVisible={setNewShipVisible}
+              />
             ))}
           </div>
         </div>
@@ -247,6 +276,69 @@ export default function Ships({
           </>
         ) : null}
       </div>
+
+      <AnimatePresence>
+        {newShipVisible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
+            onClick={() => setNewShipVisible(false)}
+          >
+            <div className="min-h-screen px-4 pt-32 pb-20">
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-full max-w-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Card className="relative w-full">
+                    <NewShipForm
+                      ships={ships}
+                      canvasRef={canvasRef}
+                      closeForm={() => setNewShipVisible(false)}
+                      session={session}
+                    />
+                  </Card>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {newUpdateShip && session && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setNewUpdateShip(null)}
+          >
+            <Card
+              className="relative w-full max-w-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <NewUpdateForm
+                shipToUpdate={newUpdateShip}
+                canvasRef={canvasRef}
+                closeForm={() => setNewUpdateShip(null)}
+                session={session}
+              />
+
+              <motion.button
+                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+                onClick={() => setNewUpdateShip(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon glyph="view-close" />
+              </motion.button>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {selectedShip && (

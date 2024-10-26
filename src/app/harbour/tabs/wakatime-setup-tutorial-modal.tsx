@@ -1,29 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import Icon from "@hackclub/icons";
 import { AnimatePresence, motion } from "framer-motion";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { hasHb } from "./tutorial-utils";
-import { buttonVariants } from "../../../components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function WakatimeSetupTutorialModal({
   isOpen,
-  isSubmitting,
+  setIsOpen,
   wakaKey,
+  isSubmitting,
   handleContinueFromModal,
-  wakatimeUsername,
 }: {
-  isOpen: boolean;
-  isSubmitting: boolean;
+  isOpen: any;
+  setIsOpen: any;
   wakaKey: string;
+  isSubmitting: any;
   handleContinueFromModal: any;
-  wakatimeUsername: string;
 }) {
   const [userOS, setUserOS] = useState<
     "windows" | "macos" | "linux" | "unknown"
   >("unknown");
+  const [isCopied, setIsCopied] = useState(false);
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
-  const [hasRecvHb, setHasRecvHb] = useState(false);
+
+  const { toast } = useToast();
 
   const getInstallCommand = (platform: string) => {
     switch (platform) {
@@ -66,24 +68,19 @@ export default function WakatimeSetupTutorialModal({
       setUserOS("unknown");
       setShowAllPlatforms(true); // Move the setState here
     }
-
-    (async () => {
-      while (true) {
-        if (wakatimeUsername) {
-          const hasData = await hasHb(wakatimeUsername, wakaKey);
-          if (hasData && !isSubmitting) {
-            await handleContinueFromModal();
-            setHasRecvHb(true);
-            break;
-          }
-        }
-
-        await new Promise((r) => setTimeout(r, 1_000));
-      }
-    })();
   }, []);
 
   const installInfo = getInstallCommand(userOS);
+
+  const handleCommandCopy = (plat: any) => {
+    navigator.clipboard.writeText(plat.command);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2_500);
+    toast({
+      title: "Copied WakaTime setup script",
+      description: "Now go and paste it in your terminal!",
+    });
+  };
 
   const SinglePlatform = ({ platform }: { platform: any }) => {
     return (
@@ -101,88 +98,12 @@ export default function WakatimeSetupTutorialModal({
           </pre>
           <Button
             className="h-full px-8"
-            onClick={() => navigator.clipboard.writeText(platform.command)}
+            onClick={() => handleCommandCopy(platform)}
           >
-            Copy
-            <Icon glyph="copy" size={26} />
+            {isCopied ? "Copied" : "Copy"}
+            <Icon glyph={isCopied ? "copy-check" : "copy"} size={26} />
           </Button>
         </div>
-      </div>
-    );
-  };
-
-  const InstallInstructions = () => (
-    <>
-      <div>
-        <h1 className="text-2xl font-bold mb-4">
-          {"You're on your way to sail the seas!"}
-        </h1>
-        <p className="text-base mb-4">
-          In order to get rewarded for your time spent coding, we need to know
-          when {"you're"} coding! We will do this with an <i>arrsome</i>{" "}
-          extension in your code editor!
-        </p>
-
-        {showAllPlatforms ? (
-          <div>
-            <SinglePlatform platform={getInstallCommand("windows")} />
-            <SinglePlatform platform={getInstallCommand("macos")} />
-            <SinglePlatform platform={getInstallCommand("linux")} />
-            <p onClick={() => setShowAllPlatforms(false)}>nevermind</p>
-          </div>
-        ) : (
-          <>
-            <SinglePlatform platform={installInfo} />
-            <p className="text-xs mt-1">
-              Not using {installInfo?.label}?{" "}
-              <span
-                onClick={() => setShowAllPlatforms(true)}
-                className="underline text-blue-500 cursor-pointer"
-              >
-                View instructions for all platforms
-              </span>
-            </p>
-          </>
-        )}
-
-        <video
-          src="/videos/Waka Setup Script.mp4"
-          autoPlay
-          loop
-          playsInline
-          className="mt-8 rounded"
-        />
-      </div>
-
-      <p className="text-center mt-2 text-base">
-        Waiting for the setup script to be pasted into your terminal...
-        <br />
-        <br />
-        <Button
-          className={`${buttonVariants({ variant: "outline" })}`}
-          disabled={isSubmitting}
-          onClick={async () => {
-            await handleContinueFromModal();
-            setHasRecvHb(true);
-          }}
-        >
-          or, skip for now
-        </Button>
-      </p>
-    </>
-  );
-
-  const CheckUrEmail = () => {
-    return (
-      <div>
-        <p className="text-3xl mb-2">Check your email!</p>
-        <p>You should see an invite to the Hack Club Slack.</p>
-
-        <img
-          src="/party-orpheus.svg"
-          alt="a partying dinosaur"
-          className="mt-8 mx-auto w-1/2"
-        />
       </div>
     );
   };
@@ -195,12 +116,68 @@ export default function WakatimeSetupTutorialModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => setIsOpen(false)}
         >
           <Card
-            className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto text-left p-4"
+            className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto text-left"
             onClick={(e) => e.stopPropagation()}
           >
-            {hasRecvHb ? <CheckUrEmail /> : <InstallInstructions />}
+            <div className="p-4">
+              <h1 className="text-2xl font-bold mb-4">
+                {"You're on your way to sail the seas!"}
+              </h1>
+              <p className="text-base mb-4">
+                In order to get rewarded for your time spent coding, we need to
+                know when {"you're"} coding! We will do this with an{" "}
+                <i>arrsome</i> extension in your code editor!
+              </p>
+
+              {showAllPlatforms ? (
+                <div>
+                  <SinglePlatform platform={getInstallCommand("windows")} />
+                  <SinglePlatform platform={getInstallCommand("macos")} />
+                  <SinglePlatform platform={getInstallCommand("linux")} />
+                  <p onClick={() => setShowAllPlatforms(false)}>nevermind</p>
+                </div>
+              ) : (
+                <>
+                  <SinglePlatform platform={installInfo} />
+                  <p className="text-xs mt-1">
+                    Not using {installInfo?.label}?{" "}
+                    <span
+                      onClick={() => setShowAllPlatforms(true)}
+                      className="underline text-blue-500 cursor-pointer"
+                    >
+                      View instructions for all platforms
+                    </span>
+                  </p>
+                </>
+              )}
+
+              <video
+                src="/videos/Waka Setup Script.mp4"
+                autoPlay
+                loop
+                className="mt-8 rounded"
+              />
+            </div>
+
+            <Button
+              className="w-full mt-4"
+              disabled={isSubmitting}
+              onClick={handleContinueFromModal}
+            >
+              {isSubmitting ? "Skipping" : "Skip"}
+            </Button>
+
+            <motion.button
+              className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+              onClick={() => setIsOpen(false)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Icon glyph="view-close" />
+            </motion.button>
           </Card>
         </motion.div>
       )}
