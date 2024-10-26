@@ -70,6 +70,10 @@ export default function Ships({
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    getSession().then((sesh) => setSession(sesh));
+  }, []);
+
+  useEffect(() => {
     setSelectedShip((s: Ship | null) => {
       if (!s) return null;
       return ships.find((x) => x.id === s.id) || null;
