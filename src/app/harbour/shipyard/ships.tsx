@@ -77,10 +77,6 @@ export default function Ships({
   }, [ships]);
 
   useEffect(() => {
-    getSession().then((sesh) => setSession(sesh));
-  }, []);
-
-  useEffect(() => {
     // I.e. if the user has just edited a ship
     if (previousSelectedShip && selectedShip) return;
 

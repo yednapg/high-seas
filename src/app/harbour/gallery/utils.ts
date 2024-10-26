@@ -22,7 +22,13 @@ export async function getShips(offset: string | undefined): Promise<{
     `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ships?view=Grid%20view${offset ? `&offset=${offset}` : ""}`,
     { headers: { Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}` } },
   );
-  const data = await res.json();
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    console.error(e, await res.text());
+    throw e;
+  }
 
   // TODO: Error checking
   const ships = data.records.map((r: AirtableShipRow) => {

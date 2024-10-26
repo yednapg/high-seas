@@ -68,7 +68,14 @@ export async function createWaka(
     },
     body: new URLSearchParams(payload),
   });
-  const signupResponse = await signup.json();
+
+  let signupResponse;
+  try {
+    signupResponse = await signup.json();
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 
   console.log("created a new wakatime token: ", signupResponse);
 
@@ -104,7 +111,15 @@ export async function getWakaSessions(): Promise<any> {
     },
   );
 
-  return await summaryRes.json();
+  let summaryResJson;
+  try {
+    summaryResJson = await summaryRes.json();
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+
+  return summaryResJson;
 }
 
 export async function hasRecvFirstHeartbeat(): Promise<boolean> {
