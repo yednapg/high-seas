@@ -101,7 +101,7 @@ export const ShopItemComponent = ({ item, filterIndex, personTicketBalance }) =>
         <ActionArea
           item={item}
           filterIndex={filterIndex}
-          affordable={(filterIndex == 1 ? item.priceUs : item.priceGlobal) < parseInt(personTicketBalance)}
+          affordable={(filterIndex == 1 ? item.priceUs : item.priceGlobal) <= parseInt(personTicketBalance)}
         />
       </CardFooter>
     </Card>
