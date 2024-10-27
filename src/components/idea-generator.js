@@ -137,14 +137,16 @@ const IdeaGenerator = () => {
     setLoading(true);
     setMessage(sample(thinkingWords))
     sample(thinkingSounds).play()
+    let newIdea = ''
     await Promise.all([
-      fetchIdea().then(i => setIdea(i.idea)),
+      fetchIdea().then(i => {newIdea = i.idea}),
       new Promise(resolve => setTimeout(resolve, 2000))
     ]);
+    setIdea(newIdea)
     setTyping(true);
     setLoading(false);
     setMessage('')
-    yap(idea, {
+    yap(newIdea, {
       letterCallback: ({ letter }) => {
         setMessage(prev => prev + letter)
       },
