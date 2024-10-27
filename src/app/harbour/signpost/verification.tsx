@@ -25,7 +25,7 @@ const getVerificationMessage = (status: string, reason: string) => {
                 color: "orange",
                 message: (
                     <>
-                        Your verification was insufficient, {reason}. Fill out the form
+                        Your verification was insufficient. Here's why, according to the reviewer {reason}. Fill out the form
                         again at{" "}
                         <Link href="https://forms.hackclub.com/eligibility" className="underline">
                             this link
