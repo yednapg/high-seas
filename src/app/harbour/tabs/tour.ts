@@ -409,7 +409,7 @@ function setupSteps(tourManager: Tour) {
     // },
     {
       id: "ts-vote-left",
-      text: "Here we have a Ship.<br /><br />Check out the live version by clicking on the <i>Repository</i> or <i>Live demo</i> button.",
+      text: "Here we have a Ship.<br /><br />Check out the live version by clicking on the <i>Repository</i> and <i>Live demo</i> button.",
       attachTo: {
         element: "#voting-project-left",
         on: "top",
