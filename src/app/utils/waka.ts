@@ -115,6 +115,7 @@ export async function getWakaSessions(): Promise<any> {
   let summaryResJson;
   try {
     console.log(await summaryRes.text())
+    console.log(summaryRes.ok)
     summaryResJson = await summaryRes.json();
   } catch (e) {
     console.error(e);
