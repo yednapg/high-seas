@@ -186,7 +186,9 @@ export default function WakatimeSetupTutorialModal({
           className="mt-8 mx-auto w-1/2"
         />
 
-        <Button onClick={() => setIsOpen(false)}>Dismiss</Button>
+        <Button onClick={() => setIsOpen(false)} className="float-end">
+          Dismiss
+        </Button>
       </div>
     );
   };
