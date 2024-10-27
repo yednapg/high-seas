@@ -273,6 +273,7 @@ export default function Ships({
               onClick={(e) => e.stopPropagation()}
             >
               <NewShipForm
+                id="new-ship-form-container-card"
                 ships={ships}
                 canvasRef={canvasRef}
                 closeForm={() => setNewShipVisible(false)}

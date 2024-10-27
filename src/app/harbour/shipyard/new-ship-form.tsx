@@ -30,6 +30,7 @@ export default function NewShipForm({
   canvasRef,
   closeForm,
   session,
+  ...props
 }: {
   ships: Ship[];
   canvasRef: any;
@@ -115,7 +116,7 @@ export default function NewShipForm({
   };
   const { toast } = useToast();
   return (
-    <div className="p-4">
+    <div className="p-4" {...props}>
       <h1 className="text-2xl font-bold mb-4">
         {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
