@@ -8,12 +8,14 @@ import { buttonVariants } from "../../../components/ui/button";
 
 export default function WakatimeSetupTutorialModal({
   isOpen,
+  setIsOpen,
   isSubmitting,
   wakaKey,
   handleContinueFromModal,
   wakatimeUsername,
 }: {
   isOpen: boolean;
+  setIsOpen: any;
   isSubmitting: boolean;
   wakaKey: string;
   handleContinueFromModal: any;
@@ -183,6 +185,8 @@ export default function WakatimeSetupTutorialModal({
           alt="a partying dinosaur"
           className="mt-8 mx-auto w-1/2"
         />
+
+        <Button onClick={() => setIsOpen(false)}>Dismiss</Button>
       </div>
     );
   };

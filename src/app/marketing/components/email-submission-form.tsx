@@ -114,6 +114,7 @@ export default function EmailSubmissionForm() {
         <WakatimeSetupTutorialModal
           wakaKey={wakaKey}
           isOpen={isOpen}
+          setIsOpen={setIsOpen}
           handleContinueFromModal={handleContinueFromModal}
           wakatimeUsername={wakaUsername}
         />
