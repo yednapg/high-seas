@@ -72,7 +72,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </p> */}
         <div className="flex flex-wrap gap-2 mb-4">
           {project.repo_url && (
-            <Link
+            <a
+              id="repository-link"
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -83,22 +84,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 glyph="code"
                 classes="text-lg"
               />
-            </Link>
+            </a>
           )}
           {project.deploy_url && (
-            <Link
+            <a
+              id="live-demo-link"
               href={project.deploy_url}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Pill
-                id={`live-demo-link-${key}`}
                 msg="Live Demo"
                 color="green"
                 glyph="link"
                 classes="text-lg"
               />
-            </Link>
+            </a>
           )}
           {project.readme_url && (
             <button onClick={onReadmeClick}>
@@ -114,6 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
       <div className="p-4 bg-gray-100 dark:bg-gray-700">
         <button
+          id="vote-button"
           onClick={onVote}
           className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >

@@ -101,19 +101,11 @@ function setupSteps(tourManager: Tour) {
     {
       id: "ts-new-ship-explanation",
       text: "This is where you'll enter the info for the project you want to ship.",
-      attachTo: {
-        element: "#new-ship-form-container-card",
-        on: "top",
-      },
       beforeShowPromise: () => waitForElement("#new-ship-form-container-card"),
-      floatingUIOptions: { middleware: [offset(16)] },
       buttons: [
         {
           text: "Understood",
-          action: () => {
-            controller.abort();
-            tourManager.next();
-          },
+          action: tourManager.next,
         },
       ],
     },
@@ -304,29 +296,11 @@ function setupSteps(tourManager: Tour) {
     {
       id: "ts-staged-ship-card",
       text: "Here's your Ship",
-      attachTo: {
-        element: "#selected-ship-card",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        controller.abort(); // Abort the button#ship-ship blocker
-
-        return waitForElement("#selected-ship-card", () => {
-          controller = new AbortController();
-          signal = controller.signal;
-
-          document
-            .querySelector("#selected-ship-card-parent")!
-            .addEventListener("click", (e) => e.stopPropagation(), { signal });
-        });
-      },
+      beforeShowPromise: () => waitForElement("#selected-ship-card"),
       buttons: [
         {
           text: "Next",
-          action: () => {
-            controller.abort();
-            tourManager.next();
-          },
+          action: tourManager.next,
         },
       ],
     },
@@ -434,7 +408,7 @@ function setupSteps(tourManager: Tour) {
     // },
     {
       id: "ts-vote-left",
-      text: "Here we have one project<br /><br />Check out the live version by clicking on the <i>Live demo</i> button.",
+      text: "Here we have a Ship.<br /><br />Check out the live version by clicking on the <i>Repository</i> or <i>Live demo</i> button.",
       attachTo: {
         element: "#voting-project-left",
         on: "top",
@@ -443,9 +417,21 @@ function setupSteps(tourManager: Tour) {
         // return new Promise((r) => setTimeout(r, 3_000));
         return waitForElement("#voting-project-left");
       },
-      buttons: [{ text: "ok", action: tourManager.next }],
       advanceOn: {
-        selector: "button",
+        selector:
+          "#voting-project-left #live-demo-link, #voting-project-left #repository-link",
+        event: "click",
+      },
+    },
+    {
+      id: "ts-vote-left",
+      text: "Click here to vote for it!",
+      attachTo: {
+        element: "#voting-project-left button#vote-button",
+        on: "top",
+      },
+      advanceOn: {
+        selector: "#voting-project-left button#vote-button",
         event: "click",
       },
     },
@@ -487,6 +473,18 @@ function setupSteps(tourManager: Tour) {
           action: tourManager.next,
         },
       ],
+    },
+    {
+      id: "ts-shop-region",
+      text: "Pick a region",
+      attachTo: {
+        element: "#region-select",
+        on: "top",
+      },
+      advanceOn: {
+        selector: "#region-select select",
+        event: "change",
+      },
     },
   ];
 
