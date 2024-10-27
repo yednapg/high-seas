@@ -5,6 +5,7 @@ import SignOut from "./sign_out";
 import SignIn from "./sign_in";
 import Image from "next/image";
 import Logo from "/public/logo.png";
+import Link from "next/link";
 import { Card } from "./ui/card";
 
 export default async function Nav() {
@@ -17,6 +18,11 @@ export default async function Nav() {
       </a>
 
       <div className="flex gap-4 items-center text-nowrap">
+        { session ? (
+                      <Link href="/signpost">
+                      <img src="/signpost.png" width={20} alt="" />
+                    </Link>
+        ) : null }  
         {session && session.picture && session.givenName ? (
           <div className="flex gap-2 items-center">
             <Image
@@ -29,7 +35,13 @@ export default async function Nav() {
             <p className="hidden lg:block">Hey, {session.givenName}!</p>{" "}
           </div>
         ) : null}
-        {session ? <SignOut /> : <SignIn variant="small" session={session} />}
+        {session ? (
+          <>
+            <SignOut />
+          </>
+        ) : (
+          <SignIn variant="small" session={session} />
+        )}
       </div>
     </Card>
   );
