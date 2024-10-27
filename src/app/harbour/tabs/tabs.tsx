@@ -10,22 +10,30 @@ import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
-import { getPersonTicketBalance } from "../../utils/airtable";
+import { getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock.js";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { HsSession } from "@/app/utils/auth";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
 
-const Balance = ({ balance }: {balance: number}) => {
+const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
-  const brokeMessage = useMemo(() => sample(zeroMessage), [])
+  const brokeMessage = useMemo(() => sample(zeroMessage), []);
   return (
     <Popover open={open && balance == 0} onOpenChange={setOpen}>
-      <PopoverTrigger asChild onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <PopoverTrigger
+        asChild
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
         <div className="flex items-center gap-1">
           <img src="doubloon.svg" alt="doubloons" width={24} height={24} />
           <span className="mr-2">{Math.floor(balance)} Doubloons</span>
@@ -37,8 +45,8 @@ const Balance = ({ balance }: {balance: number}) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
-}
+  );
+};
 
 export default function Harbour({
   currentTab,
@@ -71,7 +79,7 @@ export default function Harbour({
 
   const router = useRouter();
 
-  const handleTabChange = (newTab:string) => {
+  const handleTabChange = (newTab: string) => {
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
@@ -83,9 +91,16 @@ export default function Harbour({
 
     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
 
-    getPersonTicketBalance(session.slackId).then((balance) =>
-      setPersonTicketBalance(balance.toString()),
-    );
+    getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew(
+      session.slackId,
+    ).then(({ tickets, hasCompletedTutorial }) => {
+      setPersonTicketBalance(tickets.toString());
+
+      if (!hasCompletedTutorial) {
+        sessionStorage.setItem("tutorial", "true");
+        tour();
+      }
+    });
 
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
 
@@ -99,9 +114,7 @@ export default function Harbour({
     );
   }, [myShips]);
 
-  useEffect(() => {
-    tour();
-  }, []);
+  useEffect(() => {}, []);
 
   const tabs = [
     {

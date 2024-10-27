@@ -67,10 +67,16 @@ export async function getSelfPersonIdentifier(slackId: string) {
   return person.fields.identifier;
 }
 
-export const getPersonTicketBalance = async (slackId: string) => {
-  const person = await getSelfPerson(slackId);
-  return person.fields.settled_tickets as number;
-};
+export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew =
+  async (
+    slackId: string,
+  ): Promise<{ tickets: number; hasCompletedTutorial: boolean }> => {
+    const person = await getSelfPerson(slackId);
+    const tickets = person.fields.settled_tickets as number;
+    const hasCompletedTutorial = person.fields.academy_completed === true;
+
+    return { tickets, hasCompletedTutorial };
+  };
 
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);

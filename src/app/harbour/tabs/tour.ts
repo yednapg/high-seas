@@ -1,6 +1,7 @@
 import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
+import { markAcademyComplete } from "./tutorial-utils";
 
 const waitForElement = (
   selector: string,
@@ -41,7 +42,7 @@ const getCookie = (name: string): string | null => {
 
 const t = new Shepherd.Tour({
   useModalOverlay: true,
-  // keyboardNavigation: false,
+  keyboardNavigation: false,
   defaultStepOptions: {
     scrollTo: false,
     modalOverlayOpeningPadding: 4,
@@ -52,21 +53,13 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
-  const shouldSkip = sessionStorage.getItem("tutorial.skip");
-  if (shouldSkip) {
-    return;
-  }
-
   if (!hasSetUp) {
     setupSteps(t);
     t.start();
-    console.log("asrotneisnrtoisr");
     hasSetUp = true;
   }
 
   console.log(t.steps);
-
-  sessionStorage.setItem("tutorial", "true");
 }
 
 let signal, controller;
@@ -79,6 +72,11 @@ function setupSteps(tourManager: Tour) {
     if (e.step.id === "ts-draft-field-submit") {
       setCookie("tour-step", "ts-staged-ship-0");
     }
+  });
+
+  tourManager.on("complete", async () => {
+    sessionStorage.setItem("tutorial", "false");
+    markAcademyComplete();
   });
 
   document.addEventListener("keydown", (e) => {
@@ -185,35 +183,6 @@ function setupSteps(tourManager: Tour) {
             "input",
             ({ target }: { target: HTMLInputElement }) => {
               if (target.value.trim() === "https://github.com/hackclub/site") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
-    },
-    {
-      id: "ts-draft-field-readme",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md');document.getElementById('hc-site-readme-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-readme-copy-button'>Click to copy</button></div><br />Paste it into the <code>README</code> field!",
-      attachTo: {
-        element: "#readme-field",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          controller.abort();
-
-          const f: HTMLInputElement = document.querySelector("#readme-field")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (
-                target.value.trim() ===
-                "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md"
-              ) {
                 f.blur();
                 tourManager.next();
               }
@@ -520,7 +489,12 @@ function setupSteps(tourManager: Tour) {
     {
       id: "ts-signpost",
       text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have HackaTime installed!",
-      buttons: [{ text: "Great!", action: tourManager.next }],
+      buttons: [
+        {
+          text: "Great!",
+          action: tourManager.complete,
+        },
+      ],
     },
   ];
 
