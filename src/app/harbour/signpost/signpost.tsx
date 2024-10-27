@@ -1,11 +1,11 @@
-import { hasRecvFirstHeartbeat } from "../../utils/waka";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import WakatimeSetupInstructions from "./wakatime-setup-instructions";
 import Link from "next/link";
 import KeyPlacesInstructions from "./key-places-instructions";
 import { getSelfPerson } from "../../utils/airtable";
 import Verification from "./verification";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
 
 export default function SignPost({
   session,
@@ -18,11 +18,6 @@ export default function SignPost({
   email: string | null;
   hasWakaHb: boolean | null;
 }) {
-  useEffect(() => {
-    hasRecvFirstHeartbeat().then((a) =>
-      console.log("has recv first heartbeat:", a)
-    );
-  }, []);
 
   const motionProps = useMemo(
     () => ({
@@ -32,17 +27,16 @@ export default function SignPost({
     []
   );
 
-  const [person, setPerson] = useState<any>(null);
+  const [verification, setVerification] = useLocalStorageState("cache.verification", "")
+  const [reason, setReason] = useLocalStorageState("cache.reason", "")
+
 
   useEffect(() => {
-    console.log(session.slackId);
     getSelfPerson(session.slackId).then((data) => {
-      setPerson(data);
+      setVerification(data?.["fields"]?.["verification_status"]?.[0]?.toString() || "");
+      setReason(data?.["fields"]?.["Rejection Reason"] || "");
     });
   }, [session.slackId]);
-
-  const verification = person?.["fields"]["verification_status"][0]?.toString() || "";
-  const reason = person?.["fields"]["Rejection Reason"] || "";
 
   return (
     <motion.div
