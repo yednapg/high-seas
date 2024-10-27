@@ -26,6 +26,7 @@
     "js-confetti": "^0.12.0",
     "lucide-react": "^0.446.0",
     "next": "14.2.13",
+    "openai": "^4.68.4",
     "react": "^18",
     "react-dom": "^18",
     "react-fullstory": "^1.4.0",

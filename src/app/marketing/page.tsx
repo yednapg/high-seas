@@ -16,6 +16,8 @@ import divider from "./art/divider.png";
 import divider2 from "./art/divider2.png";
 // import paper from "./art/paper.png";
 
+import {IdeaGenerator} from "../../components/idea-generator.js"
+
 import shop1 from "./art/shop/shop1.png";
 import shop2 from "./art/shop/shop2.png";
 import shop3 from "./art/shop/shop3.png";
@@ -461,7 +463,18 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div></div>
+          <div className="my-24">
+            <div className="flex justify-center flex-col items-center mb-8 m-5">
+              <p className="text-5xl mb-6 text-center">
+                Still not sure what to build? Let's ask the dinosaur!
+              </p>
+              <p className="text-xl mb-6 text-center italic">
+                (She isn't very smart, but she'll try her best to help you out–
+                pirate's honor!)
+              </p>
+              <IdeaGenerator />
+            </div>
+          </div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
 
