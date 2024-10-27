@@ -9,6 +9,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
   const { tab } = params;
   const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
+  if (tab === "shop") return redirect("/signpost");
   const session = await getSession();
   if (!session) return redirect("/");
 
