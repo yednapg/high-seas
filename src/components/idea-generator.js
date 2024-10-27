@@ -162,7 +162,7 @@ const IdeaGenerator = () => {
   return (
     <div className="idea-generator flex flex-col justify-center items-center mb-24">
       <img src={imgSrc} className={`mb-4 ${activeClass}`} alt="idea generator" onClick={() => generateIdea()} />
-      <span className="idea-box bg-white text-black w-64">{message}</span>
+      <span className="idea-box text-white w-64">{message}</span>
     </div>
   )
 }
