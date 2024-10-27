@@ -63,7 +63,14 @@ export default async function Marketing() {
                 Build personal projects. Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
-                <EmailSubmissionForm />
+                {session ? (
+                    <Link href="/signpost" className="p-4 rounded-lg text-md text-white">
+                      <img src="/signpost.png" width={32} className="inline-block mr-4" />
+                      Enter the harbor
+                    </Link>
+                ) : (
+                  <EmailSubmissionForm />
+                )}
               </div>
             </div>
             <Link href="#howthisworks">

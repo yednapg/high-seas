@@ -18,11 +18,6 @@ export default async function Nav() {
       </a>
 
       <div className="flex gap-4 items-center text-nowrap">
-        { session ? (
-                      <Link href="/signpost">
-                      <img src="/signpost.png" width={20} alt="" />
-                    </Link>
-        ) : null }  
         {session && session.picture && session.givenName ? (
           <div className="flex gap-2 items-center">
             <Image
