@@ -58,27 +58,21 @@ export default function NewShipForm({
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const slackId = session.slackId;
-        const res = await getWakaSessions();
-        const shippedShips = ships
-          .filter((s) => s.shipStatus !== "deleted")
-          .map((s) => s.wakatimeProjectName)
-          .filter((n) => n);
-        setProjects(
-          res.projects.filter(
-            (p: { key: string; total: number }) =>
-              p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-          ),
-        );
-
         if (sessionStorage.getItem("tutorial") === "true") {
-          setProjects((p) => [
-            { key: "hack-club-site", total: 123 * 60 * 60 },
-            ...p!,
-          ]);
+          setProjects([{ key: "hack-club-site", total: 123 * 60 * 60 }]);
+        } else {
+          const res = await getWakaSessions();
+          const shippedShips = ships
+            .filter((s) => s.shipStatus !== "deleted")
+            .map((s) => s.wakatimeProjectName)
+            .filter((n) => n);
+          setProjects(
+            res.projects.filter(
+              (p: { key: string; total: number }) =>
+                p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
+            ),
+          );
         }
-
-        console.log(res);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
