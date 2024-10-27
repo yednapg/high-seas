@@ -135,28 +135,6 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-draft-field-repo",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
-      attachTo: {
-        element: "#repo-field",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          document
-            .querySelector("#repo-field")!
-            .addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (target.value.trim() === "https://github.com/hackclub/site")
-                  tourManager.next();
-              },
-            );
-          r();
-        });
-      },
-    },
-    {
       id: "ts-draft-field-project",
       text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool top?",
       attachTo: {
@@ -186,6 +164,28 @@ function setupSteps(tourManager: Tour) {
             },
             { signal },
           );
+          r();
+        });
+      },
+    },
+    {
+      id: "ts-draft-field-repo",
+      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
+      attachTo: {
+        element: "#repo-field",
+        on: "top",
+      },
+      beforeShowPromise: () => {
+        return new Promise((r) => {
+          document
+            .querySelector("#repo-field")!
+            .addEventListener(
+              "input",
+              ({ target }: { target: HTMLInputElement }) => {
+                if (target.value.trim() === "https://github.com/hackclub/site")
+                  tourManager.next();
+              },
+            );
           r();
         });
       },
