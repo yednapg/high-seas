@@ -94,10 +94,11 @@ export async function getWakaSessions(): Promise<any> {
   }
 
   const session = await getSession();
-  if (!session)
+  if (!session) {
     throw new Error(
       "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
+  }
 
   const slackId = session.slackId;
 
@@ -113,6 +114,7 @@ export async function getWakaSessions(): Promise<any> {
 
   let summaryResJson;
   try {
+    console.log(await summaryRes.text())
     summaryResJson = await summaryRes.json();
   } catch (e) {
     console.error(e);
