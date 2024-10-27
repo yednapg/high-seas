@@ -41,14 +41,8 @@ export default function SignPost({
     });
   }, [session.slackId]);
 
-  useEffect(() => {
-    if (person) {
-      console.log("Person object:", JSON.stringify(person, null, 2));
-    }
-  }, [person]);
-
   const verification = person?.["fields"]["verification_status"][0]?.toString() || "";
-  console.log(verification)
+  const reason = person?.["fields"]["Rejection Reason"] || "";
 
   return (
     <motion.div
@@ -60,7 +54,7 @@ export default function SignPost({
       </h1>
 
       <div className="space-y-2">
-        <Verification status={verification} />
+        <Verification status={verification} reason={reason} />
         <WakatimeSetupInstructions
           session={session}
           wakaToken={wakaToken}
