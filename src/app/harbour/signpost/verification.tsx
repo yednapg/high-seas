@@ -86,8 +86,8 @@ export default function Verification({ status, reason }: VerificationProps) {
             >
                 <p>{message}</p>
                 {redirect && (
-                    <Link href="/verification-flow" className="underline">
-                        Go to Verification Flow
+                    <Link href="https://forms.hackclub.com/eligibility" className="underline">
+                        Verify Yourself!
                     </Link>
                 )}
             </div>
