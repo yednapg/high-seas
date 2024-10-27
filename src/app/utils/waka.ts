@@ -94,19 +94,26 @@ export async function getWakaSessions(): Promise<any> {
   }
 
   const session = await getSession();
-  if (!session)
+  if (!session) {
     throw new Error(
       "No Slack OAuth session found while trying to get WakaTime sessions.",
     );
+  }
 
   const slackId = session.slackId;
 
+  const key = cookies().get("waka-key")?.value;
+  if (!key) {
+    throw new Error("No WakaTime key found while trying to get WakaTime sessions.");
+  }
+  const parsedKey = JSON.parse(key)
+  
   const summaryRes = await fetch(
-    // TODO: this date needs to change dynamically and can't be too far in the future
     `https://waka.hackclub.com/api/summary?interval=low_skies&user=${slackId}&recompute=true`,
     {
       headers: {
-        Authorization: `Bearer ${WAKA_API_KEY}`,
+        // Note, this should probably just be an admin token in the future.
+        Authorization: `Bearer ${parsedKey.api_key}`,
       },
     },
   );
