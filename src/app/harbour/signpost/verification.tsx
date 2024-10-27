@@ -80,7 +80,7 @@ export default function Verification({ status, reason }: VerificationProps) {
     return (
         <JaggedCard bgColor={color}>
             <div
-                className={`p-4  ${
+                className={`py-1 px-3  ${
                     color === "yellow" || color === "orange" ? "text-black" : "text-white"
                 }`}
             >
