@@ -48,7 +48,7 @@ export default function SignPost({
         <KeyPlacesInstructions />
       </div>
 
-      <p className="mt-4 text-center">
+      <p className="mt-4 text-center text-white">
         Have questions? Need help? Reach out to us in{" "}
         <a
           className="text-blue-500"
