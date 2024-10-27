@@ -245,8 +245,8 @@ export default function Ships({
 
         {shippedShips.length < 1 && stagedShips.length < 1 ? (
           <>
-            <div className="mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
-              <img src="/curly-arrow.svg" alt="" width="64" className="" />
+            <div className="text-white mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
+              <img src="/curly-arrow.svg" alt="" width="64" />
               <div className="flex flex-col justify-between">
                 <p></p>
                 <p className="-translate-x-3 translate-y-2">
@@ -260,34 +260,34 @@ export default function Ships({
       </div>
 
       <AnimatePresence>
-        {newShipVisible && (
+        {newShipVisible && session && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto"
+            className="absolute inset-0 h-full z-50 bg-black bg-opacity-50"
             onClick={() => setNewShipVisible(false)}
           >
-            <div className="min-h-screen px-4 pt-32 pb-20">
-              <div className="flex justify-center">
-                <motion.div
-                  className="w-full max-w-2xl"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Card
-                    id="new-ship-form-container-card"
-                    className="relative w-full"
-                  >
-                    <NewShipForm
-                      ships={ships}
-                      canvasRef={canvasRef}
-                      closeForm={() => setNewShipVisible(false)}
-                      session={session}
-                    />
-                  </Card>
-                </motion.div>
-              </div>
-            </div>
+            <Card
+              className="relative w-full max-w-2xl mx-auto mt-16"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <NewShipForm
+                ships={ships}
+                canvasRef={canvasRef}
+                closeForm={() => setNewShipVisible(false)}
+                session={session}
+              />
+
+              <motion.button
+                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+                onClick={() => setNewShipVisible(false)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon glyph="view-close" />
+              </motion.button>
+            </Card>
           </motion.div>
         )}
       </AnimatePresence>
@@ -298,7 +298,7 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="absolute inset-0 bg-black bg-opacity-50 z-50"
             onClick={() => setNewUpdateShip(null)}
           >
             <Card
@@ -349,7 +349,10 @@ export default function Ships({
               className="w-full max-w-2xl mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <Card className="relative h-full overflow-hidden flex flex-col">
+              <Card
+                className="relative w-full max-w-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="absolute top-0 left-0 right-0 h-48 z-10">
                   <Image
                     src={selectedShip.screenshotUrl}

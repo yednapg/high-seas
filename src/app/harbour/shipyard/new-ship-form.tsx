@@ -1,4 +1,5 @@
 // Import necessary modules and components
+import React from "react";
 import Link from "next/link";
 import { createShip, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
@@ -20,11 +21,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
-import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
-import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
 export default function NewShipForm({
   ships,
