@@ -58,7 +58,7 @@ const exampleShips: Ship[] = [
     id: "example_ship_3",
     title: "Portoise USB Hub",
     repoUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
-    deploymentUrl: "",
+    deploymentUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
     screenshotUrl:
       "https://cloud-ma98mn299-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
@@ -81,9 +81,9 @@ const exampleShips: Ship[] = [
     id: "example_ship_4",
     title: "Skeleton Summoner Game",
     repoUrl: "https://github.com/MONKEYFACE678/Programming-Theory-Repo",
-    deploymentUrl: "",
+    deploymentUrl: "https://monkeyface678.itch.io/skeleton-summoner",
     screenshotUrl:
-      "https://cloud-j29zpdbig-hack-club-bot.vercel.app/0image.png",
+      "https://cloud-dye9ap8qa-hack-club-bot.vercel.app/0screenshot_2024-10-26_at_17.01.25_2x.png",
     readmeUrl:
       "https://raw.githubusercontent.com/MONKEYFACE678/Programming-Theory-Repo/refs/heads/main/ReadMe.txt",
     credited_hours: 11,
