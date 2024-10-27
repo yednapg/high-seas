@@ -78,6 +78,12 @@ function setupSteps(tourManager: Tour) {
   tourManager.on("show", (e) => {
     if (e.step.id === "ts-draft-field-submit") {
       setCookie("tour-step", "ts-staged-ship-0");
+    } else if (e.step.id === "ts-shop-free-stickers") {
+      document
+        .getElementById("ts-shop-free-stickers")
+        ?.addEventListener("click", () => {
+          setCookie("tour-step", "ts-signpost");
+        });
     }
   });
 
@@ -111,28 +117,6 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-repo",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
-      attachTo: {
-        element: "#repo-field",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          document
-            .querySelector("#repo-field")!
-            .addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (target.value.trim() === "https://github.com/hackclub/site")
-                  tourManager.next();
-              },
-            );
-          r();
-        });
-      },
-    },
-    {
       id: "ts-draft-field-title",
       text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"! Try typing that into the field over there.",
       attachTo: {
@@ -152,6 +136,28 @@ function setupSteps(tourManager: Tour) {
               }
             },
           );
+          r();
+        });
+      },
+    },
+    {
+      id: "ts-draft-field-repo",
+      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
+      attachTo: {
+        element: "#repo-field",
+        on: "top",
+      },
+      beforeShowPromise: () => {
+        return new Promise((r) => {
+          document
+            .querySelector("#repo-field")!
+            .addEventListener(
+              "input",
+              ({ target }: { target: HTMLInputElement }) => {
+                if (target.value.trim() === "https://github.com/hackclub/site")
+                  tourManager.next();
+              },
+            );
           r();
         });
       },
@@ -501,6 +507,11 @@ function setupSteps(tourManager: Tour) {
         selector: "#item_free_stickers_41 form button",
         event: "click",
       },
+    },
+    {
+      id: "ts-signpost",
+      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have HackaTime installed!",
+      buttons: [{ text: "Great!", action: tourManager.next }],
     },
   ];
 
