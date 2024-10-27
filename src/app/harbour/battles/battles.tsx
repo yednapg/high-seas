@@ -451,7 +451,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                   id="submit-vote"
                   onClick={handleVoteSubmit}
                   disabled={isSubmitting || fewerThanTenWords}
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
