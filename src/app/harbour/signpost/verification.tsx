@@ -18,7 +18,7 @@ const getVerificationMessage = (status: string, reason: string) => {
             return {
                 color: "yellow",
                 message:
-                    "Your verification is under review, it shall be checked soon. ETA: >1 Day",
+                    "We are still working on verifying your age. Hang tight, it usually takes less than day!",
             };
         case "Insufficient":
             return {
