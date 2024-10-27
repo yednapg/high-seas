@@ -11,24 +11,25 @@ const getVerificationMessage = (status: string, reason: string) => {
             return {
                 color: "orange",
                 message:
-                    "You didn't verify yet. Please proceed to the verification flow.",
+                    "You didn't verify yet. Please proceed to the verification flow. After all your galley won't sail on it's own!",
                 redirect: true,
             };
         case "Unknown":
             return {
                 color: "yellow",
                 message:
-                    "We are still working on verifying your age. Hang tight, it usually takes less than day!",
+                    "We've received your proof for verification! Hang tight, it usually takes less than day. If you installed HackaTime, work on your ship and blow us down!",
             };
         case "Insufficient":
             return {
                 color: "orange",
                 message: (
                     <>
-                        Your verification was insufficient. Here's why, according to the reviewer {reason}. Fill out the form
-                        again at{" "}
+                        Blimey! We weren't able to verify you with the proof you submitted According to the reviewer {reason}. 
+                        Don't feed the fish though!  
+                        {" "}
                         <Link href="https://forms.hackclub.com/eligibility" className="underline">
-                            this link
+                            Try again here
                         </Link>
                         . Email{" "}
                         <a href="mailto:verifications@hackclub.com" className="underline">
@@ -43,8 +44,8 @@ const getVerificationMessage = (status: string, reason: string) => {
                 color: "red",
                 message: (
                     <>
-                        High Seas is available only for teenagers. You were found to be an
-                        adult, {reason}. Email{" "}
+                        Heave To!!! High Seas is available only for teenagers 18 and under. You were found to be an
+                        adult. Email{" "}
                         <a href="mailto:verifications@hackclub.com" className="underline">
                             verifications@hackclub.com
                         </a>{" "}
@@ -56,7 +57,7 @@ const getVerificationMessage = (status: string, reason: string) => {
         case "Eligible L2":
             return {
                 color: "green",
-                message: "You are verified and ready to ship projects!",
+                message: "Ahoy, Matey! Welcome aboard! Your verification has been approved. Become a Seadog and lookout for booty by shipping your projects! Let your ship become a Man-O-War!",
             };
         // case "Alum":
         //     return {
