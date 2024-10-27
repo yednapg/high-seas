@@ -1,4 +1,5 @@
 // Import necessary modules and components
+import React from "react";
 import Link from "next/link";
 import { createShip, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
@@ -20,17 +21,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
-import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
-import { LoadingSpinner } from "@/components/ui/loading_spinner";
 
 export default function NewShipForm({
   ships,
   canvasRef,
   closeForm,
   session,
+  ...props
 }: {
   ships: Ship[];
   canvasRef: any;
@@ -48,6 +48,7 @@ export default function NewShipForm({
   } | null>(null);
   const [open, setOpen] = useState(false);
   const [isShipUpdate, setIsShipUpdate] = useState(false);
+  const [isGithubRepo, setIsGithubRepo] = useState(false);
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -58,33 +59,27 @@ export default function NewShipForm({
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const slackId = session.slackId;
-        const res = await getWakaSessions();
-        const shippedShips = ships
-          .filter((s) => s.shipStatus !== "deleted")
-          .map((s) => s.wakatimeProjectName)
-          .filter((n) => n);
-        setProjects(
-          res.projects.filter(
-            (p: { key: string; total: number }) =>
-              p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-          ),
-        );
-
         if (sessionStorage.getItem("tutorial") === "true") {
-          setProjects((p) => [
-            { key: "hack-club-site", total: 123 * 60 * 60 },
-            ...p!,
-          ]);
+          setProjects([{ key: "hack-club-site", total: 123 * 60 * 60 }]);
+        } else {
+          const res = await getWakaSessions();
+          const shippedShips = ships
+            .filter((s) => s.shipStatus !== "deleted")
+            .map((s) => s.wakatimeProjectName)
+            .filter((n) => n);
+          setProjects(
+            res.projects.filter(
+              (p: { key: string; total: number }) =>
+                p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
+            ),
+          );
         }
-
-        console.log(res);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
     }
     fetchProjects();
-  }, [session.slackId]);
+  }, [session?.slackId]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
@@ -94,24 +89,42 @@ export default function NewShipForm({
     // }
 
     const deploymentUrl = formData.get("deployment_url") as string;
-    if (["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(domain => deploymentUrl.includes(domain))) {
+    if (
+      ["github.com", "gitlab.com", "bitbucket.org", "testflight.com"].some(
+        (domain) => deploymentUrl.includes(domain),
+      )
+    ) {
       toast({
         title: "That's not a demo link!",
-        description: "Submit a link to a deployed project or a video demo of what your project is instead!",
+        description:
+          "Submit a link to a deployed project or a video demo of what your project is instead!",
       });
       setStaging(false);
       return;
     }
 
+    const repoUrl = formData.get("repo_url") as string;
+    if (isGithubRepo) {
+      formData.set(
+        "readme_url",
+        repoUrl.replace(
+          /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
+          "https://raw.githubusercontent.com/$1/$2/refs/heads/main/README.md"
+        )
+      );
+    }
+
     await createShip(formData);
+    const isTutorial = sessionStorage.getItem("tutorial") === "true";
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
     setStaging(false);
   };
+
   const { toast } = useToast();
   return (
-    <div className="p-4">
+    <div className="p-4" {...props}>
       <h1 className="text-2xl font-bold mb-4">
         {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
@@ -279,19 +292,22 @@ export default function NewShipForm({
             name="repo_url"
             required
             className="w-full p-2 border rounded"
+            onChange={({ target }) => setIsGithubRepo(target.value.includes("github.com"))}
           />
         </div>
 
-        <div id="readme-field">
-          <label htmlFor="readme_url">README URL</label>
-          <input
-            type="url"
-            id="readme_url"
-            name="readme_url"
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        {!isGithubRepo && (
+          <div id="readme-field">
+            <label htmlFor="readme_url">README URL</label>
+            <input
+              type="url"
+              id="readme_url"
+              name="readme_url"
+              required
+              className="w-full p-2 border rounded"
+            />
+          </div>
+        )}
 
         <div id="deployment-field">
           <label htmlFor="deployment_url">

@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
-import { sample, shopBanner} from "../../../../lib/flavor.js";
+import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
 import { getShop, ShopItem } from "./shop-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 import { HsSession } from "@/app/utils/auth.js";
 
-import { ShopItemComponent } from "./shop-item-component.js"
-import { ShopkeeperComponent } from "./shopkeeper.js"
+import { ShopItemComponent } from "./shop-item-component.js";
+import { ShopkeeperComponent } from "./shopkeeper.js";
 
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
@@ -18,7 +18,10 @@ export default function Shop({ session }: { session: HsSession }) {
     "cache.shopItems",
     null,
   );
-  const [personTicketBalance] = useLocalStorageState<string>("cache.personTicketBalance", "-");
+  const [personTicketBalance] = useLocalStorageState<string>(
+    "cache.personTicketBalance",
+    "-",
+  );
 
   const [bannerText, setBannerText] = useState("");
   const verificationStatus = /*session.verificationStatus[0] ||*/ "Eligible L1";
@@ -66,9 +69,13 @@ export default function Shop({ session }: { session: HsSession }) {
           {bannerText}
         </p>
       </div>
-      <div className="text-center mb-6 mt-12">
-        <label>pick a region to buy something! </label>
-        <select onChange={onOptionChangeHandler} value={filterIndex} className="text-gray-600">
+      <div className="text-center mb-6 mt-12" id="region-select">
+        <label>pick a region to buy something!</label>
+        <select
+          onChange={onOptionChangeHandler}
+          value={filterIndex}
+          className="text-gray-600"
+        >
           <option value="0">️🏴‍☠️ all across the 7 seas</option>
           <option value="1">🇺🇸 US</option>
           <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
@@ -77,17 +84,18 @@ export default function Shop({ session }: { session: HsSession }) {
           <option value="5">🗺 other countries worldwide...</option>
         </select>
       </div>
-
-      <div className="relative" style={{minHeight: '100vh'}}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {shopItems.filter(getFilter()).map((item: any) => (
-            <ShopItemComponent
-              key={item.id}
-              item={item}
-              filterIndex={filterIndex}
-              personTicketBalance={personTicketBalance} />
-          ))}
-        </div>
+       <div className="relative" style={{minHeight: '100vh'}}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {shopItems.filter(getFilter()).map((item: any) => (
+          <ShopItemComponent
+            id={item.id}
+            key={item.id}
+            item={item}
+            filterIndex={filterIndex}
+            personTicketBalance={personTicketBalance}
+          />
+        ))}
+         </div>
         <ShopkeeperComponent />
         <div id="shopkeeper-bar" className={`shop-stand`}>
           <img id="shopkeeper-img" src={'#'} className={true ? 'talking' : 'idle'} />

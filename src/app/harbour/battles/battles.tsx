@@ -72,7 +72,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </p> */}
         <div className="flex flex-wrap gap-2 mb-4">
           {project.repo_url && (
-            <Link
+            <a
+              id="repository-link"
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -83,25 +84,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 glyph="code"
                 classes="text-lg"
               />
-            </Link>
+            </a>
           )}
           {project.deploy_url && (
-            <Link
+            <a
+              id="live-demo-link"
               href={project.deploy_url}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Pill
-                id={`live-demo-link-${key}`}
                 msg="Live Demo"
                 color="green"
                 glyph="link"
                 classes="text-lg"
               />
-            </Link>
+            </a>
           )}
           {project.readme_url && (
-            <button onClick={onReadmeClick}>
+            <button onClick={onReadmeClick} id="readme-button">
               <Pill
                 msg="README"
                 color="purple"
@@ -114,6 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
       <div className="p-4 bg-gray-100 dark:bg-gray-700">
         <button
+          id="vote-button"
           onClick={onVote}
           className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >
@@ -213,6 +215,7 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
   const [reason, setReason] = useState("");
+  const [fewerThanTenWords, setFewerThanTenWords] = useState(true);
   const [error, setError] = useState("");
   const [readmeContent, setReadmeContent] = useState("");
   const [isReadmeView, setIsReadmeView] = useState(false);
@@ -224,6 +227,10 @@ export default function Matchups({ session }: { session: HsSession }) {
   );
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    setFewerThanTenWords(reason.trim().split(" ").length < 10);
+  }, [reason]);
 
   const fetchVoteBalance = async () => {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
@@ -376,7 +383,7 @@ export default function Matchups({ session }: { session: HsSession }) {
           {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
               {voteBalance} vote(s) remaining for your next ship to enter the
-              thunderdome!
+              Wonderdome!
             </div>
           )}
         </header>
@@ -443,7 +450,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                 <button
                   id="submit-vote"
                   onClick={handleVoteSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || fewerThanTenWords}
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}

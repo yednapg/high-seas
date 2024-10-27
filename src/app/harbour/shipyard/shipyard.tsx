@@ -8,7 +8,7 @@ import Pill from "@/components/ui/pill";
 
 const exampleShips: Ship[] = [
   {
-    id: "example_ship_1",
+    id: "xX_$EXAMPLESHIP$_Xx-1",
     title: "Flip Slash Sprig Game",
     repoUrl: "https://github.com/kaj07/FLIP-SLASH--sprig-",
     deploymentUrl: "https://sprig.hackclub.com/share/FNUdELr7n4CvmavQAr8d",
@@ -28,10 +28,10 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null
+    reshippedToId: null,
   },
   {
-    id: "example_ship_2",
+    id: "xX_$EXAMPLESHIP$_Xx-2",
     title: "COTL Music Player",
     repoUrl: "https://github.com/galexy727/cotl-music-player",
     deploymentUrl:
@@ -52,13 +52,13 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null
+    reshippedToId: null,
   },
   {
-    id: "example_ship_3",
+    id: "xX_$EXAMPLESHIP$_Xx-3",
     title: "Portoise USB Hub",
     repoUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
-    deploymentUrl: "",
+    deploymentUrl: "https://github.com/Beenana02/Portoise_USB_Hub",
     screenshotUrl:
       "https://cloud-ma98mn299-hack-club-bot.vercel.app/0image.png",
     readmeUrl:
@@ -75,15 +75,15 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null
+    reshippedToId: null,
   },
   {
-    id: "example_ship_4",
+    id: "xX_$EXAMPLESHIP$_Xx-4",
     title: "Skeleton Summoner Game",
     repoUrl: "https://github.com/MONKEYFACE678/Programming-Theory-Repo",
-    deploymentUrl: "",
+    deploymentUrl: "https://monkeyface678.itch.io/skeleton-summoner",
     screenshotUrl:
-      "https://cloud-j29zpdbig-hack-club-bot.vercel.app/0image.png",
+      "https://cloud-dye9ap8qa-hack-club-bot.vercel.app/0screenshot_2024-10-26_at_17.01.25_2x.png",
     readmeUrl:
       "https://raw.githubusercontent.com/MONKEYFACE678/Programming-Theory-Repo/refs/heads/main/ReadMe.txt",
     credited_hours: 11,
@@ -98,7 +98,7 @@ const exampleShips: Ship[] = [
     createdTime: "",
     updateDescription: null,
     reshippedFromId: null,
-    reshippedToId: null
+    reshippedToId: null,
   },
 ];
 
@@ -137,20 +137,30 @@ export default function Shipyard({
         {voteBalance > 0 && (
           <div className="w-fit mx-auto">
             <Pill
-              msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Thunderdome!`}
+              msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Wonderdome!`}
               color="red"
               glyph="important"
               id={""}
             />
           </div>
         )}
-        <Ships ships={ships} shipChains={shipChains} setShips={setShips} bareShips={false} />
+        <Ships
+          ships={ships}
+          shipChains={shipChains}
+          setShips={setShips}
+          bareShips={false}
+        />
 
         <div className="flex flex-col justify-center items-center mt-8">
           <h2 className="text-xl mb-2 text-blue-500">
             Here are some example projects others have submitted!
           </h2>
-          <Ships ships={exampleShips} bareShips={true} shipChains={new Map()} setShips={() => {}} />
+          <Ships
+            ships={exampleShips}
+            bareShips={true}
+            shipChains={new Map()}
+            setShips={() => {}}
+          />
         </div>
       </>
     );

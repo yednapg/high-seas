@@ -130,8 +130,8 @@ export default function Harbour({
       lockOnNoHb: true,
     },
     {
-      name: "Thunderdome",
-      path: "thunderdome",
+      name: "Wonderdome",
+      path: "wonderdome",
       component: <Battles session={session} />,
       lockOnNoHb: true,
     },

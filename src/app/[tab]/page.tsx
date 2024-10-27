@@ -27,7 +27,7 @@ export default function Page({
   }, []);
 
   const { tab } = params;
-  const validTabs = ["signpost", "the-keep", "thunderdome", "shop"];
+  const validTabs = ["signpost", "the-keep", "wonderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
 
   const { magic_auth_token } = searchParams;
@@ -52,7 +52,7 @@ export default function Page({
           backgroundPosition: "center",
         }}
       />
-      <div className="w-full min-h-screen pt-14 flex items-start justify-center p-8">
+      <div className="w-full min-h-screen pt-14 flex items-start justify-center p-4">
         <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
           {session ? (

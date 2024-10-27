@@ -193,7 +193,7 @@ export default function Ships({
         >
           <Button
             className="text-xl text-white"
-            style={{background: "#D236E2"}}
+            style={{ background: "#D236E2" }}
             id="start-ship-draft"
             onClick={() => setNewShipVisible(true)}
           >
@@ -245,8 +245,8 @@ export default function Ships({
 
         {shippedShips.length < 1 && stagedShips.length < 1 ? (
           <>
-            <div className="mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
-              <img src="/curly-arrow.svg" alt="" width="64" className="" />
+            <div className="text-white mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
+              <img src="/curly-arrow.svg" alt="" width="64" />
               <div className="flex flex-col justify-between">
                 <p></p>
                 <p className="-translate-x-3 translate-y-2">
@@ -265,15 +265,15 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="absolute inset-0 h-full z-50 bg-black bg-opacity-50"
             onClick={() => setNewShipVisible(false)}
           >
             <Card
-              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto"
-              id="new-ship-form-container-card"
+              className="relative w-full max-w-2xl mx-auto mt-16"
               onClick={(e) => e.stopPropagation()}
             >
               <NewShipForm
+                id="new-ship-form-container-card"
                 ships={ships}
                 canvasRef={canvasRef}
                 closeForm={() => setNewShipVisible(false)}
@@ -299,7 +299,7 @@ export default function Ships({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="absolute inset-0 bg-black bg-opacity-50 z-50"
             onClick={() => setNewUpdateShip(null)}
           >
             <Card
@@ -333,14 +333,27 @@ export default function Ships({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             id="selected-ship-card-parent"
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            className="absolute inset-0 bg-black bg-opacity-50 z-50"
             onClick={() => setSelectedShip(null)}
           >
+            {/* <div className="min-h-screen px-4 pt-32 pb-20">
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-full max-w-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Card
+                    id="new-ship-form-container-card"
+                    className="relative w-full"
+                  > */}
             <motion.div
-              className="bg-white rounded-lg w-full max-w-2xl"
+              className="w-full max-w-2xl mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <Card className="relative h-[80vh] overflow-hidden flex flex-col">
+              <Card
+                className="relative w-full max-w-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="absolute top-0 left-0 right-0 h-48 z-10">
                   <Image
                     src={selectedShip.screenshotUrl}

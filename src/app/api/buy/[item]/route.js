@@ -1,10 +1,10 @@
 import { getSession } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
-import { getSelfPerson} from "@/app/utils/airtable";
-import {base} from "airtable";
+import { getSelfPerson } from "@/app/utils/airtable";
+import { base } from "airtable";
 
-export async function POST(request, { params }) {
+export async function GET(request, { params }) {
   const session = await getSession();
   const person = await getSelfPerson(session.slackId);
   if (!person) {
@@ -13,7 +13,7 @@ export async function POST(request, { params }) {
       { status: 418 },
     );
   }
-  const b = await base(process.env.BASE_ID)
+  const b = await base(process.env.BASE_ID);
   const items = await b("shop_items");
 
   const recs = await items
@@ -30,15 +30,22 @@ export async function POST(request, { params }) {
   const people = await b("people");
   const otp = Math.random().toString(16).slice(2);
 
-  console.log(person)
-  if (!person.fields.verification_status || !["Eligible L1", "Eligible L2"].includes(person.fields.verification_status[0])) {
+  console.log(person);
+  if (
+    !person.fields.verification_status ||
+    !["Eligible L1", "Eligible L2"].includes(
+      person.fields.verification_status[0],
+    )
+  ) {
     await people.update(person.id, {
       shop_otp: otp,
       shop_otp_expires_at: new Date(
-          new Date().getTime() + 60 * 60 * 1000,
+        new Date().getTime() + 60 * 60 * 1000,
       ).toISOString(),
     });
-    return redirect(`https://forms.hackclub.com/eligibility?slack_id=${session.slackId}&program=High Seas&continue=${encodeURIComponent(item.fields.fillout_base_url.replace("shop-order","hs-order")+otp)}`);
+    return redirect(
+      `https://forms.hackclub.com/eligibility?slack_id=${session.slackId}&program=High Seas&continue=${encodeURIComponent(item.fields.fillout_base_url.replace("shop-order", "hs-order") + otp)}`,
+    );
   }
   await people.update(person.id, {
     shop_otp: otp,
@@ -47,5 +54,7 @@ export async function POST(request, { params }) {
     ).toISOString(),
   });
   console.log(item);
-  return redirect(`${item.fields.fillout_base_url.replace("shop-order","hs-order")}${otp}`);
+  return redirect(
+    `${item.fields.fillout_base_url.replace("shop-order", "hs-order")}${otp}`,
+  );
 }

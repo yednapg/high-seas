@@ -3,7 +3,7 @@
 **Build personal projects. Get free stuff.**
 
 *Welcome to the Hack Club High Seas.*
- Built by a team of 20 teenagers from around the world, High Seas is a global challenge to every teenager to build awesome projects and get rewarded.
+Built by a team of 20 teenagers from around the world, High Seas is a global challenge to every teenager to build awesome projects and get rewarded.
 
 Prizes range from iPads, Framework Laptops, Flipper Zeroes, and more.
 
