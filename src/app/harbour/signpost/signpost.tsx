@@ -41,8 +41,8 @@ export default function SignPost({
     });
   }, [session.slackId]);
 
-  const verification = person?.["fields"]["verification_status"][0]?.toString() || "";
-  const reason = person?.["fields"]["Rejection Reason"] || "";
+  const verification = person?.["fields"]?.["verification_status"]?.[0]?.toString() || "";
+  const reason = person?.["fields"]?.["Rejection Reason"] || "";
 
   return (
     <motion.div
