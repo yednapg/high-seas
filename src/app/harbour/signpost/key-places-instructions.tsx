@@ -14,7 +14,7 @@ const keyLocations = [
     path: "/the-keep",
   },
   {
-    title: "Thunderdome",
+    title: "Wonderdome",
     subtitle: (
       <p>
         Vote between projects others have made! After submitting your project,
@@ -35,7 +35,7 @@ const keyLocations = [
         voted!
       </p>
     ),
-    path: "/thunderdome",
+    path: "/wonderdome",
   },
   {
     title: "Shoppe",

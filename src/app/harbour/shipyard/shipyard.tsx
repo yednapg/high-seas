@@ -137,7 +137,7 @@ export default function Shipyard({
         {voteBalance > 0 && (
           <div className="w-fit mx-auto">
             <Pill
-              msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Thunderdome!`}
+              msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Wonderdome!`}
               color="red"
               glyph="important"
               id={""}

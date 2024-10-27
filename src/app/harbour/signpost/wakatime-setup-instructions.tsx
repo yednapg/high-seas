@@ -64,8 +64,8 @@ export default function WakatimeSetupInstructions({
                   }
                 />{" "}
                 you get when your projects are voted on in the{" "}
-                <Link href="/thunderdome" className="text-blue-500">
-                  Thunderdome
+                <Link href="/wonderdome" className="text-blue-500">
+                  Wonderdome
                 </Link>{" "}
                 by other Hack Clubbers.{" "}
                 <Pill

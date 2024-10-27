@@ -11,7 +11,7 @@ const LoadingSpinner = () => {
   return useMemo(() => (
     <div className="h-32 w-32">
       {src && (
-        <img src={src} alt="loading spinner" />
+        <img src={src} className="animate-spin" style={{filter: 'invert(0.5) sepia(1) saturate(1) hue-rotate(225deg)', animationDuration: '2s'}} alt="loading spinner" />
       )}
     </div>
   ), [src])
