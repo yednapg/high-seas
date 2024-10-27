@@ -89,6 +89,7 @@ export default function Shop({ session }: { session: HsSession }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => (
           <ShopItemComponent
+            id={item.id}
             key={item.id}
             item={item}
             filterIndex={filterIndex}

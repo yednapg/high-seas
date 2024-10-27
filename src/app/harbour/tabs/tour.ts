@@ -59,13 +59,14 @@ export function tour() {
 
   if (!hasSetUp) {
     setupSteps(t);
+    t.start();
+    console.log("asrotneisnrtoisr");
     hasSetUp = true;
   }
 
   console.log(t.steps);
 
   sessionStorage.setItem("tutorial", "true");
-  t.start();
 }
 
 let signal, controller;
@@ -484,6 +485,21 @@ function setupSteps(tourManager: Tour) {
       advanceOn: {
         selector: "#region-select select",
         event: "change",
+      },
+    },
+    {
+      id: "ts-shop-free-stickers",
+      text: "Pick the free stickers!",
+      attachTo: {
+        element: "#item_free_stickers_41",
+        on: "top",
+      },
+      beforeShowPromise: () => {
+        return waitForElement("#item_free_stickers_41");
+      },
+      advanceOn: {
+        selector: "#item_free_stickers_41 form button",
+        event: "click",
       },
     },
   ];
