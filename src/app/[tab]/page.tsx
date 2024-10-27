@@ -27,8 +27,7 @@ export default async function Page({ params }: { params: { tab: string } }) {
         <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
           <p className="text-center text-xl p-2">
-            Low Skies will be closed Saturday at Midnight EST. Start spending
-            those scales!!!
+            Low Skies has now closed. Thanks for participating!
           </p>
           <Harbour session={session} currentTab={tab} />
         </Card>
