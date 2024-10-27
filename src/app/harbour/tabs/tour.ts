@@ -78,12 +78,6 @@ function setupSteps(tourManager: Tour) {
   tourManager.on("show", (e) => {
     if (e.step.id === "ts-draft-field-submit") {
       setCookie("tour-step", "ts-staged-ship-0");
-    } else if (e.step.id === "ts-shop-free-stickers") {
-      document
-        .getElementById("ts-shop-free-stickers")
-        ?.addEventListener("click", () => {
-          setCookie("tour-step", "ts-signpost");
-        });
     }
   });
 
@@ -501,11 +495,18 @@ function setupSteps(tourManager: Tour) {
         on: "top",
       },
       beforeShowPromise: () => {
-        return waitForElement("#item_free_stickers_41");
-      },
-      advanceOn: {
-        selector: "#item_free_stickers_41 form button",
-        event: "click",
+        const btn = document.querySelector("#item_free_stickers_41");
+
+        if (!btn) {
+          throw new Error("WhERE IS THE BUTTON??!?!?!??!");
+        }
+
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          console.log("clicked!");
+          setCookie("tour-step", "ts-signpost");
+          location.pathname = "/api/buy/item_free_stickers_41";
+        });
       },
     },
     {

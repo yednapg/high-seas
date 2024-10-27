@@ -28,7 +28,7 @@ const ActionArea = ({ item, filterIndex, affordable }) => {
     return <Button disabled={true}>💸 {getYourRacksUp}</Button>;
   }
   return (
-    <form action={`/api/buy/${item.id}`} method="POST" className="w-full">
+    <form action={`/api/buy/${item.id}`} className="w-full">
       <Button className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition-colors duration-200 text-3xl enchanted">
         {buyWord}
       </Button>
