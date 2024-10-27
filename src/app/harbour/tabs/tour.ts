@@ -41,7 +41,7 @@ const getCookie = (name: string): string | null => {
 
 const t = new Shepherd.Tour({
   useModalOverlay: true,
-  keyboardNavigation: false,
+  // keyboardNavigation: false,
   defaultStepOptions: {
     scrollTo: false,
     modalOverlayOpeningPadding: 4,
@@ -177,15 +177,19 @@ function setupSteps(tourManager: Tour) {
       },
       beforeShowPromise: () => {
         return new Promise((r) => {
-          document
-            .querySelector("#repo-field")!
-            .addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (target.value.trim() === "https://github.com/hackclub/site")
-                  tourManager.next();
-              },
-            );
+          controller.abort();
+
+          const f = document.querySelector("#repo-field")!;
+          f.focus();
+          f.addEventListener(
+            "input",
+            ({ target }: { target: HTMLInputElement }) => {
+              if (target.value.trim() === "https://github.com/hackclub/site") {
+                f.blur();
+                tourManager.next();
+              }
+            },
+          );
           r();
         });
       },
@@ -202,7 +206,7 @@ function setupSteps(tourManager: Tour) {
           controller.abort();
 
           const f: HTMLInputElement = document.querySelector("#readme-field")!;
-
+          f.focus();
           f.addEventListener(
             "input",
             ({ target }: { target: HTMLInputElement }) => {
@@ -230,6 +234,7 @@ function setupSteps(tourManager: Tour) {
         return new Promise((r) => {
           const f: HTMLInputElement =
             document.querySelector("#deployment-field")!;
+          f.focus();
           f.addEventListener(
             "input",
             ({ target }: { target: HTMLInputElement }) => {
@@ -409,18 +414,21 @@ function setupSteps(tourManager: Tour) {
     // },
     {
       id: "ts-vote-left",
-      text: "Here we have a Ship.<br /><br />Check out the live version by clicking on the <i>Repository</i> and <i>Live demo</i> button.",
+      text: "Here we have a Ship.<br /><br />Check out the repo version by clicking on the <i>Repository</i> button!",
       attachTo: {
         element: "#voting-project-left",
         on: "top",
       },
       beforeShowPromise: () => {
         // return new Promise((r) => setTimeout(r, 3_000));
-        return waitForElement("#voting-project-left");
+        return waitForElement("#voting-project-left", () => {
+          document.querySelector!(
+            "#voting-project-left button#readme-button",
+          ).disabled = true;
+        });
       },
       advanceOn: {
-        selector:
-          "#voting-project-left #live-demo-link, #voting-project-left #repository-link",
+        selector: "#voting-project-left #repository-link",
         event: "click",
       },
     },

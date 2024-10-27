@@ -102,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </a>
           )}
           {project.readme_url && (
-            <button onClick={onReadmeClick}>
+            <button onClick={onReadmeClick} id="readme-button">
               <Pill
                 msg="README"
                 color="purple"
@@ -215,6 +215,7 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
   const [reason, setReason] = useState("");
+  const [fewerThanTenWords, setFewerThanTenWords] = useState(true);
   const [error, setError] = useState("");
   const [readmeContent, setReadmeContent] = useState("");
   const [isReadmeView, setIsReadmeView] = useState(false);
@@ -226,6 +227,10 @@ export default function Matchups({ session }: { session: HsSession }) {
   );
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    setFewerThanTenWords(reason.trim().split(" ").length < 10);
+  }, [reason]);
 
   const fetchVoteBalance = async () => {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
@@ -445,7 +450,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                 <button
                   id="submit-vote"
                   onClick={handleVoteSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || fewerThanTenWords}
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
