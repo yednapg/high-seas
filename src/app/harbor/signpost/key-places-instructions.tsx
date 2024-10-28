@@ -9,9 +9,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const keyLocations = [
   {
-    title: "The Keep",
+    title: "Shipyard",
     subtitle: <p>{"Submit your projects here when they're done!"}</p>,
-    path: "/the-keep",
+    path: "/shipyard",
   },
   {
     title: "Wonderdome",
@@ -38,7 +38,7 @@ const keyLocations = [
     path: "/wonderdome",
   },
   {
-    title: "Shoppe",
+    title: "Shop",
     subtitle: (
       <p>
         Spend all your{" "}

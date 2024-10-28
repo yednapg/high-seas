@@ -69,7 +69,7 @@ export default function Gallery({ ships, setShips }: any) {
           <b>Yay! You have seen all {shipsArray.length} ships.</b>
         </p>
       }
-      scrollableTarget="harbour-tab-scroll-element"
+      scrollableTarget="harbor-tab-scroll-element"
     >
       <Ships ships={shipsArray} />
     </InfiniteScroll>

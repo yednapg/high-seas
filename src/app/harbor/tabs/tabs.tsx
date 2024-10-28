@@ -48,7 +48,7 @@ const Balance = ({ balance }: { balance: number }) => {
   );
 };
 
-export default function Harbour({
+export default function Harbor({
   currentTab,
   session,
 }: {
@@ -130,8 +130,8 @@ export default function Harbour({
       ),
     },
     {
-      name: "The Keep",
-      path: "the-keep",
+      name: "Shipyard",
+      path: "shipyard",
       component: (
         <Shipyard
           session={session}
@@ -149,7 +149,7 @@ export default function Harbour({
       lockOnNoHb: true,
     },
     {
-      name: "Shoppe",
+      name: "Shop",
       path: "shop",
       component: <Shop session={session} />,
     },
@@ -182,7 +182,7 @@ export default function Harbour({
           <Balance balance={personTicketBalance} />
         </div>
       </TabsList>
-      <div className="flex-1 overflow-auto p-3" id="harbour-tab-scroll-element">
+      <div className="flex-1 overflow-auto p-3" id="harbor-tab-scroll-element">
         {tabs.map((tab) => (
           <TabsContent key={tab.name} value={tab.path} className="h-full">
             {tab.lockOnNoHb && hasWakaHb !== false && hasWakaHb !== true && (

@@ -77,7 +77,7 @@ export default function WakatimeSetupInstructions({
                 />{" "}
                 can be exchnged for items in the{" "}
                 <Link href="/shop" className="text-blue-500">
-                  Shoppe
+                  Shop
                 </Link>
                 .
               </p>
