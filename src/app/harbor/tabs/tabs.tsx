@@ -130,8 +130,8 @@ export default function Harbour({
       ),
     },
     {
-      name: "The Keep",
-      path: "the-keep",
+      name: "Shipyard",
+      path: "shipyard",
       component: (
         <Shipyard
           session={session}
@@ -149,7 +149,7 @@ export default function Harbour({
       lockOnNoHb: true,
     },
     {
-      name: "Shoppe",
+      name: "Shop",
       path: "shop",
       component: <Shop session={session} />,
     },

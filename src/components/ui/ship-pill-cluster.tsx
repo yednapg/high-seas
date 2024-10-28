@@ -1,4 +1,4 @@
-import type { Ship } from "@/app/harbour/shipyard/ship-utils";
+import type { Ship } from "@/app/harbor/shipyard/ship-utils";
 import Pill from "./pill";
 
 import DoubloonsImage from "/public/doubloon.svg";

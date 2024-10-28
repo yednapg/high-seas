@@ -36,6 +36,6 @@
   ],
   "exclude": [
     "node_modules",
-    "src/app/harbour/shop/shop.tsx"
+    "src/app/harbor/shop/shop.tsx"
   ]
 }

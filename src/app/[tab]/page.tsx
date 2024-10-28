@@ -27,7 +27,7 @@ export default function Page({
   }, []);
 
   const { tab } = params;
-  const validTabs = ["signpost", "the-keep", "wonderdome", "shop"];
+  const validTabs = ["signpost", "shipyard", "wonderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
 
   const { magic_auth_token } = searchParams;

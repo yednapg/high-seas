@@ -4,7 +4,7 @@ import {
   handleEmailSubmission,
   markArrpheusReadyToInvite,
 } from "../marketing-utils";
-import WakatimeSetupTutorialModal from "@/app/harbour/tabs/wakatime-setup-tutorial-modal";
+import WakatimeSetupTutorialModal from "@/app/harbor/tabs/wakatime-setup-tutorial-modal";
 import JSConfetti from "js-confetti";
 
 export default function EmailSubmissionForm() {
