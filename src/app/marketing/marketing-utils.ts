@@ -10,11 +10,13 @@ const highSeasPeopleTable = () => {
   return Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB");
 };
 
-export async function handleEmailSubmission(
-  email: string,
-  request?: NextRequest,
-) {
-  // Validate email
+export async function handleEmailSubmission(email: string) {
+  // Look up email
+  const url = `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/reccn503lZoH3jzUL?filterByFormula={email}='${email}'`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}` },
+  });
+
   if (email.length < 2) {
     const error = new Error("Email is invalid");
     console.error(error);
@@ -46,7 +48,7 @@ export async function handleEmailSubmission(
   });
 
   // Create person record (email & IP) in High Seas base
-  const personRecordId = await new Promise((resolve, reject) => {
+  const personRecordId: any = await new Promise((resolve, reject) => {
     highSeasPeopleTable().create(
       [
         {

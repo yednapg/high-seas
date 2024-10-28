@@ -115,22 +115,16 @@ function setupSteps(tourManager: Tour) {
         element: "#title-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          const f: HTMLInputElement = document.querySelector("input#title")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim().toLowerCase() === "hack club site") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement = document.querySelector("input#title")!;
+            el.value = "Hack Club site";
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-project",
@@ -139,58 +133,38 @@ function setupSteps(tourManager: Tour) {
         element: "#project-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          controller = new AbortController();
-          signal = controller.signal;
-
-          const wakatimeProjectNameField: HTMLInputElement =
-            document.querySelector("input#wakatime-project-name")!;
-
-          document.body.addEventListener(
-            "click",
-            () => {
-              // The timeout is because at the time of click, the value is not set.
-              setTimeout(() => {
-                console.log("body was clicked"); // Keep this to make sure the event listener is removed
-                if (
-                  wakatimeProjectNameField.value.trim().toLowerCase() ===
-                  "hack-club-site"
-                )
-                  tourManager.next();
-              }, 10);
-            },
-            { signal },
-          );
-          r();
-        });
-      },
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement = document.querySelector(
+              "input#wakatime-project-name",
+            )!;
+            el.value = "hack-club-site";
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-repo",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
+      text: "You also need to link a git repo (where your code is stored) - we <3 open source.<br /><br />If you enter a GitHub repo URL, we'll automagically infer the README url, so you don't have to input it in the README field below. As such, we'll skip over it :)",
       attachTo: {
         element: "#repo-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          controller.abort();
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement =
+              document.querySelector("input#repo_url")!;
+            el.value = "https://github.com/hackclub/site";
 
-          const f = document.querySelector("#repo-field")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim() === "https://github.com/hackclub/site") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-deployment",
@@ -199,23 +173,18 @@ function setupSteps(tourManager: Tour) {
         element: "#deployment-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          const f: HTMLInputElement =
-            document.querySelector("#deployment-field")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim() === "https://hackclub.com") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement = document.querySelector(
+              "#deployment-field input",
+            )!;
+            el.value = "https://hackclub.com";
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-screenshot",
@@ -228,7 +197,10 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Aye aye!",
           action: () => {
-            document.querySelector("input#screenshot_url")!.value =
+            const el: HTMLInputElement = document.querySelector(
+              "input#screenshot_url",
+            )!;
+            el.value =
               "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
             tourManager.next();
           },
