@@ -40,10 +40,10 @@ export default function EmailSubmissionForm() {
           type="text"
           name="email"
           placeholder="name@email.com"
-          className="p-4 rounded-lg text-md border-2 border-[#3852CD]"
+          className="px-6 py-2 rounded-lg text-md border-2 border-[#3852CD]"
         />
-        <button className="p-4 text-white text-2xl disabled:opacity-50 bg-[#3852CD] rounded-xl">
-          "Get started →"
+        <button className="px-6 py-2 text-white text-2xl disabled:opacity-50 bg-[#3852CD] rounded-xl">
+          Get started →
         </button>
       </form>
       {email ? (
