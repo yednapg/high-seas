@@ -877,7 +877,7 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). You just need a <Link href="https://waka.hackclub.com/" target="_blank" ref="noopenner noreferrer" class="faqLink">Hackatime</Link> account to participate. Different prizes have different country restrictions. Sign in with Hack Club Slack to get started!`,
+    answer: `You need to be a high schooler (or younger). Different prizes have different country restrictions. Enter your email then sign in with Hack Club Slack to get started!`,
   },
   {
     question: "How much does it cost?",
@@ -994,7 +994,7 @@ interface PrizeItem {
 }
 
 const PrizeData = [
-  {
+  /*{
     name: "Micro SD Card",
     doubloons: 202,
     image: "https://cloud-6d9peiend-hack-club-bot.vercel.app/0image.png",
@@ -1008,6 +1008,11 @@ const PrizeData = [
     name: "Bite Sized Linux",
     doubloons: 400,
     image: "https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png",
+  }, */
+  {
+    name: "Free stickers!",
+    doubloons: 0,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/free_stickers.png",
   },
   {
     name: "Domain",
@@ -1048,6 +1053,31 @@ const PrizeData = [
     name: "YubiKey",
     doubloons: 1512,
     image: "https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png",
+  },
+  {
+    name: "Raspberry Pi 5",
+    doubloons: 2710,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
+  },
+  {
+    name: "GitHub Backpack",
+    doubloons: 46000,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
+  },
+  {
+    name: "Bambu A1 Mini",
+    doubloons: 14196,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
+  },
+  {
+    name: "iPad",
+    doubloons: 28003,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
+  },
+  {
+    name: "Framework Laptop",
+    doubloons: 46000,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
   },
 ];
 
