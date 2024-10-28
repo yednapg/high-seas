@@ -427,67 +427,76 @@ export default function Matchups({ session }: { session: HsSession }) {
             </div>
             {selectedProject && (
               <div
-                id="voting-reason-container-parent"
-                className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+              id="voting-reason-container-parent"
+              className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
               >
-                <div id="voting-reason-container">
-                  <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
-                    Why are you voting for {selectedProject.title} over the
-                    other?
-                  </h3>
-                  <textarea
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    placeholder="Provide your reason here (minimum 10 words)"
-                    className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
-                    rows={6}
-                  />
+              <div id="voting-reason-container">
+                <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
+                Why are you voting for {selectedProject.title} over the other?
+                </h3>
+                <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="Provide your reason here (minimum 10 words)"
+                className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
+                rows={6}
+                />
 
-                  {error && (
-                    <p className="text-red-500 text-sm mb-4">{error}</p>
-                  )}
-                </div>
-                <button
-                  id="submit-vote"
-                  onClick={handleVoteSubmit}
-                  disabled={isSubmitting || fewerThanTenWords}
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
-                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit Vote"
-                  )}
-                </button>
+                {error && (
+                <p className="text-red-500 text-sm mb-4">{error}</p>
+                )}
               </div>
-            )}
-          </>
-        )}
-      </div>
+              {reason.trim().split(" ").length < 10 ? (
+                <button
+                id="submit-vote-disabled"
+                disabled
+                className="bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto cursor-not-allowed"
+                >
+                {10 - reason.trim().split(" ").length} words left...
+                </button>
+              ) : (
+                <button
+                id="submit-vote"
+                onClick={handleVoteSubmit}
+                disabled={isSubmitting}
+                className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                >
+                {isSubmitting ? (
+                  <>
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    ></circle>
+                    <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Submitting...
+                  </>
+                ) : (
+                  "Submit Vote"
+                )}
+                </button>
+              )}
+              </div>
+            )
+          }
+        </>
+      )}
     </div>
-  );
-}
+  </div>
+)};
