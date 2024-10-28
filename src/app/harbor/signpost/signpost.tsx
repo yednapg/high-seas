@@ -58,13 +58,13 @@ export default function SignPost({
         <KeyPlacesInstructions />
       </div>
 
-      <p className="mt-4 text-center">
+      <p className="mt-4 text-center text-white">
         Have questions? Need help? Reach out to us in{" "}
         <Link
           className="text-blue-500"
           href="https://hackclub.slack.com/archives/C07PZNMBPBN"
         >
-          #low-skies-help
+          #high-seas-help
         </Link>
         !
       </p>
