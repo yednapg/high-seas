@@ -59,7 +59,7 @@ export default async function Marketing() {
                 alt="high seas logo"
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
-              <p className="text-2xl md:text-4xl text-white mx-8">
+              <p className="text-2xl md:text-4xl text-white mx-8 drop-shadow-lg">
                 Build personal projects. Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
