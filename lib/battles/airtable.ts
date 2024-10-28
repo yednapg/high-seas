@@ -109,6 +109,7 @@ export const submitVote = async (voteData: {
     winner_adjustment: newWinnerRating - voteData.winnerRating,
     loser_rating: voteData.loserRating,
     loser_adjustment: newLoserRating - voteData.loserRating,
+    is_tutorial_vote: !person.user_has_graduated
   });
 
   return {
