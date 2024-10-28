@@ -72,7 +72,7 @@ export default async function Marketing() {
                   <EmailSubmissionForm />
                 )}
               </div>
-              <p className="mt-2 text-white">New sailors get free stickers!</p>
+              <p className="mt-2 text-white bg-[#3852CD] bg-opacity-50 px-4 py-2 rounded-lg">New sailors get free stickers!</p>
             </div>
             <Link href="#howthisworks">
               <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
