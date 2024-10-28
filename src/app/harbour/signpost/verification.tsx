@@ -11,24 +11,25 @@ const getVerificationMessage = (status: string, reason: string) => {
             return {
                 color: "orange",
                 message:
-                    "You didn't verify yet. Please proceed to the verification flow.",
+                    "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-support 🤔",
                 redirect: true,
             };
         case "Unknown":
             return {
                 color: "yellow",
                 message:
-                    "Your verification is under review, it shall be checked soon. ETA: >1 Day",
+                    "Hang tight, we're still reviewing your verification documents! Don't worry, it usually takes less than day. In the meantime, get hacking! Your hours still count as long as you've installed Hackatime.",
             };
         case "Insufficient":
             return {
                 color: "orange",
                 message: (
                     <>
-                        Your verification was insufficient, {reason}. Fill out the form
-                        again at{" "}
+                        Blimey! We weren't able to verify you with the proof you submitted According to the reviewer {reason}. 
+                        Don't feed the fish though!  
+                        {" "}
                         <Link href="https://forms.hackclub.com/eligibility" className="underline">
-                            this link
+                            Try again here
                         </Link>
                         . Email{" "}
                         <a href="mailto:verifications@hackclub.com" className="underline">
@@ -43,8 +44,7 @@ const getVerificationMessage = (status: string, reason: string) => {
                 color: "red",
                 message: (
                     <>
-                        High Seas is available only for teenagers. You were found to be an
-                        adult, {reason}. Email{" "}
+                        Uh-oh, seems like you're an adult… unfortunately, High Seas is only for teenagers 18 and under. Email{" "}
                         <a href="mailto:verifications@hackclub.com" className="underline">
                             verifications@hackclub.com
                         </a>{" "}
@@ -56,17 +56,8 @@ const getVerificationMessage = (status: string, reason: string) => {
         case "Eligible L2":
             return {
                 color: "green",
-                message: "You are verified and ready to ship projects!",
+                message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
             };
-        // case "Alum":
-        //     return {
-        //         color: "red",
-        //         message: (
-        //             <>
-        //                 You graduated past the eligibility of this program. If you are within US/Canada and still in High School, fill the form with proof of your high school enrollment: <Link href="https://forms.hackclub.com/eligibilityt">this link</Link>.
-        //             </>
-        //         ),
-        //     };
     }
 };
 
@@ -80,7 +71,7 @@ export default function Verification({ status, reason }: VerificationProps) {
     return (
         <JaggedCard bgColor={color}>
             <div
-                className={`p-4  ${
+                className={`py-1 px-3  ${
                     color === "yellow" || color === "orange" ? "text-black" : "text-white"
                 }`}
             >
