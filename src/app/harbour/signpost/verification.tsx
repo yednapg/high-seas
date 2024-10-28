@@ -52,12 +52,12 @@ const getVerificationMessage = (status: string, reason: string) => {
                     </>
                 ),
             };
-        case "Eligible L1":
-        case "Eligible L2":
-            return {
-                color: "green",
-                message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
-            };
+        // case "Eligible L1":
+        // case "Eligible L2":
+        //     return {
+        //         color: "green",
+        //         message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
+        //     };
     }
 };
 
@@ -67,6 +67,10 @@ export default function Verification({ status, reason }: VerificationProps) {
         verificationStatus,
         reason
     );
+
+    if (verificationStatus === "Eligible L1" || verificationStatus === "Eligible L2") {
+        return null;
+    }
 
     return (
         <JaggedCard bgColor={color}>
