@@ -11,7 +11,7 @@ const getVerificationMessage = (status: string, reason: string) => {
             return {
                 color: "orange",
                 message:
-                    "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-support 🤔",
+                    "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-help 🤔",
                 // redirect: true,
             };
         case "Unknown":
