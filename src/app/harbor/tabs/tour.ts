@@ -110,11 +110,15 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-title",
-      text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"! Try typing that into the field over there.",
+      text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"!",
       attachTo: {
         element: "#title-field",
         on: "top",
       },
+      beforeShowPromise: () =>
+        waitForElement("input#title", () => {
+          document.querySelector("input#title")!.disabled = true;
+        }),
       buttons: [
         {
           text: "Next",
@@ -128,31 +132,48 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-project",
-      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool top?",
+      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool, right?<br /><br />Make sure to hit close once you're done!",
       attachTo: {
         element: "#project-field",
         on: "top",
       },
-      buttons: [
-        {
-          text: "Next",
-          action: () => {
-            const el: HTMLInputElement = document.querySelector(
-              "input#wakatime-project-name",
-            )!;
-            el.value = "hack-club-site";
-            tourManager.next();
-          },
-        },
-      ],
+      beforeShowPromise: () =>
+        new Promise((r) => {
+          controller = new AbortController();
+
+          const el: HTMLInputElement = document.querySelector(
+            "input#wakatime-project-name",
+          )!;
+
+          document.addEventListener(
+            "mousedown",
+            (e) => {
+              if (e.target.classList.contains("multiselect-close-button")) {
+                setTimeout(() => {
+                  console.log(el.value);
+                  if (el.value === "hack-club-site") {
+                    tourManager.next();
+                  }
+                }, 10);
+              }
+            },
+            { signal: controller.signal },
+          );
+          r();
+        }),
     },
     {
       id: "ts-draft-field-repo",
-      text: "You also need to link a git repo (where your code is stored) - we <3 open source.<br /><br />If you enter a GitHub repo URL, we'll automagically infer the README url, so you don't have to input it in the README field below. As such, we'll skip over it :)",
+      text: "You also need to link a git repo (where your code is stored) - we <3 open source.<br /><br />If you enter a GitHub repo URL, we'll automagically infer the README url, so you don't have to input it in the README field below. As such, we'll skip over it right now :)",
       attachTo: {
         element: "#repo-field",
         on: "top",
       },
+      beforeShowPromise: () =>
+        new Promise((r) => {
+          controller.abort();
+          r();
+        }),
       buttons: [
         {
           text: "Next",
@@ -161,6 +182,9 @@ function setupSteps(tourManager: Tour) {
               document.querySelector("input#repo_url")!;
             el.value = "https://github.com/hackclub/site";
 
+            document.querySelector("input#readme_url").value =
+              "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md";
+
             tourManager.next();
           },
         },
@@ -168,7 +192,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-deployment",
-      text: "Here, we'll put a link to your deployed project so people can actually test out and play with it!<br /><br />In this case, the Hack Club site can be found at;<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://hackclub.com');document.getElementById('hc-site-deployment-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://hackclub.com</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-deployment-copy-button'>Click to copy</button></div>",
+      text: "Here, we'll put a link to your deployed project so people can actually test out and play with it!<br /><br />In this case, it's <code>https://hackclub.com</code>.",
       attachTo: {
         element: "#deployment-field",
         on: "top",
