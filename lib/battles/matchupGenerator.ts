@@ -83,7 +83,20 @@ export async function generateMatchup(
     const randomIndex = Math.floor(Math.pow(Math.random(), 2) * sortedProjects.length);
     project1 = sortedProjects[randomIndex];
   } else {
-    project1 = projects.find(p => p.entrant__slack_id[0] !== userSlackId)!;
+    // Weighted random selection based on the time since they last had an interaction
+    const otherProjects = projects.filter(p => p.entrant__slack_id[0] !== userSlackId);
+    if (otherProjects.length > 0) {
+      const weightedProjects = otherProjects.map(project => ({
+        project,
+        weight: 1 / ((Date.now() - new Date(project.last_interaction_time || Date.now()).getTime()) + 1)
+      }));
+      const totalWeight = weightedProjects.reduce((sum, item) => sum + item.weight, 0);
+      const randomWeight = Math.random() * totalWeight;
+      let weightSum = 0;
+      project1 = weightedProjects.find(item => (weightSum += item.weight) > randomWeight).project;
+    } else {
+      project1 = projects[0];
+    }
   }
 
   const paidProjects = projects.filter(p => 
