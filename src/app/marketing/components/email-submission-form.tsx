@@ -1,25 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import {
-  handleEmailSubmission,
-  markArrpheusReadyToInvite,
-} from "../marketing-utils";
-import WakatimeSetupTutorialModal from "@/app/harbor/tabs/wakatime-setup-tutorial-modal";
-import JSConfetti from "js-confetti";
+import WakatimeSetupTutorialModal from "@/app/harbour/tabs/wakatime-setup-tutorial-modal";
 
 export default function EmailSubmissionForm() {
   const [isOpen, setIsOpen] = useState(false);
-  const [wakaKey, setWakaKey] = useState(null);
-  const [wakaUsername, setWakaUsername] = useState(null);
-  const [personRecId, setPersonRecId] = useState(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const confettiRef = useRef<JSConfetti | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const submissionTimeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    confettiRef.current = new JSConfetti();
-
     // Cleanup timeout on unmount
     return () => {
       if (submissionTimeoutRef.current) {
@@ -28,63 +18,21 @@ export default function EmailSubmissionForm() {
     };
   }, []);
 
-  const triggerConfetti = () => {
-    confettiRef.current?.addConfetti({
-      emojis: ["🌟", "✨", "💫", "🎉"],
-      emojiSize: 50,
-      confettiNumber: 50,
-    });
-  };
-
   const handleForm = async (formData: FormData) => {
     // Prevent multiple submissions
     if (isSubmitting) return;
-    console.log("running handleForm");
-
     setIsSubmitting(true);
 
-    try {
-      const email = formData.get("email") as string;
-      if (!email) throw new Error("No email submitted!");
-      formRef.current?.reset();
-
-      setIsOpen(true);
-
-      const { created, apiKey, personRecordId, username } =
-        await handleEmailSubmission(email);
-      console.log("Waka account response:", {
-        created,
-        apiKey,
-        personRecordId,
-        username,
-      });
-
-      setPersonRecId(personRecordId);
-      setWakaKey(apiKey);
-      setWakaUsername(username);
-    } catch (error) {
-      console.error("Error submitting email:", error);
-    } finally {
+    const emailStr = formData.get("email") as string;
+    if (!emailStr) {
       setIsSubmitting(false);
+      alert("You need to input an email.");
+      return;
     }
-  };
 
-  const handleContinueFromModal = async () => {
-    // Prevent multiple submissions
-    if (isSubmitting) return;
-    console.log("running handleContinueFromModal");
-    setIsSubmitting(true);
-
-    try {
-      if (!personRecId) throw new Error("No person record ID set yet!");
-
-      await markArrpheusReadyToInvite(personRecId);
-      triggerConfetti();
-    } catch (err) {
-      console.error("Error while handling modal continue:", err);
-    } finally {
-      setIsSubmitting(false);
-    }
+    setEmail(emailStr);
+    setIsOpen(true);
+    formRef.current?.reset();
   };
 
   return (
@@ -110,13 +58,13 @@ export default function EmailSubmissionForm() {
             : "Get started + get free stickers! →"}
         </button>
       </form>
-      {wakaKey && personRecId ? (
+      {email ? (
         <WakatimeSetupTutorialModal
-          wakaKey={wakaKey}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          handleContinueFromModal={handleContinueFromModal}
-          wakatimeUsername={wakaUsername}
+          email={email}
+          isSubmitting={isSubmitting}
+          setIsSubmitting={setIsSubmitting}
         />
       ) : null}
     </>
