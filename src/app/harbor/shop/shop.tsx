@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { sample, shopBanner } from "../../../../lib/flavor.js";
 import { useState, useEffect } from "react";
-import { getShop, ShopItem } from "./shop-utils.js";
+import { getShop, ShopItem } from "./shop-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
 import { HsSession } from "@/app/utils/auth.js";
 
