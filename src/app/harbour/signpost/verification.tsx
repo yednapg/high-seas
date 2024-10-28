@@ -12,7 +12,7 @@ const getVerificationMessage = (status: string, reason: string) => {
                 color: "orange",
                 message:
                     "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-support 🤔",
-                redirect: true,
+                // redirect: true,
             };
         case "Unknown":
             return {
@@ -52,12 +52,12 @@ const getVerificationMessage = (status: string, reason: string) => {
                     </>
                 ),
             };
-        case "Eligible L1":
-        case "Eligible L2":
-            return {
-                color: "green",
-                message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
-            };
+        // case "Eligible L1":
+        // case "Eligible L2":
+        //     return {
+        //         color: "green",
+        //         message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
+        //     };
     }
 };
 
@@ -67,6 +67,10 @@ export default function Verification({ status, reason }: VerificationProps) {
         verificationStatus,
         reason
     );
+
+    if (verificationStatus === "Eligible L1" || verificationStatus === "Eligible L2") {
+        return null;
+    }
 
     return (
         <JaggedCard bgColor={color}>
