@@ -40,22 +40,22 @@ export default function EmailSubmissionForm() {
       <form
         ref={formRef}
         action={handleForm}
-        className="flex flex-wrap text-xl md:text-xl justify-center items-center rounded-xl border-[#3852CD] border-4 bg-[#3852CD]"
+        className="flex flex-wrap text-xl md:text-xl justify-center items-center rounded-xl gap-2"
       >
         <input
           type="text"
           name="email"
           placeholder="name@email.com"
-          className="p-4 rounded-lg text-md"
+          className="p-4 rounded-lg text-md border-2 border-[#3852CD]"
           disabled={isSubmitting}
         />
         <button
           disabled={isSubmitting}
-          className="bg-[#3852CD] p-4 text-white text-2xl disabled:opacity-50"
+          className="p-4 text-white text-2xl disabled:opacity-50 bg-[#3852CD] rounded-xl"
         >
           {isSubmitting
             ? "Processing..."
-            : "Get started + get free stickers! →"}
+            : "Get started →"}
         </button>
       </form>
       {email ? (

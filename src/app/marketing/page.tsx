@@ -53,18 +53,18 @@ export default async function Marketing() {
         
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
-            <div className=" flex flex-col justify-center items-center mb-24">
+            <div className=" flex flex-col justify-center items-center mb-20">
               <img
                 src="/highlogo.svg"
                 alt="high seas logo"
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
-              <p className="text-2xl md:text-4xl text-white mx-16">
+              <p className="text-2xl md:text-4xl text-white mx-8">
                 Build personal projects. Get free stuff.
               </p>
-              <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
+              <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
-                    <Link href="/signpost" className="p-4 rounded-lg text-md text-white">
+                    <Link href="/signpost" className="p-4 rounded-lg text-md text-white bg-[#3852CD]">
                       <img src="/signpost.png" width={32} className="inline-block mr-4" />
                       Enter the harbor
                     </Link>
@@ -72,6 +72,7 @@ export default async function Marketing() {
                   <EmailSubmissionForm />
                 )}
               </div>
+              <p className="mt-2 text-white">New sailors get free stickers!</p>
             </div>
             <Link href="#howthisworks">
               <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
