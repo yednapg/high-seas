@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import WakatimeSetupTutorialModal from "@/app/harbour/tabs/wakatime-setup-tutorial-modal";
+import WakatimeSetupTutorialModal from "@/app/harbor/tabs/wakatime-setup-tutorial-modal";
 
 export default function EmailSubmissionForm() {
   const [isOpen, setIsOpen] = useState(false);
