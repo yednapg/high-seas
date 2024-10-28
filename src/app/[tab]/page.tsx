@@ -1,7 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import Harbour from "../harbour/tabs/tabs";
+import Harbor from "../harbor/tabs/tabs";
 import { createMagicSession, getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
@@ -56,7 +56,7 @@ export default function Page({
         <SoundButton />
         <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
           {session ? (
-            <Harbour session={session} currentTab={tab} />
+            <Harbor session={session} currentTab={tab} />
           ) : (
             <p className="text-center">Session is loading...</p>
           )}
