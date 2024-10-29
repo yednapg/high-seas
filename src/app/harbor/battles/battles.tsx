@@ -279,7 +279,15 @@ export default function Matchups({ session }: { session: HsSession }) {
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
-    setReason("");
+
+    if (sessionStorage.getItem("tutorial") === "true") {
+      setReason(
+        "I really love the simple art style and I think overall it's a highly creative project, even though the other one might be a bit more technical!",
+      );
+    } else {
+      setReason("");
+    }
+
     setError("");
   };
 
