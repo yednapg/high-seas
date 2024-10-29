@@ -38,6 +38,7 @@ export interface Ship {
   updateDescription: string | null;
   reshippedFromId: string | null;
   reshippedToId: string | null;
+  paidOut: boolean;
 }
 const shipToFields = (ship: Ship, entrantId: string) => ({
   // Think of this as `impl Clone`. Only include the fields you want in a cloned Ship.
@@ -106,6 +107,7 @@ export async function getUserShips(
       voteRequirementMet: Boolean(r.get("vote_requirement_met")),
       matchups_count: r.get("matchups_count") as number,
       doubloonPayout: r.get("doubloon_payout") as number,
+      paidOut: Boolean(r.get("paid_out")),
       shipType: r.get("ship_type") as ShipType,
       shipStatus: r.get("ship_status") as ShipStatus,
       wakatimeProjectNames,

@@ -162,17 +162,21 @@ export default function Ships({
                 SHIP SHIP!
               </Button>
             ) : (
-              <Button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping an update...", s);
-                  setNewUpdateShip(s);
-                  // await stagedToShipped(s);
-                  // location.reload();
-                }}
-              >
-                Ship an update!
-              </Button>
+              s.paidOut ? (
+                <Button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    console.log("Shipping an update...", s);
+                    setNewUpdateShip(s);
+                    // await stagedToShipped(s);
+                    // location.reload();
+                  }}
+                >
+                  Ship an update!
+                </Button>
+              ) : (
+                <p>Awaiting payout</p>
+              )
             )}
           </div>
         )}
