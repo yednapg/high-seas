@@ -46,24 +46,30 @@ export default function SetupModal({
       const { username, key } = await waka();
       setWakaKey(key);
 
-      // while (onHbDetect) {
-      //   const hasData = await hasHb(username, key);
-      //   console.log("Hb check:", hasData);
+      hbDetectLoop: while (onHbDetect) {
+        const hasData = await hasHb(username, key);
+        console.log("Hb check:", hasData);
 
-      //   if (hasData) {
-      //     onHbDetect();
-      //     setHasRecvHb(true);
-      //     break;
-      //   }
+        if (hasData) {
+          onHbDetect();
+          setHasRecvHb(true);
+          break hbDetectLoop;
+        }
 
-      //   await new Promise((r) => setTimeout(r, 2_500));
-      // }
+        await new Promise((r) => setTimeout(r, 2_500));
+      }
     })();
   }, []);
 
   return (
     <Modal isOpen={isOpen} close={close}>
       {wakaKey ? <Platforms wakaKey={wakaKey} /> : null}
+
+      {onHbDetect ? (
+        <p className="mt-4 text-lg">
+          {hasRecvHb ? "Installed!" : "Waiting for install..."}
+        </p>
+      ) : null}
     </Modal>
   );
 }

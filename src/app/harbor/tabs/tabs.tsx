@@ -8,17 +8,12 @@ import Shop from "../shop/shop";
 import { useEffect } from "react";
 import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
-import { hasRecvFirstHeartbeat, waka } from "../../utils/waka";
-import {
-  getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew,
-  SafePerson,
-  safePerson,
-} from "../../utils/airtable";
+import { waka } from "../../utils/waka";
+import { SafePerson, safePerson } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { HsSession } from "@/app/utils/auth";
 import {
   Popover,
@@ -97,6 +92,9 @@ export default function Harbor({
       sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
 
       console.warn("safeperson:", p);
+      console.log(
+        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
+      );
 
       if (!p.hasCompletedTutorial) {
         if (p.emailSubmittedOnMobile) {
