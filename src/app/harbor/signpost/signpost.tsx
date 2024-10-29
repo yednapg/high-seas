@@ -10,30 +10,31 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 export default function SignPost({
   session,
   wakaToken,
-  email,
   hasWakaHb,
 }: {
   session: any;
   wakaToken: string | null;
-  email: string | null;
   hasWakaHb: boolean | null;
 }) {
-
   const motionProps = useMemo(
     () => ({
       initial: { opacity: 0 },
       animate: { opacity: 1 },
     }),
-    []
+    [],
   );
 
-  const [verification, setVerification] = useLocalStorageState("cache.verification", "")
-  const [reason, setReason] = useLocalStorageState("cache.reason", "")
-
+  const [verification, setVerification] = useLocalStorageState(
+    "cache.verification",
+    "",
+  );
+  const [reason, setReason] = useLocalStorageState("cache.reason", "");
 
   useEffect(() => {
     getSelfPerson(session.slackId).then((data) => {
-      setVerification(data?.["fields"]?.["verification_status"]?.[0]?.toString() || "");
+      setVerification(
+        data?.["fields"]?.["verification_status"]?.[0]?.toString() || "",
+      );
       setReason(data?.["fields"]?.["Rejection Reason"] || "");
     });
   }, [session.slackId]);
@@ -52,7 +53,6 @@ export default function SignPost({
         <WakatimeSetupInstructions
           session={session}
           wakaToken={wakaToken}
-          email={email}
           startsOpen={!hasWakaHb}
         />
         <KeyPlacesInstructions />

@@ -1,26 +1,30 @@
+import React, { useState, useEffect } from "react";
 import JaggedCard from "@/components/jagged-card";
 import Pill from "@/components/ui/pill";
 import Icon from "@hackclub/icons";
 import Image from "next/image";
-import { useState } from "react";
 import DoubloonsImage from "/public/doubloon.svg";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import WakaTimeConfigTabs from "./wakatime-config-tabs";
 import { motion, AnimatePresence } from "framer-motion";
+import { getWakaEmail } from "../../utils/waka";
 
 export default function WakatimeSetupInstructions({
   session,
   wakaToken,
-  email,
   startsOpen = true,
 }: {
   session: any;
   wakaToken: string | null;
-  email: string | null;
   startsOpen: boolean;
 }) {
   const [open, setOpen] = useState(startsOpen);
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    getWakaEmail().then(setEmail);
+  }, []);
 
   return (
     <JaggedCard>
