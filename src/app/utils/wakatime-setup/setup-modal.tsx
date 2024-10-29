@@ -34,7 +34,7 @@ export default function SetupModal({
   close,
   onHbDetect,
 }: {
-  isOpen: boolean;
+  isOpen: any;
   close: () => void;
   onHbDetect: (() => any) | undefined;
 }) {
