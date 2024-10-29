@@ -1,7 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import Harbour from "../harbour/tabs/tabs";
+import Harbor from "../harbor/tabs/tabs";
 import { createMagicSession, getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
@@ -21,13 +21,13 @@ export default function Page({
       if (s) {
         setSession(s);
       } else {
-        window.location.pathname = "/?msg=Oi oi oi, you can't be going there";
+        window.location.pathname = "/?msg='Oi oi oi, you can't be going there'";
       }
     });
   }, []);
 
   const { tab } = params;
-  const validTabs = ["signpost", "the-keep", "wonderdome", "shop"];
+  const validTabs = ["signpost", "shipyard", "wonderdome", "shop"];
   if (!validTabs.includes(tab)) return notFound();
 
   const { magic_auth_token } = searchParams;
@@ -52,16 +52,17 @@ export default function Page({
           backgroundPosition: "center",
         }}
       />
-      <div className="w-full min-h-screen pt-14 flex items-start justify-center p-4">
-        <SoundButton />
-        <Card className="w-full max-w-4xl flex flex-col" type={"cardboard"}>
-          {session ? (
-            <Harbour session={session} currentTab={tab} />
-          ) : (
-            <p className="text-center">Session is loading...</p>
-          )}
-        </Card>
-      </div>
+      <SoundButton />
+      <Card
+        className="w-full max-w-4xl flex flex-col mx-auto"
+        type={"cardboard"}
+      >
+        {session ? (
+          <Harbor session={session} currentTab={tab} />
+        ) : (
+          <p className="text-center">Session is loading...</p>
+        )}
+      </Card>
     </>
   );
 }

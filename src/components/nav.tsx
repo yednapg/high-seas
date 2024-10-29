@@ -12,7 +12,7 @@ export default async function Nav() {
   const session = await getSession();
 
   return (
-    <Card className="fixed flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-2 bg-neutral-100 z-10 drop-shadow-lg">
+    <Card className="fixed flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-2 bg-neutral-100 z-30 drop-shadow-lg">
       <a href="/">
         <Image src={Logo} alt="low skies" height={48} />
       </a>
