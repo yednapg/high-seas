@@ -1,124 +1,101 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import {
-  handleEmailSubmission,
-  markArrpheusReadyToInvite,
-} from "../marketing-utils";
+import React, { useEffect, useRef, useState } from "react";
 import WakatimeSetupTutorialModal from "@/app/harbor/tabs/wakatime-setup-tutorial-modal";
-import JSConfetti from "js-confetti";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "../../../components/ui/button";
+import Icon from "@hackclub/icons";
+import Modal from "../../../components/ui/modal";
 
 export default function EmailSubmissionForm() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [wakaKey, setWakaKey] = useState(null);
-  const [wakaUsername, setWakaUsername] = useState(null);
-  const [personRecId, setPersonRecId] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const confettiRef = useRef<JSConfetti | null>(null);
+  const [email, setEmail] = useState<string>();
+  const [errorText, setErrorText] = useState<string>();
+  const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
-  const submissionTimeoutRef = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    confettiRef.current = new JSConfetti();
-
-    // Cleanup timeout on unmount
-    return () => {
-      if (submissionTimeoutRef.current) {
-        clearTimeout(submissionTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const triggerConfetti = () => {
-    confettiRef.current?.addConfetti({
-      emojis: ["🌟", "✨", "💫", "🎉"],
-      emojiSize: 50,
-      confettiNumber: 50,
-    });
-  };
 
   const handleForm = async (formData: FormData) => {
-    // Prevent multiple submissions
-    if (isSubmitting) return;
-    console.log("running handleForm");
+    const emailStr = (formData.get("email") as string).trim();
 
-    setIsSubmitting(true);
-
-    try {
-      const email = formData.get("email") as string;
-      if (!email) throw new Error("No email submitted!");
-      formRef.current?.reset();
-
-      setIsOpen(true);
-
-      const { created, apiKey, personRecordId, username } =
-        await handleEmailSubmission(email);
-      console.log("Waka account response:", {
-        created,
-        apiKey,
-        personRecordId,
-        username,
-      });
-
-      setPersonRecId(personRecordId);
-      setWakaKey(apiKey);
-      setWakaUsername(username);
-    } catch (error) {
-      console.error("Error submitting email:", error);
-    } finally {
-      setIsSubmitting(false);
+    if (t) {
+      clearTimeout(t);
+      sT(undefined);
     }
-  };
 
-  const handleContinueFromModal = async () => {
-    // Prevent multiple submissions
-    if (isSubmitting) return;
-    console.log("running handleContinueFromModal");
-    setIsSubmitting(true);
-
-    try {
-      if (!personRecId) throw new Error("No person record ID set yet!");
-
-      await markArrpheusReadyToInvite(personRecId);
-      triggerConfetti();
-    } catch (err) {
-      console.error("Error while handling modal continue:", err);
-    } finally {
-      setIsSubmitting(false);
+    if (!emailStr) {
+      setErrorText("You need to enter an email.");
+      sT(
+        setTimeout(() => {
+          setErrorText(undefined);
+          formRef.current?.reset();
+        }, 2_500),
+      );
+      return;
+    } else if (!validEmail(emailStr)) {
+      setErrorText("You need to enter a valid email.");
+      sT(
+        setTimeout(() => {
+          setErrorText(undefined);
+          formRef.current?.reset();
+        }, 2_500),
+      );
+      return;
     }
+
+    setEmail(emailStr);
   };
 
   return (
     <>
-      <form
-        ref={formRef}
-        action={handleForm}
-        className="flex flex-wrap text-xl md:text-xl justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]"
-      >
-        <input
-          type="text"
-          name="email"
-          placeholder="name@email.com"
-          className="p-4 rounded-lg text-md"
-          disabled={isSubmitting}
-        />
-        <button
-          disabled={isSubmitting}
-          className="bg-[#3852CD] p-4 text-white text-2xl disabled:opacity-50"
+      <div className="flex flex-col">
+        <form
+          ref={formRef}
+          action={handleForm}
+          className="flex flex-wrap text-xl md:text-xl justify-center items-center rounded-xl gap-2"
         >
-          {isSubmitting
-            ? "Processing..."
-            : "Get started + get free stickers! →"}
-        </button>
-      </form>
-      {wakaKey && personRecId ? (
+          <input
+            type="text"
+            name="email"
+            placeholder="name@email.com"
+            className="px-6 py-2 rounded-lg text-md border-2 border-[#3852CD]"
+          />
+          <Button
+            // disabled={buttonDisabled}
+            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-lg text-white"
+          >
+            Get started <Icon glyph="enter" />
+          </Button>
+        </form>
+
+        <AnimatePresence>
+          {errorText ? (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "fit-content" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-2 border-2 border-[#3852CD] bg-[#3852CD] px-4 py-2 rounded-lg text-white"
+            >
+              {errorText}
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
+      <Modal
+        isOpen={!!email}
+        close={() => setEmail(undefined)}
+        hideCloseButton={true}
+      >
         <WakatimeSetupTutorialModal
-          wakaKey={wakaKey}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          handleContinueFromModal={handleContinueFromModal}
-          wakatimeUsername={wakaUsername}
+          email={email}
+          closeModal={() => setEmail(undefined)}
         />
-      ) : null}
+      </Modal>
     </>
   );
 }
+
+export const validEmail = (email: string): boolean =>
+  !!String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );

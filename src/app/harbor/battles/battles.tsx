@@ -288,6 +288,16 @@ export default function Matchups({ session }: { session: HsSession }) {
       setError("Please provide a reason with at least 10 words.");
       return;
     }
+
+    if (sessionStorage.getItem("tutorial") === "true") {
+      setSelectedProject(null);
+      setReason("");
+      fetchMatchup();
+      fetchVoteBalance();
+      setIsSubmitting(false);
+      return;
+    }
+
     if (selectedProject && matchup && session) {
       setIsSubmitting(true);
       try {
@@ -382,8 +392,8 @@ export default function Matchups({ session }: { session: HsSession }) {
 
           {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
-              {voteBalance} vote(s) remaining for your next ship to enter the
-              Wonderdome!
+              {voteBalance} more vote{voteBalance == 1 ? "" : "s"} until your
+              next ship's payout!
             </div>
           )}
         </header>
@@ -447,15 +457,20 @@ export default function Matchups({ session }: { session: HsSession }) {
                     <p className="text-red-500 text-sm mb-4">{error}</p>
                   )}
                 </div>
+
                 <button
                   id="submit-vote"
                   onClick={handleVoteSubmit}
-                  disabled={isSubmitting || fewerThanTenWords}
+                  disabled={
+                    isSubmitting || reason.trim().split(" ").length < 10
+                  }
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
-                  {isSubmitting ? (
+                  {reason.trim().split(" ").length < 10 ? (
+                    `${10 - reason.trim().split(" ").length} words left...`
+                  ) : isSubmitting ? (
                     <>
                       <svg
                         className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block"

@@ -5,25 +5,11 @@ import { createShip, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
+import { MultiSelect } from "../../../components/ui/multi-select";
 
 export default function NewShipForm({
   ships,
@@ -42,13 +28,19 @@ export default function NewShipForm({
   const [projects, setProjects] = useState<
     { key: string; total: number }[] | null
   >(null);
-  const [selectedProject, setSelectedProject] = useState<{
-    key: string;
-    total: number;
-  } | null>(null);
+  const [selectedProjects, setSelectedProjects] = useState<
+    | [
+        {
+          key: string;
+          total: number;
+        },
+      ]
+    | null
+  >(null);
   const [open, setOpen] = useState(false);
   const [isShipUpdate, setIsShipUpdate] = useState(false);
   const [isGithubRepo, setIsGithubRepo] = useState(false);
+  const { toast } = useToast();
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -109,22 +101,27 @@ export default function NewShipForm({
         "readme_url",
         repoUrl.replace(
           /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
-          "https://raw.githubusercontent.com/$1/$2/refs/heads/main/README.md"
-        )
+          "https://raw.githubusercontent.com/$1/$2/refs/heads/main/README.md",
+        ),
       );
     }
 
-    await createShip(formData);
     const isTutorial = sessionStorage.getItem("tutorial") === "true";
+    await createShip(formData, isTutorial);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
     setStaging(false);
   };
 
-  const { toast } = useToast();
+  const projectDropdownList = projects?.map((p: any) => ({
+    label: `${p.key} (${(p.total / 60 / 60).toFixed(2)} hrs)`,
+    value: p.key,
+    icon: () => <Icon glyph="clock" size={24} />,
+  }));
+
   return (
-    <div className="p-4" {...props}>
+    <div {...props}>
       <h1 className="text-2xl font-bold mb-4">
         {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
@@ -139,7 +136,7 @@ export default function NewShipForm({
           <label htmlFor="isShipUpdate" className="select-none">
             This is an update to an existing project
             <br />
-            <span className="opacity-50 text-xs">
+            <span className="text-xs">
               Only select this if {"it's"} a project you started before Low
               Skies and {"haven't"} submitted before.
               <br />
@@ -148,7 +145,7 @@ export default function NewShipForm({
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
               <Link
-                className="text-blue-500"
+                className="underline"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
                 #low-skies-help
@@ -195,21 +192,23 @@ export default function NewShipForm({
         {/* Project Dropdown */}
         <div id="project-field">
           <label htmlFor="project" className="leading-0">
-            Select Project <br />
-            <span className="text-xs opacity-50">
-              If you need to include several of the listed projects in this
-              dropdown, you need to update your project labels in the{" "}
-              <Link
-                className="text-blue-600"
-                href="https://waka.hackclub.com"
-                target="_blank"
-              >
-                Wakatime dashboard
-              </Link>
-            </span>
+            Select Project
           </label>
 
-          <Popover open={open} onOpenChange={setOpen}>
+          {projects ? (
+            <MultiSelect
+              options={projectDropdownList}
+              onValueChange={(p) => setSelectedProjects(p)}
+              defaultValue={[]}
+              placeholder="Select projects..."
+              variant="inverted"
+              maxCount={3}
+            />
+          ) : (
+            <p>Loading projects...</p>
+          )}
+
+          {/* <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -271,17 +270,15 @@ export default function NewShipForm({
                 </CommandList>
               </Command>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
 
           {/* Hidden input to include in formData */}
-          {/* {selectedProject && ( */}
           <input
             type="hidden"
             id="wakatime-project-name"
             name="wakatime_project_name"
-            value={selectedProject?.key || ""}
+            value={selectedProjects?.join("$$xXseparatorXx$$") ?? ""}
           />
-          {/* )} */}
         </div>
 
         <div id="repo-field">
@@ -292,7 +289,9 @@ export default function NewShipForm({
             name="repo_url"
             required
             className="w-full p-2 border rounded"
-            onChange={({ target }) => setIsGithubRepo(target.value.includes("github.com"))}
+            onChange={({ target }) =>
+              setIsGithubRepo(target.value.includes("github.com"))
+            }
           />
         </div>
 
@@ -329,7 +328,7 @@ export default function NewShipForm({
             <span className="text-xs opacity-50">
               You can upload to{" "}
               <Link
-                className="text-blue-500"
+                className="underline"
                 href="https://hackclub.slack.com/archives/C016DEDUL87"
                 target="_blank"
                 rel="noopener noreferrer"

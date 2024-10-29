@@ -3,6 +3,7 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSession } from "./auth";
+import { person } from "./airtable";
 
 const WAKA_API_KEY = process.env.WAKA_API_KEY;
 export interface WakaSignupResponse {
@@ -10,39 +11,121 @@ export interface WakaSignupResponse {
   api_key: string;
 }
 
-export async function getWaka(): Promise<WakaSignupResponse | null> {
-  let key = cookies().get("waka-key");
-  if (!key) {
-    const session = await getSession();
-    if (!session?.email)
-      throw new Error("You can't make a wakatime account without an email!");
-    await createWaka(session.email, session?.name ?? null, session?.slackId);
-    console.log("Created a wakatime account from getWaka. Session: ", session);
-    key = cookies().get("waka-key");
-    if (!key) return null;
-  }
-
-  return JSON.parse(key.value) as WakaSignupResponse;
+// Good
+export interface WakaInfo {
+  username: string;
+  key: string;
 }
+// Good
+export async function waka(): Promise<WakaInfo> {
+  return new Promise(async (resolve, reject) => {
+    const p = await person();
+    const {
+      wakatime_username,
+      wakatime_key,
+      slack_id,
+      email,
+      name,
+      preexistingUser,
+    } = p.fields;
 
-async function setWaka(resp: WakaSignupResponse) {
-  console.log("setting waka key: ", resp);
+    if (wakatime_key && wakatime_username) {
+      const info = {
+        username: wakatime_username,
+        key: wakatime_key,
+      };
+      console.log("[waka::waka] From Airtable:", info);
+      return resolve(info);
+    }
 
-  cookies().set("waka-key", JSON.stringify(resp), {
-    secure: process.env.NODE_ENV !== "development",
-    httpOnly: true,
+    const legacyKeyRaw = cookies().get("waka-key")?.value as string | undefined;
+    if (preexistingUser && slack_id && legacyKeyRaw) {
+      let legacyKey;
+      try {
+        legacyKey = JSON.parse(legacyKeyRaw);
+      } catch {
+        const error = new Error(
+          `Could not parse legacy cookie: ${legacyKeyRaw}`,
+        );
+        console.error(error);
+        throw error;
+      }
+
+      const info = {
+        username: slack_id,
+        key: legacyKey.api_key,
+      };
+      console.log("[waka::waka] From legacy:", info);
+      return resolve(info);
+    }
+
+    // Create
+    const newWakaInfo = await createWaka(email, name ?? null, slack_id ?? null);
+
+    // Add to person record
+    const res = await fetch(
+      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          records: [
+            {
+              id: p.id,
+              fields: {
+                wakatime_username: newWakaInfo.username,
+                wakatime_key: newWakaInfo.key,
+              },
+            },
+          ],
+        }),
+      },
+    ).then((d) => d.json());
+
+    console.log("[waka::waka] From created:", newWakaInfo);
+    return resolve(newWakaInfo);
   });
-
-  console.log("set the waka key!", cookies().get("waka-key"));
 }
 
-const errRedir = (err: any) => redirect("/slack-error?err=" + err.toString());
+// Depricated
+// export async function getWaka(): Promise<WakaSignupResponse | null> {
+//   let key = cookies().get("waka-key");
+//   if (!key) {
+//     const session = await getSession();
 
+//     if (!session?.email)
+//       throw new Error("You can't make a wakatime account without an email!");
+
+//     await createWaka(session.email, session?.name ?? null, session?.slackId);
+//     console.log("Created a wakatime account from getWaka. Session: ", session);
+//     key = cookies().get("waka-key");
+//     if (!key) return null;
+//   }
+
+//   return JSON.parse(key.value) as WakaSignupResponse;
+// }
+
+// Depricated
+// async function setWaka(username: string, resp: WakaSignupResponse) {
+//   cookies().set("waka-key", JSON.stringify(resp), {
+//     secure: process.env.NODE_ENV !== "development",
+//     httpOnly: true,
+//   });
+//   cookies().set("waka-username", JSON.stringify(username), {
+//     secure: process.env.NODE_ENV !== "development",
+//     httpOnly: true,
+//   });
+// }
+
+// Good function
 export async function createWaka(
   email: string,
   name: string | null,
   slackId: string | null,
-) {
+): Promise<WakaInfo> {
   const password = crypto.randomUUID();
 
   const payload: any = {
@@ -77,43 +160,35 @@ export async function createWaka(
     throw e;
   }
 
-  console.log("created a new wakatime token: ", signupResponse);
+  const { created, api_key } = signupResponse;
 
-  await setWaka(signupResponse);
-  return { ...signupResponse, username: payload["username"] };
+  const username = payload["username"];
+
+  return { username, key: api_key };
 }
 
 export async function getWakaSessions(): Promise<any> {
-  const waka = await getWaka();
-  if (!waka) {
+  // const waka = await getWaka();
+  const { username, key } = await waka();
+
+  if (!username || !key) {
     const err = new Error(
-      "While getting sessions, no waka session could be found or created",
+      "While getting sessions, no waka info could be found or created",
     );
     console.error(err);
     throw err;
   }
 
   const session = await getSession();
-  if (!session) {
-    throw new Error(
-      "No Slack OAuth session found while trying to get WakaTime sessions.",
-    );
-  }
-
+  if (!session) throw new Error("No session found");
   const slackId = session.slackId;
 
-  const key = cookies().get("waka-key")?.value;
-  if (!key) {
-    throw new Error("No WakaTime key found while trying to get WakaTime sessions.");
-  }
-  const parsedKey = JSON.parse(key)
-  
   const summaryRes = await fetch(
     `https://waka.hackclub.com/api/summary?interval=low_skies&user=${slackId}&recompute=true`,
     {
       headers: {
         // Note, this should probably just be an admin token in the future.
-        Authorization: `Bearer ${parsedKey.api_key}`,
+        Authorization: `Bearer ${key}`,
       },
     },
   );

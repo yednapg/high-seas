@@ -16,7 +16,7 @@ import divider from "./art/divider.png";
 import divider2 from "./art/divider2.png";
 // import paper from "./art/paper.png";
 
-import {IdeaGenerator} from "../../components/idea-generator.js"
+import { IdeaGenerator } from "../../components/idea-generator.js";
 
 import shop1 from "./art/shop/shop1.png";
 import shop2 from "./art/shop/shop2.png";
@@ -45,37 +45,54 @@ export default async function Marketing() {
             <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
             <div className="relative z-10">
               <p className="p-5 px-24 text-white text-2xl">
-                coming soon!!! (tm) :eyes: 
+                coming soon!!! (tm) :eyes:
               </p>
             </div>
           </div>
         </div> */}
-        
+
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
-            <div className=" flex flex-col justify-center items-center mb-24">
+            <div className=" flex flex-col justify-center items-center mb-20">
               <img
                 src="/highlogo.svg"
                 alt="high seas logo"
                 className="xl:max-w-3xl md:max-w-xl max-w-sm"
               />
-              <p className="text-2xl md:text-4xl text-white mx-16">
+              <p className="text-2xl md:text-4xl text-white mx-8 drop-shadow-lg">
                 Build personal projects. Get free stuff.
               </p>
-              <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl border-[#3852CD] border-4 bg-[#3852CD]">
+              <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
-                    <Link href="/signpost" className="p-4 rounded-lg text-md text-white">
-                      <img src="/signpost.png" width={32} className="inline-block mr-4" />
-                      Enter the harbor
-                    </Link>
+                  <Link
+                    href="/signpost"
+                    className="p-4 rounded-lg text-md text-white bg-[#3852CD]"
+                  >
+                    <img
+                      src="/signpost.png"
+                      width={32}
+                      className="inline-block mr-4"
+                    />
+                    Enter the harbor
+                  </Link>
                 ) : (
                   <EmailSubmissionForm />
                 )}
               </div>
+              <p className="mt-2 text-white bg-[#3852CD] bg-opacity-50 px-4 py-2 rounded-lg">
+                New sailors get free stickers!
+              </p>
             </div>
             <Link href="#howthisworks">
-              <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
+              <img
+                src="/arrows.svg"
+                className="w-16 h-14 mb-6 opacity-60 bobble"
+              />
             </Link>
+
+            <div className="flex flex-col justify-center items-center my-3">
+              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
+            </div>
 
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
@@ -101,7 +118,8 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                . For teenagers 18 and under. Starts October 30. Ends January 31.
+                . For teenagers 18 and under. Starts October 30. Ends January
+                31.
               </p>
             </div>
           </div>
@@ -109,9 +127,6 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-        <div className="flex flex-col justify-center items-center">
-          <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
-        </div>
 
         <div className="py-24" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
@@ -263,7 +278,7 @@ export default async function Marketing() {
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                   <div className="relative text-center">
-                    <p className="text-7xl mb-2">130,00+</p>
+                    <p className="text-7xl mb-2">130,000+</p>
                     <p className="text-2xl">total hours logged</p>
                   </div>
                 </div>
@@ -381,7 +396,7 @@ export default async function Marketing() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
-              <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
+              {/* <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
                 <iframe
                   src="https://high-seas-map.vercel.app/"
                   className="w-full h-96 rounded-lg"
@@ -390,7 +405,7 @@ export default async function Marketing() {
                 <p className="flex flex-col justify-center text-center mt-2">
                   Drag around this map and click on the ships!
                 </p>
-              </div>
+              </div> */}
 
               {/* <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
                 <p>insert sam's map here</p>
@@ -413,7 +428,7 @@ export default async function Marketing() {
                   className="absolute inset-0 w-full h-full object-cover opacity-70"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
-                  <p className="text-2xl">{"Don't know where to start?"}</p>
+                  <p className="text-2xl">Don't know where to start?</p>
                   <p className="text-lg mt-2">
                     Try out one of these Hack Club programs!
                   </p>
@@ -467,64 +482,50 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="my-24">
-            <div className="flex justify-center flex-col items-center mb-8 m-5">
-              <p className="text-5xl mb-6 text-center">
-                Still not sure what to build? Let's ask the dinosaur!
-              </p>
-              <p className="text-xl mb-6 text-center italic">
-                (She isn't very smart, but she'll try her best to help you out–
-                pirate's honor!)
-              </p>
-              <IdeaGenerator />
+              <div className="relative p-8 rounded-lg pop md:col-span-6 overflow-hidden">
+                <img
+                  src="/howtobacks.svg"
+                  alt="background"
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                />
+                <div className="relative mx-5 md:my-5 md:mx-0">
+                  <p className="text-2xl">Or click the dino for ideas!</p>
+                  <p className="text-lg mt-2">
+                    She's not super smart, but she'll try her best- pirates' honor!
+                  </p>
+                  <IdeaGenerator />
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
-
-          <div className="relative my-12">
-            {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-            <div className="images-ani relative z-0">
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
+            <div className="relative my-12">
+              <div className="flex flex-col justify-center text-center">
+                <p className="text-5xl mt-12 mx-5 text-white">
+                  Join a community of makers
+                </p>
               </div>
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
-              </div>
-            </div>*/}
-
-
-            <div className="flex flex-col justify-center text-center">
-              <p className="text-5xl mt-12 mx-5 text-white">Join a community of makers</p>
             </div>
 
-            
-          </div>
-
-
-
-
             <div className="">
-
               <div className="flex flex-wrap justify-center items-center gap-10">
                 <div>
-                  <img src="/pictures/pic4.png" alt="hack clubbers!" className="max-w-96 border-dashed border-4 p-4 border-blue-800"/>
-                  <div className="relative"></div>
-                  <p className="flex flex-col justify-center items-center text-center">Hack Club is an open-source nonprofit!</p>
+                  <img
+                    src="/pictures/pic7.png"
+                    alt="hack clubbers!"
+                    className="md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
+                  />
+                  <p className="flex flex-col justify-center items-center text-center">
+                    Hack Clubbers at the Boreal Express Hackathon!
+                  </p>
                 </div>
-                
-                <iframe width="640" height="360"
-                  src="https://www.youtube.com/embed/hiG3fYq3xUU">
-                </iframe>
+
+                <iframe
+                  width="640"
+                  height="360"
+                  src="https://www.youtube.com/embed/hiG3fYq3xUU"
+                ></iframe>
               </div>
 
               <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
@@ -537,45 +538,30 @@ export default async function Marketing() {
                   <div className="relative my-4">
                     <div className="flex flex-row mb-2">
                       <img
-                        src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2024-05-06%2F7077145829972_8597fe575e09a698859c_192.png&w=48&q=75"
+                        src="https://ca.slack-edge.com/T0266FRGM-U06EMBJH71S-bea01757cf26-512"
                         className="w-10 h-10 rounded-full mr-2"
                       />
                       <p className="text-lg mb-2 flex flex-col justify-center">
-                        @elijah
+                        @lou
                       </p>
                     </div>
-                    <p className="text-sm mb-4">
-                      Finally shipped my personal ai clone and had a ton of fun
-                      playing around with it and seeing what other people did
-                      with it! Personal favorite was when it threatened to kill
-                      me and got very unhinged when the person threatened to
-                      send screenshots to me
-                    </p>
-                    <img src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/4d4ecc40-c388-4b9d-997f-1f3d6a21302c-image.png" />
-                  </div>
-                </div>
-
-                <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
-                  <img
-                    src="howtobacks.svg"
-                    alt="image backing"
-                    className="absolute inset-0 w-full h-full object-cover opacity-100"
-                  />
-                  <div className="relative my-4">
-                    <div className="flex flex-row mb-2">
-                      <img
-                        src="https://scrapbook.hackclub.com/_next/image?url=https%3A%2F%2Favatars.slack-edge.com%2F2023-04-15%2F5116546887938_afb907f96fa13e434a49_192.png&w=48&q=75"
-                        className="w-10 h-10 rounded-full mr-2"
-                      />
-                      <p className="text-lg mb-2 flex flex-col justify-center">
-                        @cupcakes
-                      </p>
+                    <div>
+                      <p className="text-sm ">today i worked on:</p>
+                      <ul className="list-disc ml-5 text-sm mb-4">
+                        <li>an assignment on DDE for my robotics class</li>
+                        <li>
+                          started working on my chip-8 emulator but i switched
+                          tutorials since i wasn't rlly sure where to start. i
+                          think im getting the idea so i might go back to the
+                          one i was using to see if it makes more sense :)
+                        </li>
+                        <li>
+                          contacting a boba shop for discounted boba for
+                          counterspell since we're getting like 100
+                        </li>
+                      </ul>
                     </div>
-                    <p className="text-sm mb-4">Assembling blot robot! 🪛 </p>
-                    <img
-                      src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/e75cf24a-46d9-45fa-92d3-b9e5862d0d47-img_2442.jpg"
-                      className="w-56"
-                    />
+                    <img src="https://cloud-3z0ux2fdz-hack-club-bot.vercel.app/0image.png" />
                   </div>
                 </div>
 
@@ -588,21 +574,62 @@ export default async function Marketing() {
                   <div className="relative my-4">
                     <div className="flex flex-row mb-2">
                       <img
-                        src="https://scrapbook.hackclub.com/_next/image?url=https://secure.gravatar.com/avatar/c2e358d7bf4677cac086556035ce1dbc.jpg?s%3D192%26d%3Dhttps%253A%252F%252Fa.slack-edge.com%252Fdf10d%252Fimg%252Favatars%252Fava_0011-192.png&w=640&q=75"
+                        src="https://ca.slack-edge.com/T0266FRGM-U03PSH1MRAA-74b6914da04c-512"
                         className="w-10 h-10 rounded-full mr-2"
                       />
                       <p className="text-lg mb-2 flex flex-col justify-center">
-                        @KonstantinosFragkoulis
+                        @whackalenso
                       </p>
                     </div>
                     <p className="text-sm mb-4">
-                      Well, the drone now should be able to follow the biggest
-                      object that it sees with a specific color. I {"haven't"}{" "}
-                      tested it yet though 😞 ({"I'm"} too scared to crash it).
-                      Here is a clip from earlier today, my genuine reaction to
-                      the first takeoff ever (got a bit scared at the end) 👍{" "}
+                      I finished my saxophone MIDI controller 🎷! It lets you
+                      play any software instrument you’d like using saxophone
+                      fingerings, allowing you to practice without disturbing
+                      others, create music in any DAW, and perform with it.
+                      Check it out at{" "}
+                      <Link href="https://github.com/Whackalenso/CircuitSax">
+                        https://github.com/Whackalenso/CircuitSax
+                      </Link>
                     </p>
-                    <img src="https://cloud-fshng6w8x-hack-club-bot.vercel.app/0videoframe_809.png" />
+                    <img src="https://cloud-7kbp6qhfd-hack-club-bot.vercel.app/0image.png" />
+                  </div>
+                </div>
+                <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
+                  <img
+                    src="howtobacks.svg"
+                    alt="image backing"
+                    className="absolute inset-0 w-full h-full object-cover opacity-100"
+                  />
+                  <div className="relative my-4">
+                    <div className="flex flex-row mb-2">
+                      <img
+                        src="https://ca.slack-edge.com/T0266FRGM-U04G40QKAAD-c1f0fac3b324-512"
+                        className="w-10 h-10 rounded-full mr-2"
+                      />
+                      <p className="text-lg mb-2 flex flex-col justify-center">
+                        @samuel
+                      </p>
+                    </div>
+                    <p className="text-sm mb-4">
+                      Just fixed some final bugs to ship the mobile app for Back
+                      on Track America, a nonprofit organization dedicated to
+                      serving the homeless and those suffering from food
+                      insecurity by coordinating student volunteers in several
+                      communities. The app allows volunteers to sign up for
+                      their location, receive announcements from location
+                      leaders, and discuss upcoming events! ⚒️ It's built with
+                      React Native & NativeWind on the frontend, and using
+                      Pocketbase on the backend. It's also now being submitted
+                      for <Link href="https://cider.hackclub.com">#cider</Link>,
+                      so that it can get published on the app store! An android
+                      build on the play store is also coming soon. Check out the
+                      code at https://github.com/backontrackus/app and
+                      https://github.com/backontrackus/backend
+                    </p>
+                    {/* <img
+                      src="https://scrapbook-into-the-redwoods.s3.amazonaws.com/e75cf24a-46d9-45fa-92d3-b9e5862d0d47-img_2442.jpg"
+                      className="w-56"
+                    /> */}
                   </div>
                 </div>
               </div>
@@ -729,7 +756,9 @@ export default async function Marketing() {
             <div className="flex flex-col">
               <p className="mb-2 text-pink-800 text-xl">Resources</p>
               <div className="text-pink-700">
-                <Link href="https://events.hackclub.com/">Community Events</Link>
+                <Link href="https://events.hackclub.com/">
+                  Community Events
+                </Link>
                 <br />
                 <Link href="https://jams.hackclub.com/">Jams</Link>
                 <br />
@@ -737,9 +766,13 @@ export default async function Marketing() {
                 <br />
                 <Link href="https://toolbox.hackclub.com/">Toolbox</Link>
                 <br />
-                <Link href="https://directory.hackclub.com/">Clubs Directory</Link>
+                <Link href="https://directory.hackclub.com/">
+                  Clubs Directory
+                </Link>
                 <br />
-                <Link href="https://hackclub.com/conduct/">Code of Conduct</Link>
+                <Link href="https://hackclub.com/conduct/">
+                  Code of Conduct
+                </Link>
                 <br />
               </div>
             </div>
@@ -877,35 +910,31 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). You just need a <Link href="https://waka.hackclub.com/" target="_blank" ref="noopenner noreferrer" class="faqLink">Hackatime</Link> account to participate. Different prizes have different country restrictions. Sign in with Hack Club Slack to get started!`,
+    answer: `You need to be a high schooler (or younger).`,
   },
   {
     question: "How much does it cost?",
-    answer: `100% free – all the prizes are donated to us or paid for by us! Some shipments may have customs charges that we can't cover depending on your country.`,
+    answer: `100% free - all the prizes are donated to us or paid for by us!`,
   },
   {
     question: "What types of projects count?",
-    answer: `Projects need to be open source (ie. linked to a GitHub repo) & have a way for people to experience it (ie. a game, a website, etc).`,
+    answer: `Anyhing that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
-    answer: `You can submit as many projects as you make. We count them after they've been finished!`,
+    answer: `All the projects! The land's the limit!`,
   },
   {
     question: "I need help!",
-    answer: `Contact us! Reach out in <Link href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</Link> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
-    question: "Does a team project count?",
-    answer: `Not for this event! You must only enter projects that were built by yourself.`,
-  },
-  {
-    question: "What about school work or a job?",
-    answer: `Low Skies is about the joy of building for the sake of building. It must be a personal project! If you're building something for school or work, we can't count it.`,
+    question: "Does school work or a job count?",
+    answer: `High Seas is about the joy of building for the sake of building. If you're building something for school or work, we can't count it.`,
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <Link class="faqLink" href="https://hackclub.com/arcade/">Arcade</Link>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <Link class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</Link> this summer!`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
 ];
 
@@ -994,7 +1023,7 @@ interface PrizeItem {
 }
 
 const PrizeData = [
-  {
+  /*{
     name: "Micro SD Card",
     doubloons: 202,
     image: "https://cloud-6d9peiend-hack-club-bot.vercel.app/0image.png",
@@ -1008,6 +1037,11 @@ const PrizeData = [
     name: "Bite Sized Linux",
     doubloons: 400,
     image: "https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png",
+  }, */
+  {
+    name: "Free stickers!",
+    doubloons: 0,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/free_stickers.png",
   },
   {
     name: "Domain",
@@ -1048,6 +1082,31 @@ const PrizeData = [
     name: "YubiKey",
     doubloons: 1512,
     image: "https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png",
+  },
+  {
+    name: "Raspberry Pi 5",
+    doubloons: 2710,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
+  },
+  {
+    name: "GitHub Backpack",
+    doubloons: 46000,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
+  },
+  {
+    name: "Bambu A1 Mini",
+    doubloons: 14196,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
+  },
+  {
+    name: "iPad",
+    doubloons: 28003,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
+  },
+  {
+    name: "Framework Laptop",
+    doubloons: 46000,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
   },
 ];
 

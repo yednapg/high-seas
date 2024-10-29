@@ -78,7 +78,67 @@ export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongP
     return { tickets, hasCompletedTutorial };
   };
 
+// deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);
   return person.fields.votes_remaining_for_next_pending_ship as number;
+}
+
+/// Person record info we can expose to the frontend
+export interface SafePerson {
+  id: string;
+  createdTime: Date;
+  settledTickets: number;
+  hasCompletedTutorial: boolean;
+  votesRemainingForNextPendingShip: number;
+  emailSubmittedOnMobile: boolean;
+  preexistingUser: boolean;
+}
+
+// Good method
+export async function person(): Promise<any> {
+  return new Promise(async (resolve, reject) => {
+    const session = await getSession();
+    if (!session) return reject("No session present");
+
+    const record = await fetch(
+      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      },
+    ).then((d) => d.json());
+    if (!record) return reject("Person not found");
+
+    resolve(record);
+  });
+}
+
+// Good method
+export async function safePerson(): Promise<SafePerson> {
+  return new Promise(async (resolve, reject) => {
+    const record = await person();
+
+    const id = record.id;
+    const createdTime = new Date(record.createdTime);
+    const settledTickets = Number(record.fields.settled_tickets);
+    const hasCompletedTutorial = !!record.fields.academy_completed;
+    const votesRemainingForNextPendingShip = parseInt(
+      record.fields.votes_remaining_for_next_pending_ship,
+    );
+    const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile;
+    const preexistingUser = !!record.fields.preexisting_user;
+
+    resolve({
+      id,
+      createdTime,
+      settledTickets,
+      hasCompletedTutorial,
+      votesRemainingForNextPendingShip,
+      emailSubmittedOnMobile,
+      preexistingUser,
+    });
+  });
 }

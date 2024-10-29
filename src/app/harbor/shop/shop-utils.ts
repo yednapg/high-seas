@@ -1,6 +1,9 @@
 "use server";
 
 import Airtable from "airtable";
+import { getSession } from "@/app/utils/auth";
+import { getSelfPerson } from "@/app/utils/airtable";
+import {NextResponse} from "next/server";
 
 const base = () => {
   const baseId = process.env.BASE_ID;
@@ -26,13 +29,33 @@ export interface ShopItem {
   outOfStock: boolean;
 }
 
+export async function getPerson(){
+  const session = await getSession();
+  if (!("slackId" in session)) {
+    return
+  }
+  const person = await getSelfPerson(session.slackId);
+  if (!person) {
+    return NextResponse.json(
+        { error: "i don't even know who you are" },
+        {status: 418}
+    );
+  }
+
+}
 export async function getShop(): Promise<ShopItem[]> {
   const items: ShopItem[] = [];
+
+  const session = await getSession();
+  if (!("slackId" in session)) {
+    return
+  }
+  const person = await getSelfPerson(session.slackId);
 
   return new Promise((resolve, reject) => {
     base()("shop_items")
       .select({
-        filterByFormula: "{enabled_high_seas}",
+        filterByFormula: person.fields.academy_completed ? "{enabled_main_game}" : "{enabled_high_seas}",
         sort: [{ field: "tickets_us", direction: "asc" }],
       })
       .eachPage(

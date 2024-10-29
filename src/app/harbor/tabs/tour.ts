@@ -1,7 +1,7 @@
 import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
-import { markAcademyComplete } from "./tutorial-utils";
+import { markAcademyComplete } from "@/app/utils/wakatime-setup/tutorial-utils";
 
 const waitForElement = (
   selector: string,
@@ -53,6 +53,8 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
+  if (sessionStorage.getItem("tutorial") !== "true") return;
+
   if (!hasSetUp) {
     setupSteps(t);
     t.start();
@@ -110,112 +112,104 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-title",
-      text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"! Try typing that into the field over there.",
+      text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"!",
       attachTo: {
         element: "#title-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          const f: HTMLInputElement = document.querySelector("input#title")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim().toLowerCase() === "hack club site") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
+      beforeShowPromise: () =>
+        waitForElement("input#title", () => {
+          document.querySelector("input#title")!.disabled = true;
+        }),
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement = document.querySelector("input#title")!;
+            el.value = "Hack Club site";
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-project",
-      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool top?",
+      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool, right?",
       attachTo: {
         element: "#project-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
+      beforeShowPromise: () =>
+        new Promise((r) => {
           controller = new AbortController();
-          signal = controller.signal;
 
-          const wakatimeProjectNameField: HTMLInputElement =
-            document.querySelector("input#wakatime-project-name")!;
+          const el: HTMLInputElement = document.querySelector(
+            "input#wakatime-project-name",
+          )!;
 
-          document.body.addEventListener(
-            "click",
+          document.addEventListener(
+            "mousedown",
             () => {
-              // The timeout is because at the time of click, the value is not set.
               setTimeout(() => {
-                console.log("body was clicked"); // Keep this to make sure the event listener is removed
-                if (
-                  wakatimeProjectNameField.value.trim().toLowerCase() ===
-                  "hack-club-site"
-                )
+                console.log(el.value);
+                if (el.value === "hack-club-site") {
+                  document.querySelector(".multiselect-close-button")!.click();
                   tourManager.next();
-              }, 10);
+                }
+              }, 500);
             },
-            { signal },
+            { signal: controller.signal },
           );
           r();
-        });
-      },
+        }),
     },
     {
       id: "ts-draft-field-repo",
-      text: "The first step in creating a new ship is linking a git repo. To get you going, we're going to ship the <span style='color: #ec3750;'>Hack Club site</span> repo!<br />The git repo link is<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://github.com/hackclub/site');document.getElementById('hc-site-repo-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.5rem; overflow-x: auto; font-size: 0.8em;'><code>https://github.com/hackclub/site</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-repo-copy-button'>Click to copy</button></div><br />Try pasting that into the field over there!",
+      text: "You also need to link a git repo (where your code is stored) - we <3 open source.<br /><br />If you enter a GitHub repo URL, we'll automagically infer the README url, so you don't have to input it in the README field below. As such, we'll skip over it right now :)",
       attachTo: {
         element: "#repo-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
+      beforeShowPromise: () =>
+        new Promise((r) => {
           controller.abort();
-
-          const f = document.querySelector("#repo-field")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim() === "https://github.com/hackclub/site") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
           r();
-        });
-      },
+        }),
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement =
+              document.querySelector("input#repo_url")!;
+            el.value = "https://github.com/hackclub/site";
+
+            document.querySelector("input#readme_url").value =
+              "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md";
+
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-deployment",
-      text: "Here, we'll put a link to your deployed project so people can actually test out and play with it!<br /><br />In this case, the Hack Club site can be found at;<br /><br /><div style='display: flex; flex-direction: column; border-radius: 0.5rem; border: 2px solid #eaeaea; cursor: pointer;' onClick=\"navigator.clipboard.writeText('https://hackclub.com');document.getElementById('hc-site-deployment-copy-button').textContent='Copied!';\"><pre style='background: #eaeaea; padding: 0.8rem; overflow-x: auto; font-size: 0.5em;'><code>https://hackclub.com</code></pre><button style='width: 100%; padding: 0.5rem' id='hc-site-deployment-copy-button'>Click to copy</button></div>",
+      text: "Here, we'll put a link to your deployed project so people can actually test out and play with it!<br /><br />In this case, it's <code>https://hackclub.com</code>.",
       attachTo: {
         element: "#deployment-field",
         on: "top",
       },
-      beforeShowPromise: () => {
-        return new Promise((r) => {
-          const f: HTMLInputElement =
-            document.querySelector("#deployment-field")!;
-          f.focus();
-          f.addEventListener(
-            "input",
-            ({ target }: { target: HTMLInputElement }) => {
-              if (target.value.trim() === "https://hackclub.com") {
-                f.blur();
-                tourManager.next();
-              }
-            },
-          );
-          r();
-        });
-      },
+      buttons: [
+        {
+          text: "Next",
+          action: () => {
+            const el: HTMLInputElement = document.querySelector(
+              "#deployment-field input",
+            )!;
+            el.value = "https://hackclub.com";
+            tourManager.next();
+          },
+        },
+      ],
     },
     {
       id: "ts-draft-field-screenshot",
@@ -228,8 +222,11 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Aye aye!",
           action: () => {
-            document.querySelector("input#screenshot_url")!.value =
-              "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
+            const el: HTMLInputElement = document.querySelector(
+              "input#screenshot_url",
+            )!;
+            el.value =
+              "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png";
             tourManager.next();
           },
         },
@@ -249,118 +246,111 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-staged-ship-0",
-      text: "Let's have a look at the draft ship you just created!",
+      text: "This is the Ship we just drafted! Normally, you can click on it to view extra details, but for the sake of time, we're just going to ship it!<br /><br />Pressing <span style='font-size:0.8em;background:rgb(154 217 238);color:black;padding:0.25em; border-radius:3px'>SHIP SHIP!</span> will take it from being a draft, to a live project people vote on, earning you doubloons.",
       attachTo: {
         element: "#staged-ships-container",
         on: "top",
       },
       beforeShowPromise: () =>
-        waitForElement("#staged-ships-container", () => {
-          controller = new AbortController();
-          signal = controller.signal;
-
+        new Promise((r) => {
+          console.log(document.querySelector("#staged-ships-container"));
           document
-            .querySelector("button#ship-ship")!
-            .addEventListener("click", (e) => e.stopPropagation(), { signal });
+            .querySelector("#staged-ships-container")!
+            .addEventListener("click", (e) => {
+              if (e.target.id === "ship-ship") {
+                tourManager.next();
+              }
+              e.stopPropagation();
+            });
+          r();
         }),
       advanceOn: {
-        selector: "#staged-ships-container",
+        selector: "button#ship-ship",
         event: "click",
       },
     },
-    {
-      id: "ts-staged-ship-card",
-      text: "Here's your Ship",
-      beforeShowPromise: () => waitForElement("#selected-ship-card"),
-      buttons: [
-        {
-          text: "Next",
-          action: tourManager.next,
-        },
-      ],
-    },
-    {
-      id: "ts-staged-ship-play",
-      text: "Here you can try out the Ship",
-      attachTo: {
-        element: "#selected-ship-play-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-play-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-repo",
-      text: "Here you can view the associated GitHub repo!",
-      attachTo: {
-        element: "#selected-ship-repo-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-repo-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-edit",
-      text: "Here you can edit some of your Ship's details",
-      attachTo: {
-        element: "#selected-ship-edit-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-edit-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-edit-title",
-      text: "Try editing the name of the ship. Let's rename this Ship to \"<span style='color: #ec3750;'>Hack Club's Awesome Website</span>\"",
-      attachTo: {
-        element: "form#selected-ship-edit-form input#title",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        return waitForElement(
-          "form#selected-ship-edit-form input#title",
-          () => {
-            const f: HTMLInputElement = document.querySelector(
-              "form#selected-ship-edit-form input#title",
-            )!;
-            f.focus();
-            f.addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (
-                  target.value.trim().toLowerCase() ===
-                  "hack club's awesome website"
-                ) {
-                  f.blur();
-                  tourManager.next();
-                }
-              },
-            );
-          },
-        );
-      },
-    },
-    {
-      id: "ts-staged-ship-edit-save",
-      text: "Now save it!",
-      attachTo: {
-        element: "form#selected-ship-edit-form button#submit",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "form#selected-ship-edit-form button#submit",
-        event: "click",
-      },
-    },
+    // {
+    //   id: "ts-staged-ship-play",
+    //   text: "Here you can try out the Ship",
+    //   attachTo: {
+    //     element: "#selected-ship-play-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-play-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-repo",
+    //   text: "Here you can view the associated GitHub repo!",
+    //   attachTo: {
+    //     element: "#selected-ship-repo-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-repo-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-edit",
+    //   text: "Here you can edit some of your Ship's details",
+    //   attachTo: {
+    //     element: "#selected-ship-edit-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-edit-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-edit-title",
+    //   text: "Try editing the name of the ship. Let's rename this Ship to \"<span style='color: #ec3750;'>Hack Club's Awesome Website</span>\"",
+    //   attachTo: {
+    //     element: "form#selected-ship-edit-form input#title",
+    //     on: "top",
+    //   },
+    //   beforeShowPromise: () => {
+    //     return waitForElement(
+    //       "form#selected-ship-edit-form input#title",
+    //       () => {
+    //         const f: HTMLInputElement = document.querySelector(
+    //           "form#selected-ship-edit-form input#title",
+    //         )!;
+    //         f.focus();
+    //         f.addEventListener(
+    //           "input",
+    //           ({ target }: { target: HTMLInputElement }) => {
+    //             if (
+    //               target.value.trim().toLowerCase() ===
+    //               "hack club's awesome website"
+    //             ) {
+    //               f.blur();
+    //               tourManager.next();
+    //             }
+    //           },
+    //         );
+    //       },
+    //     );
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-edit-save",
+    //   text: "Now save it!",
+    //   attachTo: {
+    //     element: "form#selected-ship-edit-form button#submit",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "form#selected-ship-edit-form button#submit",
+    //     event: "click",
+    //   },
+    // },
     {
       id: "ts-staged-ship-edit-finale",
-      text: "Great! The new name suits our project perfectly.<br /><br />Now let's head to the Wonderdome to vote on some projects.",
+      text: "Great!<br /><br />Now let's head to the Wonderdome to vote on some projects.",
       buttons: [
         {
           text: "Let's go!",
