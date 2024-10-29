@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
+import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -71,6 +72,8 @@ export default function Harbor({
   );
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
+  const [hasCompletedTutorial, setHasCompletedTutorial] =
+    useLocalStorageState<boolean>("cache.hasCompletedTutorial", false);
   const [showWakaSetupModal, setShowWakaSetupModal] = useState<boolean>();
 
   const router = useRouter();
@@ -79,30 +82,39 @@ export default function Harbor({
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
+  // This could do with a lot of optimisation
   useEffect(() => {
     getUserShips(session.slackId).then(({ ships, shipChains }) => {
+      console.log({ ships, shipChains });
       setMyShips(ships);
       setMyShipChains(shipChains);
     });
 
-    waka().then(({ username, key }) => setWakaToken(key));
-
-    safePerson().then((p: SafePerson) => {
+    safePerson().then(async (p: SafePerson) => {
       setPersonTicketBalance(p.settledTickets);
-      sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
+      setHasCompletedTutorial(p.hasCompletedTutorial);
+      // sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
 
-      console.warn("safeperson:", p);
+      console.log("safeperson:", p);
       console.log(
         `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
       );
 
-      if (!p.hasCompletedTutorial) {
-        if (p.emailSubmittedOnMobile) {
-          setShowWakaSetupModal(true);
-        } else {
-          tour();
+      const { username, key } = await waka();
+      const hasData = await hasHb(username, key);
+
+      if (!hasData) {
+        setShowWakaSetupModal(true);
+      } /*else {
+        if (!p.hasCompletedTutorial) {
+          if (p.emailSubmittedOnMobile) {
+            setShowWakaSetupModal(true);
+          } else {
+            console.warn("1 triggering tour");
+            tour();
+          }
         }
-      }
+      }*/
     });
   }, []);
 
@@ -181,7 +193,8 @@ export default function Harbor({
         <div className="flex-1 p-3" id="harbor-tab-scroll-element">
           {tabs.map((tab) => (
             <TabsContent key={tab.name} value={tab.path} className="h-full">
-              {tab.lockOnNoHb &&
+              {tab.component}
+              {/* {tab.lockOnNoHb &&
               hasWakaHb === false &&
               sessionStorage.getItem("tutorial") !== "true" ? (
                 <WakaLock
@@ -191,22 +204,30 @@ export default function Harbor({
                 />
               ) : (
                 tab.component
-              )}
+              )} */}
             </TabsContent>
           ))}
         </div>
       </Tabs>
 
       <SetupModal
-        isOpen={!!showWakaSetupModal}
+        isOpen={showWakaSetupModal}
         close={() => {
           setShowWakaSetupModal(false);
-          tour();
+          // if (sessionStorage.getItem("tutorial") !== "true") {
+          if (!hasCompletedTutorial) {
+            console.warn("2 triggering tour");
+            tour();
+          }
         }}
         onHbDetect={() => {
           setHasWakaHb(true);
           setShowWakaSetupModal(false);
-          tour();
+          // if (sessionStorage.getItem("tutorial") !== "true") {
+          if (!hasCompletedTutorial) {
+            console.warn("3 triggering tour");
+            tour();
+          }
         }}
       />
     </>
