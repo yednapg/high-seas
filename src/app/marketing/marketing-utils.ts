@@ -14,10 +14,9 @@ export async function handleEmailSubmission(
   email: string,
   isMobile: boolean,
 ): Promise<{
-  apiKey: string;
-  created: string;
-  personRecordId: string;
   username: string;
+  key: string;
+  personRecordId: string;
 } | null> {
   if (!email) throw new Error("No email supplied to handleEmailSubmission");
 
@@ -111,15 +110,12 @@ export async function handleEmailSubmission(
   }
   console.log("handleEmailSubmission Step 4:", signup);
 
-  const apiKey = signup.api_key;
-  const created = signup.created;
-  const username = signup.username;
+  const { username, key } = signup;
 
   return {
-    apiKey,
-    created,
-    personRecordId,
     username,
+    key,
+    personRecordId,
   };
 }
 

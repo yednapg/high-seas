@@ -13,7 +13,7 @@ export default function Modal({
 }: {
   isOpen: boolean;
   close: (_: any) => void;
-  hideCloseButton: boolean;
+  hideCloseButton?: boolean;
   children: React.ReactNode;
   props?: any;
 }) {

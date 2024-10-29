@@ -71,7 +71,7 @@ export async function getUserShips(
       .all(),
   ]);
 
-  console.log("osntoiearsntiersntne333", records);
+  console.log("fetched user ships:", records);
 
   if (!wakaData || !records)
     throw new Error("No Waka data or Airtable records");

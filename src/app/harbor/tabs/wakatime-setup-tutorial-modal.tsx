@@ -1,3 +1,10 @@
+/*
+DEPRECATED - to be deleted
+
+Use utils/wakatime-setup/setup-modal instead!
+
+*/
+
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,31 +68,33 @@ export default function WakatimeSetupTutorialModal({
       const emailSubmissionResult = await handleEmailSubmission(email, mobile);
       if (!emailSubmissionResult) return;
 
-      console.log("Email submission result:", emailSubmissionResult);
+      const { username, key, personRecordId } = emailSubmissionResult;
+      console.log("handleEmailSubmission result:", {
+        username,
+        key,
+        personRecordId,
+      });
+
       setPersonRecordId(emailSubmissionResult.personRecordId);
+      setWakaKey(key);
+      setInstructions(getInstallCommand(userOs, key));
 
-      setWakaKey(emailSubmissionResult.apiKey);
-      setInstructions(getInstallCommand(userOs, emailSubmissionResult.apiKey));
-
-      if (!emailSubmissionResult.username) {
+      if (!username) {
         console.error("no username while trying to sign up");
         return;
       }
 
       if (mobile) {
         setHasRecvHb(true);
-        await handleContinueFromModal(emailSubmissionResult.personRecordId);
+        await handleContinueFromModal(personRecordId);
         return;
       }
 
       while (true) {
-        const hasData = await hasHb(
-          emailSubmissionResult.username,
-          emailSubmissionResult.apiKey,
-        );
+        const hasData = await hasHb(username, key);
         console.log("Hb check:", hasData);
         if (hasData) {
-          await handleContinueFromModal(emailSubmissionResult.personRecordId);
+          await handleContinueFromModal(personRecordId);
           setHasRecvHb(true);
           break;
         }
