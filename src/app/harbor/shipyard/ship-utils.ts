@@ -216,7 +216,7 @@ export async function getUserShips(
   return { ships, shipChains };
 }
 
-export async function createShip(formData: FormData) {
+export async function createShip(formData: FormData, isTutorial: boolean) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
@@ -247,6 +247,7 @@ export async function createShip(formData: FormData) {
             ? formData.get("updateDescription")
             : null,
           wakatime_project_name: formData.get("wakatime_project_name"),
+          project_source: isTutorial ? "tutorial" : "high_seas",
         },
       },
     ],

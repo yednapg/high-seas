@@ -5,21 +5,6 @@ import { createShip, Ship } from "./ship-utils";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
 import { AnimatePresence, motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -121,8 +106,8 @@ export default function NewShipForm({
       );
     }
 
-    await createShip(formData);
     const isTutorial = sessionStorage.getItem("tutorial") === "true";
+    await createShip(formData, isTutorial);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();

@@ -44,6 +44,7 @@ export default function Modal({
                 >
                   {hideCloseButton ? null : (
                     <div
+                      id="modal-close-button"
                       className="absolute top-4 right-4 cursor-pointer p-4 sm:p-6"
                       onClick={close}
                     >
