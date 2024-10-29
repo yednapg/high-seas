@@ -112,7 +112,7 @@ async function yap(text, {
 }
 
 const IdeaGenerator = () => {
-  const [idea, setIdea] = useState('');
+  // const [idea, setIdea] = useState('');
   const [loading, setLoading] = useState(false);
   const [typing, setTyping] = useState(false);
   const [message, setMessage] = useState('');
@@ -142,7 +142,6 @@ const IdeaGenerator = () => {
       fetchIdea().then(i => {newIdea = i.idea}),
       new Promise(resolve => setTimeout(resolve, 2000))
     ]);
-    setIdea(newIdea)
     setTyping(true);
     setLoading(false);
     setMessage('')
@@ -155,8 +154,6 @@ const IdeaGenerator = () => {
       }
     })
   }
-
-
 
   const activeClass = loading ? 'thinking' : (typing ? 'typing' : 'idle');
   const imgSrc = loading ? '/thinking.png' : (typing ? '/talking.png' : '/idle.png');

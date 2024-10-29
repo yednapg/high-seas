@@ -428,7 +428,7 @@ export default async function Marketing() {
                   className="absolute inset-0 w-full h-full object-cover opacity-70"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
-                  <p className="text-2xl">{"Don't know where to start?"}</p>
+                  <p className="text-2xl">Don't know where to start?</p>
                   <p className="text-lg mt-2">
                     Try out one of these Hack Club programs!
                   </p>
@@ -482,40 +482,25 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="my-24">
-            <div className="flex justify-center flex-col items-center mb-8 m-5">
-              <p className="text-5xl mb-6 text-center">
-                Still not sure what to build? Let's ask the dinosaur!
-              </p>
-              <p className="text-xl mb-6 text-center italic">
-                (She isn't very smart, but she'll try her best to help you out–
-                pirate's honor!)
-              </p>
-              <IdeaGenerator />
+              <div className="relative p-8 rounded-lg pop md:col-span-6 overflow-hidden">
+                <img
+                  src="/howtobacks.svg"
+                  alt="background"
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                />
+                <div className="relative mx-5 md:my-5 md:mx-0">
+                  <p className="text-2xl">Or click the dino for ideas!</p>
+                  <p className="text-lg mt-2">
+                    She's not super smart, but she'll try her best- pirates' honor!
+                  </p>
+                  <IdeaGenerator />
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
             <div className="relative my-12">
-              {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-            <div className="images-ani relative z-0">
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
-              </div>
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
-              </div>
-            </div>*/}
-
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white">
                   Join a community of makers
