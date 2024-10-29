@@ -8,7 +8,7 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     case "windows":
       return {
         label: "Windows PowerShell",
-        command: "irm https://wakatime.com/install.ps1 | iex",
+        command: `export BEARER_TOKEN="${wakaKey}" && irm https://hack.club/haka-install.ps1 | iex`,
         lang: "powershell",
       };
     case "macos":
