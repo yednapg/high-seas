@@ -1,7 +1,7 @@
 import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
-import { markAcademyComplete } from "./tutorial-utils";
+import { markAcademyComplete } from "@/app/utils/wakatime-setup/tutorial-utils";
 
 const waitForElement = (
   selector: string,
@@ -53,6 +53,8 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
+  if (sessionStorage.getItem("tutorial") !== "true") return;
+
   if (!hasSetUp) {
     setupSteps(t);
     t.start();
@@ -132,7 +134,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-project",
-      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool, right?<br /><br />Make sure to hit close once you're done!",
+      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool, right?",
       attachTo: {
         element: "#project-field",
         on: "top",
@@ -147,15 +149,14 @@ function setupSteps(tourManager: Tour) {
 
           document.addEventListener(
             "mousedown",
-            (e) => {
-              if (e.target.classList.contains("multiselect-close-button")) {
-                setTimeout(() => {
-                  console.log(el.value);
-                  if (el.value === "hack-club-site") {
-                    tourManager.next();
-                  }
-                }, 10);
-              }
+            () => {
+              setTimeout(() => {
+                console.log(el.value);
+                if (el.value === "hack-club-site") {
+                  document.querySelector(".multiselect-close-button")!.click();
+                  tourManager.next();
+                }
+              }, 500);
             },
             { signal: controller.signal },
           );
@@ -245,35 +246,28 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-staged-ship-0",
-      text: "Let's have a look at the draft ship you just created!",
+      text: "This is the Ship we just drafted! Normally, you can click on it to view extra details, but for the sake of time, we're just going to ship it!<br /><br />Pressing <span style='font-size:0.8em;background:rgb(154 217 238);color:black;padding:0.25em; border-radius:3px'>SHIP SHIP!</span> will take it from being a draft, to a live project people vote on, earning you doubloons.",
       attachTo: {
         element: "#staged-ships-container",
         on: "top",
       },
       beforeShowPromise: () =>
-        waitForElement("#staged-ships-container", () => {
-          controller = new AbortController();
-          signal = controller.signal;
-
+        new Promise((r) => {
+          console.log(document.querySelector("#staged-ships-container"));
           document
-            .querySelector("button#ship-ship")!
-            .addEventListener("click", (e) => e.stopPropagation(), { signal });
+            .querySelector("#staged-ships-container")!
+            .addEventListener("click", (e) => {
+              if (e.target.id === "ship-ship") {
+                tourManager.next();
+              }
+              e.stopPropagation();
+            });
+          r();
         }),
       advanceOn: {
-        selector: "#staged-ships-container",
+        selector: "button#ship-ship",
         event: "click",
       },
-    },
-    {
-      id: "ts-staged-ship-card",
-      text: "Here's your Ship!",
-      beforeShowPromise: () => waitForElement("#selected-ship-card"),
-      buttons: [
-        {
-          text: "Wowzer",
-          action: tourManager.next,
-        },
-      ],
     },
     // {
     //   id: "ts-staged-ship-play",
@@ -342,21 +336,21 @@ function setupSteps(tourManager: Tour) {
     //     );
     //   },
     // },
-    {
-      id: "ts-staged-ship-edit-save",
-      text: "Now save it!",
-      attachTo: {
-        element: "form#selected-ship-edit-form button#submit",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "form#selected-ship-edit-form button#submit",
-        event: "click",
-      },
-    },
+    // {
+    //   id: "ts-staged-ship-edit-save",
+    //   text: "Now save it!",
+    //   attachTo: {
+    //     element: "form#selected-ship-edit-form button#submit",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "form#selected-ship-edit-form button#submit",
+    //     event: "click",
+    //   },
+    // },
     {
       id: "ts-staged-ship-edit-finale",
-      text: "Great! The new name suits our project perfectly.<br /><br />Now let's head to the Wonderdome to vote on some projects.",
+      text: "Great!<br /><br />Now let's head to the Wonderdome to vote on some projects.",
       buttons: [
         {
           text: "Let's go!",

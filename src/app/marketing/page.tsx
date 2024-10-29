@@ -90,6 +90,10 @@ export default async function Marketing() {
               />
             </Link>
 
+            <div className="flex flex-col justify-center items-center my-3">
+              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
+            </div>
+
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
                 In High Seas, code projects and get free hardware like Raspberry
@@ -123,9 +127,6 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-        <div className="flex flex-col justify-center items-center">
-          <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
-        </div>
 
         <div className="py-24" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
@@ -277,7 +278,7 @@ export default async function Marketing() {
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                   <div className="relative text-center">
-                    <p className="text-7xl mb-2">130,00+</p>
+                    <p className="text-7xl mb-2">130,000+</p>
                     <p className="text-2xl">total hours logged</p>
                   </div>
                 </div>
@@ -427,7 +428,7 @@ export default async function Marketing() {
                   className="absolute inset-0 w-full h-full object-cover opacity-70"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
-                  <p className="text-2xl">{"Don't know where to start?"}</p>
+                  <p className="text-2xl">Don't know where to start?</p>
                   <p className="text-lg mt-2">
                     Try out one of these Hack Club programs!
                   </p>
@@ -481,40 +482,25 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="my-24">
-            <div className="flex justify-center flex-col items-center mb-8 m-5">
-              <p className="text-5xl mb-6 text-center">
-                Still not sure what to build? Let's ask the dinosaur!
-              </p>
-              <p className="text-xl mb-6 text-center italic">
-                (She isn't very smart, but she'll try her best to help you out–
-                pirate's honor!)
-              </p>
-              <IdeaGenerator />
+              <div className="relative p-8 rounded-lg pop md:col-span-6 overflow-hidden">
+                <img
+                  src="/howtobacks.svg"
+                  alt="background"
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                />
+                <div className="relative mx-5 md:my-5 md:mx-0">
+                  <p className="text-2xl">Or click the dino for ideas!</p>
+                  <p className="text-lg mt-2">
+                    She's not super smart, but she'll try her best- pirates' honor!
+                  </p>
+                  <IdeaGenerator />
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
             <div className="relative my-12">
-              {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
-            <div className="images-ani relative z-0">
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
-              </div>
-              <div className="images-slide">
-                <img src="/pictures/pic1.png" alt="picture" className="" />
-                <img src="/pictures/pic2.png" alt="picture" className="" />
-                <img src="/pictures/pic3.png" alt="picture" className="" />
-                <img src="/pictures/pic4.png" alt="picture" className="" />
-              </div>
-            </div>*/}
-
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white">
                   Join a community of makers
@@ -924,35 +910,31 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). Different prizes have different country restrictions. Enter your email then sign in with Hack Club Slack to get started!`,
+    answer: `You need to be a high schooler (or younger).`,
   },
   {
     question: "How much does it cost?",
-    answer: `100% free – all the prizes are donated to us or paid for by us! Some shipments may have customs charges that we can't cover depending on your country.`,
+    answer: `100% free - all the prizes are donated to us or paid for by us!`,
   },
   {
     question: "What types of projects count?",
-    answer: `Projects need to be open source (ie. linked to a GitHub repo) & have a way for people to experience it (ie. a game, a website, etc).`,
+    answer: `Anyhing that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
-    answer: `You can submit as many projects as you make. We count them after they've been finished!`,
+    answer: `All the projects! The land's the limit!`,
   },
   {
     question: "I need help!",
-    answer: `Contact us! Reach out in <Link href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</Link> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
-    question: "Does a team project count?",
-    answer: `Not for this event! You must only enter projects that were built by yourself.`,
-  },
-  {
-    question: "What about school work or a job?",
-    answer: `Low Skies is about the joy of building for the sake of building. It must be a personal project! If you're building something for school or work, we can't count it.`,
+    question: "Does school work or a job count?",
+    answer: `High Seas is about the joy of building for the sake of building. If you're building something for school or work, we can't count it.`,
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <Link class="faqLink" href="https://hackclub.com/arcade/">Arcade</Link>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <Link class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</Link> this summer!`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
 ];
 

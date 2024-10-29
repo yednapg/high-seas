@@ -8,7 +8,7 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     case "windows":
       return {
         label: "Windows PowerShell",
-        command: "irm https://wakatime.com/install.ps1 | iex",
+        command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl https://hack.club/haka-install.ps1)`,
         lang: "powershell",
       };
     case "macos":
@@ -20,13 +20,13 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     case "linux":
       return {
         label: "Linux Terminal",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/waka-setup.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/haka-install.sh | sh`,
         lang: "bash",
       };
     default:
       return {
         label: "Unknown Platform",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/waka-setup.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/haka-install.sh | sh`,
         lang: "bash",
       };
   }

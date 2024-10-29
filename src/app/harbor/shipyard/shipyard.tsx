@@ -1,5 +1,4 @@
 import Ships from "./ships";
-import type { Ship } from "./ship-utils";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useEffect } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
@@ -133,7 +132,6 @@ export default function Shipyard({
   setShips,
   session,
 }: any) {
-  console.warn(ships);
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
     0

@@ -1,3 +1,10 @@
+/*
+DEPRECATED - to be deleted
+
+Use utils/wakatime-setup/setup-modal instead!
+
+*/
+
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -5,14 +12,15 @@ import {
   Os,
   osFromAgent,
   SinglePlatform,
-} from "./tutorial-utils.client";
-import { hasHb } from "./tutorial-utils";
+} from "@/app/utils/wakatime-setup/tutorial-utils.client";
+import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
 import {
   handleEmailSubmission,
   markArrpheusReadyToInvite,
 } from "../../marketing/marketing-utils";
 import JSConfetti from "js-confetti";
 import { LoadingSpinner } from "../../../components/ui/loading_spinner";
+import Platforms from "@/app/utils/wakatime-setup/platforms";
 
 export default function WakatimeSetupTutorialModal({
   email,
@@ -22,7 +30,9 @@ export default function WakatimeSetupTutorialModal({
   closeModal: () => void;
 }) {
   const [userOs, setUserOs] = useState<Os>("unknown");
+  const [personRecordId, setPersonRecordId] = useState<string>();
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>();
   const [hasRecvHb, setHasRecvHb] = useState(false);
   const [wakaKey, setWakaKey] = useState<string | null>(null);
   const [instructions, setInstructions] = useState<any | null>(null);
@@ -36,51 +46,61 @@ export default function WakatimeSetupTutorialModal({
     });
   };
 
-  const handleContinueFromModal = async () => {
-    console.log("running handleContinueFromModal");
-    const precid = sessionStorage.getItem("personRecordId");
-
+  const handleContinueFromModal = async (personRecordId: string) => {
     try {
-      if (!precid) throw new Error("No person record ID set yet!");
-
-      await markArrpheusReadyToInvite(precid);
+      console.log("running handleContinueFromModal");
+      await markArrpheusReadyToInvite(personRecordId);
       triggerConfetti();
     } catch (err) {
       console.error("Error while handling modal continue:", err);
+      throw err;
     }
   };
 
   useEffect(() => {
+    // Dude I hate React so much. The following 3 lines are because it rerenders. Asinine framework.
+    if (sessionStorage.getItem("signed-up") === "true") return;
+    sessionStorage.setItem("signed-up", "true");
+    setTimeout(() => sessionStorage.setItem("signed-up", "false"), 3_000);
+
+    console.log("WakatimeSetupTutorialModal running");
     confettiRef.current = new JSConfetti();
+
+    const mobile = navigator.userAgent.toLowerCase().includes("mobile");
+    setIsMobile(mobile);
 
     const os = osFromAgent();
     setUserOs(os);
     setShowAllPlatforms(os === "unknown");
 
     (async () => {
-      const emailSubmissionResult = await handleEmailSubmission(email);
-      if (!emailSubmissionResult) {
-        console.log("Falsy emailSubmissionResult:", emailSubmissionResult);
-        return;
-      }
-      console.log("Email submission result:", emailSubmissionResult);
+      console.log("Handling email sumbission...");
+      const emailSubmissionResult = await handleEmailSubmission(email, mobile);
+      console.log("handleEmailSubmission result:", emailSubmissionResult);
+      if (!emailSubmissionResult) return;
 
-      setWakaKey(emailSubmissionResult.apiKey);
-      setInstructions(getInstallCommand(userOs, emailSubmissionResult.apiKey));
+      const { username, key, personRecordId } = emailSubmissionResult;
 
-      if (!emailSubmissionResult.username) {
+      setPersonRecordId(emailSubmissionResult.personRecordId);
+      setWakaKey(key);
+      setInstructions(getInstallCommand(userOs, key));
+
+      if (!username) {
         console.error("no username while trying to sign up");
         return;
       }
 
+      if (mobile) {
+        setHasRecvHb(true);
+        await handleContinueFromModal(personRecordId);
+        return;
+      }
+
       while (true) {
-        const hasData = await hasHb(
-          emailSubmissionResult.username,
-          emailSubmissionResult.apiKey,
-        );
+        const hasData = await hasHb(username, key);
         console.log("Hb check:", hasData);
         if (hasData) {
-          await handleContinueFromModal();
+          await handleContinueFromModal(personRecordId);
           setHasRecvHb(true);
           break;
         }
@@ -95,6 +115,14 @@ export default function WakatimeSetupTutorialModal({
       <div>
         <p className="text-3xl mb-2">Check your email!</p>
         <p>You should see an invite to the Hack Club Slack.</p>
+
+        {isMobile ? (
+          <p>
+            <br />
+            This next step <i>can</i> be done on your phone, but we strongly
+            recommend doing it on whatever computer you use to code!
+          </p>
+        ) : null}
 
         <img
           src="/party-orpheus.svg"
@@ -118,35 +146,7 @@ export default function WakatimeSetupTutorialModal({
             extension in your code editor!
           </p>
 
-          {showAllPlatforms ? (
-            <div>
-              <SinglePlatform os={"windows"} wakaKey={wakaKey} />
-              <SinglePlatform os={"macos"} wakaKey={wakaKey} />
-              <SinglePlatform os={"linux"} wakaKey={wakaKey} />
-              <p onClick={() => setShowAllPlatforms(false)}>nevermind</p>
-            </div>
-          ) : (
-            <>
-              <SinglePlatform os={userOs} wakaKey={wakaKey} />
-              <p className="text-xs mt-1">
-                Not using {userOs}?{" "}
-                <span
-                  onClick={() => setShowAllPlatforms(true)}
-                  className="underline text-blue-500 cursor-pointer"
-                >
-                  View instructions for all platforms
-                </span>
-              </p>
-            </>
-          )}
-
-          <video
-            src="/videos/Waka Setup Script.mp4"
-            autoPlay
-            loop
-            playsInline
-            className="mt-8 rounded shadow"
-          />
+          <Platforms wakaKey={wakaKey} />
         </div>
 
         <p className="mt-2 text-base">
@@ -155,8 +155,9 @@ export default function WakatimeSetupTutorialModal({
 
         <Button
           className="mt-4"
+          disabled={!personRecordId}
           onClick={async () => {
-            await handleContinueFromModal();
+            await handleContinueFromModal(personRecordId!);
             setHasRecvHb(true);
           }}
         >

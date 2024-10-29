@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { useEffect, useMemo } from "react";
-import WakatimeSetupInstructions from "./wakatime-setup-instructions";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
-import KeyPlacesInstructions from "./key-places-instructions";
 import { getSelfPerson } from "../../utils/airtable";
 import Verification from "./verification";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
+import Platforms from "@/app/utils/wakatime-setup/platforms";
+import JaggedCard from "../../../components/jagged-card";
 
 export default function SignPost({
   session,
@@ -45,18 +45,27 @@ export default function SignPost({
       className="container mx-auto px-4 py-8 max-w-prose"
     >
       <h1 className="font-heading text-5xl font-bold text-white mb-6 text-center">
-        Welcome to the signpost
+        The Signpost
       </h1>
+      <Verification status={verification} reason={reason} />
 
-      <div className="space-y-2">
-        <Verification status={verification} reason={reason} />
+      {/* <div className="space-y-2">
+
         <WakatimeSetupInstructions
           session={session}
           wakaToken={wakaToken}
           startsOpen={!hasWakaHb}
         />
         <KeyPlacesInstructions />
-      </div>
+      </div> */}
+
+      <JaggedCard className="text-white">
+        {wakaToken ? (
+          <Platforms wakaKey={wakaToken} />
+        ) : (
+          <p>Loading Hackatime token...</p>
+        )}
+      </JaggedCard>
 
       <p className="mt-4 text-center text-white">
         Have questions? Need help? Reach out to us in{" "}

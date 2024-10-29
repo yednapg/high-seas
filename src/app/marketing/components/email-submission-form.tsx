@@ -9,7 +9,6 @@ import Modal from "../../../components/ui/modal";
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
   const [errorText, setErrorText] = useState<string>();
-  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -60,13 +59,11 @@ export default function EmailSubmissionForm() {
           />
           <Button
             // disabled={buttonDisabled}
-            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-lg"
+            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-lg text-white"
           >
             Get started <Icon glyph="enter" />
           </Button>
         </form>
-
-        <button onClick={() => setEmail("test")}>test</button>
 
         <AnimatePresence>
           {errorText ? (
@@ -82,7 +79,11 @@ export default function EmailSubmissionForm() {
         </AnimatePresence>
       </div>
 
-      <Modal isOpen={!!email} close={() => setEmail(undefined)}>
+      <Modal
+        isOpen={!!email}
+        close={() => setEmail(undefined)}
+        hideCloseButton={true}
+      >
         <WakatimeSetupTutorialModal
           email={email}
           closeModal={() => setEmail(undefined)}

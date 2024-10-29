@@ -1,6 +1,5 @@
 "use server";
 import { headers } from "next/headers";
-import { type NextRequest } from "next/server";
 import Airtable from "airtable";
 import { createWaka } from "../utils/waka";
 import { getSession } from "../utils/auth";
@@ -11,11 +10,13 @@ const highSeasPeopleTable = () => {
   return Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB");
 };
 
-export async function handleEmailSubmission(email: string): Promise<{
-  apiKey: string;
-  created: string;
-  personRecordId: string;
+export async function handleEmailSubmission(
+  email: string,
+  isMobile: boolean,
+): Promise<{
   username: string;
+  key: string;
+  personRecordId: string;
 } | null> {
   if (!email) throw new Error("No email supplied to handleEmailSubmission");
 
@@ -27,7 +28,11 @@ export async function handleEmailSubmission(email: string): Promise<{
     })
     .all();
 
-  if (records.length > 0) return null;
+  console.log("[marketing-utils::handleEmailSubmission]", records);
+  if (records.length > 0) {
+    // This is not ideal. People will be able to tell if someone has signed up.
+    return null;
+  }
   console.log("handleEmailSubmission Step 1:", records[0]);
 
   const ip = headers().get("x-forwarded-for");
@@ -63,6 +68,7 @@ export async function handleEmailSubmission(email: string): Promise<{
           fields: {
             email,
             ip_address: ip,
+            email_submitted_on_mobile: isMobile,
           },
         },
       ],
@@ -108,15 +114,12 @@ export async function handleEmailSubmission(email: string): Promise<{
   }
   console.log("handleEmailSubmission Step 4:", signup);
 
-  const apiKey = signup.api_key;
-  const created = signup.created;
-  const username = signup.username;
+  const { username, key } = signup;
 
   return {
-    apiKey,
-    created,
-    personRecordId,
     username,
+    key,
+    personRecordId,
   };
 }
 
