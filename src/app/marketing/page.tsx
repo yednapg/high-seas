@@ -90,6 +90,10 @@ export default async function Marketing() {
               />
             </Link>
 
+            <div className="flex flex-col justify-center items-center my-3">
+              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
+            </div>
+
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
                 In High Seas, code projects and get free hardware like Raspberry
@@ -123,9 +127,6 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-        <div className="flex flex-col justify-center items-center">
-          <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
-        </div>
 
         <div className="py-24" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
