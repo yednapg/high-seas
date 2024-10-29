@@ -18,7 +18,7 @@ $configPath = "$HOME\.wakatime.cfg"
 # Create or update the WakaTime config file
 Write-Host "Configuring WakaTime settings..."
 Set-Content -Path $configPath -Value $configContent
-Write-Host "✓ Wrote config to $configPath"
+Write-Host "$([char]9830) Wrote config to $configPath"
 Write-Host ""
 
 
@@ -34,7 +34,7 @@ if (-not (Get-Command code -ErrorAction SilentlyContinue)) {
 Write-Host "Installing the WakaTime extension in VS Code..."
 try {
     & code --install-extension WakaTime.vscode-wakatime
-    Write-Host "✓ VS Code extension installed successfully"
+    Write-Host "$([char]9830) VS Code extension installed successfully"
 } catch {
     Write-Host "Error: Failed to install WakaTime extension"
     exit 1
@@ -69,7 +69,7 @@ for ($i = 1; $i -le 2; $i++) {
                                       } `
                                       -Body $jsonData
         # Success message for each heartbeat
-        Write-Host "✓ Heartbeat $i sent successfully"
+        Write-Host "$([char]9830) Heartbeat $i sent successfully"
     } catch {
         Write-Host "Error: Heartbeat $i failed with HTTP status $($_.Exception.Response.StatusCode)"
         exit 1
@@ -82,5 +82,5 @@ for ($i = 1; $i -le 2; $i++) {
 }
 
 Write-Host ""
-Write-Host "✨ Hackatime setup completed successfully!"
+Write-Host "$([char]8730) Hackatime setup completed successfully!"
 Write-Host "You can now return to the setup page for further instructions."
