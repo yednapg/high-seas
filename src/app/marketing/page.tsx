@@ -910,35 +910,31 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "Who is eligible?",
-    answer: `You need to be a high schooler (or younger). Different prizes have different country restrictions. Enter your email then sign in with Hack Club Slack to get started!`,
+    answer: `You need to be a high schooler (or younger).`,
   },
   {
     question: "How much does it cost?",
-    answer: `100% free – all the prizes are donated to us or paid for by us! Some shipments may have customs charges that we can't cover depending on your country.`,
+    answer: `100% free - all the prizes are donated to us or paid for by us!`,
   },
   {
     question: "What types of projects count?",
-    answer: `Projects need to be open source (ie. linked to a GitHub repo) & have a way for people to experience it (ie. a game, a website, etc).`,
+    answer: `Anyhing that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
-    answer: `You can submit as many projects as you make. We count them after they've been finished!`,
+    answer: `All the projects! The land's the limit!`,
   },
   {
     question: "I need help!",
-    answer: `Contact us! Reach out in <Link href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#low-skies-help</Link> channel of the Hack Club Slack. We're always ready to answer all your questions!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
-    question: "Does a team project count?",
-    answer: `Not for this event! You must only enter projects that were built by yourself.`,
-  },
-  {
-    question: "What about school work or a job?",
-    answer: `Low Skies is about the joy of building for the sake of building. It must be a personal project! If you're building something for school or work, we can't count it.`,
+    question: "Does school work or a job count?",
+    answer: `High Seas is about the joy of building for the sake of building. If you're building something for school or work, we can't count it.`,
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <Link class="faqLink" href="https://hackclub.com/arcade/">Arcade</Link>, a program that gave out similar prizes for free. We have also run multiple hackathons, including one on a <Link class="faqLink" href="https://www.youtube.com/watch?v=hiG3fYq3xUU">moving train across Canada</Link> this summer!`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
 ];
 
