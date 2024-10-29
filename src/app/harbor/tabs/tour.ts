@@ -53,6 +53,8 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
+  if (sessionStorage.getItem("tutorial") !== "true") return;
+
   if (!hasSetUp) {
     setupSteps(t);
     t.start();
@@ -147,15 +149,13 @@ function setupSteps(tourManager: Tour) {
 
           document.addEventListener(
             "mousedown",
-            (e) => {
-              if (e.target.classList.contains("multiselect-close-button")) {
-                setTimeout(() => {
-                  console.log(el.value);
-                  if (el.value === "hack-club-site") {
-                    tourManager.next();
-                  }
-                }, 10);
-              }
+            () => {
+              setTimeout(() => {
+                console.log(el.value);
+                if (el.value === "hack-club-site") {
+                  tourManager.next();
+                }
+              }, 500);
             },
             { signal: controller.signal },
           );
@@ -271,9 +271,20 @@ function setupSteps(tourManager: Tour) {
       buttons: [
         {
           text: "Wowzer",
-          action: tourManager.next,
+          action: () => {
+            document.getElementById("modal-close-button")!.click();
+            tourManager.next();
+          },
         },
       ],
+    },
+    {
+      id: "ts-ship-ship",
+      text: "Let's ship it!",
+      attachTo: {
+        element: "#ship-ship",
+        on: "top",
+      },
     },
     // {
     //   id: "ts-staged-ship-play",
@@ -342,18 +353,18 @@ function setupSteps(tourManager: Tour) {
     //     );
     //   },
     // },
-    {
-      id: "ts-staged-ship-edit-save",
-      text: "Now save it!",
-      attachTo: {
-        element: "form#selected-ship-edit-form button#submit",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "form#selected-ship-edit-form button#submit",
-        event: "click",
-      },
-    },
+    // {
+    //   id: "ts-staged-ship-edit-save",
+    //   text: "Now save it!",
+    //   attachTo: {
+    //     element: "form#selected-ship-edit-form button#submit",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "form#selected-ship-edit-form button#submit",
+    //     event: "click",
+    //   },
+    // },
     {
       id: "ts-staged-ship-edit-finale",
       text: "Great! The new name suits our project perfectly.<br /><br />Now let's head to the Wonderdome to vote on some projects.",

@@ -104,7 +104,7 @@ export default function Harbor({
         }
       }
     });
-  }, [session]);
+  }, []);
 
   // Keep ships and shipChain in sync
   useEffect(() => {
@@ -158,7 +158,6 @@ export default function Harbor({
         className="flex-1 flex flex-col"
         onValueChange={handleTabChange}
       >
-        <button onClick={() => tour()}>restart tour</button>
         <TabsList className="mx-2 my-2 relative">
           {tabs.map((tab) =>
             tab.name === "📮" ? (
@@ -197,6 +196,7 @@ export default function Harbor({
           ))}
         </div>
       </Tabs>
+
       <SetupModal
         isOpen={!!showWakaSetupModal}
         close={() => {
