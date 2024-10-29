@@ -266,82 +266,82 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-staged-ship-card",
-      text: "Here's your Ship",
+      text: "Here's your Ship!",
       beforeShowPromise: () => waitForElement("#selected-ship-card"),
       buttons: [
         {
-          text: "Next",
+          text: "Wowzer",
           action: tourManager.next,
         },
       ],
     },
-    {
-      id: "ts-staged-ship-play",
-      text: "Here you can try out the Ship",
-      attachTo: {
-        element: "#selected-ship-play-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-play-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-repo",
-      text: "Here you can view the associated GitHub repo!",
-      attachTo: {
-        element: "#selected-ship-repo-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-repo-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-edit",
-      text: "Here you can edit some of your Ship's details",
-      attachTo: {
-        element: "#selected-ship-edit-button",
-        on: "top",
-      },
-      advanceOn: {
-        selector: "#selected-ship-edit-button",
-        event: "click",
-      },
-    },
-    {
-      id: "ts-staged-ship-edit-title",
-      text: "Try editing the name of the ship. Let's rename this Ship to \"<span style='color: #ec3750;'>Hack Club's Awesome Website</span>\"",
-      attachTo: {
-        element: "form#selected-ship-edit-form input#title",
-        on: "top",
-      },
-      beforeShowPromise: () => {
-        return waitForElement(
-          "form#selected-ship-edit-form input#title",
-          () => {
-            const f: HTMLInputElement = document.querySelector(
-              "form#selected-ship-edit-form input#title",
-            )!;
-            f.focus();
-            f.addEventListener(
-              "input",
-              ({ target }: { target: HTMLInputElement }) => {
-                if (
-                  target.value.trim().toLowerCase() ===
-                  "hack club's awesome website"
-                ) {
-                  f.blur();
-                  tourManager.next();
-                }
-              },
-            );
-          },
-        );
-      },
-    },
+    // {
+    //   id: "ts-staged-ship-play",
+    //   text: "Here you can try out the Ship",
+    //   attachTo: {
+    //     element: "#selected-ship-play-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-play-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-repo",
+    //   text: "Here you can view the associated GitHub repo!",
+    //   attachTo: {
+    //     element: "#selected-ship-repo-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-repo-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-edit",
+    //   text: "Here you can edit some of your Ship's details",
+    //   attachTo: {
+    //     element: "#selected-ship-edit-button",
+    //     on: "top",
+    //   },
+    //   advanceOn: {
+    //     selector: "#selected-ship-edit-button",
+    //     event: "click",
+    //   },
+    // },
+    // {
+    //   id: "ts-staged-ship-edit-title",
+    //   text: "Try editing the name of the ship. Let's rename this Ship to \"<span style='color: #ec3750;'>Hack Club's Awesome Website</span>\"",
+    //   attachTo: {
+    //     element: "form#selected-ship-edit-form input#title",
+    //     on: "top",
+    //   },
+    //   beforeShowPromise: () => {
+    //     return waitForElement(
+    //       "form#selected-ship-edit-form input#title",
+    //       () => {
+    //         const f: HTMLInputElement = document.querySelector(
+    //           "form#selected-ship-edit-form input#title",
+    //         )!;
+    //         f.focus();
+    //         f.addEventListener(
+    //           "input",
+    //           ({ target }: { target: HTMLInputElement }) => {
+    //             if (
+    //               target.value.trim().toLowerCase() ===
+    //               "hack club's awesome website"
+    //             ) {
+    //               f.blur();
+    //               tourManager.next();
+    //             }
+    //           },
+    //         );
+    //       },
+    //     );
+    //   },
+    // },
     {
       id: "ts-staged-ship-edit-save",
       text: "Now save it!",
