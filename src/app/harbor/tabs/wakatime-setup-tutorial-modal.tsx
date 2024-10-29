@@ -23,6 +23,7 @@ export default function WakatimeSetupTutorialModal({
   closeModal: () => void;
 }) {
   const [userOs, setUserOs] = useState<Os>("unknown");
+  const [personRecordId, setPersonRecordId] = useState<string>();
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
   const [hasRecvHb, setHasRecvHb] = useState(false);
   const [wakaKey, setWakaKey] = useState<string | null>(null);
@@ -37,40 +38,43 @@ export default function WakatimeSetupTutorialModal({
     });
   };
 
-  const handleContinueFromModal = async () => {
-    console.log("running handleContinueFromModal");
-    const precid = sessionStorage.getItem("personRecordId");
-
+  const handleContinueFromModal = async (personRecordId: string) => {
     try {
-      if (!precid) throw new Error("No person record ID set yet!");
-
-      await markArrpheusReadyToInvite(precid);
+      console.log("running handleContinueFromModal");
+      await markArrpheusReadyToInvite(personRecordId);
       triggerConfetti();
     } catch (err) {
       console.error("Error while handling modal continue:", err);
+      throw err;
     }
   };
 
   useEffect(() => {
     confettiRef.current = new JSConfetti();
 
+    const mobile = navigator.userAgent.toLowerCase().includes("mobile");
     const os = osFromAgent();
     setUserOs(os);
     setShowAllPlatforms(os === "unknown");
 
     (async () => {
-      const emailSubmissionResult = await handleEmailSubmission(email);
-      if (!emailSubmissionResult) {
-        console.log("Falsy emailSubmissionResult:", emailSubmissionResult);
-        return;
-      }
+      const emailSubmissionResult = await handleEmailSubmission(email, mobile);
+      if (!emailSubmissionResult) return;
+
       console.log("Email submission result:", emailSubmissionResult);
+      setPersonRecordId(emailSubmissionResult.personRecordId);
 
       setWakaKey(emailSubmissionResult.apiKey);
       setInstructions(getInstallCommand(userOs, emailSubmissionResult.apiKey));
 
       if (!emailSubmissionResult.username) {
         console.error("no username while trying to sign up");
+        return;
+      }
+
+      if (mobile) {
+        setHasRecvHb(true);
+        await handleContinueFromModal(emailSubmissionResult.personRecordId);
         return;
       }
 
@@ -81,7 +85,7 @@ export default function WakatimeSetupTutorialModal({
         );
         console.log("Hb check:", hasData);
         if (hasData) {
-          await handleContinueFromModal();
+          await handleContinueFromModal(emailSubmissionResult.personRecordId);
           setHasRecvHb(true);
           break;
         }
@@ -136,8 +140,9 @@ export default function WakatimeSetupTutorialModal({
 
         <Button
           className="mt-4"
+          disabled={!personRecordId}
           onClick={async () => {
-            await handleContinueFromModal();
+            await handleContinueFromModal(personRecordId!);
             setHasRecvHb(true);
           }}
         >

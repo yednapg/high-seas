@@ -60,13 +60,11 @@ export default function EmailSubmissionForm() {
           />
           <Button
             // disabled={buttonDisabled}
-            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-lg"
+            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-lg text-white"
           >
             Get started <Icon glyph="enter" />
           </Button>
         </form>
-
-        <button onClick={() => setEmail("test")}>test</button>
 
         <AnimatePresence>
           {errorText ? (

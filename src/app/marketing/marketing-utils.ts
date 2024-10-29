@@ -1,6 +1,5 @@
 "use server";
 import { headers } from "next/headers";
-import { type NextRequest } from "next/server";
 import Airtable from "airtable";
 import { createWaka } from "../utils/waka";
 import { getSession } from "../utils/auth";
@@ -11,7 +10,10 @@ const highSeasPeopleTable = () => {
   return Airtable.base(highSeasBaseId)("tblfTzYVqvDJlIYUB");
 };
 
-export async function handleEmailSubmission(email: string): Promise<{
+export async function handleEmailSubmission(
+  email: string,
+  isMobile: boolean,
+): Promise<{
   apiKey: string;
   created: string;
   personRecordId: string;
@@ -63,6 +65,7 @@ export async function handleEmailSubmission(email: string): Promise<{
           fields: {
             email,
             ip_address: ip,
+            email_submitted_on_mobile: isMobile,
           },
         },
       ],
