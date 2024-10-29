@@ -18,6 +18,7 @@ import NoImgDino from "/public/no-img-dino.png";
 import NoImgBanner from "/public/no-img-banner.png";
 import ReadmeHelperImg from "/public/readme-helper.png";
 import NewUpdateForm from "./new-update-form";
+import Modal from "../../../components/ui/modal";
 
 export default function Ships({
   ships,
@@ -223,7 +224,7 @@ export default function Ships({
         </div>
       )}
 
-      <div className="w-full relative">
+      <div className="w-full">
         {shippedShips.length > 0 ? (
           <div className={`space-y-4 ${bareShips ? "" : "mt-8"}`}>
             {bareShips ? null : (
@@ -259,331 +260,260 @@ export default function Ships({
         ) : null}
       </div>
 
-      <AnimatePresence>
-        {newShipVisible && session && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 h-full z-50 bg-black bg-opacity-50"
-            onClick={() => setNewShipVisible(false)}
-          >
-            <Card
-              className="relative w-full max-w-2xl mx-auto mt-16"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <NewShipForm
-                id="new-ship-form-container-card"
-                ships={ships}
-                canvasRef={canvasRef}
-                closeForm={() => setNewShipVisible(false)}
-                session={session}
-              />
+      <Modal
+        isOpen={newShipVisible && session}
+        close={() => setNewShipVisible(false)}
+        id="new-ship-form-container-card"
+      >
+        <NewShipForm
+          ships={ships}
+          canvasRef={canvasRef}
+          closeForm={() => setNewShipVisible(false)}
+          session={session}
+        />
+      </Modal>
 
-              <motion.button
-                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-                onClick={() => setNewShipVisible(false)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icon glyph="view-close" />
-              </motion.button>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Modal
+        isOpen={newUpdateShip && session}
+        close={() => setNewUpdateShip(null)}
+      >
+        <NewUpdateForm
+          shipToUpdate={newUpdateShip}
+          canvasRef={canvasRef}
+          closeForm={() => setNewUpdateShip(null)}
+          session={session}
+        />
+      </Modal>
 
-      <AnimatePresence>
-        {newUpdateShip && session && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black bg-opacity-50 z-50"
-            onClick={() => setNewUpdateShip(null)}
-          >
-            <Card
-              className="relative w-full max-w-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <NewUpdateForm
-                shipToUpdate={newUpdateShip}
-                canvasRef={canvasRef}
-                closeForm={() => setNewUpdateShip(null)}
-                session={session}
-              />
+      <Modal isOpen={!!selectedShip} close={() => setSelectedShip(null)}>
+        <Card
+          className="relative w-full max-w-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="absolute top-0 left-0 right-0 h-48 z-10">
+            <Image
+              src={selectedShip?.screenshotUrl}
+              alt={`Screenshot of ${selectedShip?.title}`}
+              className="object-cover max-w-full"
+              fill={true}
+              priority
+              unoptimized
+              sizes="4rem"
+              onError={({ target }) => {
+                target.src = NoImgBanner.src;
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
+          </div>
 
-              <motion.button
-                className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-                onClick={() => setNewUpdateShip(null)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icon glyph="view-close" />
-              </motion.button>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className=" flex-grow pt-48" id="selected-ship-card">
+            <CardHeader className="relative">
+              <h2 className="text-3xl font-bold">{selectedShip?.title}</h2>
+              <p className="opacity-50">
+                {selectedShip?.wakatimeProjectNames ? (
+                  `Wakatime project name: ${selectedShip?.wakatimeProjectNames}`
+                ) : (
+                  <div className="flex items-center gap-1">
+                    <Icon glyph="important" />
+                    No Wakatime project name!
+                  </div>
+                )}
+              </p>
+            </CardHeader>
 
-      <AnimatePresence>
-        {selectedShip && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            id="selected-ship-card-parent"
-            className="absolute inset-0 bg-black bg-opacity-50 z-50"
-            onClick={() => setSelectedShip(null)}
-          >
-            {/* <div className="min-h-screen px-4 pt-32 pb-20">
-              <div className="flex justify-center">
-                <motion.div
-                  className="w-full max-w-2xl"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Card
-                    id="new-ship-form-container-card"
-                    className="relative w-full"
-                  > */}
-            <motion.div
-              className="w-full max-w-2xl mx-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Card
-                className="relative w-full max-w-2xl"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="absolute top-0 left-0 right-0 h-48 z-10">
-                  <Image
-                    src={selectedShip.screenshotUrl}
-                    alt={`Screenshot of ${selectedShip.title}`}
-                    className="object-cover max-w-full"
-                    fill={true}
-                    priority
-                    unoptimized
-                    sizes="4rem"
-                    onError={({ target }) => {
-                      target.src = NoImgBanner.src;
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex flex-row gap-3 h-12">
+                  <Link
+                    id="selected-ship-play-button"
+                    className="flex items-center flex-grow"
+                    target="_blank"
+                    href={selectedShip?.deploymentUrl || "#"}
+                    prefetch={false}
+                  >
+                    <Button
+                      className="w-full h-full"
+                      disabled={!selectedShip?.deploymentUrl}
+                    >
+                      Play
+                      <Icon glyph="view-forward" />
+                    </Button>
+                  </Link>
+                  <Link
+                    id="selected-ship-repo-button"
+                    target="_blank"
+                    className={`${buttonVariants({ variant: "outline" })} h-full`}
+                    href={selectedShip?.repoUrl}
+                    prefetch={false}
+                  >
+                    <Icon glyph="github" /> GitHub Repo
+                  </Link>
+
+                  <Button
+                    id="selected-ship-edit-button"
+                    className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
+                    onClick={() => setIsEditingShip((p) => !p)}
+                  >
+                    <Icon glyph="edit" width={24} /> Edit
+                  </Button>
                 </div>
 
-                <div
-                  className="overflow-y-auto flex-grow pt-48"
-                  id="selected-ship-card"
-                >
-                  <CardHeader className="relative">
-                    <h2 className="text-3xl font-bold">{selectedShip.title}</h2>
-                    <p className="opacity-50">
-                      {selectedShip.wakatimeProjectName ? (
-                        `Wakatime project name: ${selectedShip.wakatimeProjectName}`
-                      ) : (
-                        <div className="flex items-center gap-1">
-                          <Icon glyph="important" />
-                          No Wakatime project name!
-                        </div>
-                      )}
-                    </p>
-                  </CardHeader>
-
-                  <CardContent className="space-y-4">
-                    <div>
-                      <div className="flex flex-row gap-3 h-12">
-                        <Link
-                          id="selected-ship-play-button"
-                          className="flex items-center flex-grow"
-                          target="_blank"
-                          href={selectedShip.deploymentUrl || "#"}
-                          prefetch={false}
-                        >
-                          <Button
-                            className="w-full h-full"
-                            disabled={!selectedShip.deploymentUrl}
-                          >
-                            Play
-                            <Icon glyph="view-forward" />
-                          </Button>
-                        </Link>
-                        <Link
-                          id="selected-ship-repo-button"
-                          target="_blank"
-                          className={`${buttonVariants({ variant: "outline" })} h-full`}
-                          href={selectedShip.repoUrl}
-                          prefetch={false}
-                        >
-                          <Icon glyph="github" /> GitHub Repo
-                        </Link>
-
-                        <Button
-                          id="selected-ship-edit-button"
-                          className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
-                          onClick={() => setIsEditingShip((p) => !p)}
-                        >
-                          <Icon glyph="edit" width={24} /> Edit
-                        </Button>
-                      </div>
-
-                      <AnimatePresence>
-                        {isEditingShip && selectedShip && (
-                          <motion.div
-                            key="edit-ship-form"
-                            initial={{
-                              opacity: 0,
-                              height: 0,
-                            }}
-                            animate={{
-                              opacity: 1,
-                              height: "fit-content",
-                            }}
-                            exit={{
-                              opacity: 0,
-                              height: 0,
-                            }}
-                            transition={{ duration: 0.2, ease: "easeInOut" }}
-                          >
-                            <Card className="p-2 mt-2 bg-neutral-100">
-                              <EditShipForm
-                                ship={selectedShip}
-                                closeForm={() => setIsEditingShip(false)}
-                                setShips={setShips}
-                              />
-                            </Card>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      <motion.div className="flex items-center gap-4 mt-4">
-                        <ShipPillCluster
+                <AnimatePresence>
+                  {isEditingShip && selectedShip && (
+                    <motion.div
+                      key="edit-ship-form"
+                      initial={{
+                        opacity: 0,
+                        height: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        height: "fit-content",
+                      }}
+                      exit={{
+                        opacity: 0,
+                        height: 0,
+                      }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                    >
+                      <Card className="p-2 mt-2 bg-neutral-100">
+                        <EditShipForm
                           ship={selectedShip}
-                          shipChains={shipChains}
+                          closeForm={() => setIsEditingShip(false)}
+                          setShips={setShips}
                         />
-                      </motion.div>
+                      </Card>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-                      {/* {bareShips ? null : (
-                        <div>
-                          <hr className="my-5" />
-                          <h3>Ship update chain</h3>
-                          <ol className="flex flex-col">
-                            {selectedProjectWakatimeProjectShipChain ? (
-                              selectedProjectWakatimeProjectShipChain.map(
-                                (shipChainId: string, shipChainIdx: number) => {
-                                  const foundShip = ships.find(
-                                    (s: Ship) => s.id === shipChainId,
-                                  );
+                <motion.div className="flex items-center gap-4 mt-4">
+                  <ShipPillCluster
+                    ship={selectedShip}
+                    shipChains={shipChains}
+                  />
+                </motion.div>
 
-                                  if (!foundShip)
-                                    return (
-                                      <p key={shipChainIdx}>
-                                        {
-                                          "selectedProjectWakatimeProjectShipChain -> foundShip is None"
-                                        }
-                                      </p>
-                                    );
+                {/* {bareShips ? null : (
+                  <div>
+                    <hr className="my-5" />
+                    <h3>Ship update chain</h3>
+                    <ol className="flex flex-col">
+                      {selectedProjectWakatimeProjectShipChain ? (
+                        selectedProjectWakatimeProjectShipChain.map(
+                          (shipChainId: string, shipChainIdx: number) => {
+                            const foundShip = ships.find(
+                              (s: Ship) => s.id === shipChainId,
+                            );
 
-                                  return (
-                                    <li
-                                      className={`inline-flex items-center gap-3 ${shipChainIdx === 0 ? "" : "ml-7"}`}
-                                      key={shipChainIdx}
-                                    >
-                                      {shipChainIdx === 0 ? (
-                                        <Icon glyph="home" />
-                                      ) : (
-                                        <Icon
-                                          glyph="reply"
-                                          style={{
-                                            transform: "scaleX(-1) scaleY(-1)",
-                                          }}
-                                        />
-                                      )}
-                                      <span>
-                                        {foundShip.title} ({foundShip.shipType})
-                                      </span>
-                                      <span className="text-sm opacity-50">
-                                        {foundShip.shipType === "update"
-                                          ? foundShip.updateDescription
-                                          : null}
-                                      </span>
-                                      <span className="text-sm opacity-50">
-                                        {ago(foundShip.createdTime)}
-                                      </span>
-                                    </li>
-                                  );
-                                },
-                              )
-                            ) : (
-                              <p>wat</p>
-                            )}
-                          </ol>
-                        </div>
-                      )} */}
+                            if (!foundShip)
+                              return (
+                                <p key={shipChainIdx}>
+                                  {
+                                    "selectedProjectWakatimeProjectShipChain -> foundShip is None"
+                                  }
+                                </p>
+                              );
 
-                      {selectedShip.shipType === "update" ? (
-                        <>
-                          <hr className="my-5" />
-                          <div>
-                            <h3 className="text-xl">Update description</h3>
-                            <p>{selectedShip.updateDescription}</p>
-                          </div>
-                        </>
-                      ) : null}
-
-                      <hr className="my-5" />
-
-                      {readmeText ? (
-                        <div className="prose max-w-none">
-                          {readmeText === "?" ? (
-                            <div className="p-2 text-center">
-                              <p>RAHHHH! You entered a bad README URL.</p>
-                              <p className="text-xs">
-                                Bestie you gotta click <code>Raw</code> on your
-                                README and then copy the URL
-                                <br />
-                                (it should start with{" "}
-                                <code>raw.githubusercontent.com</code> and end
-                                in <code>.md</code>)
-                              </p>
-                              <Image
-                                src={ReadmeHelperImg}
-                                alt=""
-                                width={400}
-                                height={100}
-                                className="mx-auto object-cover mt-2"
-                              />
-                            </div>
-                          ) : (
-                            <>
-                              <h3 className="text-xl">Main Project README</h3>
-                              <ReactMarkdown
-                                components={markdownComponents}
-                                rehypePlugins={[rehypeRaw]}
+                            return (
+                              <li
+                                className={`inline-flex items-center gap-3 ${shipChainIdx === 0 ? "" : "ml-7"}`}
+                                key={shipChainIdx}
                               >
-                                {readmeText}
-                              </ReactMarkdown>
-                            </>
-                          )}
-                        </div>
+                                {shipChainIdx === 0 ? (
+                                  <Icon glyph="home" />
+                                ) : (
+                                  <Icon
+                                    glyph="reply"
+                                    style={{
+                                      transform: "scaleX(-1) scaleY(-1)",
+                                    }}
+                                  />
+                                )}
+                                <span>
+                                  {foundShip.title} ({foundShip.shipType})
+                                </span>
+                                <span className="text-sm opacity-50">
+                                  {foundShip.shipType === "update"
+                                    ? foundShip.updateDescription
+                                    : null}
+                                </span>
+                                <span className="text-sm opacity-50">
+                                  {ago(foundShip.createdTime)}
+                                </span>
+                              </li>
+                            );
+                          },
+                        )
                       ) : (
-                        <p className="text-center">Loading README...</p>
+                        <p>wat</p>
                       )}
-                    </div>
-                  </CardContent>
-                </div>
+                    </ol>
+                  </div>
+                )} */}
 
-                <motion.button
-                  className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-                  onClick={() => setSelectedShip(null)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Icon glyph="view-close" />
-                </motion.button>
-              </Card>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {selectedShip?.shipType === "update" ? (
+                  <>
+                    <hr className="my-5" />
+                    <div>
+                      <h3 className="text-xl">Update description</h3>
+                      <p>{selectedShip?.updateDescription}</p>
+                    </div>
+                  </>
+                ) : null}
+
+                <hr className="my-5" />
+
+                {readmeText ? (
+                  <div className="prose max-w-none">
+                    {readmeText === "?" ? (
+                      <div className="p-2 text-center">
+                        <p>RAHHHH! You entered a bad README URL.</p>
+                        <p className="text-xs">
+                          Bestie you gotta click <code>Raw</code> on your README
+                          and then copy the URL
+                          <br />
+                          (it should start with{" "}
+                          <code>raw.githubusercontent.com</code> and end in{" "}
+                          <code>.md</code>)
+                        </p>
+                        <Image
+                          src={ReadmeHelperImg}
+                          alt=""
+                          width={400}
+                          height={100}
+                          className="mx-auto object-cover mt-2"
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <h3 className="text-xl">Main Project README</h3>
+                        <ReactMarkdown
+                          components={markdownComponents}
+                          rehypePlugins={[rehypeRaw]}
+                        >
+                          {readmeText}
+                        </ReactMarkdown>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-center">Loading README...</p>
+                )}
+              </div>
+            </CardContent>
+          </div>
+
+          <motion.button
+            className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
+            onClick={() => setSelectedShip(null)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Icon glyph="view-close" />
+          </motion.button>
+        </Card>
+      </Modal>
     </>
   );
 }

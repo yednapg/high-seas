@@ -98,10 +98,13 @@ export async function handleEmailSubmission(email: string): Promise<{
       session?.name ?? null,
       session?.slackId ?? null,
     );
+    console.log(signup);
   } catch (e) {
-    const error = new Error("Failed to create HackaTime user:", e);
-    console.error(error);
-    throw error;
+    console.log(e);
+    throw e;
+    // const error = new Error("Failed to create HackaTime user:", e);
+    // console.error(e);
+    // throw error;
   }
   console.log("handleEmailSubmission Step 4:", signup);
 

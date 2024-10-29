@@ -136,7 +136,7 @@ export default function NewShipForm({
   }));
 
   return (
-    <div className="p-4" {...props}>
+    <div {...props}>
       <h1 className="text-2xl font-bold mb-4">
         {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
@@ -151,7 +151,7 @@ export default function NewShipForm({
           <label htmlFor="isShipUpdate" className="select-none">
             This is an update to an existing project
             <br />
-            <span className="opacity-50 text-xs">
+            <span className="text-xs">
               Only select this if {"it's"} a project you started before Low
               Skies and {"haven't"} submitted before.
               <br />
@@ -160,7 +160,7 @@ export default function NewShipForm({
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
               <Link
-                className="text-blue-500"
+                className="underline"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
                 #low-skies-help
@@ -207,18 +207,7 @@ export default function NewShipForm({
         {/* Project Dropdown */}
         <div id="project-field">
           <label htmlFor="project" className="leading-0">
-            Select Project <br />
-            <span className="text-xs opacity-50">
-              If you need to include several of the listed projects in this
-              dropdown, you need to update your project labels in the{" "}
-              <Link
-                className="text-blue-600"
-                href="https://waka.hackclub.com"
-                target="_blank"
-              >
-                Wakatime dashboard
-              </Link>
-            </span>
+            Select Project
           </label>
 
           {projects ? (
@@ -226,7 +215,7 @@ export default function NewShipForm({
               options={projectDropdownList}
               onValueChange={(p) => setSelectedProjects(p)}
               defaultValue={[]}
-              placeholder="Select projects"
+              placeholder="Select projects..."
               variant="inverted"
               maxCount={3}
             />
@@ -354,7 +343,7 @@ export default function NewShipForm({
             <span className="text-xs opacity-50">
               You can upload to{" "}
               <Link
-                className="text-blue-500"
+                className="underline"
                 href="https://hackclub.slack.com/archives/C016DEDUL87"
                 target="_blank"
                 rel="noopener noreferrer"

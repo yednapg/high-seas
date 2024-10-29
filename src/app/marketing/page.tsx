@@ -16,7 +16,7 @@ import divider from "./art/divider.png";
 import divider2 from "./art/divider2.png";
 // import paper from "./art/paper.png";
 
-import {IdeaGenerator} from "../../components/idea-generator.js"
+import { IdeaGenerator } from "../../components/idea-generator.js";
 
 import shop1 from "./art/shop/shop1.png";
 import shop2 from "./art/shop/shop2.png";
@@ -45,12 +45,12 @@ export default async function Marketing() {
             <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
             <div className="relative z-10">
               <p className="p-5 px-24 text-white text-2xl">
-                coming soon!!! (tm) :eyes: 
+                coming soon!!! (tm) :eyes:
               </p>
             </div>
           </div>
         </div> */}
-        
+
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center">
             <div className=" flex flex-col justify-center items-center mb-20">
@@ -64,18 +64,30 @@ export default async function Marketing() {
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
-                    <Link href="/signpost" className="p-4 rounded-lg text-md text-white bg-[#3852CD]">
-                      <img src="/signpost.png" width={32} className="inline-block mr-4" />
-                      Enter the harbor
-                    </Link>
+                  <Link
+                    href="/signpost"
+                    className="p-4 rounded-lg text-md text-white bg-[#3852CD]"
+                  >
+                    <img
+                      src="/signpost.png"
+                      width={32}
+                      className="inline-block mr-4"
+                    />
+                    Enter the harbor
+                  </Link>
                 ) : (
                   <EmailSubmissionForm />
                 )}
               </div>
-              <p className="mt-2 text-white bg-[#3852CD] bg-opacity-50 px-4 py-2 rounded-lg">New sailors get free stickers!</p>
+              <p className="mt-2 text-white bg-[#3852CD] bg-opacity-50 px-4 py-2 rounded-lg">
+                New sailors get free stickers!
+              </p>
             </div>
             <Link href="#howthisworks">
-              <img src="/arrows.svg" className="w-16 h-14 mb-6 opacity-60 bobble" />
+              <img
+                src="/arrows.svg"
+                className="w-16 h-14 mb-6 opacity-60 bobble"
+              />
             </Link>
 
             <div className="text-[#214495]">
@@ -102,7 +114,8 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                . For teenagers 18 and under. Starts October 30. Ends January 31.
+                . For teenagers 18 and under. Starts October 30. Ends January
+                31.
               </p>
             </div>
           </div>
@@ -382,7 +395,7 @@ export default async function Marketing() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
-              <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
+              {/* <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
                 <iframe
                   src="https://high-seas-map.vercel.app/"
                   className="w-full h-96 rounded-lg"
@@ -391,7 +404,7 @@ export default async function Marketing() {
                 <p className="flex flex-col justify-center text-center mt-2">
                   Drag around this map and click on the ships!
                 </p>
-              </div>
+              </div> */}
 
               {/* <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
                 <p>insert sam's map here</p>
@@ -485,9 +498,8 @@ export default async function Marketing() {
           </div>
 
           <div className="bg-black bg-opacity-50 py-12 my-12">
-
-          <div className="relative my-12">
-            {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+            <div className="relative my-12">
+              {/*<div className="absolute inset-0 bg-black opacity-50 z-10"></div>
             <div className="images-ani relative z-0">
               <div className="images-slide">
                 <img src="/pictures/pic1.png" alt="picture" className="" />
@@ -503,28 +515,31 @@ export default async function Marketing() {
               </div>
             </div>*/}
 
-
-            <div className="flex flex-col justify-center text-center">
-              <p className="text-5xl mt-12 mx-5 text-white">Join a community of makers</p>
+              <div className="flex flex-col justify-center text-center">
+                <p className="text-5xl mt-12 mx-5 text-white">
+                  Join a community of makers
+                </p>
+              </div>
             </div>
 
-            
-          </div>
-
-
-
-
             <div className="">
-
               <div className="flex flex-wrap justify-center items-center gap-10">
                 <div>
-                  <img src="/pictures/pic7.png" alt="hack clubbers!" className="md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"/>
-                  <p className="flex flex-col justify-center items-center text-center">Hack Clubbers at the Boreal Express Hackathon!</p>
+                  <img
+                    src="/pictures/pic7.png"
+                    alt="hack clubbers!"
+                    className="md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
+                  />
+                  <p className="flex flex-col justify-center items-center text-center">
+                    Hack Clubbers at the Boreal Express Hackathon!
+                  </p>
                 </div>
-                
-                <iframe width="640" height="360"
-                  src="https://www.youtube.com/embed/hiG3fYq3xUU">
-                </iframe>
+
+                <iframe
+                  width="640"
+                  height="360"
+                  src="https://www.youtube.com/embed/hiG3fYq3xUU"
+                ></iframe>
               </div>
 
               <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
@@ -729,7 +744,9 @@ export default async function Marketing() {
             <div className="flex flex-col">
               <p className="mb-2 text-pink-800 text-xl">Resources</p>
               <div className="text-pink-700">
-                <Link href="https://events.hackclub.com/">Community Events</Link>
+                <Link href="https://events.hackclub.com/">
+                  Community Events
+                </Link>
                 <br />
                 <Link href="https://jams.hackclub.com/">Jams</Link>
                 <br />
@@ -737,9 +754,13 @@ export default async function Marketing() {
                 <br />
                 <Link href="https://toolbox.hackclub.com/">Toolbox</Link>
                 <br />
-                <Link href="https://directory.hackclub.com/">Clubs Directory</Link>
+                <Link href="https://directory.hackclub.com/">
+                  Clubs Directory
+                </Link>
                 <br />
-                <Link href="https://hackclub.com/conduct/">Code of Conduct</Link>
+                <Link href="https://hackclub.com/conduct/">
+                  Code of Conduct
+                </Link>
                 <br />
               </div>
             </div>

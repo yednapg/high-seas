@@ -50,15 +50,8 @@ export const SinglePlatform = ({
   wakaKey,
 }: {
   os: Os;
-  wakaKey?: string;
+  wakaKey: string;
 }) => {
-  if (!wakaKey)
-    return (
-      <div className="w-full mt-4 text-center">
-        <p>Loading token...</p>
-      </div>
-    );
-
   const platform = getInstallCommand(os, wakaKey);
   return (
     <div className="w-full mt-4">

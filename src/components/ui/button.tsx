@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#00000080] text-primary-foreground hover:bg-primary/90",
+        default: "bg-[#9AD9EE] text-black",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -44,11 +44,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        style={{
-          border: '1px solid',
-          // backgroundSize: "auto 500%",
-          // backgroundRepeat: "repeat-x",
-        }}
         className={`${cn(buttonVariants({ variant, size, className }))} bg-blend-color-burn`}
         ref={ref}
         {...props}

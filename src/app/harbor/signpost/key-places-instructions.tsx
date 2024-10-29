@@ -22,13 +22,17 @@ const keyLocations = [
         <Pill
           msg="Doubloons"
           color="green"
-          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
+          glyphImage={
+            <Image src={DoubloonsImage} alt="Doubloons" height={20} />
+          }
         />
         . Note that the number of{" "}
         <Pill
           msg="Doubloons"
           color="green"
-          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
+          glyphImage={
+            <Image src={DoubloonsImage} alt="Doubloons" height={20} />
+          }
         />{" "}
         you earn is based on the number of hours you have put in your own
         project, and how it competes against other projects. Everything is peer
@@ -45,7 +49,9 @@ const keyLocations = [
         <Pill
           msg="Doubloons"
           color="green"
-          glyphImage={<Image src={DoubloonsImage} alt="Doubloons" height={20} />}
+          glyphImage={
+            <Image src={DoubloonsImage} alt="Doubloons" height={20} />
+          }
         />{" "}
         here! Get items, ranging from Blahajs to Yubikeys. More items to come in
         the future!
@@ -86,7 +92,7 @@ export default function WakatimeSetupInstructions() {
             initial={{ height: 0, marginTop: "0" }}
             animate={{ height: "auto", marginTop: "1rem" }}
             exit={{ height: 0, marginTop: "0" }}
-            className="overflow-y-clip"
+            className="overflow-y-hidden"
           >
             <div className="mx-auto space-y-3">
               {keyLocations.map((location) => (

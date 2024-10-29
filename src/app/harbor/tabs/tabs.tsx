@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
-import { hasRecvFirstHeartbeat, getWakaEmail } from "../../utils/waka";
+import { hasRecvFirstHeartbeat } from "../../utils/waka";
 import { getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
@@ -70,10 +70,6 @@ export default function Harbor({
     "cache.hasWakaHb",
     null,
   );
-  const [wakaEmail, setWakaEmail] = useLocalStorageState(
-    "cache.wakaEmail",
-    null,
-  );
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
 
@@ -113,8 +109,6 @@ export default function Harbor({
     });
 
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
-
-    getWakaEmail().then((email) => email && setWakaEmail(email));
   }, [session]);
 
   // Keep ships and shipChain in sync
@@ -134,7 +128,6 @@ export default function Harbor({
         <SignPost
           session={session}
           wakaToken={wakaToken}
-          email={wakaEmail}
           hasWakaHb={hasWakaHb}
         />
       ),
@@ -192,14 +185,9 @@ export default function Harbor({
           <Balance balance={personTicketBalance} />
         </div>
       </TabsList>
-      <div className="flex-1 overflow-auto p-3" id="harbor-tab-scroll-element">
+      <div className="flex-1 p-3" id="harbor-tab-scroll-element">
         {tabs.map((tab) => (
           <TabsContent key={tab.name} value={tab.path} className="h-full">
-            {tab.lockOnNoHb && hasWakaHb !== false && hasWakaHb !== true && (
-              <div className="flex justify-center items-center h-64">
-                <LoadingSpinner />
-              </div>
-            )}
             {tab.lockOnNoHb &&
             hasWakaHb === false &&
             sessionStorage.getItem("tutorial") !== "true" ? (
