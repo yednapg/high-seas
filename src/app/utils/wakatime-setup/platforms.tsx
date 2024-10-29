@@ -28,6 +28,17 @@ export default function Platforms({ wakaKey }: { wakaKey: string }) {
           <SinglePlatform os={"windows"} wakaKey={wakaKey} />
           <SinglePlatform os={"macos"} wakaKey={wakaKey} />
           <SinglePlatform os={"linux"} wakaKey={wakaKey} />
+          <hr />
+          <p>Script not working? High Seas is wakatime-compatible and you can configure wakatime plugins using the following:</p>
+          <code className="block bg-gray-800 p-2 rounded-md mt-2">
+            <pre>
+{`# ~/.wakatime.cfg
+
+[settings]
+api_url = https://waka.hackclub.com/api
+api_key = ${wakaKey}`}
+            </pre>
+          </code>
           <p
             className="text-xs mt-1 underline cursor-pointer"
             onClick={() => setShowAllPlatforms(false)}
