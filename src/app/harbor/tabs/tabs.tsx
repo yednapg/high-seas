@@ -85,41 +85,27 @@ export default function Harbor({
   };
 
   useEffect(() => {
-    console.log("running tabs useeffect");
+    getUserShips(session.slackId).then(({ ships, shipChains }) => {
+      setMyShips(ships);
+      setMyShipChains(shipChains);
+    });
 
-    (async () => {
-      console.warn(await waka());
-    })();
+    waka().then(({ username, key }) => setWakaToken(key));
 
-    // safePerson().then((p: SafePerson) => {
-    //   setPersonTicketBalance(p.settledTickets);
-    //   sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
+    safePerson().then((p: SafePerson) => {
+      setPersonTicketBalance(p.settledTickets);
+      sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
 
-    //   console.warn("safeperson:", p);
+      console.warn("safeperson:", p);
 
-    //   if (!p.hasCompletedTutorial) {
-    //     if (p.emailSubmittedOnMobile) {
-    //       setShowWakaSetupModal(true);
-    //     } else {
-    //       tour();
-    //     }
-    //   }
-    // });
-
-    // getUserShips(session.slackId).then(({ ships, shipChains }) => {
-    //   setMyShips(ships);
-    //   setMyShipChains(shipChains);
-    // });
-
-    // (async () => {
-    //   while (!hasWakaHb) {
-    //     console.log("Checking hb");
-    //     hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
-    //     await new Promise((r) => setTimeout(r, 5_000));
-    //   }
-    // })();
-
-    // getWaka().then((waka) => waka && setWakaToken(waka.api_key));
+      if (!p.hasCompletedTutorial) {
+        if (p.emailSubmittedOnMobile) {
+          setShowWakaSetupModal(true);
+        } else {
+          tour();
+        }
+      }
+    });
   }, [session]);
 
   // Keep ships and shipChain in sync
@@ -220,6 +206,7 @@ export default function Harbor({
           tour();
         }}
         onHbDetect={() => {
+          setHasWakaHb(true);
           setShowWakaSetupModal(false);
           tour();
         }}
