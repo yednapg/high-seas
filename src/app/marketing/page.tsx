@@ -929,11 +929,11 @@ const faqData: FaqItem[] = [
   },
   {
     question: "How much does it cost?",
-    answer: `100% free – all the prizes are donated to us or paid for by us!`,
+    answer: `100% free - all the prizes are donated to us or paid for by us!`,
   },
   {
     question: "What types of projects count?",
-    answer: `Projects need to be open source & be usable by others!`,
+    answer: `Anyhing that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
