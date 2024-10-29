@@ -106,8 +106,8 @@ export default function NewShipForm({
       );
     }
 
-    await createShip(formData);
     const isTutorial = sessionStorage.getItem("tutorial") === "true";
+    await createShip(formData, isTutorial);
     confettiRef.current?.addConfetti();
     closeForm();
     window.location.reload();
