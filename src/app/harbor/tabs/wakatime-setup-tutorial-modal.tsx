@@ -5,14 +5,15 @@ import {
   Os,
   osFromAgent,
   SinglePlatform,
-} from "./tutorial-utils.client";
-import { hasHb } from "./tutorial-utils";
+} from "@/app/utils/wakatime-setup/tutorial-utils.client";
+import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
 import {
   handleEmailSubmission,
   markArrpheusReadyToInvite,
 } from "../../marketing/marketing-utils";
 import JSConfetti from "js-confetti";
 import { LoadingSpinner } from "../../../components/ui/loading_spinner";
+import Platforms from "@/app/utils/wakatime-setup/platforms";
 
 export default function WakatimeSetupTutorialModal({
   email,
@@ -118,27 +119,7 @@ export default function WakatimeSetupTutorialModal({
             extension in your code editor!
           </p>
 
-          {showAllPlatforms ? (
-            <div>
-              <SinglePlatform os={"windows"} wakaKey={wakaKey} />
-              <SinglePlatform os={"macos"} wakaKey={wakaKey} />
-              <SinglePlatform os={"linux"} wakaKey={wakaKey} />
-              <p onClick={() => setShowAllPlatforms(false)}>nevermind</p>
-            </div>
-          ) : (
-            <>
-              <SinglePlatform os={userOs} wakaKey={wakaKey} />
-              <p className="text-xs mt-1">
-                Not using {userOs}?{" "}
-                <span
-                  onClick={() => setShowAllPlatforms(true)}
-                  className="underline text-blue-500 cursor-pointer"
-                >
-                  View instructions for all platforms
-                </span>
-              </p>
-            </>
-          )}
+          <Platforms wakaKey={wakaKey} />
 
           <video
             src="/videos/Waka Setup Script.mp4"

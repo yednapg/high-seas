@@ -4,7 +4,7 @@ import {
   Os,
   osFromAgent,
   SinglePlatform,
-} from "../../app/harbor/tabs/tutorial-utils.client";
+} from "@/app/utils/wakatime-setup/tutorial-utils.client";
 import { Button, buttonVariants } from "./button";
 
 const WakaLock = ({ wakaOverride, wakaToken, tabName }) => {

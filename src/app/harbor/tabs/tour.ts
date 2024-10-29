@@ -1,7 +1,7 @@
 import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
-import { markAcademyComplete } from "./tutorial-utils";
+import { markAcademyComplete } from "@/app/utils/wakatime-setup/tutorial-utils";
 
 const waitForElement = (
   selector: string,
