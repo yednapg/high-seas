@@ -15,6 +15,8 @@ export interface HsSession {
   givenName?: string;
   email: string;
   picture?: string;
+  wakaUsername: string;
+  wakaKey: string;
   sig?: string;
 }
 
@@ -46,6 +48,8 @@ async function hashSession(session: HsSession) {
     session.givenName || "",
     session.email,
     session.picture || "",
+    session.wakaUsername,
+    session.wakaKey,
   ].join("|");
 
   const authSecret = process.env.AUTH_SECRET;

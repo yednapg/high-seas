@@ -1,3 +1,10 @@
+/*
+DEPRECATED - to be deleted
+
+Use utils/wakatime-setup/setup-modal instead!
+
+*/
+
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +32,7 @@ export default function WakatimeSetupTutorialModal({
   const [userOs, setUserOs] = useState<Os>("unknown");
   const [personRecordId, setPersonRecordId] = useState<string>();
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>();
   const [hasRecvHb, setHasRecvHb] = useState(false);
   const [wakaKey, setWakaKey] = useState<string | null>(null);
   const [instructions, setInstructions] = useState<any | null>(null);
@@ -50,9 +58,12 @@ export default function WakatimeSetupTutorialModal({
   };
 
   useEffect(() => {
+    console.log("WakatimeSetupTutorialModal running");
     confettiRef.current = new JSConfetti();
 
     const mobile = navigator.userAgent.toLowerCase().includes("mobile");
+    setIsMobile(mobile);
+
     const os = osFromAgent();
     setUserOs(os);
     setShowAllPlatforms(os === "unknown");
@@ -61,31 +72,33 @@ export default function WakatimeSetupTutorialModal({
       const emailSubmissionResult = await handleEmailSubmission(email, mobile);
       if (!emailSubmissionResult) return;
 
-      console.log("Email submission result:", emailSubmissionResult);
+      const { username, key, personRecordId } = emailSubmissionResult;
+      console.log("handleEmailSubmission result:", {
+        username,
+        key,
+        personRecordId,
+      });
+
       setPersonRecordId(emailSubmissionResult.personRecordId);
+      setWakaKey(key);
+      setInstructions(getInstallCommand(userOs, key));
 
-      setWakaKey(emailSubmissionResult.apiKey);
-      setInstructions(getInstallCommand(userOs, emailSubmissionResult.apiKey));
-
-      if (!emailSubmissionResult.username) {
+      if (!username) {
         console.error("no username while trying to sign up");
         return;
       }
 
       if (mobile) {
         setHasRecvHb(true);
-        await handleContinueFromModal(emailSubmissionResult.personRecordId);
+        await handleContinueFromModal(personRecordId);
         return;
       }
 
       while (true) {
-        const hasData = await hasHb(
-          emailSubmissionResult.username,
-          emailSubmissionResult.apiKey,
-        );
+        const hasData = await hasHb(username, key);
         console.log("Hb check:", hasData);
         if (hasData) {
-          await handleContinueFromModal(emailSubmissionResult.personRecordId);
+          await handleContinueFromModal(personRecordId);
           setHasRecvHb(true);
           break;
         }
@@ -100,6 +113,14 @@ export default function WakatimeSetupTutorialModal({
       <div>
         <p className="text-3xl mb-2">Check your email!</p>
         <p>You should see an invite to the Hack Club Slack.</p>
+
+        {isMobile ? (
+          <p>
+            <br />
+            This next step <i>can</i> be done on your phone, but we strongly
+            recommend doing it on whatever computer you use to code!
+          </p>
+        ) : null}
 
         <img
           src="/party-orpheus.svg"
@@ -124,14 +145,6 @@ export default function WakatimeSetupTutorialModal({
           </p>
 
           <Platforms wakaKey={wakaKey} />
-
-          <video
-            src="/videos/Waka Setup Script.mp4"
-            autoPlay
-            loop
-            playsInline
-            className="mt-8 rounded shadow"
-          />
         </div>
 
         <p className="mt-2 text-base">

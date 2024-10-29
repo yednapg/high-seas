@@ -8,14 +8,12 @@ import Shop from "../shop/shop";
 import { useEffect } from "react";
 import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
-import { getWaka } from "../../utils/waka";
-import { hasRecvFirstHeartbeat } from "../../utils/waka";
-import { getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew } from "../../utils/airtable";
+import { waka } from "../../utils/waka";
+import { SafePerson, safePerson } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "@/components/ui/loading_spinner";
 import { HsSession } from "@/app/utils/auth";
 import {
   Popover,
@@ -23,6 +21,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
+import SetupModal from "../../utils/wakatime-setup/setup-modal";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -72,6 +71,7 @@ export default function Harbor({
   );
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
+  const [showWakaSetupModal, setShowWakaSetupModal] = useState<boolean>();
 
   const router = useRouter();
 
@@ -80,35 +80,30 @@ export default function Harbor({
   };
 
   useEffect(() => {
-    console.log("running tabs useeffect");
     getUserShips(session.slackId).then(({ ships, shipChains }) => {
       setMyShips(ships);
-      console.warn("shipchains", ships, shipChains);
       setMyShipChains(shipChains);
     });
 
-    (async () => {
-      while (!hasWakaHb) {
-        console.log("Checking hb");
-        hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
+    waka().then(({ username, key }) => setWakaToken(key));
 
-        await new Promise((r) => setTimeout(r, 5_000));
-      }
-    })();
+    safePerson().then((p: SafePerson) => {
+      setPersonTicketBalance(p.settledTickets);
+      sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
 
-    getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew(
-      session.slackId,
-    ).then(({ tickets, hasCompletedTutorial }) => {
-      setPersonTicketBalance(tickets.toString());
+      console.warn("safeperson:", p);
+      console.log(
+        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
+      );
 
-      sessionStorage.setItem("tutorial", (!hasCompletedTutorial).toString());
-
-      if (!hasCompletedTutorial) {
-        tour();
+      if (!p.hasCompletedTutorial) {
+        if (p.emailSubmittedOnMobile) {
+          setShowWakaSetupModal(true);
+        } else {
+          tour();
+        }
       }
     });
-
-    getWaka().then((waka) => waka && setWakaToken(waka.api_key));
   }, [session]);
 
   // Keep ships and shipChain in sync
@@ -117,8 +112,6 @@ export default function Harbor({
       setMyShipChains(shipChains),
     );
   }, [myShips]);
-
-  useEffect(() => {}, []);
 
   const tabs = [
     {
@@ -159,49 +152,63 @@ export default function Harbor({
   ];
 
   return (
-    <Tabs
-      value={currentTab}
-      className="flex-1 flex flex-col"
-      onValueChange={handleTabChange}
-    >
-      <button onClick={() => tour()}>restart tour</button>
-      <TabsList className="mx-2 my-2 relative">
-        {tabs.map((tab) =>
-          tab.name === "📮" ? (
-            <TabsTrigger
-              className="left-px absolute"
-              key={tab.name}
-              value={tab.path}
-            >
-              <img src="/signpost.png" width={20} alt="" />
-            </TabsTrigger>
-          ) : (
-            <TabsTrigger key={tab.name} value={tab.path}>
-              {tab.name}
-            </TabsTrigger>
-          ),
-        )}
-        <div className="right-px absolute mr-px text-green-400 text-sm">
-          <Balance balance={personTicketBalance} />
-        </div>
-      </TabsList>
-      <div className="flex-1 p-3" id="harbor-tab-scroll-element">
-        {tabs.map((tab) => (
-          <TabsContent key={tab.name} value={tab.path} className="h-full">
-            {tab.lockOnNoHb &&
-            hasWakaHb === false &&
-            sessionStorage.getItem("tutorial") !== "true" ? (
-              <WakaLock
-                wakaOverride={() => setHasWakaHb(true)}
-                wakaToken={wakaToken}
-                tabName={tab.name}
-              />
+    <>
+      <Tabs
+        value={currentTab}
+        className="flex-1 flex flex-col"
+        onValueChange={handleTabChange}
+      >
+        <button onClick={() => tour()}>restart tour</button>
+        <TabsList className="mx-2 my-2 relative">
+          {tabs.map((tab) =>
+            tab.name === "📮" ? (
+              <TabsTrigger
+                className="left-px absolute"
+                key={tab.name}
+                value={tab.path}
+              >
+                <img src="/signpost.png" width={20} alt="" />
+              </TabsTrigger>
             ) : (
-              tab.component
-            )}
-          </TabsContent>
-        ))}
-      </div>
-    </Tabs>
+              <TabsTrigger key={tab.name} value={tab.path}>
+                {tab.name}
+              </TabsTrigger>
+            ),
+          )}
+          <div className="right-px absolute mr-px text-green-400 text-sm">
+            <Balance balance={personTicketBalance} />
+          </div>
+        </TabsList>
+        <div className="flex-1 p-3" id="harbor-tab-scroll-element">
+          {tabs.map((tab) => (
+            <TabsContent key={tab.name} value={tab.path} className="h-full">
+              {tab.lockOnNoHb &&
+              hasWakaHb === false &&
+              sessionStorage.getItem("tutorial") !== "true" ? (
+                <WakaLock
+                  wakaOverride={() => setHasWakaHb(true)}
+                  wakaToken={wakaToken}
+                  tabName={tab.name}
+                />
+              ) : (
+                tab.component
+              )}
+            </TabsContent>
+          ))}
+        </div>
+      </Tabs>
+      <SetupModal
+        isOpen={!!showWakaSetupModal}
+        close={() => {
+          setShowWakaSetupModal(false);
+          tour();
+        }}
+        onHbDetect={() => {
+          setHasWakaHb(true);
+          setShowWakaSetupModal(false);
+          tour();
+        }}
+      />
+    </>
   );
 }

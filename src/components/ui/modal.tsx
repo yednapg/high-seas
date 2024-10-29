@@ -7,11 +7,13 @@ import { createPortal } from "react-dom";
 export default function Modal({
   isOpen,
   close,
+  hideCloseButton = false,
   children,
   ...props
 }: {
   isOpen: boolean;
   close: (_: any) => void;
+  hideCloseButton?: boolean;
   children: React.ReactNode;
   props?: any;
 }) {
@@ -40,12 +42,14 @@ export default function Modal({
                   className="w-full max-w-3xl text-left text-white relative mx-auto mt-20"
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
-                  <div
-                    className="absolute top-4 right-4 cursor-pointer p-4 sm:p-6"
-                    onClick={close}
-                  >
-                    <Icon glyph="view-close" />
-                  </div>
+                  {hideCloseButton ? null : (
+                    <div
+                      className="absolute top-4 right-4 cursor-pointer p-4 sm:p-6"
+                      onClick={close}
+                    >
+                      <Icon glyph="view-close" />
+                    </div>
+                  )}
                   {children}
                 </JaggedCard>
               </motion.div>
