@@ -225,7 +225,7 @@ function setupSteps(tourManager: Tour) {
               "input#screenshot_url",
             )!;
             el.value =
-              "https://cloud-g94jve4yq-hack-club-bot.vercel.app/0cca0381f-7e1c-485f-a533-31340b1245d6_1_105_c.jpeg";
+              "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png";
             tourManager.next();
           },
         },
