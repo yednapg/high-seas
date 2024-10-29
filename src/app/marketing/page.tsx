@@ -941,7 +941,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "I need help!",
-    answer: `Read the big <Link href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</Link>. Still stuck? Reach out in <Link href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</Link> channel of the Hack Club Slack and we'll help you out!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
     question: "Does school work or a job count?",
@@ -949,7 +949,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <Link class="faqLink" href="https://hackclub.com/arcade/">Arcade</Link>, which gave out similar prizes for working on personal projects.`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
 ];
 
