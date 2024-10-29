@@ -9,7 +9,6 @@ import Modal from "../../../components/ui/modal";
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
   const [errorText, setErrorText] = useState<string>();
-  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -80,7 +79,11 @@ export default function EmailSubmissionForm() {
         </AnimatePresence>
       </div>
 
-      <Modal isOpen={!!email} close={() => setEmail(undefined)}>
+      <Modal
+        isOpen={!!email}
+        close={() => setEmail(undefined)}
+        hideCloseButton={true}
+      >
         <WakatimeSetupTutorialModal
           email={email}
           closeModal={() => setEmail(undefined)}

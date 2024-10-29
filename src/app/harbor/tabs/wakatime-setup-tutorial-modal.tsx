@@ -124,14 +124,6 @@ export default function WakatimeSetupTutorialModal({
           </p>
 
           <Platforms wakaKey={wakaKey} />
-
-          <video
-            src="/videos/Waka Setup Script.mp4"
-            autoPlay
-            loop
-            playsInline
-            className="mt-8 rounded shadow"
-          />
         </div>
 
         <p className="mt-2 text-base">

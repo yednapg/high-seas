@@ -29,10 +29,13 @@ export default function Platforms({ wakaKey }: { wakaKey: string }) {
           <SinglePlatform os={"macos"} wakaKey={wakaKey} />
           <SinglePlatform os={"linux"} wakaKey={wakaKey} />
           <hr />
-          <p>Script not working? High Seas is wakatime-compatible and you can configure wakatime plugins using the following:</p>
+          <p>
+            Script not working? High Seas is wakatime-compatible and you can
+            configure wakatime plugins using the following:
+          </p>
           <code className="block bg-gray-800 p-2 rounded-md mt-2">
             <pre>
-{`# ~/.wakatime.cfg
+              {`# ~/.wakatime.cfg
 
 [settings]
 api_url = https://waka.hackclub.com/api
@@ -54,6 +57,13 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
+          <video
+            src="/videos/Waka Setup Script.mp4"
+            autoPlay
+            loop
+            playsInline
+            className="mt-8 rounded shadow"
+          />
           <p className="text-xs mt-1">
             Not using {userOs}?{" "}
             <span

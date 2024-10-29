@@ -10,7 +10,11 @@ import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { getWaka } from "../../utils/waka";
 import { hasRecvFirstHeartbeat } from "../../utils/waka";
-import { getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew } from "../../utils/airtable";
+import {
+  getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew,
+  SafePerson,
+  safePerson,
+} from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
@@ -23,6 +27,8 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
+import Modal from "../../../components/ui/modal";
+import Platforms from "../../utils/wakatime-setup/platforms";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -72,6 +78,7 @@ export default function Harbor({
   );
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
+  const [showWakaSetupModal, setShowWakaSetupModal] = useState<boolean>();
 
   const router = useRouter();
 
@@ -79,11 +86,33 @@ export default function Harbor({
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
+  const WakaSetupModal = () => {
+    // On continue, run tour()
+    return (
+      <Modal>
+        <Platforms wakaKey={wakaToken} />
+      </Modal>
+    );
+  };
+
   useEffect(() => {
     console.log("running tabs useeffect");
+
+    safePerson().then((p: SafePerson) => {
+      setPersonTicketBalance(p.settledTickets);
+      sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
+
+      if (!p.hasCompletedTutorial) {
+        if (p.emailSubmittedOnMobile) {
+          setShowWakaSetupModal(true);
+        } else {
+          tour();
+        }
+      }
+    });
+
     getUserShips(session.slackId).then(({ ships, shipChains }) => {
       setMyShips(ships);
-      console.warn("shipchains", ships, shipChains);
       setMyShipChains(shipChains);
     });
 
@@ -91,22 +120,9 @@ export default function Harbor({
       while (!hasWakaHb) {
         console.log("Checking hb");
         hasRecvFirstHeartbeat().then((hasHb) => setHasWakaHb(hasHb));
-
         await new Promise((r) => setTimeout(r, 5_000));
       }
     })();
-
-    getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew(
-      session.slackId,
-    ).then(({ tickets, hasCompletedTutorial }) => {
-      setPersonTicketBalance(tickets.toString());
-
-      sessionStorage.setItem("tutorial", (!hasCompletedTutorial).toString());
-
-      if (!hasCompletedTutorial) {
-        tour();
-      }
-    });
 
     getWaka().then((waka) => waka && setWakaToken(waka.api_key));
   }, [session]);
@@ -117,8 +133,6 @@ export default function Harbor({
       setMyShipChains(shipChains),
     );
   }, [myShips]);
-
-  useEffect(() => {}, []);
 
   const tabs = [
     {
