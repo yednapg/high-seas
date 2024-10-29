@@ -58,6 +58,7 @@ export default function WakatimeSetupTutorialModal({
   };
 
   useEffect(() => {
+    // Dude I hate React so much. The following 3 lines are because it rerenders. Asinine framework.
     if (sessionStorage.getItem("signed-up") === "true") return;
     sessionStorage.setItem("signed-up", "true");
     setTimeout(() => sessionStorage.setItem("signed-up", "false"), 3_000);
