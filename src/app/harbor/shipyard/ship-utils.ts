@@ -66,7 +66,8 @@ export async function getUserShips(
       TRUE(),
       '${slackId}' = {entrant__slack_id},
       {project_source} != 'arcade',
-      {ship_status} != 'deleted'
+      {ship_status} != 'deleted',
+      {hidden} = FALSE()
       )`,
       })
       .all(),
