@@ -5,6 +5,32 @@ import { useEffect } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
 
+const isTutorial = sessionStorage.getItem("tutorial") === "true";
+const tutorialShips: Ship[] = [
+  {
+    id: "hack-club-site",
+    title: "Hack Club Site",
+    repoUrl: "https://github.com/hackclub/site",
+    deploymentUrl: "https://hackclub.com",
+    screenshotUrl:
+      "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png",
+    readmeUrl:
+      "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md",
+    credited_hours: 123,
+    voteRequirementMet: false,
+    doubloonPayout: 421,
+    shipType: "project",
+    shipStatus: "staged",
+    wakatimeProjectNames: ["hack-club-site"],
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null,
+  },
+];
 const exampleShips: Ship[] = [
   {
     id: "xX_$EXAMPLESHIP$_Xx-1",
@@ -110,11 +136,11 @@ export default function Shipyard({
   console.warn(ships);
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
-    0,
+    0
   );
   useEffect(() => {
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
-      setVoteBalance(balance),
+      setVoteBalance(balance)
     );
   });
 
@@ -143,13 +169,21 @@ export default function Shipyard({
           />
         </div>
       )}
-      <Ships
-        ships={ships}
-        shipChains={shipChains}
-        setShips={setShips}
-        bareShips={false}
-      />
-
+      {isTutorial ? (
+        <Ships
+          ships={tutorialShips}
+          shipChains={shipChains}
+          setShips={setShips}
+          bareShips={false}
+        />
+      ) : (
+        <Ships
+          ships={ships}
+          shipChains={shipChains}
+          setShips={setShips}
+          bareShips={false}
+        />
+      )}
       <div className="flex flex-col justify-center items-center mt-8">
         <h2 className="text-xl mb-2 text-blue-500">
           Here are some example projects others have submitted!
