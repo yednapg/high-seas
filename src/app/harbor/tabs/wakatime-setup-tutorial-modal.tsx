@@ -58,6 +58,10 @@ export default function WakatimeSetupTutorialModal({
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem("signed-up") === "true") return;
+    sessionStorage.setItem("signed-up", "true");
+    setTimeout(() => sessionStorage.setItem("signed-up", "false"), 3_000);
+
     console.log("WakatimeSetupTutorialModal running");
     confettiRef.current = new JSConfetti();
 
@@ -69,15 +73,12 @@ export default function WakatimeSetupTutorialModal({
     setShowAllPlatforms(os === "unknown");
 
     (async () => {
+      console.log("Handling email sumbission...");
       const emailSubmissionResult = await handleEmailSubmission(email, mobile);
+      console.log("handleEmailSubmission result:", emailSubmissionResult);
       if (!emailSubmissionResult) return;
 
       const { username, key, personRecordId } = emailSubmissionResult;
-      console.log("handleEmailSubmission result:", {
-        username,
-        key,
-        personRecordId,
-      });
 
       setPersonRecordId(emailSubmissionResult.personRecordId);
       setWakaKey(key);

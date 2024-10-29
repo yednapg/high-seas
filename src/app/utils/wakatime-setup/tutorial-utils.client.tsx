@@ -14,7 +14,7 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     case "macos":
       return {
         label: "macOS Terminal",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/haka-install.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/waka-setup.sh | sh`,
         lang: "bash",
       };
     case "linux":

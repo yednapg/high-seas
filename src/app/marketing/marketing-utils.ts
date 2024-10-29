@@ -28,7 +28,11 @@ export async function handleEmailSubmission(
     })
     .all();
 
-  if (records.length > 0) return null;
+  console.log("[marketing-utils::handleEmailSubmission]", records);
+  if (records.length > 0) {
+    // This is not ideal. People will be able to tell if someone has signed up.
+    return null;
+  }
   console.log("handleEmailSubmission Step 1:", records[0]);
 
   const ip = headers().get("x-forwarded-for");
