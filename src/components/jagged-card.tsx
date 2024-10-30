@@ -60,12 +60,14 @@ const JaggedCard = ({
 }) => {
   return (
     <div
-      className={`relative w-full ${className}`}
+      className="relative w-full"
       {...props}
       style={{ filter: "drop-shadow(0 0 5rem #88FDFF)" }}
     >
       <Svg />
-      <div className="relative z-10 py-[8%] px-[10%]">{children}</div>
+      <div className={`relative z-10 py-[8%] px-[10%] ${className}`}>
+        {children}
+      </div>
     </div>
   );
 };

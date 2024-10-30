@@ -4,11 +4,11 @@ import { getSession } from "./app/utils/auth";
 import { fetchShips } from "./app/utils/data";
 
 export async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+
   const cookies = request.cookies.getAll();
   const personId = await getSession().then((p) => p?.slackId);
-  if (!personId) return NextResponse.redirect(new URL("/", request.url));
-
-  const response = NextResponse.next();
+  if (!personId) return response;
 
   if (!request.cookies.get("ships")) {
     const ships = await fetchShips(personId);

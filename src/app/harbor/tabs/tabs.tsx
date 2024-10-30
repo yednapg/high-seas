@@ -22,6 +22,7 @@ import {
 import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
+import JaggedCard from "@/components/jagged-card";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -102,11 +103,15 @@ export default function Harbor({
 
       const { username, key } = await waka();
       const hasData = await hasHb(username, key);
+      setHasWakaHb(hasData);
 
       if (!hasData) {
         setShowWakaSetupModal(true);
-      } else if (!p.hasCompletedTutorial) {
-        sessionStorage.setItem("tutorial", "true");
+      }
+
+      if (!p.hasCompletedTutorial) {
+        // sessionStorage.setItem("tutorial", "true");
+        console.warn("1 triggering tour");
         tour();
       }
       /*else {
@@ -162,36 +167,47 @@ export default function Harbor({
 
   return (
     <>
-      <Tabs
-        value={currentTab}
-        className="flex-1 flex flex-col"
-        onValueChange={handleTabChange}
-      >
-        <TabsList className="mx-2 my-2 relative">
-          {tabs.map((tab) =>
-            tab.name === "📮" ? (
-              <TabsTrigger
-                className="left-px absolute"
-                key={tab.name}
-                value={tab.path}
-              >
-                <img src="/signpost.png" width={20} alt="" />
-              </TabsTrigger>
-            ) : (
-              <TabsTrigger key={tab.name} value={tab.path}>
-                {tab.name}
-              </TabsTrigger>
-            ),
-          )}
-          <div className="right-px absolute mr-px text-green-400 text-sm">
-            <Balance balance={personTicketBalance} />
-          </div>
-        </TabsList>
-        <div className="flex-1 p-3" id="harbor-tab-scroll-element">
-          {tabs.map((tab) => (
-            <TabsContent key={tab.name} value={tab.path} className="h-full">
-              {tab.component}
-              {/* {tab.lockOnNoHb &&
+      <div className="mt-4">
+        {!hasWakaHb ? (
+          <JaggedCard className="!p-4">
+            <p className="text-center text-white">
+              No Hakatime install detected. Have you run the script?{" "}
+              <a className="underline" href="/signpost">
+                See the instructions at the Signpost.
+              </a>
+            </p>
+          </JaggedCard>
+        ) : null}
+        <Tabs
+          value={currentTab}
+          className="flex-1 flex flex-col"
+          onValueChange={handleTabChange}
+        >
+          <TabsList className="mx-2 my-2 relative">
+            {tabs.map((tab) =>
+              tab.name === "📮" ? (
+                <TabsTrigger
+                  className="left-px absolute"
+                  key={tab.name}
+                  value={tab.path}
+                >
+                  <img src="/signpost.png" width={20} alt="" />
+                </TabsTrigger>
+              ) : (
+                <TabsTrigger key={tab.name} value={tab.path}>
+                  {tab.name}
+                </TabsTrigger>
+              ),
+            )}
+            <div className="right-px absolute mr-px text-green-400 text-sm">
+              <Balance balance={personTicketBalance} />
+            </div>
+          </TabsList>
+          <div className="flex-1 p-3" id="harbor-tab-scroll-element">
+            {tabs.map((tab) => (
+              <TabsContent key={tab.name} value={tab.path} className="h-full">
+                {tab.component}
+                {/* {tab.lockOnNoHb &&
               hasWakaHb === false &&
               sessionStorage.getItem("tutorial") !== "true" ? (
                 <WakaLock
@@ -202,13 +218,16 @@ export default function Harbor({
               ) : (
                 tab.component
               )} */}
-            </TabsContent>
-          ))}
-        </div>
-      </Tabs>
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
+      </div>
 
       <SetupModal
-        isOpen={showWakaSetupModal}
+        isOpen={
+          showWakaSetupModal && sessionStorage.getItem("tutorial") !== "true"
+        }
         close={() => {
           setShowWakaSetupModal(false);
           if (
