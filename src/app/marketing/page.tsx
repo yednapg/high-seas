@@ -128,7 +128,7 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-col justify-center items-center my-3">
-              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
+              <img src="/divider.svg" className="w-full mx-5 opacity-20"/>
             </div>
           </div>
         </div>
