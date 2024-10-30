@@ -1114,7 +1114,7 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub}) => {
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
       />        <p>
-      ~{Math.ceil(doubloons/63)} hours on average
+      ~{Math.floor(doubloons/63*0.75)}–{Math.ceil(doubloons/63*1.25)} hours
     </p>
       <div className="relative my-2">
         <p className="flex justify-center text-center text-3xl">{name}</p>
@@ -1234,7 +1234,7 @@ const PrizeData = [
     name: "Raspberry Pi 5",
     doubloons: 2710,
     image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
-    sub:""
+    sub: "home server, mayhaps?"
   },
   {
     name: "Flipper Zero",
