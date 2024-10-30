@@ -752,10 +752,10 @@ export default async function Marketing() {
             .
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
-            Hack Club is a registered 501(c)3 nonprofit organization that
-            supports a network of 20k+ technical high schoolers. We believe you
-            learn best by building so we{"'"}re creating community and providing
-            grants so you can make. In the past few years, we{"'"}ve{" "}
+            Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical high
+            schoolers. We believe you learn best by building so we{"'"}re creating
+            community and providing grants so you can make awesome projects. In the
+            past few years, we{"'"}ve{" "}
             <Link
               href="https://hackclub.com/arcade/"
               target="_blank"
