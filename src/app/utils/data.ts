@@ -51,7 +51,9 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     {ship_status} != 'deleted'
   )`;
 
-  const url = `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(filterFormula)}`;
+  const url = `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
+    filterFormula
+  )}`;
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
@@ -113,7 +115,7 @@ export async function person(): Promise<any> {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
           "Content-Type": "application/json",
         },
-      },
+      }
     ).then((d) => d.json());
     if (!record) return reject("Person not found");
 
@@ -127,13 +129,15 @@ export async function person(): Promise<any> {
 //#region Wakatime
 export async function hasHbData(username: string): Promise<boolean> {
   const res = await fetch(
-    `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(username)}`,
+    `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(
+      username
+    )}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
         accept: "application/json",
       },
-    },
+    }
   ).then((res) => res.json());
 
   return res.hasData;
@@ -143,15 +147,15 @@ export async function fetchWaka(): Promise<{
   key: string;
   hasHb: boolean;
 }> {
-  const { slack_id, email, name, preexistingUser } = await person().then(
-    (p) => p.fields,
+  const { slack_id, email, full_name, preexisting_user } = await person().then(
+    (p) => p.fields
   );
-  console.log("Weeeeeee!", { slack_id, email, name, preexistingUser });
+  console.log("Weeeeeee!", { slack_id, email, full_name, preexisting_user });
 
   const { username, key } = await createWaka(
     email,
-    preexistingUser ? name : null,
-    preexistingUser ? slack_id : null,
+    preexisting_user ? full_name : null,
+    preexisting_user ? slack_id : null
   );
 
   const hasHb = await hasHbData(username);
@@ -178,7 +182,7 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       },
-    },
+    }
   ).then((d) => d.json());
 
   const records = result.records;
