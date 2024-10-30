@@ -63,7 +63,8 @@ api_key = ${wakaKey}`}
             (and rightly so! you should never trust a random script someone
             tells you to run) rest assured that the script{" "}
             <b className="font-black italic">does not</b> need admin permission
-            and you can view exactly what the script does via the link below :)
+            and you can view exactly what the script does via the source link
+            above :)
           </p>
           <video
             src={
