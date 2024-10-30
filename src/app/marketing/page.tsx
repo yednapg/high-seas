@@ -197,11 +197,14 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0"
+                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0 opacity-75"
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Submit your projects for Doubloons!
+                    Submit your projects for {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
+                    </span>Doubloons!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -213,7 +216,10 @@ export default async function Marketing() {
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign
                     in with Hack Club Slack and ship them in the Harbor! For
-                    each hour coded, earn Doubloons (our virtual currency).
+                    each hour coded, earn {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                    </span>Doubloons (our virtual currency).
                   </p>
                 </div>
               </div>
@@ -224,11 +230,14 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0"
+                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0 opacity-50"
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Spend Doubloons on awesome prizes!
+                    Spend {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
+                    </span>Doubloons on awesome prizes!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -238,7 +247,10 @@ export default async function Marketing() {
                     />
                   </div>
                   <p className="text-xl max-w-[600px]">
-                    Use Doubloons to purchase loot for your next project! Items
+                    Use {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                    </span>Doubloons to purchase loot for your next project! Items
                     range from soldering irons to 3D printers. In just 5 hours,
                     you could earn a Raspberry Pi Zero! Full prize list below.
                   </p>
