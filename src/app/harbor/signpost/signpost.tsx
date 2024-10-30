@@ -9,7 +9,7 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
 import Cookies from "js-cookie";
-import { SignpostFeedItem } from "@/app/utils/data";
+import { getCookie, SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
   const [wakaKey, setWakaKey] = useState<string>();
@@ -29,11 +29,14 @@ export default function SignPost({ session }: { session: any }) {
   const [signpostUpdates, setSignpostUpdates] = useState<SignpostFeedItem[]>();
 
   useEffect(() => {
+    // getCookie("waka").then(({ key }) => setWakaKey(key));
     const { key } = JSON.parse(Cookies.get("waka"));
+
     setWakaKey(key);
 
+    // getCookie("signpost-feed").then(setSignpostUpdates);
     const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
-    setSignpostUpdates(signpostFeed);
+    signpostFeed;
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(

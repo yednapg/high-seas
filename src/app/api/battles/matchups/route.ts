@@ -11,6 +11,7 @@ const redis = new Redis(process.env.REDIS_URL as string, {
 });
 
 const CACHE_DURATION = 5;
+export const dynamic = "force-dynamic";
 
 async function getCachedProjects(): Promise<Ships[]> {
   // const cachedProjects = await redis.get("all_projects");

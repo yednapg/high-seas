@@ -37,8 +37,8 @@ export default function SetupModal({
   wakaKey,
 }: {
   isOpen: any;
-  close: () => void;
-  onHbDetect: (() => any) | undefined;
+  close: () => Promise<void>;
+  onHbDetect: () => Promise<void> | undefined;
   wakaUsername: string;
   wakaKey: string;
 }) {
@@ -52,15 +52,15 @@ export default function SetupModal({
 
         if (hasData) {
           console.log("HAS DATAAAAAAAA");
-          onHbDetect();
+          await onHbDetect();
           setHasRecvHb(true);
           break;
         }
 
-        await new Promise((r) => setTimeout(r, 2_500));
+        await new Promise((r) => setTimeout(r, 5_000));
       }
     })();
-  }, [onHbDetect]);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} close={close}>
