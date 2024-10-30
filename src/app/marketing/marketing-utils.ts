@@ -28,6 +28,27 @@ export async function handleEmailSubmission(
   const ipAddress = headers().get("x-forwarded-for");
   await sendInviteJob({ email, ipAddress, userAgent })
 
+  // Create HackaTime user
+  const session = await getSession();
+  let signup;
+  try {
+    signup = await createWaka(
+      email,
+      session?.name ?? null,
+      session?.slackId ?? null,
+    );
+    console.log(signup);
+  } catch (e) {
+    console.log(e);
+    throw e;
+    // const error = new Error("Failed to create HackaTime user:", e);
+    // console.error(e);
+    // throw error;
+  }
+  console.log("handleEmailSubmission Step 4:", signup);
+
+  const { username, key } = signup;
+
   // Create person record (email & IP) in High Seas base
   const personRecordId: any = await new Promise((resolve, reject) => {
     highSeasPeopleTable().create(
@@ -37,6 +58,7 @@ export async function handleEmailSubmission(
             email,
             ip_address: ipAddress,
             email_submitted_on_mobile: isMobile,
+            wakatime_username: username,
           },
         },
       ],
@@ -63,27 +85,6 @@ export async function handleEmailSubmission(
   });
 
   console.log("handleEmailSubmission Step 3:", personRecordId);
-
-  // Create Hakatime user
-  const session = await getSession();
-  let signup;
-  try {
-    signup = await createWaka(
-      email,
-      session?.name ?? null,
-      session?.slackId ?? null,
-    );
-    console.log(signup);
-  } catch (e) {
-    console.log(e);
-    throw e;
-    // const error = new Error("Failed to create Hakatime user:", e);
-    // console.error(e);
-    // throw error;
-  }
-  console.log("handleEmailSubmission Step 4:", signup);
-
-  const { username, key } = signup;
 
   return {
     username,

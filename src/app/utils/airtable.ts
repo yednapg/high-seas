@@ -1,5 +1,6 @@
 "use server";
-import { getSession } from "./auth";
+
+import { person } from "./data";
 
 export const getSelfPerson = async (slackId: string) => {
   const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/people`;
@@ -120,25 +121,6 @@ export interface SafePerson {
 }
 
 // Good method
-export async function person(): Promise<any> {
-  return new Promise(async (resolve, reject) => {
-    const session = await getSession();
-    if (!session) return reject("No session present");
-
-    const record = await fetch(
-      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      },
-    ).then((d) => d.json());
-    if (!record) return reject("Person not found");
-
-    resolve(record);
-  });
-}
 
 // Good method
 export async function safePerson(): Promise<SafePerson> {

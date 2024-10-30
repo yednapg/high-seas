@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
 import Cookies from "js-cookie";
+import { Ship } from "@/app/utils/data";
 
-const isTutorial = sessionStorage.getItem("tutorial") === "true";
 const tutorialShips: Ship[] = [
   {
     id: "hack-club-site",
@@ -46,6 +46,8 @@ export default function Shipyard({ shipChains, session }: any) {
       setVoteBalance(balance),
     );
   }, []);
+
+  const isTutorial = sessionStorage.getItem("tutorial") === "true";
 
   if (!ships) return;
 

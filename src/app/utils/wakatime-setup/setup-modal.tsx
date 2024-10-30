@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
-import { waka } from "../waka";
 import Platforms from "./platforms";
 import Modal from "../../../components/ui/modal";
+import Cookies from "js-cookie";
+import { hasHbData } from "../data";
 
 /**
  * Modal component that guides users through the Hakatime setup process.
@@ -42,13 +42,13 @@ export default function SetupModal({
   const [hasRecvHb, setHasRecvHb] = useState<boolean>();
 
   useEffect(() => {
-    (async () => {
-      const { username, key } = await waka();
-      setWakaKey(key);
+    const { key, username, hasHb } = JSON.parse(Cookies.get("waka"));
+    console.warn("ooh eur", { key, username, hasHb });
+    setWakaKey(key);
 
+    (async () => {
       hbDetectLoop: while (onHbDetect) {
-        const hasData = await hasHb(username, key);
-        console.log("Hb check:", hasData);
+        const hasData = await hasHbData(username);
 
         if (hasData) {
           onHbDetect();
