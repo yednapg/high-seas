@@ -89,7 +89,6 @@ export const ShopItemComponent = ({
           </CardContent>
         )}
 
-        {parseInt(personTicketBalance)}
         {filterIndex == 1 ? item.priceUs : item.priceGlobal}
         <CardFooter className="pt-4">
           <ActionArea
