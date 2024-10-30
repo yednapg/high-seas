@@ -54,7 +54,7 @@ export default function Page({
       />
       <SoundButton />
       <Card
-        className="w-full max-w-4xl flex flex-col mx-auto mt-20"
+        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 overflow-x-hidden"
         type={"cardboard"}
       >
         {session ? (
