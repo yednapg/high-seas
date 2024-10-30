@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   SinglePlatform,
   osFromAgent,
-  Os,
+  type Os,
 } from "@/app/utils/wakatime-setup/tutorial-utils.client";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -42,6 +42,7 @@ api_url = https://waka.hackclub.com/api
 api_key = ${wakaKey}`}
             </pre>
           </code>
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <p
             className="text-xs mt-1 underline cursor-pointer"
             onClick={() => setShowAllPlatforms(false)}
@@ -57,15 +58,23 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
+          {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
           <video
-            src="/videos/WakaSetupScriptMacOS.mp4"
-            autoPlay
+            src={
+              userOs === "windows"
+                ? "/videos/WakaSetupScriptWindows.mp4"
+                : userOs === "macos"
+                ? "/videos/WakaSetupScriptMacOS.mp4"
+                : "/videos/WakaSetupScriptLinux.mp4"
+            }
+            autoPlay={true}
             loop
             playsInline
             className="mt-8 rounded shadow"
           />
           <p className="text-xs mt-1">
             Not using {userOs}?{" "}
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <span
               className="underline cursor-pointer"
               onClick={() => setShowAllPlatforms(true)}
