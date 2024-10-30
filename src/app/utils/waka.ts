@@ -155,7 +155,6 @@ export async function createWaka(
     },
     body: new URLSearchParams(payload),
   });
-  signup.headers.forEach((v, k) => console.log(k, v));
 
   let signupResponse: WakaSignupResponse;
   try {
@@ -173,7 +172,6 @@ export async function createWaka(
 }
 
 export async function getWakaSessions(): Promise<any> {
-  // const waka = await getWaka();
   const { username, key } = await fetchWaka();
 
   if (!username || !key) {
