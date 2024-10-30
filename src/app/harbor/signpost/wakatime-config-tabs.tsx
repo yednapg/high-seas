@@ -18,9 +18,13 @@ const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
   }, [isCopied]);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(textToCopy);
-    setIsCopied(true);
-    toast({ title: "Copied WakaTime setup script" });
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setIsCopied(true);
+      toast({ title: "Copied WakaTime setup script" });
+    } catch (e) {
+      console.error("Tried to copy!", e);
+    }
   };
 
   return (
