@@ -145,6 +145,7 @@ export async function createWaka(
     new URLSearchParams(payload),
   );
   
+  console.log({key: WAKA_API_KEY, payload});
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
