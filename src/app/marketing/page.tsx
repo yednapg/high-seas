@@ -395,7 +395,7 @@ export default async function Marketing() {
               <p className="text-5xl text-center mb-4">
                 Prizes to{" "}
                 <span
-                  className="pb-2 px-4 rounded-md"
+                  className="pb-2 px-4 rounded-md whitespace-nowrap"
                   style={{
                     backgroundImage: "url(/floorboard.svg)",
                     backgroundSize: "cover",
