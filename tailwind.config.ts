@@ -12,6 +12,9 @@ const config: Config = {
 			transitionDelay: {
 				'8000': '8000ms'
 			},
+			backgroundImage: {
+				'custom-gradient': 'linear-gradient(90deg, #3852CD, #0A2B61)',
+			},
 			keyframes: {
 				yap: {
 					'from': { transform: 'scale(1.01, 0.99) translateY(2%)' },
