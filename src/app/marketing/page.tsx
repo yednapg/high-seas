@@ -1037,12 +1037,12 @@ const PrizeData = [
     name: "Bite Sized Linux",
     doubloons: 400,
     image: "https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png",
-  }, */
+  }, 
   {
     name: "Free stickers!",
     doubloons: 0,
     image: "https://noras-secret-cdn.hackclub.dev/shop/free_stickers.png",
-  },
+  }, */
   {
     name: "Domain",
     doubloons: 420,
@@ -1063,18 +1063,18 @@ const PrizeData = [
     doubloons: 883,
     image: "https://cloud-1e0x3bwfz-hack-club-bot.vercel.app/0image.png",
   },
-  {
-    name: "Hack Club Socks",
-    doubloons: 1300,
-    image: "https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png",
-  },
+  // {
+  //   name: "Hack Club Socks",
+  //   doubloons: 1300,
+  //   image: "https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png",
+  // },
   {
     name: "Blahåj",
     doubloons: 1312,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
   },
   {
-    name: "Skeletool",
+    name: "Skeletool KBX",
     doubloons: 1420,
     image: "https://cloud-ak5er2k0m-hack-club-bot.vercel.app/0image.png",
   },
