@@ -2,7 +2,9 @@
 
 import { getSelfPerson } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
+import { fetchShips } from "@/app/utils/data";
 import { getWakaSessions } from "@/app/utils/waka";
+import type { Ship } from "@/app/utils/data";
 import Airtable from "airtable";
 
 const peopleTableName = "people";
@@ -252,7 +254,7 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const { ships } = await getUserShips(slackId);
+  const ships = await fetchShips(session.personId);
 
   const reshippedFromShip = ships.find(
     (ship: Ship) => ship.id === dangerousReshippedFromShipId,
