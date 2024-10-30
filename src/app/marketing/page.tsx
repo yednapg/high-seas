@@ -469,7 +469,7 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                  className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Don't know where to start?</p>
@@ -552,7 +552,7 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                  className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Or click the dino for ideas!</p>
@@ -609,7 +609,7 @@ export default async function Marketing() {
               <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="/howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -645,7 +645,7 @@ export default async function Marketing() {
 
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="/howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -674,7 +674,7 @@ export default async function Marketing() {
                 </div>
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -1072,7 +1072,7 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
   return (
     <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
-        src="/howtobacks.svg"
+        src="/shopback.svg"
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
       />
