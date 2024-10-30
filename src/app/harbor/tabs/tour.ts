@@ -89,13 +89,40 @@ function setupSteps(tourManager: Tour) {
   // ts stands for «tour step»
   const steps = [
     {
-      id: "ts-greet",
-      text: "Welcome to Pirate Academy! Here you'll learn to be a pirate.<br /><br />Christopher Walker (cwalker@hackclub.com, @polytroper, etc etc) will fill this copy in later.",
-      buttons: [{ text: "SGTM, buster 🚀", action: tourManager.next }],
+      id: "ts-greet-1",
+      text: `<div style="display:flex; flex-direction:column; align-items:center;">
+              <img src="/trashbeard_pfp_1.png"></img>
+              <p>
+                timbers be shiverin' today, swabbie!! …at least, they are if yer here for Pirate Academy.
+                <br /><br />
+                that's what yer here for, right?? to go on account and sail the seven seas in search of booty????
+                <br /><br />
+                …if it sweetens the deal, all graduates of this fine academy are <strong style="color:#ec3750;">rewarded with a free pack of stickers.</strong>
+                <br /><br />
+                <i>good</i> stickers.
+              </p>
+            </div>`,
+      buttons: [{ text: "uh, sure", action: tourManager.next }],
+    },
+    {
+      id: "ts-greet-2",
+      text: `<div style="display:flex; flex-direction:column; align-items:center;">
+              <img src="/trashbeard_pfp_1.png"></img>
+              <p>
+                right then, let's weigh anchor and hoist the mizzen!! here's how this works.
+                <br /><br />
+                the first step of being a pirate is to build yerself a ship. pirates <i>love</i> ships. let's take a look at how to draft one
+              </p>
+            </div>`,
+      buttons: [{ text: "SGTM, buster", action: tourManager.next }],
     },
     {
       id: "ts-draft-button",
-      text: "Let's create a new ship!",
+      text: `scenario!!
+            <br/><br/>
+            ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
+            <br/><br/>
+            click that thar button…`,
       attachTo: {
         element: "button#start-ship-draft",
         on: "top",
@@ -108,18 +135,18 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-new-ship-explanation",
-      text: "This is where you'll enter the info for the project you want to ship.",
+      text: `here ye draft the ship. that means ye can set it up and see the hours, but nobody else can see it yet.`,
       beforeShowPromise: () => waitForElement("#new-ship-form-container-card"),
       buttons: [
         {
-          text: "Understood",
+          text: "uh-huh",
           action: tourManager.next,
         },
       ],
     },
     {
       id: "ts-draft-field-title",
-      text: "Every Ship needs a name! [Insert funny quip].<br /><br />We're going to name this one \"<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>\"!",
+      text: `every ship needs a name!! we'll call this one "<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>"`,
       attachTo: {
         element: "#title-field",
         on: "top",
@@ -130,7 +157,7 @@ function setupSteps(tourManager: Tour) {
         }),
       buttons: [
         {
-          text: "Next",
+          text: "got it",
           action: () => {
             const el: HTMLInputElement = document.querySelector("input#title")!;
             el.value = "Hack Club site";
@@ -141,7 +168,9 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-project",
-      text: "Next, we need to link your coding time with the Ship. Remember that extension you installed?<br /><br />For the sake of time, select <span style='color: #ec3750;'>hack-club-site</span>.<br /><br />When you start coding for real, your actual projects will magically appear here! Cool, right?",
+      text: `next ye link yer ship to <strong style='color: #ec3750;'>Hakatime</strong>, the Hack Club time-tracking tool. if ye haven't installed it yet… we'll get to that later.
+            <br /><br />
+            select <strong style='color: #ec3750;'>hack-club-site</strong> from the dropdown. when ye start coding for real, yer Hakatime hours will magically appear here!!`,
       attachTo: {
         element: "#project-field",
         on: "top",
@@ -172,7 +201,9 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-repo",
-      text: "You also need to link a git repo (where your code is stored) - we <3 open source.<br /><br />If you enter a GitHub repo URL, we'll automagically infer the README url, so you don't have to input it in the README field below. As such, we'll skip over it right now :)",
+      text: `every ship's code <i>must</i> live in a public git repo (and every git repo <strong style="color:#ec3750;"><i>must</i> have a README file!!</strong>)
+            <br/><br/>
+            most pirates these days use GitHub, but any git repo will do.`,
       attachTo: {
         element: "#repo-field",
         on: "top",
@@ -184,7 +215,7 @@ function setupSteps(tourManager: Tour) {
         }),
       buttons: [
         {
-          text: "Next",
+          text: "repo, gotcha",
           action: () => {
             const el: HTMLInputElement =
               document.querySelector("input#repo_url")!;
@@ -200,14 +231,18 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-deployment",
-      text: "Here, we'll put a link to your deployed project so people can actually test out and play with it!<br /><br />In this case, it's <code>https://hackclub.com</code>.",
+      text: `now, for the most important part: the demo! this is what turns a <i>project</i> into a <i>ship</i>.
+            <br /><br />
+            other pirates <strong style="color:#ec3750;">must be able to experience your project</strong> as easily as possible… if they can't, yer sorry ship will sink!!!!
+            <br /><br />
+            webdev projects need a <strong style="color:#ec3750;">deployed website</strong>; everything else needs a <strong style="color:#ec3750;">YouTube video</strong>. in this case, we have <code>https://hackclub.com</code>.`,
       attachTo: {
         element: "#deployment-field",
         on: "top",
       },
       buttons: [
         {
-          text: "Next",
+          text: "a demo, aye!",
           action: () => {
             const el: HTMLInputElement = document.querySelector(
               "#deployment-field input",
@@ -220,14 +255,16 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-screenshot",
-      text: "Finally, we want to add a photo of our project, so others can get the vibe of it at a glance.<br /><br />I've provided one for you this time, but when you ship your own Ship for real, you'll need to upload a screenshot yourself!",
+      text: `finally, yer ship needs an image so other pirates can size it up at a glance. <strong style="color:#ec3750;">appearances are important!!</strong>
+            <br /><br />
+            i'll give ye a link to use this time (but we have a neat image-upload tool in Slack called #cdn to make it easy for ye to use later)`,
       attachTo: {
         element: "#screenshot-field",
         on: "top",
       },
       buttons: [
         {
-          text: "Aye aye!",
+          text: "link please!",
           action: () => {
             const el: HTMLInputElement = document.querySelector(
               "input#screenshot_url",
@@ -241,7 +278,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-submit",
-      text: "Go ahead and submit your ship!",
+      text: "now draft that ship!!",
       attachTo: {
         element: "#new-ship-submit",
         on: "top",
@@ -253,7 +290,11 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-staged-ship-0",
-      text: "This is the Ship we just drafted! Normally, you can click on it to view extra details, but for the sake of time, we're just going to ship it!<br /><br />Pressing <span style='font-size:0.8em;background:rgb(154 217 238);color:black;padding:0.25em; border-radius:3px'>SHIP SHIP!</span> will take it from being a draft, to a live project people vote on, earning you doubloons.",
+      text: `behold, yer drafted ship. ye can click these to edit them… but today, let's ship it right away.
+            <br/><br/>
+            beware, when ye ship the real thing there's no turning back. <strong style="color:#ec3750;">once a ship's in the water, ye can't take it out.</strong>
+            <br/><br/>
+            now <strong style="color:#ec3750;">ship that ship</strong>, yo-lo-lo!!!!`,
       attachTo: {
         element: "#staged-ships-container",
         on: "top",
@@ -357,10 +398,12 @@ function setupSteps(tourManager: Tour) {
     // },
     {
       id: "ts-staged-ship-edit-finale",
-      text: "Great!<br /><br />Now let's head to the Wonderdome to vote on some projects.",
+      text: `when ye ship a project, the next place it goes is the Wonderdome. that's where we'll go next, too.
+            <br /><br />
+            to get yer Doubloons, <strong style="color:#ec3750;">ye must cast yer share of votes</strong> in the Wonderdome for each project ye ship… and yer ship must weather its share of votes from yer peers!`,
       buttons: [
         {
-          text: "Let's go!",
+          text: "Wonderdome, ho!!!",
           action: () => {
             setCookie("tour-step", "ts-vote-left");
             window.location.href = "/wonderdome";
@@ -380,17 +423,22 @@ function setupSteps(tourManager: Tour) {
     // },
     {
       id: "ts-vote-left",
-      text: "Here we have a Ship.<br /><br />Check out the repo version by clicking on the <i>Repository</i> button!",
+      text: `here we see a battle between ships. each has a readme, a demo, and a repo. consider each ship with care, and make yer selection accordingly!!
+            <br /><br />
+            word to the wise… prosperous pirates take time with their votes, for <strong style="color:#ec3750;">the ocean can tell when ye vote without care. and legends say it will punish ye for it!!!!</strong>
+            <br /><br />
+            click the <strong style="color:#ec3750;">Demo</strong> button to experience this lovely ship!!`,
       attachTo: {
-        element: "#voting-project-left",
+        element: "#voting-project-left #repository-link",
         on: "top",
       },
       beforeShowPromise: () => {
         // return new Promise((r) => setTimeout(r, 3_000));
-        return waitForElement("#voting-project-left", () => {
+
+        return waitForElement("#voting-project-left button#readme-button", () => {
           document.querySelector!(
             "#voting-project-left button#readme-button",
-          ).disabled = true;
+          )?.setAttribute('disabled', 'true');
         });
       },
       advanceOn: {
@@ -400,7 +448,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-left",
-      text: "Click here to vote for it!",
+      text: `i know ye haven't seen the other ship, but say ye chose this one. click here to vote for it`,
       attachTo: {
         element: "#voting-project-left button#vote-button",
         on: "top",
@@ -412,7 +460,9 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-reason-submit",
-      text: "You can now submit your vote! Explain why it's better than the other project (make sure you write over 10 words!)",
+      text: `this next part's important: explain yer decision!! write at least ten words about why ye made this choice. i've given ye an example of a good sentence here.
+            <br/><br/>
+            worry not, the other pirates can't see yer votes or what ye write (…but keep in mind, <strong style="color:#ec3750;">the High Seas Team can!!</strong>)`,
       attachTo: {
         element: "#voting-reason-container-parent",
         on: "top",
@@ -427,11 +477,11 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-reason-finale",
-      text: "Awesome! Let's head to the shop",
+      text: `yer first vote is cast!! enough of these, and soon enough the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
       focusedElBeforeOpen: false,
       buttons: [
         {
-          text: "ok",
+          text: "to the shop!!!",
           action: () => {
             setCookie("tour-step", "ts-shop-welcome");
             location.href = "/shop";
@@ -441,7 +491,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-shop-welcome",
-      text: "Welcome to the shop!",
+      text: "welcome to the pirate shop, yer one-stop-shop for the booty all pirates need!! today, ye get stickers. tomorrow, a MacBook.",
       buttons: [
         {
           text: "ok",
@@ -451,7 +501,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-shop-region",
-      text: "Pick a region",
+      text: "first ye must select yer region. booty prices and availability can be a bit different depending on where you are…",
       attachTo: {
         element: "#region-select",
         on: "top",
@@ -463,7 +513,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-shop-free-stickers",
-      text: "Pick the free stickers!",
+      text: "now is your chance!! plunder the stickers before they get away!!!!",
       attachTo: {
         element: "#item_free_stickers_41",
         on: "top",
@@ -485,7 +535,17 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-signpost",
-      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have Hakatime installed!",
+      text: `<div style="display:flex; flex-direction:column; align-items:center;">
+              <img src="/trashbeard_pfp_1.png"></img>
+              <p>
+                and so concludes Pirate Academy. yer stickers will ship as soon as we check yer identity. ye won't be able to ship projects until then, but the time to start building is now!!
+                <br/><br/>
+                <strong style="color:#ec3750;">ye just need to install Hakatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
+                <br/><br/>
+                good luck to ye 🫡
+              </p>
+            </div>
+            `,
       buttons: [
         {
           text: "Great!",

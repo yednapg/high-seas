@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -27,9 +29,11 @@ export default function SignPost({ session }: { session: any }) {
   const [signpostUpdates, setSignpostUpdates] = useState<SignpostFeedItem[]>();
 
   useEffect(() => {
+    // getCookie("waka").then(({ key }) => setWakaKey(key));
     const { key } = JSON.parse(Cookies.get("waka"));
     setWakaKey(key);
 
+    // getCookie("signpost-feed").then(setSignpostUpdates);
     const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
     setSignpostUpdates(signpostFeed);
 

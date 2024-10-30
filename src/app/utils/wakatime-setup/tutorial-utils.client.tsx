@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Icon from "@hackclub/icons";
 import { Button } from "../../../components/ui/button";

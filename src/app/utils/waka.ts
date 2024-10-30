@@ -139,6 +139,12 @@ export async function createWaka(
       slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
   };
 
+  console.log(
+    "Attempting to sign up for wakatime:",
+    payload,
+    new URLSearchParams(payload),
+  );
+  
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {

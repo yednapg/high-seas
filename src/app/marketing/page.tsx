@@ -68,7 +68,7 @@ export default async function Marketing() {
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
-                  <Link
+                  <a
                     href="/signpost"
                     className="p-4 rounded-lg text-md text-white bg-[#3852CD]"
                   >
@@ -78,7 +78,7 @@ export default async function Marketing() {
                       className="inline-block mr-4"
                     />
                     Enter the harbor
-                  </Link>
+                  </a>
                 ) : (
                   <EmailSubmissionForm />
                 )}
@@ -583,7 +583,10 @@ export default async function Marketing() {
             </div>
           </div>
           <div className="relative">
-            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-28 md:-inset-y-60 2xl:-inset-y-80" />
+            <img
+              src="/bubbledivider.svg"
+              className="w-full absolute -inset-y-28 md:-inset-y-60 2xl:-inset-y-80"
+            />
           </div>
           <div
             className="bg-cover py-12 my-12"
@@ -768,7 +771,10 @@ export default async function Marketing() {
             </div>
           </div>
           <div className="relative">
-            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-36 md:-inset-y-64 2xl:-inset-y-80 scale-x-[-1]" />
+            <img
+              src="/bubbledivider.svg"
+              className="w-full absolute -inset-y-36 md:-inset-y-64 2xl:-inset-y-80 scale-x-[-1]"
+            />
           </div>
         </div>
 
@@ -966,13 +972,13 @@ export default async function Marketing() {
       <header className="w-fit mx-auto flex flex-col items-center gap-4">
         <Image
           src={HighSeas}
-          alt="low skies"
+          alt="High Seas"
           style={{
             maxWidth: "100%",
             height: "auto",
           }}
         />
-        <h1 className="text-white text-2xl">Welcome to Low Skies</h1>
+        <h1 className="text-white text-2xl">Welcome to High Seas</h1>
       </header>
 
       <SignIn />
@@ -1049,7 +1055,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "Is this legit?",
-    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/">Arcade</a>, which gave out similar prizes for working on personal projects.`,
+    answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/" target="_blank">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
 ];
 
@@ -1096,22 +1102,27 @@ interface PrizeProps {
   name: string;
   doubloons: number;
   image: string;
+  sub: string | undefined;
 }
-
-const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
+const nf = new Intl.NumberFormat()
+const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub}) => {
   return (
     <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
         src="/shopback.svg"
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
-      />
+      />        <p>
+      ~{Math.floor(doubloons/63*0.75)}–{Math.ceil(doubloons/63*1.25)} hours
+    </p>
       <div className="relative my-2">
         <p className="flex justify-center text-center text-3xl">{name}</p>
+        {sub && (<p className="flex justify-center text-center">{sub}</p>)}
         <img
           src="/divider.svg"
           className="w-full object-cover absolute mt-2 opacity-60"
         />
+
         {/*}
         <p className="mt-4 text-xl text-center">{doubloons} doubloons</p>
         <img src="/doubloon.svg" className="w-12 h-12"/>
@@ -1141,7 +1152,7 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
       >
         <div className="flex flex-row gap-2">
           <img src="/doubloon.svg" className="w-7 h-8" />
-          <p className="text-2xl">{doubloons}</p>
+          <p className="text-2xl">{nf.format(doubloons)}</p>
         </div>
       </div>
     </div>
@@ -1169,7 +1180,7 @@ const PrizeData = [
     name: "Bite Sized Linux",
     doubloons: 400,
     image: "https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png",
-  }, 
+  },
   {
     name: "Free stickers!",
     doubloons: 0,
@@ -1179,22 +1190,24 @@ const PrizeData = [
     name: "Domain",
     doubloons: 420,
     image: "https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png",
+    sub: "for a year!"
   },
-  {
-    name: "Raspberry Pi Zero",
-    doubloons: 486,
-    image: "https://cloud-a823iqif6-hack-club-bot.vercel.app/0image.png",
-  },
+  // {
+  //   name: "Raspberry Pi Zero",
+  //   doubloons: 486,
+  //   image: "https://cloud-a823iqif6-hack-club-bot.vercel.app/0image.png",
+  // },
   {
     name: "Pinecil",
     doubloons: 876,
     image: "https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png",
+    sub: "solder!!"
   },
-  {
-    name: "iFixit Kit",
-    doubloons: 883,
-    image: "https://cloud-1e0x3bwfz-hack-club-bot.vercel.app/0image.png",
-  },
+  // {
+  //   name: "iFixit Kit",
+  //   doubloons: 883,
+  //   image: "https://cloud-1e0x3bwfz-hack-club-bot.vercel.app/0image.png",
+  // },
   // {
   //   name: "Hack Club Socks",
   //   doubloons: 1300,
@@ -1204,41 +1217,53 @@ const PrizeData = [
     name: "Blahåj (friend)",
     doubloons: 1312,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
+    sub: "soft to hold of the shark :3"
   },
-  {
-    name: "Skeletool KBX",
-    doubloons: 1420,
-    image: "https://cloud-ak5er2k0m-hack-club-bot.vercel.app/0image.png",
-  },
-  {
-    name: "YubiKey",
-    doubloons: 1512,
-    image: "https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png",
-  },
+  // {
+  //   name: "Skeletool KBX",
+  //   doubloons: 1420,
+  //   image: "https://cloud-ak5er2k0m-hack-club-bot.vercel.app/0image.png",
+  // },
+  // {
+  //   name: "YubiKey",
+  //   doubloons: 1512,
+  //   image: "https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png",
+  // },
   {
     name: "Raspberry Pi 5",
     doubloons: 2710,
     image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
+    sub: "home server, mayhaps?"
   },
   {
-    name: "GitHub Backpack",
-    doubloons: 46000,
-    image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
+    name: "Flipper Zero",
+    doubloons: 9_000,
+    image: "https://noras-secret-cdn.hackclub.dev/shop/flipper.png",
+    sub: "don't do anything i wouldn't do :-P"
   },
+  // {
+  //   name: "GitHub Backpack",
+  //   doubloons: 46000,
+  //   image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
+  // },
   {
     name: "Bambu A1 Mini",
-    doubloons: 14196,
+    doubloons: 14_196,
     image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
+    sub: "what are you gonna print?"
   },
   {
     name: "iPad",
-    doubloons: 28003,
+    doubloons: 28_003,
     image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
+    sub:"with Apple Pencil!"
   },
+
   {
     name: "Framework Laptop",
-    doubloons: 46000,
+    doubloons: 54_000,
     image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
+    sub: '16", 16GB RAM....16 16 16'
   },
 ];
 
@@ -1251,6 +1276,7 @@ const Prizes: React.FC = () => {
           name={item.name}
           doubloons={item.doubloons}
           image={item.image}
+          sub={item.sub}
         />
       ))}
     </div>

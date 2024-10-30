@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -18,7 +20,7 @@ const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
   }, [isCopied]);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(textToCopy);
+    // await navigator.clipboard.writeText(textToCopy); // TODO: UNCOMMENT & fix navigator issue
     setIsCopied(true);
     toast({ title: "Copied WakaTime setup script" });
   };

@@ -21,12 +21,12 @@ export async function handleEmailSubmission(
   key: string;
   personRecordId: string;
 } | null> {
-
   if (!email) throw new Error("No email supplied to handleEmailSubmission");
-  if (!userAgent) throw new Error("No user agent supplied to handleEmailSubmission");
+  if (!userAgent)
+    throw new Error("No user agent supplied to handleEmailSubmission");
 
   const ipAddress = headers().get("x-forwarded-for");
-  await sendInviteJob({ email, ipAddress, userAgent })
+  await sendInviteJob({ email, userAgent });
 
   // Create HackaTime user
   const session = await getSession();
@@ -58,7 +58,6 @@ export async function handleEmailSubmission(
             email,
             ip_address: ipAddress,
             email_submitted_on_mobile: isMobile,
-            wakatime_username: username,
           },
         },
       ],

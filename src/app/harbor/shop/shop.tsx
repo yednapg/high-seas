@@ -8,6 +8,7 @@ import { HsSession } from "@/app/utils/auth.js";
 
 import { ShopItemComponent } from "./shop-item-component.js";
 import { ShopkeeperComponent } from "./shopkeeper.js";
+import { safePerson } from "@/app/utils/airtable";
 
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
@@ -18,10 +19,8 @@ export default function Shop({ session }: { session: HsSession }) {
     "cache.shopItems",
     null,
   );
-  const [personTicketBalance] = useLocalStorageState<string>(
-    "cache.personTicketBalance",
-    "-",
-  );
+  const [personTicketBalance, setPersonTicketBalance] =
+    useLocalStorageState<string>("cache.personTicketBalance", "-");
 
   const [bannerText, setBannerText] = useState("");
   const verificationStatus = /*session.verificationStatus[0] ||*/ "Eligible L1";
@@ -30,6 +29,7 @@ export default function Shop({ session }: { session: HsSession }) {
   useEffect(() => {
     setBannerText(sample(shopBanner));
     getShop().then((shop) => setShopItems(shop));
+    safePerson().then((sp) => setPersonTicketBalance(sp.settledTickets));
   }, []);
 
   if (!shopItems) {
@@ -88,15 +88,17 @@ export default function Shop({ session }: { session: HsSession }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => {
-          if(item.id == "item_free_stickers_41" && !isTutorial) return null
-          return (<ShopItemComponent
-            id={item.id}
-            key={item.id}
-            item={item}
-            filterIndex={filterIndex}
-            personTicketBalance={personTicketBalance}
-          />
-        )})}
+          if (item.id == "item_free_stickers_41" && !isTutorial) return null;
+          return (
+            <ShopItemComponent
+              id={item.id}
+              key={item.id}
+              item={item}
+              filterIndex={filterIndex}
+              personTicketBalance={personTicketBalance}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );

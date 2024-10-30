@@ -1,3 +1,6 @@
+"use server";
+
+import { cookies } from "next/headers";
 /* @malted says:
  * Hi! Welcome to `data.ts` :)
  * These are critical functions primarily used by `middleware.ts`.
@@ -124,10 +127,11 @@ export async function person(): Promise<any> {
 //#region Wakatime
 export async function hasHbData(username: string): Promise<boolean> {
   const res = await fetch(
-    `https://waka.hackclub.com/api/special/hasData/?user=${username}`,
+    `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(username)}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
+        accept: "application/json",
       },
     },
   ).then((res) => res.json());

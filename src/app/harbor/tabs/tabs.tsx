@@ -64,6 +64,9 @@ export default function Harbor({
   currentTab: string;
   session: HsSession;
 }) {
+  const [wakaUsername, setWakaUsername] = useState<string>();
+  const [wakaKey, setWakaKey] = useState<string>();
+  const [hasWakaHb, setHasWakaHb] = useState<boolean>();
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
@@ -84,7 +87,15 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
+    const { username, key, hasHb } = JSON.parse(Cookies.get("waka")); //await getCookie("waka");
+    setWakaKey(key);
+    setWakaUsername(username);
+    setHasWakaHb(hasHb);
+
+    // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
+    // setWakaKey(key);
+    // setWakaUsername(username);
+    // setHasWakaHb(hasHb);
 
     // getUserShips(session.slackId).then(({ ships, shipChains }) => {
     //   console.log({ ships, shipChains });
@@ -103,9 +114,7 @@ export default function Harbor({
 
       if (!hasHb) {
         setShowWakaSetupModal(true);
-      }
-
-      if (!p.hasCompletedTutorial) {
+      } else if (!p.hasCompletedTutorial) {
         // sessionStorage.setItem("tutorial", "true");
         console.warn("1 triggering tour");
         tour();

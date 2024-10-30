@@ -1,75 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Platforms from "./platforms";
 import Modal from "../../../components/ui/modal";
-import Cookies from "js-cookie";
 import { hasHbData } from "../data";
+import Cookies from "js-cookie";
 
-/**
- * Modal component that guides users through the Hakatime setup process.
- *
- * @component
- * @param props - Component props
- * @param props.isOpen - Controls the visibility state of the modal
- * @param props.close - Callback function to close the modal
- * @param props.onHbDetect - Optional callback that runs when Hakatime heartbeat data is detected.
- *                          If provided, the component will perform heartbeat checks.
- *                          If not provided, heartbeat checks are disabled.
- * @returns React component
- *
- * @example
- * ```tsx
- * <SetupModal
- *   isOpen={true}
- *   close={() => setIsOpen(false)}
- *   onHbDetect={() => {
- *     // Handle heartbeat detection
- *     processHeartbeatData();
- *     setIsOpen(false);
- *   }}
- * />
- * ```
- */
-export default function SetupModal({
+function SetupModal({
   isOpen,
   close,
   onHbDetect,
 }: {
-  isOpen: any;
+  isOpen: boolean;
   close: () => void;
-  onHbDetect: (() => any) | undefined;
+  onHbDetect?: () => void;
 }) {
   const [wakaKey, setWakaKey] = useState<string>();
-  const [hasRecvHb, setHasRecvHb] = useState<boolean>();
+  const [hasRecvHb, setHasRecvHb] = useState(false);
 
   useEffect(() => {
-    const { key, username, hasHb } = JSON.parse(Cookies.get("waka"));
-    console.warn("ooh eur", { key, username, hasHb });
+    const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     setWakaKey(key);
 
-    (async () => {
-      hbDetectLoop: while (onHbDetect) {
-        const hasData = await hasHbData(username);
+    let mounted = true;
+    let timeoutId: number;
 
-        if (hasData) {
-          onHbDetect();
-          setHasRecvHb(true);
-          break hbDetectLoop;
-        }
+    async function checkHeartbeat() {
+      if (!onHbDetect || !mounted) return;
 
-        await new Promise((r) => setTimeout(r, 2_500));
+      console.info("checking heartbeat for", username);
+      const hasData = await hasHbData(username);
+      console.info({ hasData });
+
+      if (hasData && mounted) {
+        console.log("Heartbeat data detected");
+        onHbDetect();
+        setHasRecvHb(true);
+      } else if (mounted) {
+        timeoutId = window.setTimeout(checkHeartbeat, 5000);
       }
-    })();
+    }
+
+    checkHeartbeat();
+    return () => {
+      mounted = false;
+      window.clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
     <Modal isOpen={isOpen} close={close}>
-      {wakaKey ? <Platforms wakaKey={wakaKey} /> : null}
-
-      {onHbDetect ? (
+      {wakaKey && <Platforms wakaKey={wakaKey} />}
+      {onHbDetect && (
         <p className="mt-4 text-lg">
           {hasRecvHb ? "Installed!" : "Waiting for install..."}
         </p>
-      ) : null}
+      )}
     </Modal>
   );
 }
+
+export default SetupModal;

@@ -13,7 +13,7 @@ export default function SignOut() {
     <a onClick={handleOnClick} href="/signout" className="block">
       <Button className={buttonVariants({ variant: "outline" })}>
         Sign out
-        <span className="hidden lg:block">&nbsp;of Hack Club Slack</span>
+        <span className="hidden lg:block">&nbsp;of High Seas</span>
       </Button>
     </a>
   );
