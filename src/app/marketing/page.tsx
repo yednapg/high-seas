@@ -28,7 +28,8 @@ import { getSession } from "../utils/auth";
 import bg from "../../../public/background.svg";
 
 import EmailSubmissionForm from "./components/email-submission-form";
-import ScrollShop from "./components/ScrollShop.jsx"
+import ScrollShop from "./components/ScrollShop.jsx";
+import ScrollShopReverse from "./components/ScrollShopReverse.jsx";
 
 export default async function Marketing() {
   const session = await getSession();
@@ -62,7 +63,8 @@ export default async function Marketing() {
                 className="xl:max-w-xl md:max-w-lg sm:max-w-sm max-w-xs"
               />
               <p className="text-3xl sm:text-3xl md:text-4xl text-white mx-2 drop-shadow-lg">
-                Build personal projects.<br className="inline sm:hidden"></br> Get free stuff.
+                Build personal projects.<br className="inline sm:hidden"></br>{" "}
+                Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
@@ -122,13 +124,14 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                .<br className="inline lg:hidden"></br> For teenagers 18 and under.<br className="inline lg:hidden"></br> October 30th to January
-                31st.
+                .<br className="inline lg:hidden"></br> For teenagers 18 and
+                under.<br className="inline lg:hidden"></br> October 30th to
+                January 31st.
               </p>
             </div>
 
             <div className="flex flex-col justify-center items-center my-3">
-              <img src="/divider.svg" className="w-full mx-5 opacity-20"/>
+              <img src="/divider.svg" className="w-full mx-5 opacity-20" />
             </div>
           </div>
         </div>
@@ -159,7 +162,8 @@ export default async function Marketing() {
                   </div>
                   <p className="text-xl max-w-[600px]">
                     Download the High Seas extension for your code editor, and
-                    hack on something cool! Examples: building a personal website, making an app, or creating a video game.
+                    hack on something cool! Examples: building a personal
+                    website, making an app, or creating a video game.
                   </p>
                 </div>
               </div>
@@ -198,10 +202,11 @@ export default async function Marketing() {
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Submit your projects for {" "}
+                    Submit your projects for{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
-                    </span>Doubloons!
+                    </span>
+                    Doubloons!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -213,10 +218,11 @@ export default async function Marketing() {
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign
                     in with Hack Club Slack and ship them in the Harbor! For
-                    each hour coded, earn {" "}
+                    each hour coded, earn{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
-                    </span>Doubloons (our virtual currency).
+                    </span>
+                    Doubloons (our virtual currency).
                   </p>
                 </div>
               </div>
@@ -231,10 +237,11 @@ export default async function Marketing() {
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Spend {" "}
+                    Spend{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
-                    </span>Doubloons on awesome prizes!
+                    </span>
+                    Doubloons on awesome prizes!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -244,10 +251,11 @@ export default async function Marketing() {
                     />
                   </div>
                   <p className="text-xl max-w-[600px]">
-                    Use {" "}
+                    Use{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
-                    </span>Doubloons to purchase loot for your next project! Items
+                    </span>
+                    Doubloons to purchase loot for your next project! Items
                     range from soldering irons to 3D printers. In just 5 hours,
                     you could earn a Raspberry Pi Zero! Full prize list below.
                   </p>
@@ -264,12 +272,11 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="my-16 mt-24">
+          <div className="mb-8 mt-24">
             <ScrollShop />
-          </div>          
+          </div>
 
           <div className="mb-24">
-
             <div className="flex justify-center items-center mb-5">
               <p className="text-5xl text-center mt-12">
                 Last time we did this...
@@ -385,6 +392,9 @@ export default async function Marketing() {
               </div>
             </div>
           </div>
+          <div className="mb-20 mt-24">
+            <ScrollShopReverse />
+          </div>
 
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
@@ -428,14 +438,21 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="my-24">
+          <div className="mt-24 mb-48">
             <div className="flex justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mx-4 leading-[1.2]">
-                What will <span className="px-4 pb-2 rounded-md" style={{
-                        backgroundImage: "url(/floorboard.svg)",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}>you</span> make this winter?
+                What will{" "}
+                <span
+                  className="px-4 pb-2 rounded-md"
+                  style={{
+                    backgroundImage: "url(/floorboard.svg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  you
+                </span>{" "}
+                make this winter?
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
@@ -530,7 +547,8 @@ export default async function Marketing() {
                       >
                         Nest
                       </Link>
-                      : Host your project's backend on Hack Club's free open-source server!
+                      : Host your project's backend on Hack Club's free
+                      open-source server!
                     </li>
                   </ul>
                   <p className="text-xl">
@@ -564,13 +582,15 @@ export default async function Marketing() {
               </div>
             </div>
           </div>
-
+          <div className="relative">
+            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-28 md:-inset-y-60 2xl:-inset-y-80" />
+          </div>
           <div
             className="bg-cover py-12 my-12"
             style={{
               backgroundImage: `url(/imgbkgr.png)`,
               width: "100%",
-              height: "auto"
+              height: "auto",
             }}
           >
             <div className="relative my-12">
@@ -747,6 +767,9 @@ export default async function Marketing() {
               </div>
             </div>
           </div>
+          <div className="relative">
+            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-36 md:-inset-y-64 2xl:-inset-y-80 scale-x-[-1]" />
+          </div>
         </div>
 
         <div className="">
@@ -792,10 +815,10 @@ export default async function Marketing() {
             .
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
-            Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical high
-            schoolers. We believe you learn best by building so we{"'"}re creating
-            community and providing grants so you can make awesome projects. In the
-            past few years, we{"'"}ve{" "}
+            Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical
+            high schoolers. We believe you learn best by building so we{"'"}re
+            creating community and providing grants so you can make awesome
+            projects. In the past few years, we{"'"}ve{" "}
             <Link
               href="https://hackclub.com/arcade/"
               target="_blank"
