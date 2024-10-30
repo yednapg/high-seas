@@ -24,7 +24,7 @@ function SetupModal({
     let timeoutId: number;
 
     async function checkHeartbeat() {
-      if (!onHbDetect || !mounted) return;
+      if (!onHbDetect || !mounted || hasHb) return;
 
       console.info("checking heartbeat for", username);
       const hasData = await hasHbData(username);
