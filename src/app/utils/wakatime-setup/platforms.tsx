@@ -58,7 +58,7 @@ api_key = ${wakaKey}`}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
           <video
-            src="/videos/Waka Setup Script.mp4"
+            src="/videos/WakaSetupScriptMacOS.mp4"
             autoPlay
             loop
             playsInline
