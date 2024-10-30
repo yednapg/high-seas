@@ -37,10 +37,14 @@ const Balance = ({ balance }: { balance: number }) => {
         <div className="flex items-center gap-1">
           <img src="gp.png" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
           <span className="mr-2">
-            {isNaN(balance) ? '' : (<>
-              {Math.floor(balance)}
-              <span className="sm:inline hidden"> Doubloons</span>
-            </>)}
+            {Number.isNaN(balance) ? (
+              ""
+            ) : (
+              <>
+                {Math.floor(balance)}
+                <span className="sm:inline hidden"> Doubloons</span>
+              </>
+            )}
           </span>
         </div>
       </PopoverTrigger>
@@ -63,7 +67,7 @@ export default function Harbor({
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
-    null,
+    null
   );
 
   const [personTicketBalance, setPersonTicketBalance] =
@@ -94,7 +98,7 @@ export default function Harbor({
 
       console.log("safeperson:", p);
       console.log(
-        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
+        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`
       );
 
       if (!hasHb) {
@@ -183,7 +187,7 @@ export default function Harbor({
                 <TabsTrigger key={tab.name} value={tab.path}>
                   {tab.name}
                 </TabsTrigger>
-              ),
+              )
             )}
             <div className="right-px absolute mr-px text-green-400 text-sm">
               <Balance balance={personTicketBalance} />
