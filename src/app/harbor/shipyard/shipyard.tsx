@@ -39,11 +39,11 @@ export default function Shipyard({
 }: any) {
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
-    0
+    0,
   );
   useEffect(() => {
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
-      setVoteBalance(balance)
+      setVoteBalance(balance),
     );
   });
 
@@ -91,12 +91,6 @@ export default function Shipyard({
         <h2 className="text-xl mb-2 text-blue-500">
           Here are some example projects others have submitted!
         </h2>
-        <Ships
-          ships={exampleShips}
-          bareShips={true}
-          shipChains={new Map()}
-          setShips={() => {}}
-        />
       </div>
     </>
   );

@@ -85,7 +85,13 @@ function setupSteps(tourManager: Tour) {
     if (e.key === "Tab") e.preventDefault();
   });
 
+  // ts stands for «tour step»
   const steps = [
+    {
+      id: "ts-greet",
+      text: "Welcome to Pirate Academy! Here you'll learn to be a pirate.<br /><br />Christopher Walker (cwalker@hackclub.com, @polytroper, etc etc) will fill this copy in later.",
+      buttons: [{ text: "SGTM, buster 🚀", action: tourManager.next }],
+    },
     {
       id: "ts-draft-button",
       text: "Let's create a new ship!",
