@@ -1,5 +1,4 @@
 import Airtable from "airtable";
-// import { Ships, Battles, Person } from '../types/airtable';
 import { Ships, Person, Battles } from "../../types/battles/airtable";
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
@@ -111,7 +110,7 @@ export const submitVote = async (voteData: {
     winner_adjustment: newWinnerRating - voteData.winnerRating,
     loser_rating: voteData.loserRating,
     loser_adjustment: newLoserRating - voteData.loserRating,
-    is_tutorial_vote: !person.user_has_graduated
+    is_tutorial_vote: !person.user_has_graduated,
   });
 
   return {
