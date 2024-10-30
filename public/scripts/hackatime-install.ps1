@@ -46,7 +46,7 @@ Write-Host "Sending test heartbeats to verify setup..."
 for ($i = 1; $i -le 2; $i++) {
     Write-Host "Sending heartbeat $i/2..."
     
-    $time = (Get-Date -UFormat %s0000)
+    $time = (Get-Date -UFormat %s)
     $jsonData = @{
         branch = "master"
         category = "coding"
@@ -56,7 +56,7 @@ for ($i = 1; $i -le 2; $i++) {
         lineno = 1
         lines = 1
         project = "welcome"
-        time = $time
+        time = "$time"
         user_agent = "wakatime/v1.102.1 (windows) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
     } | ConvertTo-Json
 
