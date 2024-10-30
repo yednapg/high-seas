@@ -412,7 +412,7 @@ export default async function Marketing() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
+            <div className="flex flex-wrap justify-center items-center">
               <Prizes />
             </div>
             <div className="flex flex-col justify-center items-center mt-4 m-10">
