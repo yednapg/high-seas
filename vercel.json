@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "api/marketing",
-      "schedule": "* * * * * *"
+      "path": "api/marketing/",
+      "schedule": "* * * * *"
     }
   ]
 }
