@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import SetupModal from "@/app/utils/wakatime-setup/setup-modal";
 import { AnimatePresence, motion } from "framer-motion";

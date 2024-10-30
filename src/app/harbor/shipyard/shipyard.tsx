@@ -1,3 +1,5 @@
+"use client";
+
 import Ships from "./ships";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useEffect, useState } from "react";
