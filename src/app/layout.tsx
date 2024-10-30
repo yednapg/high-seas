@@ -57,6 +57,7 @@ export default function RootLayout({
         <Fullstory />
         <SpeedInsights />
         <Toaster />
+        <script defer data-domain="highseas.hackclub.com" src="https://plausible.io/js/script.js"></script>
       </body>
     </html>
   );

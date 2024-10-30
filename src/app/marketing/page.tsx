@@ -624,7 +624,9 @@ export default async function Marketing() {
                     className="max-w-[360px] sm:max-w-[420px] md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
                   />
                   <p className="flex flex-col justify-center items-center text-center mt-2">
-                    Hack Clubbers at the Boreal Express Hackathon!
+                    <span>
+                      Hack Clubbers at <Link href="https://www.youtube.com/user/linustechtips">Linus Tech Tips</Link>!
+                    </span>
                   </p>
                 </div>
 

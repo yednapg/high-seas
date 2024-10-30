@@ -142,17 +142,20 @@ export async function createWaka(
   console.log(
     "Attempting to sign up for wakatime:",
     payload,
-    new URLSearchParams(payload),
+    (new URLSearchParams(payload)).toString(),
   );
   
-  console.log({key: WAKA_API_KEY, payload});
+  console.error("trying to run it!", {key: WAKA_API_KEY, payload});
+
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${WAKA_API_KEY}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams(payload),
   });
+  signup.headers.forEach((v, k) => console.log(k, v));
 
   let signupResponse: WakaSignupResponse;
   try {
