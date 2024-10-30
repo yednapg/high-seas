@@ -32,6 +32,7 @@
     "openai": "^4.68.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-fast-marquee": "^1.6.5",
     "react-fullstory": "^1.4.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-markdown": "^9.0.1",
