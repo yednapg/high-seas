@@ -405,7 +405,7 @@ export default async function Marketing() {
             <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
               <Prizes />
             </div>
-            <div className="flex flex-col justify-center items-center mt-8 m-10">
+            <div className="flex flex-col justify-center items-center mt-4 m-10">
               {/*<div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
               <p className="text-3xl text-center">
                 Get the full list of items when you sign in!
