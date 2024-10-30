@@ -392,7 +392,7 @@ export default async function Marketing() {
 
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-4">
+              <p className="text-5xl text-center mb-4 leading-[1.2]">
                 Prizes to{" "}
                 <span
                   className="pb-2 px-4 rounded-md whitespace-nowrap"
@@ -434,7 +434,7 @@ export default async function Marketing() {
 
           <div className="my-24">
             <div className="flex justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mx-4">
+              <p className="text-5xl text-center mx-4 leading-[1.2]">
                 What will <span className="px-4 pb-2 rounded-md" style={{
                         backgroundImage: "url(/floorboard.svg)",
                         backgroundSize: "cover",
@@ -579,7 +579,7 @@ export default async function Marketing() {
           >
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
-                <p className="text-5xl mt-12 mx-5 text-white">
+                <p className="text-5xl mt-12 mx-5 text-white leading-[1.2]">
                   Join a{" "}
                   <span
                     className="pb-2 px-4 rounded-md"
