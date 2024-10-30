@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import WakaTimeConfigTabs from "./wakatime-config-tabs";
 import { motion, AnimatePresence } from "framer-motion";
-import { getWakaEmail } from "../../utils/waka";
+import { getSession } from "@/app/utils/auth";
 
 export default function WakatimeSetupInstructions({
   session,
@@ -23,7 +23,7 @@ export default function WakatimeSetupInstructions({
   const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    getWakaEmail().then(setEmail);
+    getSession().then((d: any) => setEmail(d.email));
   }, []);
 
   return (

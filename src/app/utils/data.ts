@@ -10,6 +10,9 @@
  * You've been warned.
  */
 
+import { getSession } from "./auth";
+import { createWaka } from "./waka";
+
 //#region Ships
 export type ShipType = "project" | "update";
 export type ShipStatus = "shipped" | "staged" | "deleted";
@@ -36,10 +39,10 @@ export interface Ship {
   reshippedToId: string | null;
 }
 
-export async function fetchShips(personId: string): Promise<Ship[]> {
+export async function fetchShips(slackId: string): Promise<Ship[]> {
   const filterFormula = `AND(
     TRUE(),
-    '${personId}' = {entrant__slack_id},
+    '${slackId}' = {entrant__slack_id},
     {project_source} = 'high_seas',
     {ship_status} != 'deleted'
   )`;
@@ -90,5 +93,101 @@ export async function fetchShips(personId: string): Promise<Ship[]> {
 
     return ship;
   });
+}
+//#endregion
+
+//#region Person
+export async function person(): Promise<any> {
+  return new Promise(async (resolve, reject) => {
+    const session = await getSession();
+    if (!session) return reject("No session present");
+
+    const record = await fetch(
+      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      },
+    ).then((d) => d.json());
+    if (!record) return reject("Person not found");
+
+    console.log("oh that's not...", record);
+
+    resolve(record);
+  });
+}
+//#endregion
+
+//#region Wakatime
+export async function hasHbData(username: string): Promise<boolean> {
+  const res = await fetch(
+    `https://waka.hackclub.com/api/special/hasData/?user=${username}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
+      },
+    },
+  ).then((res) => res.json());
+
+  return res.hasData;
+}
+export async function fetchWaka(): Promise<{
+  username: string;
+  key: string;
+  hasHb: boolean;
+}> {
+  const { slack_id, email, name, preexistingUser } = await person().then(
+    (p) => p.fields,
+  );
+  console.log("Weeeeeee!", { slack_id, email, name, preexistingUser });
+
+  const { username, key } = await createWaka(
+    email,
+    preexistingUser ? name : null,
+    preexistingUser ? slack_id : null,
+  );
+
+  const hasHb = await hasHbData(username);
+
+  return { username, key, hasHb };
+}
+//#endregion
+
+//#region Signpost
+export interface SignpostFeedItem {
+  id: string;
+  createdTime: Date;
+  content: string;
+  autonumber: number;
+  category: "update" | "announcement" | "sale" | "alert";
+  backgroundColor: string;
+  textColor: string;
+  visible: boolean;
+}
+export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
+  const result = await fetch(
+    "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/signpost",
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+      },
+    },
+  ).then((d) => d.json());
+
+  const records = result.records;
+
+  //TODO: Pagination.
+  return records.map((r: any) => ({
+    id: r.id,
+    createdTime: new Date(r.createdTime),
+    content: r.fields.content,
+    autonumber: Number(r.fields.autonumber),
+    category: r.fields.category,
+    backgroundColor: r.fields.background_color,
+    textColor: r.fields.text_color,
+    visible: !!r.fields.visible,
+  }));
 }
 //#endregion

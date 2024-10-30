@@ -7,7 +7,6 @@ import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
 import SignPost from "../signpost/signpost";
-import { waka } from "../../utils/waka";
 import { SafePerson, safePerson } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
@@ -21,7 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
-import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
+import Cookies from "js-cookie";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -60,14 +59,6 @@ export default function Harbor({
     null,
   );
 
-  const [wakaToken, setWakaToken] = useLocalStorageState(
-    "cache.wakaToken",
-    null,
-  );
-  const [hasWakaHb, setHasWakaHb] = useLocalStorageState(
-    "cache.hasWakaHb",
-    null,
-  );
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
   const [hasCompletedTutorial, setHasCompletedTutorial] =
@@ -82,8 +73,7 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    // const shipCookie = JSON.parse(cookies().get("ships").value);
-    // setMyShips();
+    const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
 
     // getUserShips(session.slackId).then(({ ships, shipChains }) => {
     //   console.log({ ships, shipChains });
@@ -100,10 +90,7 @@ export default function Harbor({
         `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
       );
 
-      const { username, key } = await waka();
-      const hasData = await hasHb(username, key);
-
-      if (!hasData) {
+      if (!hasHb) {
         setShowWakaSetupModal(true);
       } else if (!p.hasCompletedTutorial) {
         sessionStorage.setItem("tutorial", "true");
@@ -133,13 +120,7 @@ export default function Harbor({
     {
       name: "📮",
       path: "signpost",
-      component: (
-        <SignPost
-          session={session}
-          wakaToken={wakaToken}
-          hasWakaHb={hasWakaHb}
-        />
-      ),
+      component: <SignPost session={session} />,
     },
     {
       name: "Shipyard",
