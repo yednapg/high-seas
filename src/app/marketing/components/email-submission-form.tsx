@@ -59,7 +59,7 @@ export default function EmailSubmissionForm() {
           />
           <Button
             // disabled={buttonDisabled}
-            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-[#3852CD] rounded-md text-white"
+            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-blues rounded-md text-white"
           >
             Get started <Icon glyph="enter" />
           </Button>
@@ -71,7 +71,7 @@ export default function EmailSubmissionForm() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "fit-content" }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-2 border-2 border-[#3852CD] bg-[#3852CD] px-4 py-2 rounded-md text-white"
+              className="mt-2 border-2 border-[#3852CD] bg-blues px-4 py-2 rounded-md text-white"
             >
               {errorText}
             </motion.div>

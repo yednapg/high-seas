@@ -13,7 +13,7 @@ const config: Config = {
 				'8000': '8000ms'
 			},
 			backgroundImage: {
-				'custom-gradient': 'linear-gradient(90deg, #3852CD, #0A2B61)',
+				'blues': 'linear-gradient(15deg, #3852CD, #013247)',
 			},
 			keyframes: {
 				yap: {
