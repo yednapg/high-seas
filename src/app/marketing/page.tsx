@@ -1010,7 +1010,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "What types of projects count?",
-    answer: `Anyhing that you've programmed and is open-source!`,
+    answer: `Anything that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
