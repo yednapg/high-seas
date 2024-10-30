@@ -106,7 +106,7 @@ export default function NewShipForm({
       );
     }
 
-    const isTutorial = sessionStorage.getItem("tutorial") === "true";
+    const isTutorial = sessionStorage?.getItem("tutorial") === "true";
     if (!isTutorial) {
       await createShip(formData);
     }
