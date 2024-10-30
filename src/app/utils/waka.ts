@@ -179,7 +179,7 @@ export async function getWakaSessions(): Promise<any> {
   const slackId = session.slackId;
 
   const summaryRes = await fetch(
-    `https://waka.hackclub.com/api/summary?interval=low_skies&user=${slackId}&recompute=true`,
+    `https://waka.hackclub.com/api/summary?interval=high_seas&user=${slackId}&recompute=true`,
     {
       headers: {
         // Note, this should probably just be an admin token in the future.
