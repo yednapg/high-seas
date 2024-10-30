@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import SetupModal from "@/app/utils/wakatime-setup/setup-modal";
 import { AnimatePresence, motion } from "framer-motion";
@@ -48,24 +49,20 @@ export default function EmailSubmissionForm() {
       return;
     }
 
-    try {
-      const mobile = navigator.userAgent.toLowerCase().includes("mobile");
-      const ua = navigator.userAgent;
-      const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
-      if (!hfsRes) throw new Error("Failed to handle email submission");
-      const { username, key, personRecordId } = hfsRes;
-      console.log("Handled email submission with res:", {
-        username,
-        key,
-        personRecordId,
-      });
-      setWakaKey(key);
-      setWakaUsername(username);
-      setPersonRecordId(personRecordId);
-      setEmail(emailStr);
-    } catch (e) {
-      console.error(e);
-    }
+    const mobile = navigator.userAgent.toLowerCase().includes("mobile");
+    const ua = navigator.userAgent;
+    const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
+    if (!hfsRes) throw new Error("Failed to handle email submission");
+    const { username, key, personRecordId } = hfsRes;
+    console.log("Handled email submission with res:", {
+      username,
+      key,
+      personRecordId,
+    });
+    setWakaKey(key);
+    setWakaUsername(username);
+    setPersonRecordId(personRecordId);
+    setEmail(emailStr);
   };
 
   return (
