@@ -4,7 +4,7 @@ import Airtable from "airtable";
 import { createWaka } from "../utils/waka";
 import { getSession } from "../utils/auth";
 
-import { sendInviteJob } from "./invite-job.js";
+import createBackgroundJob from "../api/cron/every-minute/create-background-job";
 
 const highSeasPeopleTable = () => {
   const highSeasBaseId = process.env.BASE_ID;
@@ -26,7 +26,9 @@ export async function handleEmailSubmission(
     throw new Error("No user agent supplied to handleEmailSubmission");
 
   const ipAddress = headers().get("x-forwarded-for");
-  await sendInviteJob({ email, userAgent });
+  // await sendInviteJob({ email, userAgent });
+  const args = { email, ipAddress, userAgent, isMobile };
+  await createBackgroundJob('invite', args);
 
   // Create HackaTime user
   const session = await getSession();
@@ -84,11 +86,11 @@ export async function handleEmailSubmission(
   });
 
   console.log("handleEmailSubmission Step 3:", personRecordId);
+  await createBackgroundJob('create_person', { email, ipAddress, isMobile, username });
 
   return {
     username,
     key,
-    personRecordId,
   };
 }
 
