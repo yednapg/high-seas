@@ -50,7 +50,6 @@ export default function EmailSubmissionForm() {
       return;
     }
 
-    console.log({ email: emailStr, userAgent: navigator.userAgent });
     await sendInviteJob({
       email: emailStr,
       userAgent: navigator.userAgent,

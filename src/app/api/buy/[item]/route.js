@@ -30,7 +30,6 @@ export async function GET(request, { params }) {
   const people = await b("people");
   const otp = Math.random().toString(16).slice(2);
 
-  console.log(person);
   if (
     !person.fields.verification_status ||
     !["Eligible L1", "Eligible L2"].includes(
@@ -53,7 +52,6 @@ export async function GET(request, { params }) {
       new Date().getTime() + 5 * 60 * 1000,
     ).toISOString(),
   });
-  console.log(item);
   return redirect(
     `${item.fields.fillout_base_url.replace("shop-order", "hs-order")}${otp}`,
   );

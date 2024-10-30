@@ -37,7 +37,6 @@ export async function handleEmailSubmission(
       session?.name ?? null,
       session?.slackId ?? null,
     );
-    console.log(signup);
   } catch (e) {
     console.log(e);
     throw e;
