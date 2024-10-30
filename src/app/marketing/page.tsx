@@ -162,8 +162,7 @@ export default async function Marketing() {
                   </div>
                   <p className="text-xl max-w-[600px]">
                     Download the High Seas extension for your code editor, and
-                    hack on something cool! Examples: making your own PCB,
-                    building a personal website, or creating a video game.
+                    hack on something cool! Examples: building a personal website, making an app, or creating a video game.
                   </p>
                 </div>
               </div>
