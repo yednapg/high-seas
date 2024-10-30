@@ -34,6 +34,7 @@ export interface Ship {
   updateDescription: string | null;
   reshippedFromId: string | null;
   reshippedToId: string | null;
+  paidOut: boolean;
 }
 
 export async function fetchShips(personId: string): Promise<Ship[]> {
