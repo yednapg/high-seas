@@ -279,7 +279,7 @@ export default async function Marketing() {
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                   <div className="relative text-center">
-                    <p className="text-7xl mb-2">4,000+</p>
+                    <p className="text-7xl mb-2">5,000</p>
                     <p className="text-xl">high schoolers participated</p>
                   </div>
                 </div>
