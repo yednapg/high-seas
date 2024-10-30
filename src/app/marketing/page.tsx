@@ -1,5 +1,3 @@
-"use client";
-
 import "./index.css";
 
 // import SignIn from "@/components/sign_in";
@@ -26,7 +24,7 @@ import shop3 from "./art/shop/shop3.png";
 import shop4 from "./art/shop/shop4.png";
 import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
-import { getSession } from "../utils/auth";
+// import { getSession } from "../utils/auth";
 import bg from "../../../public/background.svg";
 
 import EmailSubmissionForm from "./components/email-submission-form";
@@ -34,7 +32,7 @@ import ScrollShop from "./components/ScrollShop.jsx";
 import ScrollShopReverse from "./components/ScrollShopReverse.jsx";
 
 export default async function Marketing() {
-  const session = await getSession();
+  // const session = await getSession();
 
   return (
     <div>
@@ -69,7 +67,8 @@ export default async function Marketing() {
                 Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
-                {session ? (
+                <EmailSubmissionForm />
+                {/* {session ? (
                   <Link
                     href="/signpost"
                     className="p-4 rounded-lg text-md text-white bg-[#3852CD]"
@@ -83,7 +82,7 @@ export default async function Marketing() {
                   </Link>
                 ) : (
                   <EmailSubmissionForm />
-                )}
+                )} */}
               </div>
               <p
                 className="mt-4 text-white bg-opacity-50 px-4 py-2 rounded-lg"
