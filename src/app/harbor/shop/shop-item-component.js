@@ -88,6 +88,7 @@ export const ShopItemComponent = ({
             </div>
           </CardContent>
         )}
+
         <CardFooter className="pt-4">
           <ActionArea
             item={item}
