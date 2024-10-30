@@ -109,7 +109,6 @@ const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) =
         }
       })
     }).then(r => r.text())
-    console.log(result)
   } catch(e) {
     console.error(e)
     // this is just for caching a couple project ideas and it's non-critical if it fails

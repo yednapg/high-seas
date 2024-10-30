@@ -119,8 +119,6 @@ export async function person(): Promise<any> {
     ).then((d) => d.json());
     if (!record) return reject("Person not found");
 
-    console.log("oh that's not...", record);
-
     resolve(record);
   });
 }
@@ -150,7 +148,6 @@ export async function fetchWaka(): Promise<{
   const { slack_id, email, full_name, preexisting_user } = await person().then(
     (p) => p.fields
   );
-  console.log("Weeeeeee!", { slack_id, email, full_name, preexisting_user });
 
   const { username, key } = await createWaka(
     email,
