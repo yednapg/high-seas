@@ -368,10 +368,13 @@ export default async function Marketing() {
               <p className="text-5xl text-center mb-2">
                 {"Prizes to power up your next project!"}
               </p>
-              <p className="text-xl text-center">
-                Redeem these with your Doubloons! For high schoolers (or
-                younger) only.
-              </p>
+              <div className="flex flex-row justify-center">
+                <p className="text-xl text-center">
+                  Redeem these with your <span className="inline-flex items-center align-middle"><img src="/doubloon.svg" className="w-6 h-6 mx-1"/></span>Doubloons! For high schoolers (or
+                  younger) only.
+                </p>
+              </div>
+
             </div>
             <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
               <Prizes />
