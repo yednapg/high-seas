@@ -17,7 +17,11 @@ fi
 
 # Create or update the WakaTime config file
 echo "Configuring WakaTime settings..."
-echo -e "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = $BEARER_TOKEN" > "$WAKATIME_CONFIG_FILE"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = $BEARER_TOKEN" > "$WAKATIME_CONFIG_FILE"
+else
+    echo -e "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = $BEARER_TOKEN" > "$WAKATIME_CONFIG_FILE"
+fi
 echo "✓ Wrote config to $WAKATIME_CONFIG_FILE"
 echo
 
