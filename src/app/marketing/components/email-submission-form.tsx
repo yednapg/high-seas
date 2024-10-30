@@ -10,6 +10,7 @@ import {
   handleEmailSubmission,
   markArrpheusReadyToInvite,
 } from "../marketing-utils";
+import { sendInviteJob } from "../invite-job";
 
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
@@ -49,20 +50,24 @@ export default function EmailSubmissionForm() {
       return;
     }
 
-    const mobile = navigator.userAgent.toLowerCase().includes("mobile");
-    const ua = navigator.userAgent;
-    const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
-    if (!hfsRes) throw new Error("Failed to handle email submission");
-    const { username, key, personRecordId } = hfsRes;
-    console.log("Handled email submission with res:", {
-      username,
-      key,
-      personRecordId,
+    console.log({ email: emailStr, userAgent: navigator.userAgent });
+    await sendInviteJob({
+      email: emailStr,
+      userAgent: navigator.userAgent,
     });
-    setWakaKey(key);
-    setWakaUsername(username);
-    setPersonRecordId(personRecordId);
     setEmail(emailStr);
+    // const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
+    // if (!hfsRes) throw new Error("Failed to handle email submission");
+    // const { username, key, personRecordId } = hfsRes;
+    // console.log("Handled email submission with res:", {
+    //   username,
+    //   key,
+    //   personRecordId,
+    // });
+    // setWakaKey(key);
+    // setWakaUsername(username);
+    // setPersonRecordId(personRecordId);
+    // setEmail(emailStr);
   };
 
   return (
@@ -101,7 +106,12 @@ export default function EmailSubmissionForm() {
         </AnimatePresence>
       </div>
 
-      {wakaKey && wakaUsername ? (
+      <Modal isOpen={email} close={() => setEmail(null)}>
+        <p className="text-xl mb-4">We'll be in touch!</p>
+        <img src="/party-orpheus.svg" />
+      </Modal>
+
+      {/* {wakaKey && wakaUsername ? (
         <SetupModal
           isOpen={email && personRecordId}
           close={() => {
@@ -123,9 +133,9 @@ export default function EmailSubmissionForm() {
           wakaKey={wakaKey}
           wakaUsername={wakaUsername}
         />
-      ) : null}
+      ) : null} */}
 
-      <Modal isOpen={detectedInstall} close={() => setDetectedInstall(false)}>
+      {/* <Modal isOpen={detectedInstall} close={() => setDetectedInstall(false)}>
         <p className="text-3xl mb-2">Check your email!</p>
         <p>You should see an invite to the Hack Club Slack.</p>
 
@@ -146,7 +156,7 @@ export default function EmailSubmissionForm() {
         <Button onClick={() => setDetectedInstall(false)} className="ml-auto">
           Dismiss
         </Button>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

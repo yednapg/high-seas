@@ -26,7 +26,7 @@ export async function handleEmailSubmission(
     throw new Error("No user agent supplied to handleEmailSubmission");
 
   const ipAddress = headers().get("x-forwarded-for");
-  await sendInviteJob({ email, ipAddress, userAgent });
+  await sendInviteJob({ email, userAgent });
 
   // Create HackaTime user
   const session = await getSession();
