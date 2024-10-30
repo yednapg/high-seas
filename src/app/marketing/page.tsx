@@ -654,7 +654,7 @@ export default async function Marketing() {
                 </div>
               </div>
 
-              <div className="my-12 mt-20">
+              <div className="mb-12 mt-12">
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
                     <div className="rounded-md p-2 max-w-2xl pop"   
