@@ -511,6 +511,28 @@ export default async function Marketing() {
                       : Develop an iOS app, we&apos;ll cover the $100 AppStore
                       fee.
                     </li>
+                    <li>
+                      <Link
+                        href="https://sprig.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Sprig
+                      </Link>
+                      : Make a video game, get a Console to play it on!
+                    </li>
+                    <li>
+                      <Link
+                        href="https://guides.hackclub.app/index.php/Main_Page"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Nest
+                      </Link>
+                      : Host your project's backend on Hack Club's free open-source server!
+                    </li>
                   </ul>
                   <p className="text-xl">
                     More workshops{" "}
@@ -535,7 +557,7 @@ export default async function Marketing() {
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Or click the dino for ideas!</p>
                   <p className="text-lg mt-2">
-                    She's not super smart, but she'll try her best- pirates'
+                    She's not super smart, but she'll try her best—pirates'
                     honor!
                   </p>
                   <IdeaGenerator />
