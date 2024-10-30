@@ -81,7 +81,7 @@ export default async function Marketing() {
                 )}
               </div>
               <p
-                className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg"
+                className="mt-4 text-white bg-opacity-50 px-4 py-2 rounded-lg"
                 style={{
                   backgroundImage: "url(/floorboard.svg)",
                   backgroundSize: "cover",
@@ -91,7 +91,7 @@ export default async function Marketing() {
                   transform: "rotate(-2deg)",
                 }}
               >
-                New sailors get free stickers!
+                Free stickers for all new recruits!
               </p>
             </div>
             <Link href="#howthisworks">
