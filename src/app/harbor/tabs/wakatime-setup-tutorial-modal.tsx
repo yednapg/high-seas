@@ -75,7 +75,8 @@ export default function WakatimeSetupTutorialModal({
 
     (async () => {
       console.log("Handling email sumbission...");
-      const emailSubmissionResult = await handleEmailSubmission(email, mobile);
+      const ua = navigator.userAgent;
+      const emailSubmissionResult = await handleEmailSubmission(email, mobile, ua);
       console.log("handleEmailSubmission result:", emailSubmissionResult);
       if (!emailSubmissionResult) return;
 
