@@ -89,13 +89,28 @@ function setupSteps(tourManager: Tour) {
   // ts stands for «tour step»
   const steps = [
     {
-      id: "ts-greet",
-      text: "Welcome to Pirate Academy! Here you'll learn to be a pirate.<br /><br />Christopher Walker (cwalker@hackclub.com, @polytroper, etc etc) will fill this copy in later.",
-      buttons: [{ text: "SGTM, buster 🚀", action: tourManager.next }],
+      id: "ts-greet-1",
+      text: `<div style="display:flex; flex-direction:column; align-items:center;">
+              <img src="https://cloud-ppj6j8bpl-hack-club-bot.vercel.app/0image.png"></img>
+              timbers be shiverin' today, swabbie!! …at least, they are if you're here for Pirate Academy.
+              <br /><br />
+              that's what you're here for, right?? to go on account and sail the seven seas in search of booty????
+            </div>`,
+      buttons: [{ text: "uh, yeah", action: tourManager.next }],
+    },
+    {
+      id: "ts-greet-2",
+      text: `<div style="display:flex; flex-direction:column; align-items:center;">
+              <img src="https://cloud-ppj6j8bpl-hack-club-bot.vercel.app/0image.png"></img>
+              right then, let's weigh anchor and hoist the mizzen!! here's how this works.
+              <br /><br />
+              the first step of being a pirate is to build yourself a ship. pirates love ships. let's take a look at how to draft one
+            </div>`,
+      buttons: [{ text: "SGTM, buster", action: tourManager.next }],
     },
     {
       id: "ts-draft-button",
-      text: "Let's create a new ship!",
+      text: "now, here's the scenario. say ye have a project in the works. yer not ready to ship it, but you want to see it drafted.<br/> click on that thar button",
       attachTo: {
         element: "button#start-ship-draft",
         on: "top",
