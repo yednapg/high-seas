@@ -572,7 +572,7 @@ export default async function Marketing() {
           <div
             className="bg-cover py-12 my-12"
             style={{
-              backgroundImage: `url(${bg.src})`,
+              backgroundImage: `url(/imgbkgr.png)`,
               width: "100%",
               height: "auto"
             }}
