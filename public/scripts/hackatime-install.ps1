@@ -46,7 +46,7 @@ Write-Host "Sending test heartbeats to verify setup..."
 for ($i = 1; $i -le 2; $i++) {
     Write-Host "Sending heartbeat $i/2..."
     
-    $time = (Get-Date -UFormat %s)
+    $time = [int](Get-Date -UFormat %s)
     $jsonData = @{
         branch = "master"
         category = "coding"
