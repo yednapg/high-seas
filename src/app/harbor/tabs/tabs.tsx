@@ -37,10 +37,14 @@ const Balance = ({ balance }: { balance: number }) => {
         <div className="flex items-center gap-1">
           <img src="gp.png" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
           <span className="mr-2">
-            {isNaN(balance) ? '' : (<>
-              {Math.floor(balance)}
-              <span className="sm:inline hidden"> Doubloons</span>
-            </>)}
+            {isNaN(balance) ? (
+              ""
+            ) : (
+              <>
+                {Math.floor(balance)}
+                <span className="sm:inline hidden"> Doubloons</span>
+              </>
+            )}
           </span>
         </div>
       </PopoverTrigger>
@@ -60,6 +64,8 @@ export default function Harbor({
   currentTab: string;
   session: HsSession;
 }) {
+  const [wakaUsername, setWakaUsername] = useState<string>();
+  const [wakaKey, setWakaKey] = useState<string>();
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
@@ -81,6 +87,8 @@ export default function Harbor({
   // This could do with a lot of optimisation
   useEffect(() => {
     const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
+    setWakaKey(key);
+    setWakaUsername(username);
 
     // getUserShips(session.slackId).then(({ ships, shipChains }) => {
     //   console.log({ ships, shipChains });
@@ -212,7 +220,10 @@ export default function Harbor({
 
       <SetupModal
         isOpen={
-          showWakaSetupModal && sessionStorage.getItem("tutorial") !== "true"
+          showWakaSetupModal &&
+          sessionStorage.getItem("tutorial") !== "true" &&
+          wakaKey &&
+          wakaUsername
         }
         close={() => {
           setShowWakaSetupModal(false);
@@ -235,6 +246,8 @@ export default function Harbor({
             tour();
           }
         }}
+        wakaKey={wakaKey}
+        wakaUsername={wakaUsername}
       />
     </>
   );
