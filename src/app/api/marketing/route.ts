@@ -3,7 +3,7 @@
 import { processPendingInviteJobs } from '@/app/marketing/invite-job';
 import type { NextRequest } from 'next/server';
 
-async function process() {
+async function processJob() {
   await Promise.all([
     processPendingInviteJobs(),
     new Promise((resolve) => setTimeout(resolve, 1000 * 20))
@@ -18,9 +18,9 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  await process();
-  await process();
-  await process();
+  await processJob();
+  await processJob();
+  await processJob();
 
 
   return Response.json({ success: true });
