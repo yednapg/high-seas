@@ -421,7 +421,11 @@ export default async function Marketing() {
           <div className="my-24">
             <div className="flex justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mx-4">
-                Check out what others are building!
+                What will <span className="px-4 pb-2 rounded-md" style={{
+                        backgroundImage: "url(/floorboard.svg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}>you</span> make this winter?
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
