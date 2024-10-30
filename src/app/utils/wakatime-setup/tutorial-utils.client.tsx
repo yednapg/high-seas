@@ -35,15 +35,10 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
 
 export const osFromAgent = (): Os => {
   const ua = window.navigator.userAgent.toLowerCase();
-  if (ua.includes("win")) {
-    return "windows";
-  } else if (ua.includes("mac")) {
-    return "macos";
-  } else if (ua.includes("linux")) {
-    return "linux";
-  } else {
-    return "unknown";
-  }
+  if (ua.includes("win")) return "windows";
+  if (ua.includes("mac")) return "macos";
+  if (ua.includes("linux")) return "linux";
+  return "unknown";
 };
 
 export const SinglePlatform = ({
