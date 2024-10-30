@@ -9,7 +9,7 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
 import Cookies from "js-cookie";
-import { getCookie, SignpostFeedItem } from "@/app/utils/data";
+import { SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
   const [wakaKey, setWakaKey] = useState<string>();

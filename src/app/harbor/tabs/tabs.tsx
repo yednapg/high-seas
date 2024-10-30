@@ -22,7 +22,6 @@ import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import Cookies from "js-cookie";
 import JaggedCard from "@/components/jagged-card";
-import { getCookie } from "@/app/utils/data";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);

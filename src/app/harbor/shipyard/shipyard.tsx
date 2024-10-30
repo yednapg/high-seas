@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
 import Cookies from "js-cookie";
-import { getCookie, Ship } from "@/app/utils/data";
+import { Ship } from "@/app/utils/data";
 
 const tutorialShips: Ship[] = [
   {
@@ -42,8 +42,7 @@ export default function Shipyard({ shipChains, session }: any) {
   );
 
   useEffect(() => {
-    getCookie("ships").then(setShips);
-    // setShips(JSON.parse(Cookies.get("ships")));
+    setShips(JSON.parse(Cookies.get("ships")));
 
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
       setVoteBalance(balance),

@@ -196,14 +196,3 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   }));
 }
 //#endregion
-
-export async function getCookie(k: string): Promise<any | null> {
-  const reqCookie = cookies().get(k);
-  if (!reqCookie) return null;
-  try {
-    return JSON.parse(reqCookie.value);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}
