@@ -33,33 +33,34 @@ export default function SetupModal({
   isOpen,
   close,
   onHbDetect,
+  wakaUsername,
+  wakaKey,
 }: {
   isOpen: any;
   close: () => void;
   onHbDetect: (() => any) | undefined;
+  wakaUsername: string;
+  wakaKey: string;
 }) {
-  const [wakaKey, setWakaKey] = useState<string>();
   const [hasRecvHb, setHasRecvHb] = useState<boolean>();
-
   useEffect(() => {
-    const { key, username, hasHb } = JSON.parse(Cookies.get("waka"));
-    console.warn("ooh eur", { key, username, hasHb });
-    setWakaKey(key);
-
     (async () => {
-      hbDetectLoop: while (onHbDetect) {
-        const hasData = await hasHbData(username);
+      while (!!onHbDetect) {
+        console.info("starting loop");
+        const hasData = await hasHbData(wakaUsername);
+        console.info({ hasData });
 
         if (hasData) {
+          console.log("HAS DATAAAAAAAA");
           onHbDetect();
           setHasRecvHb(true);
-          break hbDetectLoop;
+          break;
         }
 
         await new Promise((r) => setTimeout(r, 2_500));
       }
     })();
-  }, []);
+  }, [onHbDetect]);
 
   return (
     <Modal isOpen={isOpen} close={close}>
