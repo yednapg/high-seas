@@ -26,6 +26,30 @@ export const getSelfPerson = async (slackId: string) => {
   return data.records[0];
 };
 
+export const getSignpostUpdates = async () => {
+  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/signpost`;
+  const response = await fetch(`${url}}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error(e, await response.text());
+    throw e;
+  }
+  return data.records;
+};
+
 export async function getPersonByMagicToken(token: string): Promise<{
   id: string;
   email: string;
