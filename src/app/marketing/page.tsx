@@ -1222,7 +1222,7 @@ const PrizeData = [
   },
   {
     name: "GitHub Backpack",
-    doubloons: 46000,
+    doubloons: 7302,
     image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
   },
   {
