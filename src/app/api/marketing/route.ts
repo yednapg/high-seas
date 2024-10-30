@@ -26,4 +26,5 @@ export async function GET(request: NextRequest) {
   return Response.json({ success: true });
 }
 
+export const maxDuration = 60
 export const fetchCache = 'force-no-store'
