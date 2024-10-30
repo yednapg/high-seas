@@ -105,7 +105,11 @@ export default function Harbor({
 
       if (!hasData) {
         setShowWakaSetupModal(true);
-      } /*else {
+      } else if (!p.hasCompletedTutorial) {
+        sessionStorage.setItem("tutorial", "true");
+        tour();
+      }
+      /*else {
         if (!p.hasCompletedTutorial) {
           if (p.emailSubmittedOnMobile) {
             setShowWakaSetupModal(true);
@@ -214,8 +218,10 @@ export default function Harbor({
         isOpen={showWakaSetupModal}
         close={() => {
           setShowWakaSetupModal(false);
-          // if (sessionStorage.getItem("tutorial") !== "true") {
-          if (!hasCompletedTutorial) {
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
             console.warn("2 triggering tour");
             tour();
           }
@@ -223,8 +229,10 @@ export default function Harbor({
         onHbDetect={() => {
           setHasWakaHb(true);
           setShowWakaSetupModal(false);
-          // if (sessionStorage.getItem("tutorial") !== "true") {
-          if (!hasCompletedTutorial) {
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
             console.warn("3 triggering tour");
             tour();
           }
