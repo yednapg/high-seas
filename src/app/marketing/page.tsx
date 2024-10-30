@@ -637,7 +637,12 @@ export default async function Marketing() {
               <div className="my-12 mt-20">
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
-                    <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
+                    <div className="rounded-md p-2 max-w-2xl pop"   
+                    style={{
+                      backgroundImage: 'url(/floorboard.svg)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}>
                       <Link
                         href="https://scrapbook.hackclub.com/"
                         target="_blank"
