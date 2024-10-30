@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import { Analytics } from "@vercel/analytics/react";
 import Fullstory from "@/components/fullstory";
+import PlausibleProvider from "next-plausible";
 
 const mainFont = localFont({
   src: "../../public/fonts/arialroundedmtbold.ttf",
@@ -35,6 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <head>
+      <PlausibleProvider domain="highseas.hackclub.com" />
+    </head>
       <body className={`${mainFont.variable} antialiased`}>
         <link
           rel="icon"
