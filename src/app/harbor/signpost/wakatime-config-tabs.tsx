@@ -20,7 +20,7 @@ const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
   }, [isCopied]);
 
   const handleCopy = async () => {
-    // await navigator.clipboard.writeText(textToCopy);
+    // await navigator.clipboard.writeText(textToCopy); // TODO: UNCOMMENT & fix navigator issue
     setIsCopied(true);
     toast({ title: "Copied WakaTime setup script" });
   };

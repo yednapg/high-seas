@@ -1,3 +1,5 @@
+"use client";
+
 import "./index.css";
 
 // import SignIn from "@/components/sign_in";
@@ -583,7 +585,10 @@ export default async function Marketing() {
             </div>
           </div>
           <div className="relative">
-            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-28 md:-inset-y-60 2xl:-inset-y-80" />
+            <img
+              src="/bubbledivider.svg"
+              className="w-full absolute -inset-y-28 md:-inset-y-60 2xl:-inset-y-80"
+            />
           </div>
           <div
             className="bg-cover py-12 my-12"
@@ -768,7 +773,10 @@ export default async function Marketing() {
             </div>
           </div>
           <div className="relative">
-            <img src="/bubbledivider.svg" className="w-full absolute -inset-y-36 md:-inset-y-64 2xl:-inset-y-80 scale-x-[-1]" />
+            <img
+              src="/bubbledivider.svg"
+              className="w-full absolute -inset-y-36 md:-inset-y-64 2xl:-inset-y-80 scale-x-[-1]"
+            />
           </div>
         </div>
 
@@ -1169,7 +1177,7 @@ const PrizeData = [
     name: "Bite Sized Linux",
     doubloons: 400,
     image: "https://cloud-8mlynfu76-hack-club-bot.vercel.app/0image.png",
-  }, 
+  },
   {
     name: "Free stickers!",
     doubloons: 0,
