@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server';
 async function processJob() {
   await Promise.all([
     processPendingInviteJobs(),
-    new Promise((resolve) => setTimeout(resolve, 1000 * 20))
+    new Promise((resolve) => setTimeout(resolve, 1000 * 18))
   ])
 }
  
