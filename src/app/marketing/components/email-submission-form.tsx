@@ -106,6 +106,8 @@ export default function EmailSubmissionForm() {
           close={() => setEmail(undefined)}
           onHbDetect={() => {
             setDetectedInstall(true);
+
+            // TODO: Sort this shit out
             setEmail(null);
             setWakaKey(null);
             setWakaUsername(null);

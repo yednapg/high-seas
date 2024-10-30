@@ -66,6 +66,7 @@ export default function Harbor({
 }) {
   const [wakaUsername, setWakaUsername] = useState<string>();
   const [wakaKey, setWakaKey] = useState<string>();
+  const [hasWakaHb, setHasWakaHb] = useState<boolean>();
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
@@ -89,6 +90,7 @@ export default function Harbor({
     const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     setWakaKey(key);
     setWakaUsername(username);
+    setHasWakaHb(hasHb);
 
     // getUserShips(session.slackId).then(({ ships, shipChains }) => {
     //   console.log({ ships, shipChains });
@@ -218,37 +220,39 @@ export default function Harbor({
         </Tabs>
       </div>
 
-      <SetupModal
-        isOpen={
-          showWakaSetupModal &&
-          sessionStorage.getItem("tutorial") !== "true" &&
-          wakaKey &&
-          wakaUsername
-        }
-        close={() => {
-          setShowWakaSetupModal(false);
-          if (
-            !hasCompletedTutorial &&
-            sessionStorage.getItem("tutorial") !== "true"
-          ) {
-            console.warn("2 triggering tour");
-            tour();
+      {wakaUsername ? (
+        <SetupModal
+          isOpen={
+            showWakaSetupModal &&
+            sessionStorage.getItem("tutorial") !== "true" &&
+            wakaKey &&
+            wakaUsername
           }
-        }}
-        onHbDetect={() => {
-          setHasWakaHb(true);
-          setShowWakaSetupModal(false);
-          if (
-            !hasCompletedTutorial &&
-            sessionStorage.getItem("tutorial") !== "true"
-          ) {
-            console.warn("3 triggering tour");
-            tour();
-          }
-        }}
-        wakaKey={wakaKey}
-        wakaUsername={wakaUsername}
-      />
+          close={() => {
+            setShowWakaSetupModal(false);
+            if (
+              !hasCompletedTutorial &&
+              sessionStorage.getItem("tutorial") !== "true"
+            ) {
+              console.warn("2 triggering tour");
+              tour();
+            }
+          }}
+          onHbDetect={() => {
+            setHasWakaHb(true);
+            setShowWakaSetupModal(false);
+            if (
+              !hasCompletedTutorial &&
+              sessionStorage.getItem("tutorial") !== "true"
+            ) {
+              console.warn("3 triggering tour");
+              tour();
+            }
+          }}
+          wakaKey={wakaKey}
+          wakaUsername={wakaUsername}
+        />
+      ) : null}
     </>
   );
 }
