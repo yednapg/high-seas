@@ -58,7 +58,7 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
-          <p>
+          <p className="pt-4">
             In case you are worried about us installing malware on your computer
             (and rightly so! you should never trust a random script someone
             tells you to run) rest assured that the script{" "}
