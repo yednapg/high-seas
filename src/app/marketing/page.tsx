@@ -31,7 +31,7 @@ import EmailSubmissionForm from "./components/email-submission-form";
 import ScrollShop from "./components/ScrollShop.jsx";
 import ScrollShopReverse from "./components/ScrollShopReverse.jsx";
 
-export default async function Marketing() {
+export default function Marketing() {
   // const session = await getSession();
 
   return (

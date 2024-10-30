@@ -104,7 +104,13 @@ export default function EmailSubmissionForm() {
       {wakaKey && wakaUsername ? (
         <SetupModal
           isOpen={email && personRecordId}
-          close={() => setEmail(undefined)}
+          close={() => {
+            setDetectedInstall(true);
+            setEmail(null);
+            setWakaKey(null);
+            setWakaUsername(null);
+            markArrpheusReadyToInvite(personRecordId);
+          }}
           onHbDetect={() => {
             setDetectedInstall(true);
 
