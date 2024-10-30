@@ -561,7 +561,7 @@ export default async function Marketing() {
                     alt="hack clubbers!"
                     className="md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
                   />
-                  <p className="flex flex-col justify-center items-center text-center">
+                  <p className="flex flex-col justify-center items-center text-center mt-2">
                     Hack Clubbers at the Boreal Express Hackathon!
                   </p>
                 </div>
