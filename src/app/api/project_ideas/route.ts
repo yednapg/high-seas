@@ -97,7 +97,7 @@ const generateIdeas = async () => {
 
 const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) => {
   try {
-    await fetch('https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ideas', {
+    const result = await fetch('https://api.airtable.com/v0/appQ6GyueRp5jqc9Q/high_seas_project_ideas', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
@@ -108,7 +108,8 @@ const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) =
           model, prompt, idea
         }
       })
-    })
+    }).then(r => r.text())
+    console.log(result)
   } catch(e) {
     console.error(e)
     // this is just for caching a couple project ideas and it's non-critical if it fails
