@@ -28,7 +28,7 @@ export async function markAcademyComplete() {
   if (!session) throw new Error("Mark academy complete not worky! :(");
 
   const res = await fetch(
-    `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people`,
+    "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people",
     {
       method: "PATCH",
       headers: {
@@ -43,7 +43,7 @@ export async function markAcademyComplete() {
           },
         ],
       }),
-    },
+    }
   ).then((d) => d.json());
   console.log("RSNOTOESRNTESRNTITSRTF##33", res);
 }

@@ -7,12 +7,12 @@ import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
 import SignPost from "../signpost/signpost";
-import { SafePerson, safePerson } from "../../utils/airtable";
+import { type SafePerson, safePerson } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
-import { HsSession } from "@/app/utils/auth";
+import type { HsSession } from "@/app/utils/auth";
 import {
   Popover,
   PopoverTrigger,
@@ -37,7 +37,7 @@ const Balance = ({ balance }: { balance: number }) => {
         <div className="flex items-center gap-1">
           <img src="gp.png" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
           <span className="mr-2">
-            {isNaN(balance) ? (
+            {Number.isNaN(balance) ? (
               ""
             ) : (
               <>
@@ -70,7 +70,7 @@ export default function Harbor({
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
-    null,
+    null
   );
 
   const [personTicketBalance, setPersonTicketBalance] =
@@ -109,7 +109,7 @@ export default function Harbor({
 
       console.log("safeperson:", p);
       console.log(
-        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
+        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`
       );
 
       if (!hasHb) {
@@ -196,7 +196,7 @@ export default function Harbor({
                 <TabsTrigger key={tab.name} value={tab.path}>
                   {tab.name}
                 </TabsTrigger>
-              ),
+              )
             )}
             <div className="right-px absolute mr-px text-green-400 text-sm">
               <Balance balance={personTicketBalance} />
