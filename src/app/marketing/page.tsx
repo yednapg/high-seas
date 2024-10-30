@@ -1138,7 +1138,7 @@ const PrizeData = [
   //   image: "https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png",
   // },
   {
-    name: "Blahåj",
+    name: "Blahåj (friend)",
     doubloons: 1312,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
   },
