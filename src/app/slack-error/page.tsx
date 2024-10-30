@@ -27,7 +27,7 @@ export default function SlackAuthErrorPage({
           Going overboard!
         </h1>
         <p className="text-gray-600 mb-6 text-sm">
-          We're over capacity right now, but we got your request to join the crew– we'll reach out once we figure out how to keep this ship from capsizing.
+          We Arrrr over capacity right now, but we got your request to join the crew... we'll reach out once we figure out how to keep this ship from capsizing.
           {err || "An error occurred during Slack authentication."}
         </p>
 
