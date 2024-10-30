@@ -943,13 +943,13 @@ export default async function Marketing() {
       <header className="w-fit mx-auto flex flex-col items-center gap-4">
         <Image
           src={HighSeas}
-          alt="low skies"
+          alt="High Seas"
           style={{
             maxWidth: "100%",
             height: "auto",
           }}
         />
-        <h1 className="text-white text-2xl">Welcome to Low Skies</h1>
+        <h1 className="text-white text-2xl">Welcome to High Seas</h1>
       </header>
 
       <SignIn />

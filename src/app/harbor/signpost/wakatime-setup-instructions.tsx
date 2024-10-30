@@ -58,7 +58,7 @@ export default function WakatimeSetupInstructions({
           >
             <Card className="mt-3 p-2">
               <p>
-                Low Skies tracks your time spent coding, which factors into how
+                High Seas tracks your time spent coding, which factors into how
                 many
                 <Pill
                   msg="Doubloons"
@@ -87,7 +87,7 @@ export default function WakatimeSetupInstructions({
               </p>
               <br />
               <p>
-                Low Skies uses the WakaTime VSCode extension to track how much
+                High Seas uses the WakaTime VSCode extension to track how much
                 time you spend on your projects. Specifically,
                 <Link
                   target="_blank"
@@ -110,7 +110,7 @@ export default function WakatimeSetupInstructions({
                 </Link>
                 . Next, we need to edit the configuration file to put in our
                 WakaTime token (to identify you), and a custom URL (to tell the
-                extension to send the data it collects to Low Skies).
+                extension to send the data it collects to High Seas).
               </p>
               <br />
 
