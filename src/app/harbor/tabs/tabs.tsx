@@ -88,6 +88,11 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
+    const { username, key, hasHb } = JSON.parse(Cookies.get("waka")); //await getCookie("waka");
+    setWakaKey(key);
+    setWakaUsername(username);
+    setHasWakaHb(hasHb);
+
     // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     // setWakaKey(key);
     // setWakaUsername(username);
@@ -99,11 +104,6 @@ export default function Harbor({
     // });
 
     safePerson().then(async (p: SafePerson) => {
-      const { username, key, hasHb } = await getCookie("waka");
-      setWakaKey(key);
-      setWakaUsername(username);
-      setHasWakaHb(hasHb);
-
       setPersonTicketBalance(p.settledTickets);
       setHasCompletedTutorial(p.hasCompletedTutorial);
       // sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
@@ -115,9 +115,7 @@ export default function Harbor({
 
       if (!hasHb) {
         setShowWakaSetupModal(true);
-      }
-
-      if (!p.hasCompletedTutorial) {
+      } else if (!p.hasCompletedTutorial) {
         // sessionStorage.setItem("tutorial", "true");
         console.warn("1 triggering tour");
         tour();
@@ -226,39 +224,32 @@ export default function Harbor({
         </Tabs>
       </div>
 
-      {wakaUsername ? (
-        <SetupModal
-          isOpen={
-            showWakaSetupModal &&
-            sessionStorage.getItem("tutorial") !== "true" &&
-            wakaKey &&
-            wakaUsername
+      <SetupModal
+        isOpen={
+          showWakaSetupModal && sessionStorage.getItem("tutorial") !== "true"
+        }
+        close={() => {
+          setShowWakaSetupModal(false);
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
+            console.warn("2 triggering tour");
+            tour();
           }
-          close={() => {
-            setShowWakaSetupModal(false);
-            if (
-              !hasCompletedTutorial &&
-              sessionStorage.getItem("tutorial") !== "true"
-            ) {
-              console.warn("2 triggering tour");
-              tour();
-            }
-          }}
-          onHbDetect={() => {
-            setHasWakaHb(true);
-            setShowWakaSetupModal(false);
-            if (
-              !hasCompletedTutorial &&
-              sessionStorage.getItem("tutorial") !== "true"
-            ) {
-              console.warn("3 triggering tour");
-              tour();
-            }
-          }}
-          wakaKey={wakaKey}
-          wakaUsername={wakaUsername}
-        />
-      ) : null}
+        }}
+        onHbDetect={() => {
+          setHasWakaHb(true);
+          setShowWakaSetupModal(false);
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
+            console.warn("3 triggering tour");
+            tour();
+          }
+        }}
+      />
     </>
   );
 }

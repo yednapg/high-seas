@@ -126,7 +126,6 @@ export async function person(): Promise<any> {
 
 //#region Wakatime
 export async function hasHbData(username: string): Promise<boolean> {
-  console.log("aorsntoeiarsnti", process.env.WAKA_API_KEY);
   const res = await fetch(
     `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(username)}`,
     {
