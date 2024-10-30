@@ -48,9 +48,9 @@ export default function SignPost({ session }: { session: any }) {
       <h1 className="font-heading text-5xl font-bold text-white mb-6 text-center">
         The Signpost
       </h1>
-      <Verification status={verification} reason={reason} />
+        <Verification status={verification} reason={reason} />
 
-      {signpostUpdates
+        {signpostUpdates
         ? signpostUpdates.map(
             (update: any, index: number) =>
               update.visible && (
