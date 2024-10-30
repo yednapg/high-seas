@@ -53,7 +53,8 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
-  if (sessionStorage.getItem("tutorial") !== "true") return;
+  console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
+  sessionStorage.setItem("tutorial", "true");
 
   if (!hasSetUp) {
     setupSteps(t);

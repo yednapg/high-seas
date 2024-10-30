@@ -27,6 +27,7 @@ import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
 
 import EmailSubmissionForm from "./components/email-submission-form";
+import ScrollShop from "./components/ScrollShop.jsx"
 
 export default async function Marketing() {
   const session = await getSession();
@@ -79,9 +80,18 @@ export default async function Marketing() {
                   <EmailSubmissionForm />
                 )}
               </div>
-
-              <p className="mt-2 text-white px-4 py-2 rounded-lg italic relative z-30 drop-shadow-xl text-md md:text-xl">
-                Free stickers to all new recruits!
+              <p
+                className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg"
+                style={{
+                  backgroundImage: "url(/floorboard.svg)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundColor: "rgba(0, 0, 0, 1)",
+                  mixBlendMode: "hard-light",
+                  transform: "rotate(-2deg)",
+                }}
+              >
+                New sailors get free stickers!
               </p>
             </div>
             <Link href="#howthisworks">
@@ -124,7 +134,6 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-
         <div className="py-24" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
             <p className="text-5xl text-center">How this works:</p>
@@ -243,7 +252,10 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="my-24">
+          <div className="mb-24 mt-16">
+            <div className="-rotate-6 mb-8">
+              <ScrollShop />
+            </div>
             <div className="flex justify-center items-center mb-5">
               <p className="text-5xl text-center mt-12">
                 Last time we did this...
@@ -263,7 +275,7 @@ export default async function Marketing() {
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                   <div className="relative text-center">
-                    <p className="text-7xl mb-2">4,000+</p>
+                    <p className="text-7xl mb-2">5,000</p>
                     <p className="text-xl">high schoolers participated</p>
                   </div>
                 </div>
@@ -287,7 +299,7 @@ export default async function Marketing() {
                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                   />
                   <div className="relative text-center">
-                    <p className="text-7xl mb-2">11,111+</p>
+                    <p className="text-7xl mb-2">11,112</p>
                     <p className="text-xl">
                       total prizes shipped to 119 countries
                     </p>
@@ -362,18 +374,34 @@ export default async function Marketing() {
 
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-2">
-                {"Prizes to power up your next project!"}
+              <p className="text-5xl text-center mb-4">
+                Prizes to{" "}
+                <span
+                  className="pb-2 px-4 rounded-md"
+                  style={{
+                    backgroundImage: "url(/floorboard.svg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  power up
+                </span>{" "}
+                your next project!
               </p>
-              <p className="text-xl text-center">
-                Redeem these with your Doubloons! For high schoolers (or
-                younger) only.
-              </p>
+              <div className="flex flex-row justify-center">
+                <p className="text-xl text-center">
+                  Redeem these with your{" "}
+                  <span className="inline-flex items-center align-middle">
+                    <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                  </span>
+                  Doubloons! For high schoolers (or younger) only.
+                </p>
+              </div>
             </div>
             <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
               <Prizes />
             </div>
-            <div className="flex flex-col justify-center items-center mt-8 m-10">
+            <div className="flex flex-col justify-center items-center mt-4 m-10">
               {/*<div className="bg-blue-500 rounded-md p-4 px-16 pop mb-2">
               <p className="text-3xl text-center">
                 Get the full list of items when you sign in!
@@ -389,7 +417,11 @@ export default async function Marketing() {
           <div className="my-24">
             <div className="flex justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mx-4">
-                Check out what others are building!
+                What will <span className="px-4 pb-2 rounded-md" style={{
+                        backgroundImage: "url(/floorboard.svg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}>you</span> make this winter?
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
@@ -488,7 +520,8 @@ export default async function Marketing() {
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Or click the dino for ideas!</p>
                   <p className="text-lg mt-2">
-                    She's not super smart, but she'll try her best- pirates' honor!
+                    She's not super smart, but she'll try her best- pirates'
+                    honor!
                   </p>
                   <IdeaGenerator />
                 </div>
@@ -499,8 +532,19 @@ export default async function Marketing() {
           <div className="bg-black bg-opacity-50 py-12 my-12">
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
-                <p className="text-5xl sm:text-6xl md:text-6xl mt-0 mx-4 text-white">
-                  Join a community<br className="inline lg:hidden"></br> of makers
+                <p className="text-5xl mt-12 mx-5 text-white">
+                  Join a{" "}
+                  <span
+                    className="pb-2 px-4 rounded-md"
+                    style={{
+                      backgroundImage: "url(/floorboard.svg)",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    community
+                  </span>{" "}
+                  of makers
                 </p>
               </div>
             </div>
@@ -513,7 +557,7 @@ export default async function Marketing() {
                     alt="hack clubbers!"
                     className="max-w-[360px] sm:max-w-[420px] md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
                   />
-                  <p className="flex flex-col justify-center items-center text-center text-sm sm:text-lg mt-1">
+                  <p className="flex flex-col justify-center items-center text-center mt-2">
                     Hack Clubbers at the Boreal Express Hackathon!
                   </p>
                 </div>
@@ -632,10 +676,17 @@ export default async function Marketing() {
                 </div>
               </div>
 
-              <div className="my-12 mt-20">
+              <div className="mb-12 mt-12">
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
-                    <div className="bg-blue-500 rounded-3xl p-2 max-w-2xl pop">
+                    <div
+                      className="rounded-md p-2 max-w-2xl pop"
+                      style={{
+                        backgroundImage: "url(/floorboard.svg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
                       <Link
                         href="https://scrapbook.hackclub.com/"
                         target="_blank"
@@ -659,7 +710,7 @@ export default async function Marketing() {
           <div className="flex justify-center items-center mb-5">
             <p className="text-5xl text-center mt-12">FAQ</p>
           </div>
-          <div>
+          <div className="">
             <Faq />
           </div>
         </div>
@@ -698,10 +749,10 @@ export default async function Marketing() {
             .
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
-            Hack Club is a registered 501(c)3 nonprofit organization that
-            supports a network of 20k+ technical high schoolers. We believe you
-            learn best by building so we{"'"}re creating community and providing
-            grants so you can make. In the past few years, we{"'"}ve{" "}
+            Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical high
+            schoolers. We believe you learn best by building so we{"'"}re creating
+            community and providing grants so you can make awesome projects. In the
+            past few years, we{"'"}ve{" "}
             <Link
               href="https://hackclub.com/arcade/"
               target="_blank"
@@ -920,7 +971,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "How many projects can I build?",
-    answer: `All the projects! The land's the limit!`,
+    answer: `All the projects! The land's the limit! (But seriously, you could build as many as you want.)`,
   },
   {
     question: "I need help!",
@@ -983,7 +1034,7 @@ interface PrizeProps {
 
 const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
   return (
-    <div className="relative overflow-hidden p-6 rounded-lg m-4 pop">
+    <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
         src="/howtobacks.svg"
         alt="card backs"
@@ -995,19 +1046,36 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
           src="/divider.svg"
           className="w-full object-cover absolute mt-2 opacity-60"
         />
+        {/*}
         <p className="mt-4 text-xl text-center">{doubloons} doubloons</p>
+        <img src="/doubloon.svg" className="w-12 h-12"/>
         <img
           src="/divider.svg"
           className="w-full object-cover absolute opacity-60"
-        />
-        <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center items-center">
-          <Image
-            src={image}
-            alt="Shop item"
-            className="w-full h-auto"
-            width="500"
-            height="500"
-          />
+        /> */}
+        <div className="relative">
+          <div className="w-72 h-72 my-4 rounded-sm flex flex-col justify-center items-center">
+            <Image
+              src={image}
+              alt="Shop item"
+              className="w-full h-auto"
+              width="300"
+              height="300"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="absolute bg-purple-800 rotate-12 -right-2 top-0 p-1 px-4 rounded-sm"
+        style={{
+          backgroundImage: "url(/floorboard.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex flex-row gap-2">
+          <img src="/doubloon.svg" className="w-7 h-8" />
+          <p className="text-2xl">{doubloons}</p>
         </div>
       </div>
     </div>
@@ -1067,7 +1135,7 @@ const PrizeData = [
   //   image: "https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png",
   // },
   {
-    name: "Blahåj",
+    name: "Blahåj (friend)",
     doubloons: 1312,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
   },
