@@ -59,7 +59,7 @@ export default function EmailSubmissionForm() {
           />
           <Button
             // disabled={buttonDisabled}
-            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-blues rounded-md text-white"
+            className="px-6 py-2 text-2xl h-full disabled:opacity-50 bg-blues rounded-md text-white pop"
           >
             Get started <Icon glyph="enter" />
           </Button>
