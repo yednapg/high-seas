@@ -27,6 +27,7 @@ import JaggedCard from "@/components/jagged-card";
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
   const brokeMessage = useMemo(() => sample(zeroMessage), []);
+
   return (
     <Popover open={open && balance == 0} onOpenChange={setOpen}>
       <PopoverTrigger
@@ -35,8 +36,13 @@ const Balance = ({ balance }: { balance: number }) => {
         onMouseLeave={() => setOpen(false)}
       >
         <div className="flex items-center gap-1">
-          <img src="doubloon.svg" alt="doubloons" width={24} height={24} />
-          <span className="mr-2">{Math.floor(balance)} Doubloons</span>
+          <img src="gp.png" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
+          <span className="mr-2">
+            {isNaN(balance) ? '' : (<>
+              {Math.floor(balance)}
+              <span className="sm:inline hidden"> Doubloons</span>
+            </>)}
+          </span>
         </div>
       </PopoverTrigger>
       <PopoverContent>

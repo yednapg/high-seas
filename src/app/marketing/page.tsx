@@ -53,15 +53,15 @@ export default async function Marketing() {
         </div> */}
 
         <div className="relative h-screen flex items-center justify-center">
-          <div className="flex flex-col justify-center items-center text-center">
-            <div className=" flex flex-col justify-center items-center mb-20">
+          <div className="flex flex-col justify-center items-center text-center mt-20 xl:mt-10">
+            <div className=" flex flex-col justify-center items-center mb-10 lg:mb-20">
               <img
                 src="/highlogo.svg"
                 alt="high seas logo"
-                className="xl:max-w-3xl md:max-w-xl max-w-sm"
+                className="xl:max-w-xl md:max-w-lg sm:max-w-sm max-w-xs"
               />
-              <p className="text-2xl md:text-4xl text-white mx-8 drop-shadow-lg">
-                Build personal projects. Get free stuff.
+              <p className="text-3xl sm:text-3xl md:text-4xl text-white mx-2 drop-shadow-lg">
+                Build personal projects.<br className="inline sm:hidden"></br> Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
                 {session ? (
@@ -81,7 +81,7 @@ export default async function Marketing() {
                 )}
               </div>
               <p
-                className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg"
+                className="mt-4 text-white bg-opacity-50 px-4 py-2 rounded-lg"
                 style={{
                   backgroundImage: "url(/floorboard.svg)",
                   backgroundSize: "cover",
@@ -91,7 +91,7 @@ export default async function Marketing() {
                   transform: "rotate(-2deg)",
                 }}
               >
-                New sailors get free stickers!
+                Free stickers for all new recruits!
               </p>
             </div>
             <Link href="#howthisworks">
@@ -102,11 +102,7 @@ export default async function Marketing() {
             </Link>
 
             <div className="text-[#214495]">
-              <p className="text-lg mx-10">
-                In High Seas, code projects and get free hardware like Raspberry
-                Pis, 3D Printers, and iPads.
-              </p>
-              <p className="text-lg mb-10 mx-10">
+              <p className="text-md md:text-lg lg:text-lg mb-10 mx-2">
                 By{" "}
                 <Link
                   href="https://hackclub.com"
@@ -125,8 +121,8 @@ export default async function Marketing() {
                 >
                   GitHub
                 </Link>
-                . For teenagers 18 and under. Starts October 30. Ends January
-                31.
+                .<br className="inline lg:hidden"></br> For teenagers 18 and under.<br className="inline lg:hidden"></br> October 30th to January
+                31st.
               </p>
             </div>
 
@@ -559,7 +555,7 @@ export default async function Marketing() {
                   <img
                     src="/pictures/pic7.png"
                     alt="hack clubbers!"
-                    className="md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
+                    className="max-w-[360px] sm:max-w-[420px] md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
                   />
                   <p className="flex flex-col justify-center items-center text-center mt-2">
                     Hack Clubbers at the Boreal Express Hackathon!
@@ -567,8 +563,9 @@ export default async function Marketing() {
                 </div>
 
                 <iframe
-                  width="640"
-                  height="360"
+                  className="w-[360px] h-[260px] sm:w-[420px] sm:h-[300px] md:w-[500px] md:h-[360px]"
+                  // width="640"
+                  // height="360"
                   src="https://www.youtube.com/embed/hiG3fYq3xUU"
                 ></iframe>
               </div>
