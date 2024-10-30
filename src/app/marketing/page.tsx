@@ -256,7 +256,7 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="mb-24 mt-16">
+          <div className="mb-24 mt-16 overflow-hidden">
             <div className="-rotate-6 mb-8">
               <ScrollShop />
             </div>
