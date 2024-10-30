@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, buttonVariants } from "./ui/button";
-import Link from "next/link";
 
 export default function SignOut() {
   const handleOnClick = () => {

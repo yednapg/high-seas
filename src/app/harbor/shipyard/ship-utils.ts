@@ -2,7 +2,9 @@
 
 import { getSelfPerson } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
+import { fetchShips } from "@/app/utils/data";
 import { getWakaSessions } from "@/app/utils/waka";
+import type { Ship } from "@/app/utils/data";
 import Airtable from "airtable";
 
 const peopleTableName = "people";
@@ -15,31 +17,6 @@ const base = () => {
   return Airtable.base(baseId);
 };
 
-type ShipType = "project" | "update";
-type ShipStatus = "shipped" | "staged" | "deleted";
-export interface Ship {
-  id: string; // The Airtable row's ID.
-  title: string;
-  repoUrl: string;
-  deploymentUrl?: string;
-  readmeUrl: string;
-  screenshotUrl: string;
-  // doubloonsPaid?: number;
-  matchups_count: number;
-  hours: number | null;
-  credited_hours: number | null;
-  total_hours: number | null;
-  voteRequirementMet: boolean;
-  doubloonPayout: number;
-  shipType: ShipType;
-  shipStatus: ShipStatus;
-  wakatimeProjectNames: string[];
-  createdTime: string;
-  updateDescription: string | null;
-  reshippedFromId: string | null;
-  reshippedToId: string | null;
-  paidOut: boolean;
-}
 const shipToFields = (ship: Ship, entrantId: string) => ({
   // Think of this as `impl Clone`. Only include the fields you want in a cloned Ship.
   title: ship.title,
@@ -53,6 +30,7 @@ const shipToFields = (ship: Ship, entrantId: string) => ({
   wakatime_project_name: ship.wakatimeProjectNames.join("$$xXseparatorXx$$"),
 });
 
+//@malted: Deprecated - do not use. Middleware now populates the 'ships' cookie.
 export async function getUserShips(
   slackId: string,
 ): Promise<{ ships: Ship[]; shipChains: Map<string, string[]> }> {
@@ -219,7 +197,7 @@ export async function getUserShips(
   return { ships, shipChains };
 }
 
-export async function createShip(formData: FormData) {
+export async function createShip(formData: FormData, isTutorial: boolean) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
@@ -250,6 +228,7 @@ export async function createShip(formData: FormData) {
             ? formData.get("updateDescription")
             : null,
           wakatime_project_name: formData.get("wakatime_project_name"),
+          project_source: isTutorial ? "tutorial" : "high_seas",
         },
       },
     ],
@@ -277,7 +256,7 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const { ships } = await getUserShips(slackId);
+  const ships = await fetchShips(session.personId);
 
   const reshippedFromShip = ships.find(
     (ship: Ship) => ship.id === dangerousReshippedFromShipId,
@@ -382,32 +361,38 @@ export async function stagedToShipped(ship: Ship) {
     throw error;
   }
 
-  let credited_hours;
-  if (ship.wakatimeProjectName) {
-    const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
-    credited_hours =
-      wakatimeProjects.find(
-        ({ key }: { key: string }) => key === ship.wakatimeProjectName,
-      ).total /
-      60 /
-      60;
-  }
+  const isTutorial = sessionStorage.getItem("tutorial") === "true";
 
-  base()(shipsTableName).update(
-    [
-      {
-        id: ship.id,
-        fields: {
-          ship_status: "shipped",
-          credited_hours,
-          ship_time: new Date().toISOString(),
+  if (!isTutorial) {
+    return;
+  } else {
+    let credited_hours;
+    if (ship.wakatimeProjectName) {
+      const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
+      credited_hours =
+        wakatimeProjects.find(
+          ({ key }: { key: string }) => key === ship.wakatimeProjectName,
+        ).total /
+        60 /
+        60;
+    }
+
+    base()(shipsTableName).update(
+      [
+        {
+          id: ship.id,
+          fields: {
+            ship_status: "shipped",
+            credited_hours,
+            ship_time: new Date().toISOString(),
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) console.error(err);
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err);
-    },
-  );
+    );
+  }
 }
 
 export async function deleteShip(shipId: string) {

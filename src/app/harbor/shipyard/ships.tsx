@@ -228,7 +228,7 @@ export default function Ships({
         </div>
       )}
 
-      <div className="w-full">
+      <div className="w-full relative">
         {shippedShips.length > 0 ? (
           <div className={`space-y-4 ${bareShips ? "" : "mt-8"}`}>
             {bareShips ? null : (

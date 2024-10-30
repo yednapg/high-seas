@@ -5,7 +5,8 @@ import "./globals.css";
 import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
 
-import Analytics from "@/components/analytics";
+import { Analytics } from "@vercel/analytics/react";
+import Fullstory from "@/components/fullstory";
 
 const mainFont = localFont({
   src: "../../public/fonts/arialroundedmtbold.ttf",
@@ -51,8 +52,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="High Seas" />
         <link rel="manifest" href="/favicons/site.webmanifest" />
         <Nav />
-        <main className="pt-14">{children}</main>
+        <main>{children}</main>
         <Analytics />
+        <Fullstory />
         <SpeedInsights />
         <Toaster />
       </body>

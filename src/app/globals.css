@@ -23,6 +23,10 @@ main {
     font-family: var(--font-main);
 }
 
+input {
+    color: black;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

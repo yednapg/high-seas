@@ -21,7 +21,7 @@ const WakaLock = ({ wakaOverride, wakaToken, tabName }) => {
     <div className="text-white flex flex-col items-center mx-auto w-full max-w-2xl max-h-[80vh] overflow-y-auto text-left p-4">
       <Icon glyph="private-outline" width={64} height={64} />
 
-      <p>Waiting for Hackatime install...</p>
+      <p>Waiting for Hakatime install...</p>
 
       {showAllPlatforms ? (
         <>

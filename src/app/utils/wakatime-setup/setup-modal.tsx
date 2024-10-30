@@ -5,13 +5,13 @@ import Platforms from "./platforms";
 import Modal from "../../../components/ui/modal";
 
 /**
- * Modal component that guides users through the Hackatime setup process.
+ * Modal component that guides users through the Hakatime setup process.
  *
  * @component
  * @param props - Component props
  * @param props.isOpen - Controls the visibility state of the modal
  * @param props.close - Callback function to close the modal
- * @param props.onHbDetect - Optional callback that runs when Hackatime heartbeat data is detected.
+ * @param props.onHbDetect - Optional callback that runs when Hakatime heartbeat data is detected.
  *                          If provided, the component will perform heartbeat checks.
  *                          If not provided, heartbeat checks are disabled.
  * @returns React component
@@ -34,7 +34,7 @@ export default function SetupModal({
   close,
   onHbDetect,
 }: {
-  isOpen: boolean;
+  isOpen: any;
   close: () => void;
   onHbDetect: (() => any) | undefined;
 }) {
