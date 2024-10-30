@@ -79,7 +79,15 @@ export default async function Marketing() {
                   <EmailSubmissionForm />
                 )}
               </div>
-              <p className="mt-2 text-white bg-[#3852CD] bg-opacity-50 px-4 py-2 rounded-lg">
+              <p className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg" 
+              style={{
+                backgroundImage: 'url(/floorboard.svg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 1)',
+                mixBlendMode: 'hard-light', 
+                transform: 'rotate(-2deg)',
+              }}>
                 New sailors get free stickers!
               </p>
             </div>
