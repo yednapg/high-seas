@@ -69,7 +69,7 @@ export default function SignPost({
         {wakaToken ? (
           <Platforms wakaKey={wakaToken} />
         ) : (
-          <p>Loading Hackatime token...</p>
+          <p>Loading Hakatime token...</p>
         )}
       </JaggedCard>
 
