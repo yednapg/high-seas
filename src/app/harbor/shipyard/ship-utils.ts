@@ -15,30 +15,6 @@ const base = () => {
   return Airtable.base(baseId);
 };
 
-type ShipType = "project" | "update";
-type ShipStatus = "shipped" | "staged" | "deleted";
-export interface Ship {
-  id: string; // The Airtable row's ID.
-  title: string;
-  repoUrl: string;
-  deploymentUrl?: string;
-  readmeUrl: string;
-  screenshotUrl: string;
-  // doubloonsPaid?: number;
-  matchups_count: number;
-  hours: number | null;
-  credited_hours: number | null;
-  total_hours: number | null;
-  voteRequirementMet: boolean;
-  doubloonPayout: number;
-  shipType: ShipType;
-  shipStatus: ShipStatus;
-  wakatimeProjectNames: string[];
-  createdTime: string;
-  updateDescription: string | null;
-  reshippedFromId: string | null;
-  reshippedToId: string | null;
-}
 const shipToFields = (ship: Ship, entrantId: string) => ({
   // Think of this as `impl Clone`. Only include the fields you want in a cloned Ship.
   title: ship.title,
@@ -52,8 +28,9 @@ const shipToFields = (ship: Ship, entrantId: string) => ({
   wakatime_project_name: ship.wakatimeProjectNames.join("$$xXseparatorXx$$"),
 });
 
+//@malted: Deprecated - do not use. Middleware now populates the 'ships' cookie.
 export async function getUserShips(
-  slackId: string
+  slackId: string,
 ): Promise<{ ships: Ship[]; shipChains: Map<string, string[]> }> {
   const ships: Ship[] = [];
 
@@ -78,7 +55,7 @@ export async function getUserShips(
 
   const hoursForProject = (wakatimeProjectName: string): number | null => {
     const seconds = wakaData.projects.find(
-      (p: { key: string; total: number }) => p.key == wakatimeProjectName
+      (p: { key: string; total: number }) => p.key == wakatimeProjectName,
     )?.total;
     if (!seconds) return null;
     return Math.round(seconds / 60 / 6) / 10;
@@ -137,7 +114,7 @@ export async function getUserShips(
     // 1. Contains this Wakatime project name
     // 2. Has no reshippedFromId
     const rootShip = ships.find(
-      (s) => s.wakatimeProjectNames.includes(wpn) && !s.reshippedFromId
+      (s) => s.wakatimeProjectNames.includes(wpn) && !s.reshippedFromId,
     );
     console.info(`Step 2: rootShip for ${wpn}: "${rootShip?.title}"`);
 
@@ -145,12 +122,12 @@ export async function getUserShips(
       const chain = [rootShip.id];
 
       let nextShip: Ship | undefined = ships.find(
-        (s) => s.id === rootShip.reshippedToId
+        (s) => s.id === rootShip.reshippedToId,
       );
       while (nextShip) {
         if (chain.length >= 10_000) {
           const err = new Error(
-            `Ship chain max got too long (rootshipId: ${rootShip.id})`
+            `Ship chain max got too long (rootshipId: ${rootShip.id})`,
           );
           console.error(err);
           throw err;
@@ -158,7 +135,7 @@ export async function getUserShips(
 
         if (nextShip.shipType === "project") {
           const err = new Error(
-            `There's a project ship (${nextShip.id}) in the middle of (rootshipId: ${rootShip.id}) ship chain!`
+            `There's a project ship (${nextShip.id}) in the middle of (rootshipId: ${rootShip.id}) ship chain!`,
           );
           console.error(err);
           throw err;
@@ -166,7 +143,7 @@ export async function getUserShips(
 
         if (chain.includes(nextShip.id)) {
           const err = new Error(
-            `Circular ship chain reference detected in (rootshipId: ${rootShip.id}) ship chain (${nextShip.id} was detected twice)`
+            `Circular ship chain reference detected in (rootshipId: ${rootShip.id}) ship chain (${nextShip.id} was detected twice)`,
           );
           console.error(err);
           throw err;
@@ -200,10 +177,10 @@ export async function getUserShips(
         .filter(
           (s) =>
             s.wakatimeProjectNames.some((wpn) =>
-              ship.wakatimeProjectNames.includes(wpn)
+              ship.wakatimeProjectNames.includes(wpn),
             ) &&
             s.shipStatus === "shipped" &&
-            s.id !== ship.id
+            s.id !== ship.id,
         )
         .reduce((acc, s) => acc + (s.total_hours ?? 0), 0);
 
@@ -220,7 +197,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session"
+      "Tried to submit a ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
@@ -253,19 +230,19 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    }
+    },
   );
 }
 
 // @malted: I'm confident this is secure.
 export async function createShipUpdate(
   dangerousReshippedFromShipId: string,
-  formData: FormData
+  formData: FormData,
 ) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session"
+      "Tried to submit a ship with no Slack OAuth session",
     );
     console.error(error);
     throw error;
@@ -278,7 +255,7 @@ export async function createShipUpdate(
   const { ships } = await getUserShips(slackId);
 
   const reshippedFromShip = ships.find(
-    (ship: Ship) => ship.id === dangerousReshippedFromShipId
+    (ship: Ship) => ship.id === dangerousReshippedFromShipId,
   );
   if (!reshippedFromShip) {
     const error = new Error("Invalid reshippedFromShipId!");
@@ -315,7 +292,7 @@ export async function createShipUpdate(
         // Step 2
         if (records.length !== 1) {
           const error = new Error(
-            "createShipUpdate: step 1 created records result length is not 1"
+            "createShipUpdate: step 1 created records result length is not 1",
           );
           console.error(error);
           throw error;
@@ -335,7 +312,7 @@ export async function createShipUpdate(
       } else {
         console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
       }
-    }
+    },
   );
 }
 
@@ -343,7 +320,7 @@ export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to stage a ship with no Slack OAuth session"
+      "Tried to stage a ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
@@ -366,7 +343,7 @@ export async function updateShip(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    }
+    },
   );
 }
 
@@ -374,7 +351,7 @@ export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to ship a staged ship with no Slack OAuth session"
+      "Tried to ship a staged ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
@@ -390,7 +367,7 @@ export async function stagedToShipped(ship: Ship) {
       const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
       credited_hours =
         wakatimeProjects.find(
-          ({ key }: { key: string }) => key === ship.wakatimeProjectName
+          ({ key }: { key: string }) => key === ship.wakatimeProjectName,
         ).total /
         60 /
         60;
@@ -409,7 +386,7 @@ export async function stagedToShipped(ship: Ship) {
       ],
       (err: Error, records: any) => {
         if (err) console.error(err);
-      }
+      },
     );
   }
 }
@@ -418,7 +395,7 @@ export async function deleteShip(shipId: string) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to delete a ship with no Slack OAuth session"
+      "Tried to delete a ship with no Slack OAuth session",
     );
     console.log(error);
     throw error;
@@ -435,6 +412,6 @@ export async function deleteShip(shipId: string) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    }
+    },
   );
 }

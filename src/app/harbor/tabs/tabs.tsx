@@ -6,7 +6,6 @@ import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
-import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { waka } from "../../utils/waka";
 import { SafePerson, safePerson } from "../../utils/airtable";
@@ -56,7 +55,6 @@ export default function Harbor({
   session: HsSession;
 }) {
   // All the content management for all the tabs goes here.
-  const [myShips, setMyShips] = useLocalStorageState("cache.myShips", null);
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
     null,
@@ -84,11 +82,13 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    getUserShips(session.slackId).then(({ ships, shipChains }) => {
-      console.log({ ships, shipChains });
-      setMyShips(ships);
-      setMyShipChains(shipChains);
-    });
+    // const shipCookie = JSON.parse(cookies().get("ships").value);
+    // setMyShips();
+
+    // getUserShips(session.slackId).then(({ ships, shipChains }) => {
+    //   console.log({ ships, shipChains });
+    //   setMyShipChains(shipChains);
+    // });
 
     safePerson().then(async (p: SafePerson) => {
       setPersonTicketBalance(p.settledTickets);
@@ -123,11 +123,11 @@ export default function Harbor({
   }, []);
 
   // Keep ships and shipChain in sync
-  useEffect(() => {
-    getUserShips(session.slackId).then(({ shipChains }) =>
-      setMyShipChains(shipChains),
-    );
-  }, [myShips]);
+  // useEffect(() => {
+  //   getUserShips(session.slackId).then(({ shipChains }) =>
+  //     setMyShipChains(shipChains),
+  //   );
+  // }, [myShips]);
 
   const tabs = [
     {
@@ -144,14 +144,7 @@ export default function Harbor({
     {
       name: "Shipyard",
       path: "shipyard",
-      component: (
-        <Shipyard
-          session={session}
-          ships={myShips}
-          shipChains={myShipChains}
-          setShips={setMyShips}
-        />
-      ),
+      component: <Shipyard session={session} shipChains={myShipChains} />,
       lockOnNoHb: true,
     },
     {
