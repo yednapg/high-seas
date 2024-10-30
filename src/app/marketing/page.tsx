@@ -1047,7 +1047,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "I need help!",
-    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-seas-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
     question: "Does school work or a job count?",
