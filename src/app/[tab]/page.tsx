@@ -15,7 +15,7 @@ export default function Page({
   params: { tab: string };
   searchParams: any;
 }) {
-  const [session, setSession] = useLocalStorageState('cache.session', null);
+  const [session, setSession] = useLocalStorageState('cache.session',{});
 
   useEffect(() => {
     getSession().then((s) => {
