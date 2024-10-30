@@ -53,7 +53,8 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
-  if (sessionStorage.getItem("tutorial") !== "true") return;
+  console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
+  sessionStorage.setItem("tutorial", "true");
 
   if (!hasSetUp) {
     setupSteps(t);
@@ -484,7 +485,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-signpost",
-      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have HackaTime installed!",
+      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have Hakatime installed!",
       buttons: [
         {
           text: "Great!",

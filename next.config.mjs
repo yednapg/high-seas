@@ -13,14 +13,6 @@ const nextConfig = {
       { protocol: "https", hostname: "**" },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/donate',
-        destination: 'https://hackclub.github.io/high-seas-donate/',
-      },
-    ];
-  },
 };
 
 export default nextConfig;

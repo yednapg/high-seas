@@ -18,7 +18,7 @@ const getVerificationMessage = (status: string, reason: string) => {
       return {
         color: "yellow",
         message:
-          "Hang tight, we're still reviewing your verification documents! Don't worry, it usually takes less than day. In the meantime, get hacking! Your hours still count as long as you've installed Hackatime.",
+          "Hang tight, we're still reviewing your verification documents! Don't worry, it usually takes less than day. In the meantime, get hacking! Your hours still count as long as you've installed Hakatime.",
       };
     case "Insufficient":
       return {

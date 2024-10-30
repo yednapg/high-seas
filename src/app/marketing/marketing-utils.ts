@@ -4,6 +4,8 @@ import Airtable from "airtable";
 import { createWaka } from "../utils/waka";
 import { getSession } from "../utils/auth";
 
+import { sendInviteJob } from "./invite-job.js";
+
 const highSeasPeopleTable = () => {
   const highSeasBaseId = process.env.BASE_ID;
   if (!highSeasBaseId) throw new Error("No Base ID env var set");
@@ -13,52 +15,18 @@ const highSeasPeopleTable = () => {
 export async function handleEmailSubmission(
   email: string,
   isMobile: boolean,
+  userAgent: string,
 ): Promise<{
   username: string;
   key: string;
   personRecordId: string;
 } | null> {
+
   if (!email) throw new Error("No email supplied to handleEmailSubmission");
+  if (!userAgent) throw new Error("No user agent supplied to handleEmailSubmission");
 
-  // Look up email
-  const records = await highSeasPeopleTable()
-    .select({
-      filterByFormula: `{email} = '${email}'`,
-      maxRecords: 1,
-    })
-    .all();
-
-  console.log("[marketing-utils::handleEmailSubmission]", records);
-  if (records.length > 0) {
-    // This is not ideal. People will be able to tell if someone has signed up.
-    return null;
-  }
-  console.log("handleEmailSubmission Step 1:", records[0]);
-
-  const ip = headers().get("x-forwarded-for");
-
-  // Create row in Slack Join Requests base (high seas table)
-  await new Promise((resolve, reject) => {
-    Airtable.base("appaqcJtn33vb59Au")("tblQORJfOQcm4CoWn").create(
-      [
-        {
-          fields: {
-            Email: email,
-            "Form Submission IP": ip,
-          },
-        },
-      ],
-      (err: Error, records: any) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          console.log("handleEmailSubmission Step 2:", records);
-          resolve(null);
-        }
-      },
-    );
-  });
+  const ipAddress = headers().get("x-forwarded-for");
+  await sendInviteJob({ email, ipAddress, userAgent })
 
   // Create HackaTime user
   const session = await getSession();
@@ -88,7 +56,7 @@ export async function handleEmailSubmission(
         {
           fields: {
             email,
-            ip_address: ip,
+            ip_address: ipAddress,
             email_submitted_on_mobile: isMobile,
             wakatime_username: username,
           },
@@ -115,6 +83,7 @@ export async function handleEmailSubmission(
       },
     );
   });
+
   console.log("handleEmailSubmission Step 3:", personRecordId);
 
   return {
