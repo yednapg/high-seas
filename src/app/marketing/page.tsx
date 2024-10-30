@@ -27,6 +27,7 @@ import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
 
 import EmailSubmissionForm from "./components/email-submission-form";
+import ScrollShop from "./components/ScrollShop.jsx"
 
 export default async function Marketing() {
   const session = await getSession();
@@ -79,15 +80,17 @@ export default async function Marketing() {
                   <EmailSubmissionForm />
                 )}
               </div>
-              <p className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg" 
-              style={{
-                backgroundImage: 'url(/floorboard.svg)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 1)',
-                mixBlendMode: 'hard-light', 
-                transform: 'rotate(-2deg)',
-              }}>
+              <p
+                className="mt-2 text-white bg-opacity-50 px-4 py-2 rounded-lg"
+                style={{
+                  backgroundImage: "url(/floorboard.svg)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundColor: "rgba(0, 0, 0, 1)",
+                  mixBlendMode: "hard-light",
+                  transform: "rotate(-2deg)",
+                }}
+              >
                 New sailors get free stickers!
               </p>
             </div>
@@ -135,7 +138,6 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-
         <div className="py-24" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
             <p className="text-5xl text-center">How this works:</p>
@@ -254,7 +256,10 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="my-24">
+          <div className="mb-24 mt-16">
+            <div className="-rotate-6 mb-8">
+              <ScrollShop />
+            </div>
             <div className="flex justify-center items-center mb-5">
               <p className="text-5xl text-center mt-12">
                 Last time we did this...
@@ -374,19 +379,28 @@ export default async function Marketing() {
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mb-4">
-                Prizes to <span className="pb-2 px-4 rounded-md" style={{
-                      backgroundImage: 'url(/floorboard.svg)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                    }}>power up</span> your next project!
+                Prizes to{" "}
+                <span
+                  className="pb-2 px-4 rounded-md"
+                  style={{
+                    backgroundImage: "url(/floorboard.svg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  power up
+                </span>{" "}
+                your next project!
               </p>
               <div className="flex flex-row justify-center">
                 <p className="text-xl text-center">
-                  Redeem these with your <span className="inline-flex items-center align-middle"><img src="/doubloon.svg" className="w-6 h-6 mx-1"/></span>Doubloons! For high schoolers (or
-                  younger) only.
+                  Redeem these with your{" "}
+                  <span className="inline-flex items-center align-middle">
+                    <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                  </span>
+                  Doubloons! For high schoolers (or younger) only.
                 </p>
               </div>
-
             </div>
             <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
               <Prizes />
@@ -506,7 +520,8 @@ export default async function Marketing() {
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Or click the dino for ideas!</p>
                   <p className="text-lg mt-2">
-                    She's not super smart, but she'll try her best- pirates' honor!
+                    She's not super smart, but she'll try her best- pirates'
+                    honor!
                   </p>
                   <IdeaGenerator />
                 </div>
@@ -518,12 +533,18 @@ export default async function Marketing() {
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white">
-                  Join a <span className="pb-2 px-4 rounded-md"
-                  style={{
-                      backgroundImage: 'url(/floorboard.svg)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                  }}>community</span> of makers
+                  Join a{" "}
+                  <span
+                    className="pb-2 px-4 rounded-md"
+                    style={{
+                      backgroundImage: "url(/floorboard.svg)",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    community
+                  </span>{" "}
+                  of makers
                 </p>
               </div>
             </div>
@@ -657,12 +678,14 @@ export default async function Marketing() {
               <div className="mb-12 mt-12">
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
-                    <div className="rounded-md p-2 max-w-2xl pop"   
-                    style={{
-                      backgroundImage: 'url(/floorboard.svg)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                    }}>
+                    <div
+                      className="rounded-md p-2 max-w-2xl pop"
+                      style={{
+                        backgroundImage: "url(/floorboard.svg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
                       <Link
                         href="https://scrapbook.hackclub.com/"
                         target="_blank"
@@ -1041,14 +1064,16 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
           </div>
         </div>
       </div>
-      <div className="absolute bg-purple-800 rotate-12 -right-2 top-0 p-1 px-4 rounded-sm" 
-      style={{
-            backgroundImage: 'url(/floorboard.svg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}>
+      <div
+        className="absolute bg-purple-800 rotate-12 -right-2 top-0 p-1 px-4 rounded-sm"
+        style={{
+          backgroundImage: "url(/floorboard.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="flex flex-row gap-2">
-          <img src="/doubloon.svg" className="w-7 h-8"/>
+          <img src="/doubloon.svg" className="w-7 h-8" />
           <p className="text-2xl">{doubloons}</p>
         </div>
       </div>
