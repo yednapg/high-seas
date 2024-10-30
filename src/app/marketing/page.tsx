@@ -138,7 +138,7 @@ export default async function Marketing() {
       </div>
 
       <div className="watergradient">
-        <div className="py-24" id="howthisworks">
+        <div className="py-24 pt-12" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
             <p className="text-5xl text-center">How this works:</p>
           </div>
@@ -267,10 +267,12 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="mb-24 mt-16">
-            <div className="mb-8">
-              <ScrollShop />
-            </div>
+          <div className="my-16 mt-24">
+            <ScrollShop />
+          </div>          
+
+          <div className="mb-24">
+
             <div className="flex justify-center items-center mb-5">
               <p className="text-5xl text-center mt-12">
                 Last time we did this...
