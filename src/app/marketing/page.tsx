@@ -184,14 +184,14 @@ export default async function Marketing() {
                   alt="dragons battling"
                   width={400}
                   height={400}
-                  className="left-0 absolute bobble opacity-95"
+                  className="left-0 absolute bobble opacity-95 hidden xl:block"
                 />
                 <Image
                   src="/howtobacks.svg"
                   alt="dragons battling"
                   width={400}
                   height={400}
-                  className="opacity-0"
+                  className="opacity-0 h-1 xl:h-auto"
                 />
               </div>
               <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
