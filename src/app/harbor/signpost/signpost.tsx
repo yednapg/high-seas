@@ -31,12 +31,11 @@ export default function SignPost({ session }: { session: any }) {
   useEffect(() => {
     // getCookie("waka").then(({ key }) => setWakaKey(key));
     const { key } = JSON.parse(Cookies.get("waka"));
-
     setWakaKey(key);
 
     // getCookie("signpost-feed").then(setSignpostUpdates);
     const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
-    signpostFeed;
+    setSignpostUpdates(signpostFeed);
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(
