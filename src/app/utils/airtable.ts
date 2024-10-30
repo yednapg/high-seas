@@ -29,7 +29,7 @@ export const getSelfPerson = async (slackId: string) => {
 
 export const getSignpostUpdates = async () => {
   const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/signpost`;
-  const response = await fetch(`${url}`, {
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
