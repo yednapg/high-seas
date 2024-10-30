@@ -68,6 +68,7 @@ api_key = ${wakaKey}`}
                 : "/videos/WakaSetupScriptLinux.mp4"
             }
             autoPlay={true}
+            muted={true}
             loop
             playsInline
             className="mt-8 rounded shadow"
