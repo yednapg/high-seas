@@ -6,7 +6,6 @@ import Shipyard from "../shipyard/shipyard";
 import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
-import { getUserShips } from "../shipyard/ship-utils";
 import SignPost from "../signpost/signpost";
 import { waka } from "../../utils/waka";
 import { SafePerson, safePerson } from "../../utils/airtable";
@@ -23,10 +22,12 @@ import {
 import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import { hasHb } from "@/app/utils/wakatime-setup/tutorial-utils";
+import JaggedCard from "@/components/jagged-card";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
   const brokeMessage = useMemo(() => sample(zeroMessage), []);
+
   return (
     <Popover open={open && balance == 0} onOpenChange={setOpen}>
       <PopoverTrigger
@@ -35,8 +36,13 @@ const Balance = ({ balance }: { balance: number }) => {
         onMouseLeave={() => setOpen(false)}
       >
         <div className="flex items-center gap-1">
-          <img src="doubloon.svg" alt="doubloons" width={24} height={24} />
-          <span className="mr-2">{Math.floor(balance)} Doubloons</span>
+          <img src="gp.png" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
+          <span className="mr-2">
+            {isNaN(balance) ? '' : (<>
+              {Math.floor(balance)}
+              <span className="sm:inline hidden"> Doubloons</span>
+            </>)}
+          </span>
         </div>
       </PopoverTrigger>
       <PopoverContent>
@@ -56,7 +62,6 @@ export default function Harbor({
   session: HsSession;
 }) {
   // All the content management for all the tabs goes here.
-  const [myShips, setMyShips] = useLocalStorageState("cache.myShips", null);
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
     null,
@@ -84,11 +89,13 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    getUserShips(session.slackId).then(({ ships, shipChains }) => {
-      console.log({ ships, shipChains });
-      setMyShips(ships);
-      setMyShipChains(shipChains);
-    });
+    // const shipCookie = JSON.parse(cookies().get("ships").value);
+    // setMyShips();
+
+    // getUserShips(session.slackId).then(({ ships, shipChains }) => {
+    //   console.log({ ships, shipChains });
+    //   setMyShipChains(shipChains);
+    // });
 
     safePerson().then(async (p: SafePerson) => {
       setPersonTicketBalance(p.settledTickets);
@@ -102,10 +109,18 @@ export default function Harbor({
 
       const { username, key } = await waka();
       const hasData = await hasHb(username, key);
+      setHasWakaHb(hasData);
 
       if (!hasData) {
         setShowWakaSetupModal(true);
-      } /*else {
+      }
+
+      if (!p.hasCompletedTutorial) {
+        // sessionStorage.setItem("tutorial", "true");
+        console.warn("1 triggering tour");
+        tour();
+      }
+      /*else {
         if (!p.hasCompletedTutorial) {
           if (p.emailSubmittedOnMobile) {
             setShowWakaSetupModal(true);
@@ -119,11 +134,11 @@ export default function Harbor({
   }, []);
 
   // Keep ships and shipChain in sync
-  useEffect(() => {
-    getUserShips(session.slackId).then(({ shipChains }) =>
-      setMyShipChains(shipChains),
-    );
-  }, [myShips]);
+  // useEffect(() => {
+  //   getUserShips(session.slackId).then(({ shipChains }) =>
+  //     setMyShipChains(shipChains),
+  //   );
+  // }, [myShips]);
 
   const tabs = [
     {
@@ -140,14 +155,7 @@ export default function Harbor({
     {
       name: "Shipyard",
       path: "shipyard",
-      component: (
-        <Shipyard
-          session={session}
-          ships={myShips}
-          shipChains={myShipChains}
-          setShips={setMyShips}
-        />
-      ),
+      component: <Shipyard session={session} shipChains={myShipChains} />,
       lockOnNoHb: true,
     },
     {
@@ -165,36 +173,47 @@ export default function Harbor({
 
   return (
     <>
-      <Tabs
-        value={currentTab}
-        className="flex-1 flex flex-col"
-        onValueChange={handleTabChange}
-      >
-        <TabsList className="mx-2 my-2 relative">
-          {tabs.map((tab) =>
-            tab.name === "📮" ? (
-              <TabsTrigger
-                className="left-px absolute"
-                key={tab.name}
-                value={tab.path}
-              >
-                <img src="/signpost.png" width={20} alt="" />
-              </TabsTrigger>
-            ) : (
-              <TabsTrigger key={tab.name} value={tab.path}>
-                {tab.name}
-              </TabsTrigger>
-            ),
-          )}
-          <div className="right-px absolute mr-px text-green-400 text-sm">
-            <Balance balance={personTicketBalance} />
-          </div>
-        </TabsList>
-        <div className="flex-1 p-3" id="harbor-tab-scroll-element">
-          {tabs.map((tab) => (
-            <TabsContent key={tab.name} value={tab.path} className="h-full">
-              {tab.component}
-              {/* {tab.lockOnNoHb &&
+      <div className="mt-4">
+        {!hasWakaHb ? (
+          <JaggedCard className="!p-4">
+            <p className="text-center text-white">
+              No Hakatime install detected. Have you run the script?{" "}
+              <a className="underline" href="/signpost">
+                See the instructions at the Signpost.
+              </a>
+            </p>
+          </JaggedCard>
+        ) : null}
+        <Tabs
+          value={currentTab}
+          className="flex-1 flex flex-col"
+          onValueChange={handleTabChange}
+        >
+          <TabsList className="mx-2 my-2 relative">
+            {tabs.map((tab) =>
+              tab.name === "📮" ? (
+                <TabsTrigger
+                  className="left-px absolute"
+                  key={tab.name}
+                  value={tab.path}
+                >
+                  <img src="/signpost.png" width={20} alt="" />
+                </TabsTrigger>
+              ) : (
+                <TabsTrigger key={tab.name} value={tab.path}>
+                  {tab.name}
+                </TabsTrigger>
+              ),
+            )}
+            <div className="right-px absolute mr-px text-green-400 text-sm">
+              <Balance balance={personTicketBalance} />
+            </div>
+          </TabsList>
+          <div className="flex-1 p-3" id="harbor-tab-scroll-element">
+            {tabs.map((tab) => (
+              <TabsContent key={tab.name} value={tab.path} className="h-full">
+                {tab.component}
+                {/* {tab.lockOnNoHb &&
               hasWakaHb === false &&
               sessionStorage.getItem("tutorial") !== "true" ? (
                 <WakaLock
@@ -205,17 +224,22 @@ export default function Harbor({
               ) : (
                 tab.component
               )} */}
-            </TabsContent>
-          ))}
-        </div>
-      </Tabs>
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
+      </div>
 
       <SetupModal
-        isOpen={showWakaSetupModal}
+        isOpen={
+          showWakaSetupModal && sessionStorage.getItem("tutorial") !== "true"
+        }
         close={() => {
           setShowWakaSetupModal(false);
-          // if (sessionStorage.getItem("tutorial") !== "true") {
-          if (!hasCompletedTutorial) {
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
             console.warn("2 triggering tour");
             tour();
           }
@@ -223,8 +247,10 @@ export default function Harbor({
         onHbDetect={() => {
           setHasWakaHb(true);
           setShowWakaSetupModal(false);
-          // if (sessionStorage.getItem("tutorial") !== "true") {
-          if (!hasCompletedTutorial) {
+          if (
+            !hasCompletedTutorial &&
+            sessionStorage.getItem("tutorial") !== "true"
+          ) {
             console.warn("3 triggering tour");
             tour();
           }

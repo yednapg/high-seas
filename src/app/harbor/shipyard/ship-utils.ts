@@ -2,7 +2,9 @@
 
 import { getSelfPerson } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
+import { fetchShips } from "@/app/utils/data";
 import { getWakaSessions } from "@/app/utils/waka";
+import type { Ship } from "@/app/utils/data";
 import Airtable from "airtable";
 
 const peopleTableName = "people";
@@ -53,6 +55,7 @@ const shipToFields = (ship: Ship, entrantId: string) => ({
   wakatime_project_name: ship.wakatimeProjectNames.join("$$xXseparatorXx$$"),
 });
 
+//@malted: Deprecated - do not use. Middleware now populates the 'ships' cookie.
 export async function getUserShips(
   slackId: string,
 ): Promise<{ ships: Ship[]; shipChains: Map<string, string[]> }> {
@@ -278,7 +281,7 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const { ships } = await getUserShips(slackId);
+  const ships = await fetchShips(session.personId);
 
   const reshippedFromShip = ships.find(
     (ship: Ship) => ship.id === dangerousReshippedFromShipId,
@@ -383,32 +386,38 @@ export async function stagedToShipped(ship: Ship) {
     throw error;
   }
 
-  let credited_hours;
-  if (ship.wakatimeProjectName) {
-    const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
-    credited_hours =
-      wakatimeProjects.find(
-        ({ key }: { key: string }) => key === ship.wakatimeProjectName,
-      ).total /
-      60 /
-      60;
-  }
+  const isTutorial = sessionStorage.getItem("tutorial") === "true";
 
-  base()(shipsTableName).update(
-    [
-      {
-        id: ship.id,
-        fields: {
-          ship_status: "shipped",
-          credited_hours,
-          ship_time: new Date().toISOString(),
+  if (!isTutorial) {
+    return;
+  } else {
+    let credited_hours;
+    if (ship.wakatimeProjectName) {
+      const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
+      credited_hours =
+        wakatimeProjects.find(
+          ({ key }: { key: string }) => key === ship.wakatimeProjectName,
+        ).total /
+        60 /
+        60;
+    }
+
+    base()(shipsTableName).update(
+      [
+        {
+          id: ship.id,
+          fields: {
+            ship_status: "shipped",
+            credited_hours,
+            ship_time: new Date().toISOString(),
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) console.error(err);
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err);
-    },
-  );
+    );
+  }
 }
 
 export async function deleteShip(shipId: string) {

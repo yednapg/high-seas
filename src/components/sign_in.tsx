@@ -1,7 +1,6 @@
 "use server";
 
 import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
 import { headers } from "next/headers";
 
 export default async function SignIn({
@@ -20,11 +19,11 @@ export default async function SignIn({
 
   const textSize = variant === "small" ? "text-base" : "text-2xl";
   return (
-    <Link
-      className={`bg-green-400 text-black p-2 px-6 w-fit rounded-lg ${textSize} linkPop`}
+    <a
+      className={`bg-white text-black p-2 px-3 sm:px-6 w-fit rounded-lg ${textSize} linkPop`}
       href={session ? "/signpost" : slackAuthUrl}
     >
-      {session ? "Enter the keep" : "Sign in with Hack Club Slack"}
-    </Link>
+      {session ? "Enter the Harbor" : "Sign in with Hack Club Slack"}
+    </a>
   );
 }

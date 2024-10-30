@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
-import { getSelfPerson } from "../../utils/airtable";
+import { getSelfPerson, getSignpostUpdates } from "../../utils/airtable";
 import Verification from "./verification";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
@@ -29,8 +29,10 @@ export default function SignPost({
     "",
   );
   const [reason, setReason] = useLocalStorageState("cache.reason", "");
+  const [signpostUpdates, setsignpostUpdates] = getSignpostUpdates();
 
   useEffect(() => {
+    
     getSelfPerson(session.slackId).then((data) => {
       setVerification(
         data?.["fields"]?.["verification_status"]?.[0]?.toString() || "",
@@ -49,21 +51,25 @@ export default function SignPost({
       </h1>
       <Verification status={verification} reason={reason} />
 
-      {/* <div className="space-y-2">
-
-        <WakatimeSetupInstructions
-          session={session}
-          wakaToken={wakaToken}
-          startsOpen={!hasWakaHb}
-        />
-        <KeyPlacesInstructions />
-      </div> */}
+      {signpostUpdates.map(
+        (update: any, index: number) =>
+          update.visible && (
+            <JaggedCard
+              key={index}
+              className={`text-[${update.textcolor}]`}
+              bgColor={update.backgroundColor}
+            >
+              <span className="text-bold">{update.title}</span>
+              <p>{update.content}</p>
+            </JaggedCard>
+          )
+      )}
 
       <JaggedCard className="text-white">
         {wakaToken ? (
           <Platforms wakaKey={wakaToken} />
         ) : (
-          <p>Loading Hackatime token...</p>
+          <p>Loading Hakatime token...</p>
         )}
       </JaggedCard>
 
