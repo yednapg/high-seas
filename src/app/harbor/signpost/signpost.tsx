@@ -1,14 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { getSelfPerson, getSignpostUpdates } from "../../utils/airtable";
 import Verification from "./verification";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
-import Cookies from "js-cookie";
 import { fetchSignpostFeed, fetchWaka, SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
@@ -31,7 +30,7 @@ export default function SignPost({ session }: { session: any }) {
   useEffect(() => {
     fetchWaka().then(({ key }) => setWakaKey(key));
 
-    fetchSignpostFeed().then((signpostFeed) => {setSignpostUpdates(signpostFeed)})
+    getSignpostUpdates().then((data) => {setSignpostUpdates(data)});
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(
