@@ -985,7 +985,7 @@ interface PrizeProps {
 
 const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
   return (
-    <div className="relative overflow-hidden p-6 rounded-lg m-4 pop">
+    <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
         src="/howtobacks.svg"
         alt="card backs"
@@ -997,19 +997,34 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
           src="/divider.svg"
           className="w-full object-cover absolute mt-2 opacity-60"
         />
+        {/*}
         <p className="mt-4 text-xl text-center">{doubloons} doubloons</p>
+        <img src="/doubloon.svg" className="w-12 h-12"/>
         <img
           src="/divider.svg"
           className="w-full object-cover absolute opacity-60"
-        />
-        <div className="w-64 h-64 my-4 rounded-sm flex flex-col justify-center items-center">
-          <Image
-            src={image}
-            alt="Shop item"
-            className="w-full h-auto"
-            width="500"
-            height="500"
-          />
+        /> */}
+        <div className="relative">
+          <div className="w-72 h-72 my-4 rounded-sm flex flex-col justify-center items-center">
+            <Image
+              src={image}
+              alt="Shop item"
+              className="w-full h-auto"
+              width="300"
+              height="300"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="absolute bg-purple-800 rotate-12 -right-2 top-0 p-1 px-4 rounded-sm" 
+      style={{
+            backgroundImage: 'url(/floorboard.svg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}>
+        <div className="flex flex-row gap-2">
+          <img src="/doubloon.svg" className="w-7 h-8"/>
+          <p className="text-2xl">{doubloons}</p>
         </div>
       </div>
     </div>
