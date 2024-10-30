@@ -518,7 +518,12 @@ export default async function Marketing() {
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white">
-                  Join a community of makers
+                  Join a <span className="pb-2 px-4 rounded-md"
+                  style={{
+                      backgroundImage: 'url(/floorboard.svg)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                  }}>community</span> of makers
                 </p>
               </div>
             </div>
