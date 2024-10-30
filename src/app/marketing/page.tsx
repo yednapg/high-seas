@@ -746,7 +746,7 @@ export default async function Marketing() {
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
                     <div
-                      className="rounded-md p-2 max-w-2xl pop"
+                      className="rounded-md p-2 max-w-2xl pop z-10"
                       style={{
                         backgroundImage: "url(/floorboard.svg)",
                         backgroundSize: "cover",
