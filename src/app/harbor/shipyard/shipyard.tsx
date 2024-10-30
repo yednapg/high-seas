@@ -87,11 +87,6 @@ export default function Shipyard({
           bareShips={false}
         />
       )}
-      <div className="flex flex-col justify-center items-center mt-8">
-        <h2 className="text-xl mb-2 text-blue-500">
-          Here are some example projects others have submitted!
-        </h2>
-      </div>
     </>
   );
 }
