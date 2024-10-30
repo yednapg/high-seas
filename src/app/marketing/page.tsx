@@ -25,6 +25,7 @@ import shop4 from "./art/shop/shop4.png";
 import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
+import bg from "../../../public/background.svg";
 
 import EmailSubmissionForm from "./components/email-submission-form";
 import ScrollShop from "./components/ScrollShop.jsx"
@@ -568,7 +569,14 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="bg-black bg-opacity-50 py-12 my-12">
+          <div
+            className="bg-cover py-12 my-12"
+            style={{
+              backgroundImage: `url(${bg.src})`,
+              width: "100%",
+              height: "auto"
+            }}
+          >
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white">
