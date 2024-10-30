@@ -139,18 +139,17 @@ export default function NewShipForm({
             This is an update to an existing project
             <br />
             <span className="text-xs">
-              Only select this if {"it's"} a project you started before Low
-              Skies and {"haven't"} submitted before.
+              Only select this if {"it's"} a project you started before High Seas and {"haven't"} submitted before.
               <br />
-              For example, maybe for Arcade you built a game, and for Low Skies
-              you want to Ship an amazing update to it! Click this box and
+              For example: maybe you already built a game, and 
+              you want to ship an amazing update to it! Click this box and
               describe the update. If you {"don't"} understand this, please ask
               in{" "}
               <Link
                 className="underline"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
               >
-                #low-skies-help
+                #high-seas-help
               </Link>
               !
             </span>
