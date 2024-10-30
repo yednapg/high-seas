@@ -661,7 +661,7 @@ export default async function Marketing() {
           <div className="flex justify-center items-center mb-5">
             <p className="text-5xl text-center mt-12">FAQ</p>
           </div>
-          <div>
+          <div className="">
             <Faq />
           </div>
         </div>
@@ -922,7 +922,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "How many projects can I build?",
-    answer: `All the projects! The land's the limit!`,
+    answer: `All the projects! The land's the limit! (But seriously, you could build as many as you want.)`,
   },
   {
     question: "I need help!",
