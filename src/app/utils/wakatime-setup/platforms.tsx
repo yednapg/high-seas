@@ -58,7 +58,6 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
-          {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
           <video
             src={
               userOs === "windows"
