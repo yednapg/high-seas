@@ -2,12 +2,10 @@
 
 import Ships from "./ships";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
-// import Cookies from "js-cookie";
-import { Ship } from "@/app/utils/data";
-import { getUserShips } from "./ship-utils";
+import { fetchShips, Ship } from "@/app/utils/data";
 
 const tutorialShips: Ship[] = [
   {
@@ -36,15 +34,14 @@ const tutorialShips: Ship[] = [
 ];
 
 export default function Shipyard({ shipChains, session }: any) {
-  // const [ships, setShips] = useState();
-  const [ ships, setShips ] = useLocalStorageState("cache.ships", []);
+  const [ships, setShips] = useLocalStorageState("cache.ships", []);
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
     0,
   );
 
   useEffect(() => {
-    setShips(getUserShips(session.slackId));
+    fetchShips(session.slackId).then((ships) => setShips(ships));
 
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
       setVoteBalance(balance),
@@ -78,21 +75,12 @@ export default function Shipyard({ shipChains, session }: any) {
           />
         </div>
       )}
-      {isTutorial ? (
-        <Ships
-          ships={tutorialShips}
-          shipChains={shipChains}
-          setShips={setShips}
-          bareShips={false}
-        />
-      ) : (
-        <Ships
-          ships={ships}
-          shipChains={shipChains}
-          setShips={setShips}
-          bareShips={false}
-        />
-      )}
+      <Ships
+        ships={isTutorial ? tutorialShips : ships}
+        shipChains={shipChains}
+        setShips={setShips}
+        bareShips={false}
+      />
     </>
   );
 }
