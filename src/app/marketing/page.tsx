@@ -90,10 +90,6 @@ export default async function Marketing() {
               />
             </Link>
 
-            <div className="flex flex-col justify-center items-center my-3">
-              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
-            </div>
-
             <div className="text-[#214495]">
               <p className="text-lg mx-10">
                 In High Seas, code projects and get free hardware like Raspberry
@@ -121,6 +117,10 @@ export default async function Marketing() {
                 . For teenagers 18 and under. Starts October 30. Ends January
                 31.
               </p>
+            </div>
+
+            <div className="flex flex-col justify-center items-center my-3">
+              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
             </div>
           </div>
         </div>
