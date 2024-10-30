@@ -94,7 +94,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
             >
               <Pill
-                msg="Live Demo"
+                msg="Demo"
                 color="green"
                 glyph="link"
                 classes="text-lg"
