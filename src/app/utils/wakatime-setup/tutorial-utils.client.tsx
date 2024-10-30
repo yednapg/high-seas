@@ -9,24 +9,28 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     case "windows":
       return {
         label: "Windows PowerShell",
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.ps1`,
         command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl ${currentBaseUrl}/scripts/hackatime-install.ps1)`,
         lang: "powershell",
       };
     case "macos":
       return {
         label: "macOS Terminal",
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
         lang: "bash",
       };
     case "linux":
       return {
         label: "Linux Terminal",
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
         lang: "bash",
       };
     default:
       return {
         label: "Unknown Platform",
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
         lang: "bash",
       };
@@ -53,7 +57,13 @@ export const SinglePlatform = ({
     <div className="w-full mt-4">
       <p className="mb-1 inline-flex items-end gap-2">
         <Icon glyph="terminal" size={26} />
-        <span>Install instructions for {platform.label}</span>
+        <span>
+          Install instructions for {platform.label} (
+          <a href={platform.installScript} className="underline italic`">
+            source
+          </a>
+          )
+        </span>
       </p>
       <div className="flex flex-col sm:flex-row items-stretch gap-2">
         <pre className="text-sm bg-white/20 rounded-lg p-5 overflow-x-auto w-full flex-grow relative">

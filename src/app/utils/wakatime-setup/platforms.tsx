@@ -58,6 +58,13 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
+          <p>
+            In case you are worried about us installing malware on your computer
+            (and rightly so! you should never trust a random script someone
+            tells you to run) rest assured that the script{" "}
+            <b className="font-black italic">does not</b> need admin permission
+            and you can view exactly what the script does via the link below :)
+          </p>
           <video
             src={
               userOs === "windows"
