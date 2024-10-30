@@ -107,7 +107,11 @@ export default function EmailSubmissionForm() {
       </div>
 
       <Modal isOpen={email} close={() => setEmail(null)}>
-        <p className="text-xl mb-4">We'll be in touch!</p>
+        <p className="text-xl mb-4">
+          We can't wait for you to join High Seas! We're under heavy demand
+          right now, so your invite won't come until later. Hang tight and we'll
+          see you soon!
+        </p>
         <img src="/party-orpheus.svg" />
       </Modal>
 
