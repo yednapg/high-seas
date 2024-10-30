@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Platforms from "./platforms";
 import Modal from "../../../components/ui/modal";
-import { hasHbData } from "../data";
-import Cookies from "js-cookie";
+import { fetchWaka } from "../data";
+import useLocalStorageState from "../../../../lib/useLocalStorageState";
 
 function SetupModal({
   isOpen,
@@ -13,12 +13,16 @@ function SetupModal({
   close: () => void;
   onHbDetect?: () => void;
 }) {
-  const [wakaKey, setWakaKey] = useState<string>();
-  const [hasRecvHb, setHasRecvHb] = useState(false);
+  const [wakaKey, setWakaKey] = useLocalStorageState('cache.wakaKey', '');
+  const [hasHb, setHasHb] = useLocalStorageState('cache.hasHb', false);
+  const [wakaUsername, setWakaUsername] = useLocalStorageState('cache.wakaUsername', '');
 
   useEffect(() => {
-    const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
-    setWakaKey(key);
+    fetchWaka().then(({key, hasHb, username}) => {
+      setWakaKey(key)
+      setHasHb(hasHb)
+      setWakaUsername(username)
+    })
 
     let mounted = true;
     let timeoutId: number;
@@ -26,14 +30,10 @@ function SetupModal({
     async function checkHeartbeat() {
       if (!onHbDetect || !mounted || hasHb) return;
 
-      console.info("checking heartbeat for", username);
-      const hasData = await hasHbData(username);
-      console.info({ hasData });
-
-      if (hasData && mounted) {
+      if (hasHb && mounted) {
         console.log("Heartbeat data detected");
         onHbDetect();
-        setHasRecvHb(true);
+        hasHb(true);
       } else if (mounted) {
         timeoutId = window.setTimeout(checkHeartbeat, 5000);
       }
@@ -51,7 +51,7 @@ function SetupModal({
       {wakaKey && <Platforms wakaKey={wakaKey} />}
       {onHbDetect && (
         <p className="mt-4 text-lg">
-          {hasRecvHb ? "Installed!" : "Waiting for install..."}
+          {hasHb ? "Installed!" : "Waiting for install..."}
         </p>
       )}
     </Modal>

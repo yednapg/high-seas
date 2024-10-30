@@ -5,7 +5,8 @@ import Harbor from "../harbor/tabs/tabs";
 import { createMagicSession, getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useLocalStorageState from "../../../lib/useLocalStorageState";
 
 export default function Page({
   params,
@@ -14,7 +15,7 @@ export default function Page({
   params: { tab: string };
   searchParams: any;
 }) {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useLocalStorageState('cache.session', null);
 
   useEffect(() => {
     getSession().then((s) => {
