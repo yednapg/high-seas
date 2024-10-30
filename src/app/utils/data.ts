@@ -126,7 +126,6 @@ export async function person(): Promise<any> {
 
 //#region Wakatime
 export async function hasHbData(username: string): Promise<boolean> {
-  console.log("aorsntoeiarsnti", process.env.WAKA_API_KEY);
   const res = await fetch(
     `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(username)}`,
     {
@@ -197,14 +196,3 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   }));
 }
 //#endregion
-
-export async function getCookie(k: string): Promise<any | null> {
-  const reqCookie = cookies().get(k);
-  if (!reqCookie) return null;
-  try {
-    return JSON.parse(reqCookie.value);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}
