@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   SinglePlatform,
   osFromAgent,
-  Os,
+  type Os,
 } from "@/app/utils/wakatime-setup/tutorial-utils.client";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -42,6 +42,7 @@ api_url = https://waka.hackclub.com/api
 api_key = ${wakaKey}`}
             </pre>
           </code>
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <p
             className="text-xs mt-1 underline cursor-pointer"
             onClick={() => setShowAllPlatforms(false)}
@@ -57,15 +58,31 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
+          <p className="pt-4">
+            In case you are worried about us installing malware on your computer
+            (and rightly so! you should never trust a random script someone
+            tells you to run) rest assured that the script{" "}
+            <b className="font-black italic">does not</b> need admin permission
+            and you can view exactly what the script does via the source link
+            above :)
+          </p>
           <video
-            src="/videos/Waka Setup Script.mp4"
-            autoPlay
+            src={
+              userOs === "windows"
+                ? "/videos/WakaSetupScriptWindows.mp4"
+                : userOs === "macos"
+                ? "/videos/WakaSetupScriptMacOS.mp4"
+                : "/videos/WakaSetupScriptLinux.mp4"
+            }
+            autoPlay={true}
+            muted={true}
             loop
             playsInline
             className="mt-8 rounded shadow"
           />
           <p className="text-xs mt-1">
             Not using {userOs}?{" "}
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <span
               className="underline cursor-pointer"
               onClick={() => setShowAllPlatforms(true)}
