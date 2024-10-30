@@ -59,7 +59,7 @@ export default function SignPost({ session }: { session: any }) {
               className={`text-[${update["fields"]["text_color"]}}]`}
               bgColor={update["fields"]["background_color"]}
             >
-              <span className="text-bold">{update["fields"]["title"]}</span>
+              <span className="text-bold text-xl">{update["fields"]["title"]}</span>
               <p>{update["fields"]["content"]}</p>
             </JaggedCard>
             ),
