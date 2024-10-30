@@ -52,17 +52,17 @@ export default function SignPost({ session }: { session: any }) {
 
         {signpostUpdates
         ? signpostUpdates.map(
-            (update: any, index: number) =>
-              update.visible && (
-                <JaggedCard
-                  key={index}
-                  className={`text-[${update.textColor}]`}
-                  bgColor={update.backgroundColor}
-                >
-                  <span className="text-bold">{update.title}</span>
-                  <p>{update.content}</p>
-                </JaggedCard>
-              ),
+          (update: any, index: number) =>
+            update["fields"]["visible"] && (
+            <JaggedCard
+              key={index}
+              className={`text-[${update["fields"]["text_color"]}}]`}
+              bgColor={update["fields"]["background_color"]}
+            >
+              <span className="text-bold">{update["fields"]["title"]}</span>
+              <p>{update["fields"]["content"]}</p>
+            </JaggedCard>
+            ),
           )
         : null}
 
