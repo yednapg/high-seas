@@ -1,8 +1,9 @@
 import Ships from "./ships";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
 import Pill from "@/components/ui/pill";
+import Cookies from "js-cookie";
 
 const isTutorial = sessionStorage.getItem("tutorial") === "true";
 const tutorialShips: Ship[] = [
@@ -31,21 +32,20 @@ const tutorialShips: Ship[] = [
   },
 ];
 
-export default function Shipyard({
-  ships,
-  shipChains,
-  setShips,
-  session,
-}: any) {
+export default function Shipyard({ shipChains, session }: any) {
+  const [ships, setShips] = useState();
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
     0,
   );
+
   useEffect(() => {
+    setShips(JSON.parse(Cookies.get("ships")));
+
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
       setVoteBalance(balance),
     );
-  });
+  }, []);
 
   if (!ships) return;
 
