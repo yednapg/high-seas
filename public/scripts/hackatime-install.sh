@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-echo "Starting Hackatime setup..."
+echo "Starting Hakatime setup..."
 
 # Step 1: Check if config directory exists and create if needed
 WAKATIME_CONFIG_DIR="$HOME"
@@ -76,5 +76,5 @@ for i in {1..2}; do
 done
 
 echo
-echo "✨ Hackatime setup completed successfully!"
+echo "✨ Hakatime setup completed successfully!"
 echo "You can now return to the setup page for further instructions."
