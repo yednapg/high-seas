@@ -155,6 +155,7 @@ export async function createWaka(
     },
     body: new URLSearchParams(payload),
   });
+  signup.headers.forEach((v, k) => console.log(k, v));
 
   let signupResponse: WakaSignupResponse;
   try {
