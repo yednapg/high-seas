@@ -200,3 +200,13 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   }));
 }
 //#endregion
+
+export async function getFromCookie(name:string): Promise<string | any | null> {
+  const cookie = cookies().get(name);
+  if (!cookie) return null;
+  try {
+    return JSON.parse(cookie.value);
+  } catch {
+    return cookie.value;
+  }
+}

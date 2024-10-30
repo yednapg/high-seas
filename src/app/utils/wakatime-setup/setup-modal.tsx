@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Platforms from "./platforms";
 import Modal from "../../../components/ui/modal";
-import { hasHbData } from "../data";
+import { getFromCookie, hasHbData } from "../data";
 import Cookies from "js-cookie";
 
 function SetupModal({
@@ -13,12 +13,18 @@ function SetupModal({
   close: () => void;
   onHbDetect?: () => void;
 }) {
-  const [wakaKey, setWakaKey] = useState<string>();
+  const [wakaKey, setWakaKey] = useState<string>('');
+  const [hasHb, setHasHb] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>('');
   const [hasRecvHb, setHasRecvHb] = useState(false);
 
   useEffect(() => {
-    const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
-    setWakaKey(key);
+    async function setWakadata() {
+      const { username, key, hasHb } = await getFromCookie("waka");
+      setWakaKey(key);
+      setHasHb(hasHb);
+      setUsername(username);
+    }
 
     let mounted = true;
     let timeoutId: number;

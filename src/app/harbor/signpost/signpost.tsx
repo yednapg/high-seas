@@ -9,7 +9,7 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
 import Cookies from "js-cookie";
-import { SignpostFeedItem } from "@/app/utils/data";
+import { getFromCookie, SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
   const [wakaKey, setWakaKey] = useState<string>();
@@ -30,12 +30,24 @@ export default function SignPost({ session }: { session: any }) {
 
   useEffect(() => {
     // getCookie("waka").then(({ key }) => setWakaKey(key));
-    const { key } = JSON.parse(Cookies.get("waka"));
-    setWakaKey(key);
+    try {
+      getFromCookie('waka').then(({ key }) => setWakaKey(key));
+      // const { key } = JSON.parse(Cookies.get("waka"));
+      // setWakaKey(key);
+    } catch(e) {
+      alert("failed to parse waka cookie");
+      console.error("failed to parse waka cookie", e);
+    }
 
     // getCookie("signpost-feed").then(setSignpostUpdates);
-    const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
-    setSignpostUpdates(signpostFeed);
+    try {
+      getFromCookie('signpost-feed').then(setSignpostUpdates);
+      // const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
+      // setSignpostUpdates(signpostFeed);
+    } catch(e) {
+      alert("failed to parse signpost-feed cookie");
+      console.error("failed to parse signpost-feed cookie", e);
+    }
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(

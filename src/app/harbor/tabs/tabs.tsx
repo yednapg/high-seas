@@ -22,6 +22,7 @@ import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import Cookies from "js-cookie";
 import JaggedCard from "@/components/jagged-card";
+import { getFromCookie } from "@/app/utils/data";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -87,10 +88,12 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    const { username, key, hasHb } = JSON.parse(Cookies.get("waka")); //await getCookie("waka");
-    setWakaKey(key);
-    setWakaUsername(username);
-    setHasWakaHb(hasHb);
+    // const { username, key, hasHb } = JSON.parse(Cookies.get("waka")); //await getCookie("waka");
+    getFromCookie("waka").then(({ username, key, hasHb }) => {
+      // setWakaKey(key);
+      // setWakaUsername(username);
+      setHasWakaHb(hasHb);
+    })
 
     // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     // setWakaKey(key);
