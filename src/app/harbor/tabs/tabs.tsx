@@ -7,12 +7,12 @@ import Battles from "../battles/battles";
 import Shop from "../shop/shop";
 import { useEffect } from "react";
 import SignPost from "../signpost/signpost";
-import { SafePerson, safePerson } from "../../utils/airtable";
+import { type SafePerson, safePerson } from "../../utils/airtable";
 import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
-import { HsSession } from "@/app/utils/auth";
+import type { HsSession } from "@/app/utils/auth";
 import {
   Popover,
   PopoverTrigger,
