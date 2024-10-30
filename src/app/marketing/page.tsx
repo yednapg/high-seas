@@ -25,6 +25,7 @@ import shop4 from "./art/shop/shop4.png";
 import shop5 from "./art/shop/shop5.png";
 import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
+import bg from "../../../public/background.svg";
 
 import EmailSubmissionForm from "./components/email-submission-form";
 import ScrollShop from "./components/ScrollShop.jsx"
@@ -127,14 +128,14 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-col justify-center items-center my-3">
-              <div className="bg-blue-700 w-[200px] xl:w-[1200px] h-1"></div>
+              <img src="/divider.svg" className="w-full mx-5 opacity-20"/>
             </div>
           </div>
         </div>
       </div>
 
       <div className="watergradient">
-        <div className="py-24" id="howthisworks">
+        <div className="py-24 pt-12" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
             <p className="text-5xl text-center">How this works:</p>
           </div>
@@ -158,8 +159,7 @@ export default async function Marketing() {
                   </div>
                   <p className="text-xl max-w-[600px]">
                     Download the High Seas extension for your code editor, and
-                    hack on something cool! Examples: making your own PCB,
-                    building a personal website, or creating a video game.
+                    hack on something cool! Examples: building a personal website, making an app, or creating a video game.
                   </p>
                 </div>
               </div>
@@ -180,25 +180,28 @@ export default async function Marketing() {
                   alt="dragons battling"
                   width={400}
                   height={400}
-                  className="left-0 absolute bobble opacity-95"
+                  className="left-0 absolute bobble opacity-95 hidden xl:block"
                 />
                 <Image
                   src="/howtobacks.svg"
                   alt="dragons battling"
                   width={400}
                   height={400}
-                  className="opacity-0"
+                  className="opacity-0 h-1 xl:h-auto"
                 />
               </div>
               <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0"
+                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0 opacity-75"
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Submit your projects for Doubloons!
+                    Submit your projects for {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
+                    </span>Doubloons!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -210,7 +213,10 @@ export default async function Marketing() {
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign
                     in with Hack Club Slack and ship them in the Harbor! For
-                    each hour coded, earn Doubloons (our virtual currency).
+                    each hour coded, earn {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                    </span>Doubloons (our virtual currency).
                   </p>
                 </div>
               </div>
@@ -221,11 +227,14 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0"
+                  className="absolute inset-0 w-full h-full object-cover rounded-md z-0 opacity-50"
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Spend Doubloons on awesome prizes!
+                    Spend {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
+                    </span>Doubloons on awesome prizes!
                   </p>
                   <div className="flex flex-col justify-center items-center my-2">
                     <img
@@ -235,7 +244,10 @@ export default async function Marketing() {
                     />
                   </div>
                   <p className="text-xl max-w-[600px]">
-                    Use Doubloons to purchase loot for your next project! Items
+                    Use {" "}
+                    <span className="inline-flex items-center align-middle">
+                      <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
+                    </span>Doubloons to purchase loot for your next project! Items
                     range from soldering irons to 3D printers. In just 5 hours,
                     you could earn a Raspberry Pi Zero! Full prize list below.
                   </p>
@@ -252,10 +264,12 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="mb-24 mt-16">
-            <div className="-rotate-6 mb-8">
-              <ScrollShop />
-            </div>
+          <div className="my-16 mt-24">
+            <ScrollShop />
+          </div>          
+
+          <div className="mb-24">
+
             <div className="flex justify-center items-center mb-5">
               <p className="text-5xl text-center mt-12">
                 Last time we did this...
@@ -374,10 +388,10 @@ export default async function Marketing() {
 
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-4">
+              <p className="text-5xl text-center mb-4 leading-[1.2]">
                 Prizes to{" "}
                 <span
-                  className="pb-2 px-4 rounded-md"
+                  className="pb-2 px-4 rounded-md whitespace-nowrap"
                   style={{
                     backgroundImage: "url(/floorboard.svg)",
                     backgroundSize: "cover",
@@ -398,7 +412,7 @@ export default async function Marketing() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center items-center xl:mx-44 2xl:mx-56">
+            <div className="flex flex-wrap justify-center items-center">
               <Prizes />
             </div>
             <div className="flex flex-col justify-center items-center mt-4 m-10">
@@ -416,7 +430,7 @@ export default async function Marketing() {
 
           <div className="my-24">
             <div className="flex justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mx-4">
+              <p className="text-5xl text-center mx-4 leading-[1.2]">
                 What will <span className="px-4 pb-2 rounded-md" style={{
                         backgroundImage: "url(/floorboard.svg)",
                         backgroundSize: "cover",
@@ -454,7 +468,7 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                  className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Don't know where to start?</p>
@@ -496,6 +510,28 @@ export default async function Marketing() {
                       : Develop an iOS app, we&apos;ll cover the $100 AppStore
                       fee.
                     </li>
+                    <li>
+                      <Link
+                        href="https://sprig.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Sprig
+                      </Link>
+                      : Make a video game, get a Console to play it on!
+                    </li>
+                    <li>
+                      <Link
+                        href="https://guides.hackclub.app/index.php/Main_Page"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        Nest
+                      </Link>
+                      : Host your project's backend on Hack Club's free open-source server!
+                    </li>
                   </ul>
                   <p className="text-xl">
                     More workshops{" "}
@@ -515,12 +551,12 @@ export default async function Marketing() {
                 <img
                   src="/howtobacks.svg"
                   alt="background"
-                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                  className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
                 <div className="relative mx-5 md:my-5 md:mx-0">
                   <p className="text-2xl">Or click the dino for ideas!</p>
                   <p className="text-lg mt-2">
-                    She's not super smart, but she'll try her best- pirates'
+                    She's not super smart, but she'll try her best—pirates'
                     honor!
                   </p>
                   <IdeaGenerator />
@@ -529,10 +565,17 @@ export default async function Marketing() {
             </div>
           </div>
 
-          <div className="bg-black bg-opacity-50 py-12 my-12">
+          <div
+            className="bg-cover py-12 my-12"
+            style={{
+              backgroundImage: `url(/imgbkgr.png)`,
+              width: "100%",
+              height: "auto"
+            }}
+          >
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
-                <p className="text-5xl mt-12 mx-5 text-white">
+                <p className="text-5xl mt-12 mx-5 text-white leading-[1.2]">
                   Join a{" "}
                   <span
                     className="pb-2 px-4 rounded-md"
@@ -573,7 +616,7 @@ export default async function Marketing() {
               <div className="flex flex-wrap justify-center items-center mb-12 gap-6 mx-5 my-12">
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="/howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -609,7 +652,7 @@ export default async function Marketing() {
 
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="/howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -638,7 +681,7 @@ export default async function Marketing() {
                 </div>
                 <div className="relative overflow-hidden rounded-md p-6 max-w-[22rem]">
                   <img
-                    src="howtobacks.svg"
+                    src="/comback.svg"
                     alt="image backing"
                     className="absolute inset-0 w-full h-full object-cover opacity-100"
                   />
@@ -967,7 +1010,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "What types of projects count?",
-    answer: `Anyhing that you've programmed and is open-source!`,
+    answer: `Anything that you've programmed and is open-source!`,
   },
   {
     question: "How many projects can I build?",
@@ -1036,7 +1079,7 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image }) => {
   return (
     <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
-        src="/howtobacks.svg"
+        src="/shopback.svg"
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
       />

@@ -64,7 +64,7 @@ export async function handleEmailSubmission(
 
   console.log("handleEmailSubmission Step 3:", personRecordId);
 
-  // Create HackaTime user
+  // Create Hakatime user
   const session = await getSession();
   let signup;
   try {
@@ -77,7 +77,7 @@ export async function handleEmailSubmission(
   } catch (e) {
     console.log(e);
     throw e;
-    // const error = new Error("Failed to create HackaTime user:", e);
+    // const error = new Error("Failed to create Hakatime user:", e);
     // console.error(e);
     // throw error;
   }

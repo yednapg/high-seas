@@ -500,7 +500,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-signpost",
-      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have HackaTime installed!",
+      text: "As soon as we verify your age, your stickers will ship, and you can start shipping projects.<br /><br />In the meantime, feel free to get hacking. Your hours are safe, as long as you have Hakatime installed!",
       buttons: [
         {
           text: "Great!",
