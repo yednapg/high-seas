@@ -73,7 +73,7 @@ function setupSteps(tourManager: Tour) {
 
   tourManager.on("show", (e) => {
     if (e.step.id === "ts-draft-field-submit") {
-      setCookie("tour-step", "ts-staged-ship-0");
+      setCookie("tour-step", "shipyard_ts-greet-1");
     }
   });
 
@@ -89,7 +89,7 @@ function setupSteps(tourManager: Tour) {
   // ts stands for «tour step»
   const steps = [
     {
-      id: "ts-greet-1",
+      id: "shipyard_ts-greet-1",
       text: `<div style="display:flex; flex-direction:column; align-items:center;">
               <img src="/trashbeard_pfp_1.png"></img>
               <p>
@@ -105,7 +105,7 @@ function setupSteps(tourManager: Tour) {
       buttons: [{ text: "uh, sure", action: tourManager.next }],
     },
     {
-      id: "ts-greet-2",
+      id: "shipyard_ts-greet-2",
       text: `<div style="display:flex; flex-direction:column; align-items:center;">
               <img src="/trashbeard_pfp_1.png"></img>
               <p>
@@ -117,7 +117,7 @@ function setupSteps(tourManager: Tour) {
       buttons: [{ text: "SGTM, buster", action: tourManager.next }],
     },
     {
-      id: "ts-draft-button",
+      id: "shipyard_ts-draft-button",
       text: `scenario!!
             <br/><br/>
             ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
@@ -134,7 +134,7 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-new-ship-explanation",
+      id: "shipyard_ts-new-ship-explanation",
       text: `here ye draft the ship. that means ye can set it up and see the hours, but nobody else can see it yet.`,
       beforeShowPromise: () => waitForElement("#new-ship-form-container-card"),
       buttons: [
@@ -145,7 +145,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-title",
+      id: "shipyard_ts-draft-field-title",
       text: `every ship needs a name!! we'll call this one "<span style='color: #ec3750;font-style: italic;'>Hack Club site</span>"`,
       attachTo: {
         element: "#title-field",
@@ -167,7 +167,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-project",
+      id: "shipyard_ts-draft-field-project",
       text: `next ye link yer ship to <strong style='color: #ec3750;'>Hakatime</strong>, the Hack Club time-tracking tool. if ye haven't installed it yet… we'll get to that later.
             <br /><br />
             select <strong style='color: #ec3750;'>hack-club-site</strong> from the dropdown. when ye start coding for real, yer Hakatime hours will magically appear here!!`,
@@ -200,7 +200,7 @@ function setupSteps(tourManager: Tour) {
         }),
     },
     {
-      id: "ts-draft-field-repo",
+      id: "shipyard_ts-draft-field-repo",
       text: `every ship's code <i>must</i> live in a public git repo (and every git repo <strong style="color:#ec3750;"><i>must</i> have a README file!!</strong>)
             <br/><br/>
             most pirates these days use GitHub, but any git repo will do.`,
@@ -230,7 +230,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-deployment",
+      id: "shipyard_ts-draft-field-deployment",
       text: `now, for the most important part: the demo! this is what turns a <i>project</i> into a <i>ship</i>.
             <br /><br />
             other pirates <strong style="color:#ec3750;">must be able to experience your project</strong> as easily as possible… if they can't, yer sorry ship will sink!!!!
@@ -254,7 +254,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-screenshot",
+      id: "shipyard_ts-draft-field-screenshot",
       text: `finally, yer ship needs an image so other pirates can size it up at a glance. <strong style="color:#ec3750;">appearances are important!!</strong>
             <br /><br />
             i'll give ye a link to use this time (but we have a neat image-upload tool in Slack called #cdn to make it easy for ye to use later)`,
@@ -277,7 +277,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-draft-field-submit",
+      id: "shipyard_ts-draft-field-submit",
       text: "now draft that ship!!",
       attachTo: {
         element: "#new-ship-submit",
@@ -289,7 +289,7 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-staged-ship-0",
+      id: "shipyard_ts-staged-ship-0",
       text: `behold, yer drafted ship. ye can click these to edit them… but today, let's ship it right away.
             <br/><br/>
             beware, when ye ship the real thing there's no turning back. <strong style="color:#ec3750;">once a ship's in the water, ye can't take it out.</strong>
@@ -397,7 +397,7 @@ function setupSteps(tourManager: Tour) {
     //   },
     // },
     {
-      id: "ts-staged-ship-edit-finale",
+      id: "shipyard_ts-staged-ship-edit-finale",
       text: `when ye ship a project, the next place it goes is the Wonderdome. that's where we'll go next, too.
             <br /><br />
             to get yer Doubloons, <strong style="color:#ec3750;">ye must cast yer share of votes</strong> in the Wonderdome for each project ye ship… and yer ship must weather its share of votes from yer peers!`,
@@ -405,7 +405,7 @@ function setupSteps(tourManager: Tour) {
         {
           text: "Wonderdome, ho!!!",
           action: () => {
-            setCookie("tour-step", "ts-vote-left");
+            setCookie("tour-step", "wonderdome_ts-left-link");
             window.location.href = "/wonderdome";
           },
         },
@@ -422,7 +422,7 @@ function setupSteps(tourManager: Tour) {
     //   ],
     // },
     {
-      id: "ts-vote-left",
+      id: "wonderdome_ts-left-link",
       text: `here we see a battle between ships. each has a readme, a demo, and a repo. consider each ship with care, and make yer selection accordingly!!
             <br /><br />
             word to the wise… prosperous pirates take time with their votes, for <strong style="color:#ec3750;">the ocean can tell when ye vote without care. and legends say it will punish ye for it!!!!</strong>
@@ -447,7 +447,7 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-vote-left",
+      id: "wonderdome_ts-left-vote",
       text: `i know ye haven't seen the other ship, but say ye chose this one. click here to vote for it`,
       attachTo: {
         element: "#voting-project-left button#vote-button",
@@ -459,7 +459,7 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-vote-reason-submit",
+      id: "wonderdome_ts-vote-reason-submit",
       text: `this next part's important: explain yer decision!! write at least ten words about why ye made this choice. i've given ye an example of a good sentence here.
             <br/><br/>
             worry not, the other pirates can't see yer votes or what ye write (…but keep in mind, <strong style="color:#ec3750;">the High Seas Team can!!</strong>)`,
@@ -476,14 +476,14 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-vote-reason-finale",
+      id: "wonderdome_ts-vote-reason-finale",
       text: `yer first vote is cast!! enough of these, and soon enough the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
       focusedElBeforeOpen: false,
       buttons: [
         {
           text: "to the shop!!!",
           action: () => {
-            setCookie("tour-step", "ts-shop-welcome");
+            setCookie("tour-step", "shop_ts-shop-welcome");
             location.href = "/shop";
           },
         },
@@ -500,7 +500,7 @@ function setupSteps(tourManager: Tour) {
       ],
     },
     {
-      id: "ts-shop-region",
+      id: "shop_ts-shop-region",
       text: "first ye must select yer region. booty prices and availability can be a bit different depending on where you are…",
       attachTo: {
         element: "#region-select",
@@ -512,7 +512,7 @@ function setupSteps(tourManager: Tour) {
       },
     },
     {
-      id: "ts-shop-free-stickers",
+      id: "shop_ts-shop-free-stickers",
       text: "now is your chance!! plunder the stickers before they get away!!!!",
       attachTo: {
         element: "#item_free_stickers_41",
@@ -528,13 +528,13 @@ function setupSteps(tourManager: Tour) {
         btn.addEventListener("click", (e) => {
           e.preventDefault();
           console.log("clicked!");
-          setCookie("tour-step", "ts-signpost");
+          setCookie("tour-step", "signpost_ts-signpost");
           location.pathname = "/api/buy/item_free_stickers_41";
         });
       },
     },
     {
-      id: "ts-signpost",
+      id: "signpost_ts-signpost",
       text: `<div style="display:flex; flex-direction:column; align-items:center;">
               <img src="/trashbeard_pfp_1.png"></img>
               <p>
@@ -544,11 +544,10 @@ function setupSteps(tourManager: Tour) {
                 <br/><br/>
                 good luck to ye 🫡
               </p>
-            </div>
-            `,
+            </div>`,
       buttons: [
         {
-          text: "Great!",
+          text: "thanks trashbeard!!!",
           action: tourManager.complete,
         },
       ],
