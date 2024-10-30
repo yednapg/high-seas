@@ -365,8 +365,12 @@ export default async function Marketing() {
 
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
-              <p className="text-5xl text-center mb-2">
-                {"Prizes to power up your next project!"}
+              <p className="text-5xl text-center mb-4">
+                Prizes to <span className="pb-2 px-4 rounded-md" style={{
+                      backgroundImage: 'url(/floorboard.svg)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}>power up</span> your next project!
               </p>
               <div className="flex flex-row justify-center">
                 <p className="text-xl text-center">
