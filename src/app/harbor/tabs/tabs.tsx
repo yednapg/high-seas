@@ -65,7 +65,7 @@ const LoadingOverlay = () => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="bg-purple-dark rounded-lg p-8 text-white text-center">
-        <p className="text-xl mb-4">Loading tutorial..</p>
+        <p className="text-xl mb-4">Loading...</p>
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mx-auto"></div>
       </div>
     </div>
