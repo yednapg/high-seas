@@ -1,19 +1,12 @@
-import JaggedCard from "@/components/jagged-card";
-import Link from "next/link";
-interface VerificationProps {
-  status: string;
-  reason: string;
-}
+"use client";
 
-const getVerificationMessage = (status: string, reason: string) => {
+import JaggedCard from "@/components/jagged-card";
+import JaggedCardSmall from "@/components/jagged-card-small";
+import Cookies from "js-cookie";
+import Link from "next/link";
+
+const getVerificationMessage = (status: string, reason: string | undefined) => {
   switch (status) {
-    default:
-      return {
-        color: "orange",
-        message:
-          "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-help 🤔",
-        // redirect: true,
-      };
     case "Unknown":
       return {
         color: "yellow",
@@ -22,17 +15,26 @@ const getVerificationMessage = (status: string, reason: string) => {
       };
     case "Insufficient":
       return {
-        color: "orange",
+        color: "#FFA500",
         message: (
           <>
             Blimey! We weren't able to verify you with the proof you submitted
-            According to the reviewer {reason}. Don't feed the fish though!{" "}
-            <Link
-              href="https://forms.hackclub.com/eligibility"
-              className="underline"
-            >
-              Try again here
-            </Link>
+            {reason ? (
+              <>
+                . According to the reviewer, <strong>{reason}</strong>
+              </>
+            ) : null}
+            <br />
+            <br />
+            Don't feed the fish though!{" "}
+            <strong>
+              <Link
+                href="https://forms.hackclub.com/eligibility"
+                className="underline"
+              >
+                Try again here
+              </Link>
+            </strong>
             . Email{" "}
             <a href="mailto:verifications@hackclub.com" className="underline">
               verifications@hackclub.com
@@ -43,7 +45,7 @@ const getVerificationMessage = (status: string, reason: string) => {
       };
     case "Ineligible":
       return {
-        color: "red",
+        color: "#ff0000",
         message: (
           <>
             Uh-oh, seems like you're an adult… unfortunately, High Seas is only
@@ -55,46 +57,46 @@ const getVerificationMessage = (status: string, reason: string) => {
           </>
         ),
       };
-    // case "Eligible L1":
-    // case "Eligible L2":
-    //     return {
-    //         color: "green",
-    //         message: "Eyyyy, you got verified! That's great. However, the devs should really just not show this banner for verified users… no sense telling everyone they're verified until the end of time 🤷‍♂️",
-    //     };
+    default:
+      return {
+        color: "#FFA500",
+        message:
+          "Oh no, you haven't filled out a verification form yet! But… how did you even get to this page then?? That's not supposed to be possible… please make a post to #high-seas-help 🤔",
+        redirect: true,
+      };
   }
 };
 
-export default function Verification({ status, reason }: VerificationProps) {
-  const verificationStatus = status;
-  const { color, message, redirect } = getVerificationMessage(
-    verificationStatus,
-    reason,
-  );
+export default function Verification() {
+  const verificationCookie = Cookies.get("verification");
+  if (!verificationCookie) return null;
 
-  if (
-    verificationStatus === "Eligible L1" ||
-    verificationStatus === "Eligible L2"
-  ) {
+  let status: string, reason: string | undefined;
+  try {
+    const parsed = JSON.parse(verificationCookie);
+
+    status = parsed.status;
+    reason = parsed.reason;
+  } catch (e) {
+    console.error("Could't parse verification feed cookie into JSON:", e);
     return null;
   }
 
+  if (!status || status.startsWith("Eligible")) return null;
+
+  const { message, redirect } = getVerificationMessage(status, reason);
+
   return (
-    <JaggedCard bgColor={color}>
-      <div
-        className={`py-1 px-3 text-white ${
-          color === "yellow" || color === "orange" ? "text-black" : "text-white"
-        }`}
-      >
-        <p>{message}</p>
-        {redirect && (
-          <Link
-            href="https://forms.hackclub.com/eligibility"
-            className="underline"
-          >
-            Verify Yourself!
-          </Link>
-        )}
-      </div>
-    </JaggedCard>
+    <JaggedCardSmall bgColor={"#EF4444"} className="px-6 py-4 text-white">
+      <p style={{ textWrap: "pretty" }}>{message}</p>
+      {redirect ? (
+        <Link
+          href="https://forms.hackclub.com/eligibility"
+          className="underline"
+        >
+          Verify Yourself!
+        </Link>
+      ) : null}
+    </JaggedCardSmall>
   );
 }
