@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/marketing",
+      "path": "/api/cron/every-minute",
       "schedule": "* * * * *"
     }
   ]
