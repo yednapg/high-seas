@@ -73,7 +73,7 @@ export default function Shop({ session }: { session: HsSession }) {
         <select
           onChange={onOptionChangeHandler}
           value={filterIndex}
-          className="text-gray-600"
+          className="ml-2 text-gray-600 rounded-sm"
         >
           <option value="0">️🏴‍☠️ all across the 7 seas</option>
           <option value="1">🇺🇸 US</option>
