@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { getSession } from "./app/utils/auth";
-import { fetchShips, fetchSignpostFeed, fetchWaka } from "./app/utils/data";
+import {
+  fetchShips,
+  fetchSignpostFeed,
+  fetchWaka,
+  person,
+} from "./app/utils/data";
 
 export async function middleware(request: NextRequest) {
   const slackId = await getSession().then((p) => p?.slackId);
@@ -10,14 +15,15 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   if (!slackId) return response;
 
+  // Ships base
   if (!request.cookies.get("ships")) {
     const ships = await fetchShips(slackId);
-    // response.cookies.set({
-    //   name: "ships",
-    //   value: JSON.stringify(ships),
-    //   path: "/shipyard",
-    //   expires: new Date(Date.now() + 10 * 60 * 1000), // In 10 mins
-    // });
+    response.cookies.set({
+      name: "ships",
+      value: JSON.stringify(ships),
+      path: "/",
+      expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 mins
+    });
   }
 
   if (!request.cookies.get("waka")) {
