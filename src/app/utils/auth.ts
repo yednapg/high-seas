@@ -107,7 +107,36 @@ export async function createSlackSession(slackOpenidToken: string) {
 
     const person = (await getSelfPerson(payload.sub as string)) as any;
     if (!person) {
-      throw new Error(`Failed to look up Person by Slack ID: ${payload.sub}`);
+      // Let's create a Person record
+      const result = await fetch(
+        "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(records:;  [{
+            email: payload.email,
+            slack_id: payload.sub,
+            first_name: payload.given_name,
+            last_name: payload.family_name,
+            full_name: payload.name
+          }),
+        },
+      );
+      /*
+      curl -X POST https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people \
+        -H "Authorization: Bearer YOUR_SECRET_API_TOKEN" \
+        -H "Content-Type: application/json" \
+        --data '{
+        "records": [
+          {
+            "fields": {
+              "slack_id": "UDK5M9Y13",
+              "ships": [
+                "recMmHnXlThfgJO9f",
+      */
     }
 
     const sessionData: HsSession = {
