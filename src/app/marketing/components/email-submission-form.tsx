@@ -93,8 +93,11 @@ export default function EmailSubmissionForm() {
       <Modal isOpen={email} close={() => setEmail(null)}>
         <p className="text-xl mb-4">
           We can't wait for you to join High Seas! We're under heavy demand
-          right now, so your invite won't come until later. Hang tight and we'll
-          see you soon!
+          right now, so it may take some time to get through the queue.
+          <br></br>
+          <br></br>
+          <b>Look out for an email from Slack—<i>that's your ticket in!</i> </b> 
+          Hang tight and we'll see you soon 🏴‍☠️
         </p>
         <img src="/party-orpheus.svg" />
       </Modal>
