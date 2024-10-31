@@ -124,8 +124,8 @@ export interface WakaInfo {
 // Good function
 export async function createWaka(
   email: string,
-  name: string | null,
-  slackId: string | null
+  name: string | null | undefined,
+  slackId: string | null | undefined
 ): Promise<WakaInfo> {
   const password = crypto.randomUUID();
 

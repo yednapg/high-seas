@@ -1,23 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import SetupModal from "@/app/utils/wakatime-setup/setup-modal";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../../../components/ui/button";
 import Icon from "@hackclub/icons";
 import Modal from "../../../components/ui/modal";
 import {
   handleEmailSubmission,
-  markArrpheusReadyToInvite,
 } from "../marketing-utils";
 import { sendInviteJob } from "../invite-job";
 
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
-  const [wakaKey, setWakaKey] = useState<string>();
-  const [wakaUsername, setWakaUsername] = useState<string>();
-  const [detectedInstall, setDetectedInstall] = useState<boolean>();
-  const [personRecordId, setPersonRecordId] = useState<string>();
   const [errorText, setErrorText] = useState<string>();
   const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
@@ -50,23 +44,14 @@ export default function EmailSubmissionForm() {
       return;
     }
 
-    await sendInviteJob({
-      email: emailStr,
-      userAgent: navigator.userAgent,
-    });
+    const ua = navigator?.userAgent;
+    const mobile = !!ua?.toLowerCase().includes("mobile");
+
+    await Promise.all([
+      handleEmailSubmission(emailStr, mobile, ua),
+      sendInviteJob({ email: emailStr, userAgent: ua })
+    ])
     setEmail(emailStr);
-    // const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
-    // if (!hfsRes) throw new Error("Failed to handle email submission");
-    // const { username, key, personRecordId } = hfsRes;
-    // console.log("Handled email submission with res:", {
-    //   username,
-    //   key,
-    //   personRecordId,
-    // });
-    // setWakaKey(key);
-    // setWakaUsername(username);
-    // setPersonRecordId(personRecordId);
-    // setEmail(emailStr);
   };
 
   return (
@@ -114,52 +99,6 @@ export default function EmailSubmissionForm() {
         <img src="/party-orpheus.svg" />
       </Modal>
 
-      {/* {wakaKey && wakaUsername ? (
-        <SetupModal
-          isOpen={email && personRecordId}
-          close={() => {
-            setDetectedInstall(true);
-            setEmail(null);
-            setWakaKey(null);
-            setWakaUsername(null);
-            markArrpheusReadyToInvite(personRecordId);
-          }}
-          onHbDetect={() => {
-            setDetectedInstall(true);
-
-            // TODO: Sort this shit out
-            setEmail(null);
-            setWakaKey(null);
-            setWakaUsername(null);
-            markArrpheusReadyToInvite(personRecordId);
-          }}
-          wakaKey={wakaKey}
-          wakaUsername={wakaUsername}
-        />
-      ) : null} */}
-
-      {/* <Modal isOpen={detectedInstall} close={() => setDetectedInstall(false)}>
-        <p className="text-3xl mb-2">Check your email!</p>
-        <p>You should see an invite to the Hack Club Slack.</p>
-
-        {navigator.userAgent.toLowerCase().includes("mobile") ? (
-          <p>
-            <br />
-            This next step <i>can</i> be done on your phone, but we strongly
-            recommend doing it on whatever computer you use to code!
-          </p>
-        ) : null}
-
-        <img
-          src="/party-orpheus.svg"
-          alt="a partying dinosaur"
-          className="mt-8 mx-auto w-1/2"
-        />
-
-        <Button onClick={() => setDetectedInstall(false)} className="ml-auto">
-          Dismiss
-        </Button>
-      </Modal> */}
     </>
   );
 }
