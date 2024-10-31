@@ -25,6 +25,11 @@ export const getSelfPerson = async (slackId: string) => {
     console.error(e, await response.text());
     throw e;
   }
+  console.error("THIS IS A TEST FOR getSelfPerson", {
+    data,
+    url,
+    filterByFormula,
+  });
   return data.records[0];
 };
 
@@ -51,7 +56,7 @@ export const getSignpostUpdates = async () => {
     console.error(e, await response.text());
     throw e;
   }
-  console.log(data.records)
+  console.log(data.records);
   return data.records;
 };
 
