@@ -7,7 +7,6 @@ import Icon from "@hackclub/icons";
 import Modal from "../../../components/ui/modal";
 import {
   handleEmailSubmission,
-  // markArrpheusReadyToInvite,
 } from "../marketing-utils";
 import { sendInviteJob } from "../invite-job";
 
@@ -100,52 +99,6 @@ export default function EmailSubmissionForm() {
         <img src="/party-orpheus.svg" />
       </Modal>
 
-      {/* {wakaKey && wakaUsername ? (
-        <SetupModal
-          isOpen={email && personRecordId}
-          close={() => {
-            setDetectedInstall(true);
-            setEmail(null);
-            setWakaKey(null);
-            setWakaUsername(null);
-            markArrpheusReadyToInvite(personRecordId);
-          }}
-          onHbDetect={() => {
-            setDetectedInstall(true);
-
-            // TODO: Sort this shit out
-            setEmail(null);
-            setWakaKey(null);
-            setWakaUsername(null);
-            markArrpheusReadyToInvite(personRecordId);
-          }}
-          wakaKey={wakaKey}
-          wakaUsername={wakaUsername}
-        />
-      ) : null} */}
-
-      {/* <Modal isOpen={detectedInstall} close={() => setDetectedInstall(false)}>
-        <p className="text-3xl mb-2">Check your email!</p>
-        <p>You should see an invite to the Hack Club Slack.</p>
-
-        {navigator.userAgent.toLowerCase().includes("mobile") ? (
-          <p>
-            <br />
-            This next step <i>can</i> be done on your phone, but we strongly
-            recommend doing it on whatever computer you use to code!
-          </p>
-        ) : null}
-
-        <img
-          src="/party-orpheus.svg"
-          alt="a partying dinosaur"
-          className="mt-8 mx-auto w-1/2"
-        />
-
-        <Button onClick={() => setDetectedInstall(false)} className="ml-auto">
-          Dismiss
-        </Button>
-      </Modal> */}
     </>
   );
 }

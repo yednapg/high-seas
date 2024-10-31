@@ -48,28 +48,3 @@ export async function handleEmailSubmission(
     key,
   };
 }
-
-export async function markArrpheusReadyToInvite(id: string): Promise<void> {
-  console.log("Marking arrpheus ready to invite for", id);
-
-  return new Promise((resolve, reject) => {
-    highSeasPeopleTable().update(
-      [
-        {
-          id,
-          fields: {
-            arrpheus_ready_to_invite: true,
-          },
-        },
-      ],
-      (err: Error, records: any) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve();
-        }
-      },
-    );
-  });
-}
