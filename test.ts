@@ -6,6 +6,7 @@ export const getSelfPerson = async (slackId: string) => {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (tests)'
     },
   });
 

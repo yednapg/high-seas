@@ -58,6 +58,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (fetchShips)'
     },
   }).then((data) => data.json());
 
@@ -114,6 +115,7 @@ export async function person(): Promise<any> {
         headers: {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
           "Content-Type": "application/json",
+          'User-Agent': 'highseas.hackclub.com (person)'
         },
       }
     ).then((d) => d.json());
@@ -178,6 +180,7 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
     {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'User-Agent': 'highseas.hackclub.com (fetchSignpostFeed)'
       },
     }
   ).then((d) => d.json());

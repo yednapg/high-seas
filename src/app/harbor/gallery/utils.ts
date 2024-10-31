@@ -20,7 +20,10 @@ export async function getShips(offset: string | undefined): Promise<{
 }> {
   const res = await fetch(
     `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?view=Grid%20view${offset ? `&offset=${offset}` : ""}`,
-    { headers: { Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}` } },
+    { headers: {
+      Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+      'User-Agent': 'highseas.hackclub.com (getShips)'
+    } },
   );
   let data;
   try {

@@ -34,6 +34,7 @@ export async function markAcademyComplete() {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
         "Content-Type": "application/json",
+        'User-Agent': 'highseas.hackclub.com (markAcademyComplete)'
       },
       body: JSON.stringify({
         records: [

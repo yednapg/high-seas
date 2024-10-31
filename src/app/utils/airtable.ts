@@ -10,6 +10,7 @@ export const getSelfPerson = async (slackId: string) => {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSelfPerson)'
     },
   });
 
@@ -34,6 +35,7 @@ export const getSignpostUpdates = async () => {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSignpostUpdates)'
     },
   });
 
@@ -68,6 +70,7 @@ export async function getPersonByMagicToken(token: string): Promise<{
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getPersonByMagicToken)'
     },
   });
 

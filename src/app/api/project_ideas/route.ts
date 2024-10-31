@@ -101,7 +101,8 @@ const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) =
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'highseas.hackclub.com (project ideas)'
       },
       body: JSON.stringify({
         fields: {

@@ -45,6 +45,7 @@ async function processPendingInviteJobs() {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
         "Content-Type": "application/json",
+        'User-Agent': 'highseas.hackclub.com (processPendingInviteJobs)',
       },
       body: JSON.stringify({ records: fields }),
     },
