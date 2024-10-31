@@ -37,9 +37,10 @@ export default function Modal({
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 1.1 }}
+                className="max-w-3xl mx-auto"
               >
                 <JaggedCard
-                  className="w-full max-w-3xl text-left text-white relative mx-auto mt-20"
+                  className="w-full text-left text-white relative mx-auto mt-20"
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
                   {hideCloseButton ? null : (
