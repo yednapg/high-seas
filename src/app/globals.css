@@ -23,7 +23,8 @@ main {
     font-family: var(--font-main);
 }
 
-input {
+input,
+textarea {
     color: black;
 }
 
