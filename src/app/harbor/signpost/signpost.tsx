@@ -26,11 +26,17 @@ export default function SignPost({ session }: { session: any }) {
   );
   const [reason, setReason] = useLocalStorageState("cache.reason", "");
   const [signpostUpdates, setSignpostUpdates] = useLocalStorageState<SignpostFeedItem[]>("cache.signpost", []);
+  const [lastSignpostUpdate, setLastSignpostUpdate] = useLocalStorageState("cache.lastSignpostUpdate", new Date(0));
 
   useEffect(() => {
     fetchWaka().then(({ key }) => setWakaKey(key));
 
-    getSignpostUpdates().then((data) => {setSignpostUpdates(data)});
+    if ((new Date()).getTime() - lastSignpostUpdate > 1000 * 60 * 15) {
+      getSignpostUpdates().then((data) => {
+        setSignpostUpdates(data)
+        setLastSignpostUpdate(new Date())
+      });
+    }
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(
