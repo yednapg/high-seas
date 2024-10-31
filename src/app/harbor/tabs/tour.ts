@@ -495,7 +495,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-reason-finale",
-      text: `yer first vote is cast!! <strong style="color:#ec3750;">cast a dozen votes for each of your ships</strong> and the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
+      text: `yer first vote is cast!! <strong style="color:#ec3750;">cast a dozen votes for each of yer ships</strong> and the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
       focusedElBeforeOpen: false,
       buttons: [
         {
