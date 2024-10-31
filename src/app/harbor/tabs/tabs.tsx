@@ -8,7 +8,7 @@ import Shop from "../shop/shop";
 import { useEffect } from "react";
 import SignPost from "../signpost/signpost";
 import { type SafePerson, safePerson } from "../../utils/airtable";
-import { WakaLock } from "../../../components/ui/waka-lock";
+// import { WakaLock } from "../../../components/ui/waka-lock";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,6 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { sample, zeroMessage } from "../../../../lib/flavor";
-import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import Cookies from "js-cookie";
 import JaggedCard from "@/components/jagged-card";
 import { fetchWaka } from "@/app/utils/data";
@@ -36,7 +35,11 @@ const Balance = ({ balance }: { balance: number }) => {
         onMouseLeave={() => setOpen(false)}
       >
         <div className="flex items-center gap-1">
-          <img src="doubloon.svg" alt="doubloons" className="w-4 sm:w-5 h-4 sm:h-5" />
+          <img
+            src="doubloon.svg"
+            alt="doubloons"
+            className="w-4 sm:w-5 h-4 sm:h-5"
+          />
           <span className="mr-2">
             {Number.isNaN(balance) ? (
               ""
@@ -65,20 +68,15 @@ export default function Harbor({
   currentTab: string;
   session: HsSession;
 }) {
-  const [wakaUsername, setWakaUsername] = useLocalStorageState<string>('cache.wakaUsername', '');
-  const [wakaKey, setWakaKey] = useLocalStorageState<string>('cache.wakaKey', '');
-  const [hasHb, setHasHb] = useLocalStorageState<boolean>('cache.hasHb', false);
+  const [hasHb, setHasHb] = useLocalStorageState<boolean>("cache.hasHb", false);
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
-    null
+    null,
   );
 
   const [personTicketBalance, setPersonTicketBalance] =
     useLocalStorageState<string>("cache.personTicketBalance", "-");
-  const [hasCompletedTutorial, setHasCompletedTutorial] =
-    useLocalStorageState<boolean>("cache.hasCompletedTutorial", false);
-  const [showWakaSetupModal, setShowWakaSetupModal] = useState<boolean>();
 
   const router = useRouter();
 
@@ -89,10 +87,8 @@ export default function Harbor({
   // This could do with a lot of optimisation
   useEffect(() => {
     fetchWaka().then(({ key, username, hasHb }) => {
-      setWakaKey(key)
-      setWakaUsername(username)
-      setHasHb(hasHb)
-    })
+      setHasHb(hasHb);
+    });
 
     // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     // setWakaKey(key);
@@ -106,18 +102,14 @@ export default function Harbor({
 
     safePerson().then(async (p: SafePerson) => {
       setPersonTicketBalance(p.settledTickets);
-      setHasCompletedTutorial(p.hasCompletedTutorial);
       // sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
 
       console.log("safeperson:", p);
       console.log(
-        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`
+        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
       );
 
-      if (!hasHb) {
-        setShowWakaSetupModal(true);
-      } else if (!p.hasCompletedTutorial) {
-        // sessionStorage.setItem("tutorial", "true");
+      if (!p.hasCompletedTutorial) {
         console.warn("1 triggering tour");
         tour();
       }
@@ -198,7 +190,7 @@ export default function Harbor({
                 <TabsTrigger key={tab.name} value={tab.path}>
                   {tab.name}
                 </TabsTrigger>
-              )
+              ),
             )}
             <div className="right-px absolute mr-px text-green-400 text-sm">
               <Balance balance={personTicketBalance} />
@@ -224,33 +216,6 @@ export default function Harbor({
           </div>
         </Tabs>
       </div>
-
-      <SetupModal
-        isOpen={
-          showWakaSetupModal && sessionStorage.getItem("tutorial") !== "true"
-        }
-        close={() => {
-          setShowWakaSetupModal(false);
-          if (
-            !hasCompletedTutorial &&
-            sessionStorage.getItem("tutorial") !== "true"
-          ) {
-            console.warn("2 triggering tour");
-            tour();
-          }
-        }}
-        onHbDetect={() => {
-          setHasWakaHb(true);
-          setShowWakaSetupModal(false);
-          if (
-            !hasCompletedTutorial &&
-            sessionStorage.getItem("tutorial") !== "true"
-          ) {
-            console.warn("3 triggering tour");
-            tour();
-          }
-        }}
-      />
     </>
   );
 }
