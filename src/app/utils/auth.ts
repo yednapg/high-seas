@@ -131,18 +131,6 @@ export async function createSlackSession(slackOpenidToken: string) {
           }),
         },
       );
-      /*
-      curl -X POST https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people \
-        -H "Authorization: Bearer YOUR_SECRET_API_TOKEN" \
-        -H "Content-Type: application/json" \
-        --data '{
-        "records": [
-          {
-            "fields": {
-              "slack_id": "UDK5M9Y13",
-              "ships": [
-                "recMmHnXlThfgJO9f",
-      */
     }
 
     const sessionData: HsSession = {
