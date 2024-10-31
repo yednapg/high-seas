@@ -34,8 +34,8 @@ const Svg = (bgColor) => (
         y2="574.503"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#48BBFE" />
-        <stop offset="1" stop-color="#2B7098" />
+        <stop stopColor="#48BBFE" />
+        <stop offset="1" stopColor="#2B7098" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_1171_3579"
@@ -45,8 +45,8 @@ const Svg = (bgColor) => (
         y2="570.264"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#4857FE" />
-        <stop offset="1" stop-color="#982B7B" />
+        <stop stopColor="#4857FE" />
+        <stop offset="1" stopColor="#982B7B" />
       </linearGradient>
     </defs>
   </svg>

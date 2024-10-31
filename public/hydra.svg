@@ -63,16 +63,16 @@
 <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1297_10206"/>
 </filter>
 <linearGradient id="paint0_linear_1297_10206" x1="171.95" y1="57" x2="171.95" y2="188.533" gradientUnits="userSpaceOnUse">
-<stop stop-color="#2CB59C"/>
-<stop offset="1" stop-color="#207B85"/>
+<stop stopColor="#2CB59C"/>
+<stop offset="1" stopColor="#207B85"/>
 </linearGradient>
 <linearGradient id="paint1_linear_1297_10206" x1="129.2" y1="5" x2="129.2" y2="132.46" gradientUnits="userSpaceOnUse">
-<stop stop-color="#238F7B"/>
-<stop offset="1" stop-color="#145C4F"/>
+<stop stopColor="#238F7B"/>
+<stop offset="1" stopColor="#145C4F"/>
 </linearGradient>
 <linearGradient id="paint2_linear_1297_10206" x1="50.1605" y1="205.628" x2="168.34" y2="253.376" gradientUnits="userSpaceOnUse">
-<stop stop-color="#166153"/>
-<stop offset="1" stop-color="#145C4F"/>
+<stop stopColor="#166153"/>
+<stop offset="1" stopColor="#145C4F"/>
 </linearGradient>
 <clipPath id="clip0_1297_10206">
 <rect width="349" height="194" fill="white"/>
