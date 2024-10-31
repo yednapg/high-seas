@@ -41,7 +41,7 @@ const Balance = ({ balance }: { balance: number }) => {
             className="w-4 sm:w-5 h-4 sm:h-5"
           />
           <span className="mr-2">
-            {Number.isNaN(balance) ? (
+            {(Number.isNaN(balance) || balance === undefined || balance === null) ? (
               ""
             ) : (
               <>
