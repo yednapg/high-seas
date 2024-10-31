@@ -41,7 +41,18 @@ async function processPendingInviteJobs() {
 }
 
 async function processPendingPersonInitJobs() {
-  const { rows } = await sql`SELECT * FROM background_job WHERE type = 'create_person' AND status = 'pending' LIMIT 1`;
+  const { rows } = await sql`
+  SELECT DISTINCT ON (args->>'email') 
+    args->>'email' AS email, 
+    args->>'ipAddress' AS ipAddress, 
+    args->>'isMobile' AS isMobile,
+    args->>'username' AS username
+  FROM background_job
+  WHERE type = 'create_person'
+  AND status = 'pending'
+  ORDER BY args->>'email', created_at DESC
+  LIMIT 10;
+  `
 
   if (rows.length === 0) { return }
 
@@ -49,9 +60,9 @@ async function processPendingPersonInitJobs() {
 
   const fields = rows.map(row => ({
     'fields': {
-      'email': row.args.email,
-      'ip_address': row.args.ipAddress,
-      'email_submitted_on_mobile': row.args.isMobile,
+      'email': row.email,
+      'ip_address': row.ipAddress,
+      'email_submitted_on_mobile': row.isMobile,
     }
   }))
 
@@ -60,31 +71,30 @@ async function processPendingPersonInitJobs() {
   )
   const upsertBody = {
     records: fields,
-    performUpsert: {
-      fieldsToMergeOn: ["email"]
-    }
+    "performUpsert": {
+      "fieldsToMergeOn": [
+        "email"
+      ]
+    },
   }
   console.log(JSON.stringify(upsertBody, null, 2))
   const result = await fetch('https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/tblfTzYVqvDJlIYUB', {
     cache: "no-cache",
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ...upsertBody
-      // records: fields,
-      // performUpsert: true,
-      // "fieldsToMergeOn": [ "email" ]
-      // "performUpsert": {
-      //   "fieldsToMergeOn": [ "email" ]
-      // }
+      records: fields,
+      "performUpsert": {
+        "fieldsToMergeOn": [ "email" ]
+      }
     }),
   }).then(r => r.json()).catch(console.error)
   console.log(result)
   const records = result?.records || []
-  console.log("Person created $$$$$", records)
+  console.log("Person created", records)
 
   await Promise.all(records.map(async (record) => {
     return await sql`
