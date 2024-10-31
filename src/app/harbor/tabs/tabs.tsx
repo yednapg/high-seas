@@ -42,10 +42,10 @@ const Balance = ({ balance }: { balance: number }) => {
           />
           <span className="mr-2">
             {(Number.isNaN(balance) || balance === undefined || balance === null) ? (
-              ""
+              "-"
             ) : (
               <>
-                {Math.floor(balance)}
+                {Math.floor(balance) || "..."}
                 <span className="sm:inline hidden"> Doubloons</span>
               </>
             )}
