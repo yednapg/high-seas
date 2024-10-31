@@ -40,11 +40,15 @@ if ! command -v code &> /dev/null; then
     # Detect OS for appropriate keyboard shortcut in message
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS
-        echo "Error: VS Code is not installed. You can install it at https://code.visualstudio.com/Download"
+        echo "Error: VS Code is not installed. Install it at https://code.visualstudio.com/Download"
         echo "(In VS Code, press ⌘⇧P and type \"Shell Command: Install 'code' command in PATH\". Do NOT run this in the terminal.)"
+    elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        # Windows
+        echo "Error: VS Code is not installed. Install it at https://code.visualstudio.com/Download"
+        echo "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\". Do NOT run this in the terminal.)"
     else
-        # Linux/Windows
-        echo "Error: VS Code is not installed. You can install it at https://code.visualstudio.com/Download"
+        # Linux or other
+        echo "Error: VS Code is not installed. Install it at https://code.visualstudio.com/Download"
         echo "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\". Do NOT run this in the terminal.)"
     fi
     exit 1
@@ -64,10 +68,13 @@ log "Sending test heartbeats to verify setup..."
 for i in {1..2}; do
    log "Sending heartbeat $i/2..."
    CURRENT_TIME=$(date +%s)
-   response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://waka.hackclub.com/api/heartbeat" \
-       -H "Authorization: Bearer $BEARER_TOKEN" \
-       -H "Content-Type: application/json" \
-       -d '{
+
+   # JSON formatting adjustments for Windows
+   if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+       HEARTBEAT_DATA="{\"branch\":\"master\",\"category\":\"coding\",\"cursorpos\":1,\"entity\":\"welcome.txt\",\"type\":\"file\",\"lineno\":1,\"lines\":1,\"project\":\"welcome\",\"time\":$CURRENT_TIME,\"user_agent\":\"wakatime/v1.102.1 (windows) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2\"}"
+   else
+       # Linux/macOS
+       HEARTBEAT_DATA='{
            "branch": "master",
            "category": "coding",
            "cursorpos": 1,
@@ -77,8 +84,15 @@ for i in {1..2}; do
            "lines": 1,
            "project": "welcome",
            "time": '"$CURRENT_TIME"',
-           "user_agent": "wakatime/v1.102.1 (darwin-x86_64) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
-       }')
+           "user_agent": "wakatime/v1.102.1 (linux/macOS) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
+       }'
+   fi
+
+   # Send the heartbeat
+   response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://waka.hackclub.com/api/heartbeat" \
+       -H "Authorization: Bearer $BEARER_TOKEN" \
+       -H "Content-Type: application/json" \
+       -d "$HEARTBEAT_DATA")
    
    if [ "$response" -eq 201 ]; then
        log "✓ Heartbeat $i sent successfully"
