@@ -38,13 +38,14 @@ async function processPendingInviteJobs() {
   );
 
   const createdRecords = await fetch(
-    "https://api.airtable.com/v0/appaqcJtn33vb59Au/High Seas",
+    "https://middleman.hackclub.com/airtable/v0/appaqcJtn33vb59Au/High Seas",
     {
       cache: "no-cache",
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
         "Content-Type": "application/json",
+        'User-Agent': 'highseas.hackclub.com (processPendingInviteJobs)',
       },
       body: JSON.stringify({ records: fields }),
     },

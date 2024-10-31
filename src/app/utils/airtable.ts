@@ -3,13 +3,14 @@
 import { person } from "./data";
 
 export const getSelfPerson = async (slackId: string) => {
-  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/people`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`;
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`);
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSelfPerson)'
     },
   });
 
@@ -28,12 +29,13 @@ export const getSelfPerson = async (slackId: string) => {
 };
 
 export const getSignpostUpdates = async () => {
-  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/signpost`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/signpost`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSignpostUpdates)'
     },
   });
 
@@ -62,12 +64,13 @@ export async function getPersonByMagicToken(token: string): Promise<{
   const apiKey = process.env.AIRTABLE_API_KEY;
   const table = "people";
 
-  const url = `https://api.airtable.com/v0/${baseId}/${table}?filterByFormula={magic_auth_token}='${encodeURIComponent(token)}'`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${baseId}/${table}?filterByFormula={magic_auth_token}='${encodeURIComponent(token)}'`;
 
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getPersonByMagicToken)'
     },
   });
 

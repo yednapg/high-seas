@@ -97,11 +97,12 @@ const generateIdeas = async () => {
 
 const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) => {
   try {
-    const result = await fetch('https://api.airtable.com/v0/appQ6GyueRp5jqc9Q/high_seas_project_ideas', {
+    const result = await fetch('https://middleman.hackclub.com/airtable/v0/appQ6GyueRp5jqc9Q/high_seas_project_ideas', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'highseas.hackclub.com (project ideas)'
       },
       body: JSON.stringify({
         fields: {
