@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
   if (!slackId) return response;
 
   if (!request.cookies.get("ships")) {
-    const ships = await fetchShips(slackId);
+    // const ships = await fetchShips(slackId);
     // response.cookies.set({
     //   name: "ships",
     //   value: JSON.stringify(ships),
@@ -31,13 +31,13 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!request.cookies.get("signpost-feed")) {
-    const signpostFeed = await fetchSignpostFeed();
-    response.cookies.set({
-      name: "signpost-feed",
-      value: JSON.stringify(signpostFeed),
-      path: "/signpost",
-      expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
-    });
+    // const signpostFeed = await fetchSignpostFeed();
+    // response.cookies.set({
+    //   name: "signpost-feed",
+    //   value: JSON.stringify(signpostFeed),
+    //   path: "/signpost",
+    //   expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
+    // });
   }
 
   return response;
