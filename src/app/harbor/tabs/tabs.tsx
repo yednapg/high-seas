@@ -12,7 +12,7 @@ import { type SafePerson, safePerson } from "../../utils/airtable";
 import { tour } from "./tour";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useRouter } from "next/navigation";
-import type { HsSession } from "@/app/utils/auth";
+import { getSession, type HsSession } from "@/app/utils/auth";
 import {
   Popover,
   PopoverTrigger,
@@ -21,11 +21,22 @@ import {
 import { sample, zeroMessage } from "../../../../lib/flavor";
 import Cookies from "js-cookie";
 import JaggedCard from "@/components/jagged-card";
-import { fetchWaka } from "@/app/utils/data";
 
-const Balance = ({ balance }: { balance: number }) => {
-  const [open, setOpen] = useState(false);
+const Balance = () => {
+  "use client";
+
+  const [open, setOpen] = useState(true);
   const brokeMessage = useMemo(() => sample(zeroMessage), []);
+
+  const balance = Number(Cookies.get("tickets"));
+  if (Number.isNaN(balance)) {
+    getSession().then((s) =>
+      console.error(
+        "Ticket balance is NaN, which signals an issue with the ticket fetching from Airtable in middleware. Session: ",
+        JSON.stringify(s),
+      ),
+    );
+  }
 
   return (
     <Popover open={open && balance == 0} onOpenChange={setOpen}>
@@ -41,14 +52,8 @@ const Balance = ({ balance }: { balance: number }) => {
             className="w-4 sm:w-5 h-4 sm:h-5"
           />
           <span className="mr-2">
-            {(Number.isNaN(balance) || balance === undefined || balance === null) ? (
-              "-"
-            ) : (
-              <>
-                {Math.floor(balance) || "..."}
-                <span className="sm:inline hidden"> Doubloons</span>
-              </>
-            )}
+            {Math.floor(balance) || "..."}
+            <span className="sm:inline hidden"> Doubloons</span>
           </span>
         </div>
       </PopoverTrigger>
@@ -87,37 +92,31 @@ export default function Harbor({
     null,
   );
 
-  const [personTicketBalance, setPersonTicketBalance] =
-    useLocalStorageState<string>("cache.personTicketBalance", "-");
-
   const router = useRouter();
 
   const handleTabChange = (newTab: string) => {
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const initializeHarbor = async () => {
-      try {
-        const { hasHb } = await fetchWaka();
-        setHasHb(hasHb);
+  // useEffect(() => {
+  //   const initializeHarbor = async () => {
+  //     try {
+  //       // const { hasHb } = await fetchWaka();
+  //       // setHasHb(hasHb);
+  //       // const p: SafePerson = await safePerson();
+  //       // if (!p.hasCompletedTutorial) {
+  //       //   console.warn("1 triggering tour");
+  //       //   tour();
+  //       // }
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-        const p: SafePerson = await safePerson();
-        setPersonTicketBalance(p.settledTickets);
-
-        if (!p.hasCompletedTutorial) {
-          console.warn("1 triggering tour");
-          tour();
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeHarbor();
-  }, []);
+  //   initializeHarbor();
+  // }, []);
 
   // Keep ships and shipChain in sync
   // useEffect(() => {
@@ -128,24 +127,29 @@ export default function Harbor({
 
   const tabs = [
     {
-      name: "📮",
+      name: (
+        <>
+          <img src="/signpost.png" className="mr-2" width={16} alt="" />
+          Signpost
+        </>
+      ),
       path: "signpost",
       component: <SignPost session={session} />,
     },
     {
-      name: "Shipyard",
+      name: <>Shipyard</>,
       path: "shipyard",
       component: <Shipyard session={session} shipChains={myShipChains} />,
       lockOnNoHb: true,
     },
     {
-      name: "Wonderdome",
+      name: <>Wonderdome</>,
       path: "wonderdome",
       component: <Battles session={session} />,
       lockOnNoHb: true,
     },
     {
-      name: "Shop",
+      name: <>Shop</>,
       path: "shop",
       component: <Shop session={session} />,
     },
@@ -171,28 +175,18 @@ export default function Harbor({
           onValueChange={handleTabChange}
         >
           <TabsList className="mx-2 my-2 relative">
-            {tabs.map((tab) =>
-              tab.name === "📮" ? (
-                <TabsTrigger
-                  className="left-px absolute"
-                  key={tab.name}
-                  value={tab.path}
-                >
-                  <img src="/signpost.png" width={20} alt="" />
-                </TabsTrigger>
-              ) : (
-                <TabsTrigger key={tab.name} value={tab.path}>
-                  {tab.name}
-                </TabsTrigger>
-              ),
-            )}
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab.path} value={tab.path}>
+                {tab.name}
+              </TabsTrigger>
+            ))}
             <div className="right-px absolute mr-px text-green-400 text-sm">
-              <Balance balance={personTicketBalance} />
+              <Balance />
             </div>
           </TabsList>
           <div className="flex-1 p-3" id="harbor-tab-scroll-element">
             {tabs.map((tab) => (
-              <TabsContent key={tab.name} value={tab.path} className="h-full">
+              <TabsContent key={tab.path} value={tab.path} className="h-full">
                 {tab.component}
                 {/* {tab.lockOnNoHb &&
               hasWakaHb === false &&
