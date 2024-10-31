@@ -2,7 +2,7 @@
 
 import { getSelfPerson } from "@/app/utils/airtable";
 import { getSession } from "@/app/utils/auth";
-import { fetchShips } from "@/app/utils/data";
+import { fetchShips, person } from "@/app/utils/data";
 import { getWakaSessions } from "@/app/utils/waka";
 import type { Ship } from "@/app/utils/data";
 import Airtable from "airtable";
@@ -184,48 +184,57 @@ export async function updateShip(ship: Ship) {
   );
 }
 
+// Good function. I like. Wawaweewah very nice.
 export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to ship a staged ship with no Slack OAuth session",
+      "You tried to ship a draft Ship, but you're not signed in!",
     );
     console.log(error);
     throw error;
   }
 
-  const isTutorial = sessionStorage.getItem("tutorial") === "true";
+  const p = await person();
 
-  if (!isTutorial) {
-    return;
-  } else {
-    let credited_hours;
-    if (ship.wakatimeProjectName) {
-      const wakatimeProjects = await getWakaSessions().then((p) => p.projects);
-      credited_hours =
-        wakatimeProjects.find(
-          ({ key }: { key: string }) => key === ship.wakatimeProjectName,
-        ).total /
-        60 /
-        60;
-    }
-
-    base()(shipsTableName).update(
-      [
-        {
-          id: ship.id,
-          fields: {
-            ship_status: "shipped",
-            credited_hours,
-            ship_time: new Date().toISOString(),
-          },
-        },
-      ],
-      (err: Error, records: any) => {
-        if (err) console.error(err);
-      },
+  if (!p.fields.academy_completed) {
+    throw new Error(
+      "You can't ship a Ship if you haven't completed Pirate Academy!",
+    );
+  } else if (!p.fields.verified_eligible) {
+    throw new Error("You can't ship a Ship before you've been verified!");
+  } else if (!ship.wakatimeProjectNames) {
+    throw new Error(
+      "You can't ship a Ship that has no Hakatime projects associated with it!",
     );
   }
+
+  const wakatimeProjects = await getWakaSessions();
+  console.log("woah. we got waktime projects", wakatimeProjects);
+  const associatedProjects = wakatimeProjects.projects.filter(({ key }) =>
+    ship.wakatimeProjectNames.includes(key),
+  );
+  const projectHours = associatedProjects.map(({ total }) => total / 60 / 60);
+  const totalHours = projectHours.reduce((prev, curr) => (prev += curr), 0);
+
+  base()(shipsTableName).update(
+    [
+      {
+        id: ship.id,
+        fields: {
+          ship_status: "shipped",
+          credited_hours: totalHours,
+          ship_time: new Date().toISOString(),
+        },
+      },
+    ],
+    (err: Error, records: any) => {
+      if (err) {
+        console.error(err);
+        throw err;
+      }
+    },
+  );
 }
 
 export async function deleteShip(shipId: string) {

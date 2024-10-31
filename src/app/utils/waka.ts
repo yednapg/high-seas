@@ -125,7 +125,7 @@ export interface WakaInfo {
 export async function createWaka(
   email: string,
   name: string | null | undefined,
-  slackId: string | null | undefined
+  slackId: string | null | undefined,
 ): Promise<WakaInfo> {
   const password = crypto.randomUUID();
 
@@ -138,12 +138,12 @@ export async function createWaka(
     username:
       slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
   };
-  
+
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${WAKA_API_KEY}`,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams(payload),
   });
@@ -163,12 +163,14 @@ export async function createWaka(
   return { username, key: api_key };
 }
 
-export async function getWakaSessions(): Promise<any> {
+export async function getWakaSessions(): Promise<{
+  projects: { key: string; total: number }[];
+}> {
   const { username, key } = await fetchWaka();
 
   if (!username || !key) {
     const err = new Error(
-      "While getting sessions, no waka info could be found or created"
+      "While getting sessions, no waka info could be found or created",
     );
     console.error(err);
     throw err;
@@ -185,7 +187,7 @@ export async function getWakaSessions(): Promise<any> {
         // Note, this should probably just be an admin token in the future.
         Authorization: `Bearer ${key}`,
       },
-    }
+    },
   );
 
   let summaryResJson;

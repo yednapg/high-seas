@@ -5,9 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../../../components/ui/button";
 import Icon from "@hackclub/icons";
 import Modal from "../../../components/ui/modal";
-import {
-  handleEmailSubmission,
-} from "../marketing-utils";
+import { handleEmailSubmission } from "../marketing-utils";
 import { sendInviteJob } from "../invite-job";
 
 export default function EmailSubmissionForm() {
@@ -49,8 +47,8 @@ export default function EmailSubmissionForm() {
 
     await Promise.all([
       handleEmailSubmission(emailStr, mobile, ua),
-      sendInviteJob({ email: emailStr, userAgent: ua })
-    ])
+      sendInviteJob({ email: emailStr, userAgent: ua }),
+    ]);
     setEmail(emailStr);
   };
 
@@ -91,8 +89,11 @@ export default function EmailSubmissionForm() {
       </div>
 
       <Modal isOpen={email} close={() => setEmail(null)}>
-        <p className="text-xl mb-4">
-          We can't wait for you to join High Seas! We're under heavy demand
+        <div className="flex flex-col gap-12">
+          <div className="space-y-4">
+            <p className="text-3xl">Ahoy!</p>
+            <p className="text-xl mb-4">
+                   We can't wait for you to join High Seas! We're under heavy demand
           right now, so it may take some time to get through the queue.
           <br></br>
           <br></br>
@@ -101,10 +102,12 @@ export default function EmailSubmissionForm() {
           <br></br>
           <br></br>
           Hang tight and we'll see you soon 🏴‍☠️
-        </p>
-        <img src="/party-orpheus.svg" />
+            </p>
+          </div>
+          <img src="/party-orpheus.svg" className="w-1/2 mx-auto" />
+          <Button>Aye aye!</Button>
+        </div>
       </Modal>
-
     </>
   );
 }

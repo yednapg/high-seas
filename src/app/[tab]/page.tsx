@@ -15,14 +15,14 @@ export default function Page({
   params: { tab: string };
   searchParams: any;
 }) {
-  const [session, setSession] = useLocalStorageState('cache.session', {});
+  const [session, setSession] = useLocalStorageState("cache.session", {});
 
   useEffect(() => {
     getSession().then((s) => {
       if (s) {
         setSession(s);
       } else {
-        window.location.pathname = "/?msg='Oi oi oi, you can't be going there'";
+        window.location.pathname = "/";
       }
     });
   }, []);
