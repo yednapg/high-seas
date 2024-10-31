@@ -8,7 +8,7 @@ import Verification from "./verification";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
-import { fetchSignpostFeed, fetchWaka, SignpostFeedItem } from "@/app/utils/data";
+import { fetchWaka, SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
   const [wakaKey, setWakaKey] = useLocalStorageState("cache.wakaKey", "");
@@ -22,22 +22,30 @@ export default function SignPost({ session }: { session: any }) {
 
   const [verification, setVerification] = useLocalStorageState(
     "cache.verification",
-    "",
+    "Eligible L1", // load in verified by default to prevent warning sign "popping" in 
   );
   const [reason, setReason] = useLocalStorageState("cache.reason", "");
   const [signpostUpdates, setSignpostUpdates] = useLocalStorageState<SignpostFeedItem[]>("cache.signpost", []);
+  const [lastSignpostUpdate, setLastSignpostUpdate] = useLocalStorageState("cache.lastSignpostUpdate", new Date(0));
 
   useEffect(() => {
     fetchWaka().then(({ key }) => setWakaKey(key));
 
-    getSignpostUpdates().then((data) => {setSignpostUpdates(data)});
+    if ((new Date()).getTime() - lastSignpostUpdate > 1000 * 60 * 15) {
+      getSignpostUpdates().then((data) => {
+        setSignpostUpdates(data)
+        setLastSignpostUpdate(new Date())
+      });
+    }
 
-    getSelfPerson(session.slackId).then((data) => {
-      setVerification(
-        data?.["fields"]?.["verification_status"]?.[0]?.toString() || "",
-      );
-      setReason(data?.["fields"]?.["Rejection Reason"] || "");
-    });
+    if (session?.slackId) {
+      getSelfPerson(session.slackId).then((data) => {
+        setVerification(
+          data?.["fields"]?.["verification_status"]?.[0]?.toString() || "",
+        );
+        setReason(data?.["fields"]?.["Rejection Reason"] || "");
+      });
+    }
   }, [session.slackId]);
 
   return (
