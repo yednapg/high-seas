@@ -1,5 +1,5 @@
 export const getSelfPerson = async (slackId: string) => {
-  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/people`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`;
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`);
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
     method: "GET",

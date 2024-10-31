@@ -51,7 +51,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     {ship_status} != 'deleted'
   )`;
 
-  const url = `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
+  const url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
     filterFormula
   )}`;
   const res = await fetch(url, {
@@ -109,7 +109,7 @@ export async function person(): Promise<any> {
     if (!session) return reject("No session present");
 
     const record = await fetch(
-      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
+      `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
@@ -174,7 +174,7 @@ export interface SignpostFeedItem {
 }
 export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   const result = await fetch(
-    "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/signpost",
+    "https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/signpost",
     {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,

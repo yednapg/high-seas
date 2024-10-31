@@ -38,7 +38,7 @@ async function processPendingInviteJobs() {
   );
 
   const createdRecords = await fetch(
-    "https://api.airtable.com/v0/appaqcJtn33vb59Au/High Seas",
+    "https://middleman.hackclub.com/airtable/v0/appaqcJtn33vb59Au/High Seas",
     {
       cache: "no-cache",
       method: "POST",

@@ -65,7 +65,7 @@ export interface WakaInfo {
 
 //     // Add to person record
 //     const res = await fetch(
-//       `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people`,
+//       `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people`,
 //       {
 //         method: "PATCH",
 //         headers: {
