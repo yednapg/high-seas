@@ -96,7 +96,10 @@ export default function EmailSubmissionForm() {
           right now, so it may take some time to get through the queue.
           <br></br>
           <br></br>
-          <b>Look out for an email from Slack—<i>that's your ticket in!</i> </b> 
+          <b>Look out for an email from Slack—<i>that's your ticket in!</i> </b>
+          When it comes, we strongly recommend joining from the computer you code on.
+          <br></br>
+          <br></br>
           Hang tight and we'll see you soon 🏴‍☠️
         </p>
         <img src="/party-orpheus.svg" />
