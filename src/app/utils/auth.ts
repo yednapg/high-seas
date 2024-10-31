@@ -135,7 +135,7 @@ export async function createSlackSession(slackOpenidToken: string) {
         },
       ).then((d) => d.json());
 
-      console.log({
+      console.error("MAXSIGNINTEST", {
         payload,
         payloadSub: payload.sub,
         body,
