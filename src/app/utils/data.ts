@@ -1,6 +1,5 @@
 "use server";
 
-import { cookies } from "next/headers";
 /* @malted says:
  * Hi! Welcome to `data.ts` :)
  * These are critical functions primarily used by `middleware.ts`.
@@ -15,6 +14,7 @@ import { cookies } from "next/headers";
 
 import { getSession } from "./auth";
 import { createWaka } from "./waka";
+import { cookies } from "next/headers";
 
 //#region Ships
 export type ShipType = "project" | "update";
@@ -52,13 +52,13 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
   )`;
 
   const url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
-    filterFormula
+    filterFormula,
   )}`;
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
-      'User-Agent': 'highseas.hackclub.com (fetchShips)'
+      "User-Agent": "highseas.hackclub.com (fetchShips)",
     },
   }).then((data) => data.json());
 
@@ -96,6 +96,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
       updateDescription: r["fields"]["update_description"] as string | null,
       reshippedFromId,
       reshippedToId,
+      paidOut: Boolean(r["fields"]["paid_out"]),
     };
 
     return ship;
@@ -115,9 +116,9 @@ export async function person(): Promise<any> {
         headers: {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
           "Content-Type": "application/json",
-          'User-Agent': 'highseas.hackclub.com (person)'
+          "User-Agent": "highseas.hackclub.com (person)",
         },
-      }
+      },
     ).then((d) => d.json());
     if (!record) return reject("Person not found");
 
@@ -130,14 +131,14 @@ export async function person(): Promise<any> {
 export async function hasHbData(username: string): Promise<boolean> {
   const res = await fetch(
     `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(
-      username
+      username,
     )}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
         accept: "application/json",
       },
-    }
+    },
   ).then((res) => res.json());
 
   return res.hasData;
@@ -148,13 +149,13 @@ export async function fetchWaka(): Promise<{
   hasHb: boolean;
 }> {
   const { slack_id, email, full_name, preexisting_user } = await person().then(
-    (p) => p["fields"]
+    (p) => p["fields"],
   );
 
   const { username, key } = await createWaka(
     email,
     preexisting_user ? full_name : null,
-    preexisting_user ? slack_id : null
+    preexisting_user ? slack_id : null,
   );
 
   const hasHb = await hasHbData(username);
@@ -180,9 +181,9 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
     {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-        'User-Agent': 'highseas.hackclub.com (fetchSignpostFeed)'
+        "User-Agent": "highseas.hackclub.com (fetchSignpostFeed)",
       },
-    }
+    },
   ).then((d) => d.json());
 
   const records = result.records;

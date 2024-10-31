@@ -41,6 +41,7 @@ export default function Ships({
   const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null);
   const [session, setSession] = useState<HsSession | null>(null);
   const [isEditingShip, setIsEditingShip] = useState(false);
+  const [errorModal, setErrorModal] = useState<string>();
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -155,28 +156,31 @@ export default function Ships({
                 onClick={async (e) => {
                   e.stopPropagation();
                   console.log("Shipping", s);
-                  await stagedToShipped(s);
+
+                  try {
+                    await stagedToShipped(s);
+                  } catch (err: any) {
+                    setErrorModal(err.toString());
+                  }
                   location.reload();
                 }}
               >
                 SHIP SHIP!
               </Button>
+            ) : s.paidOut ? (
+              <Button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  console.log("Shipping an update...", s);
+                  setNewUpdateShip(s);
+                  // await stagedToShipped(s);
+                  // location.reload();
+                }}
+              >
+                Ship an update!
+              </Button>
             ) : (
-              s.paidOut ? (
-                <Button
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    console.log("Shipping an update...", s);
-                    setNewUpdateShip(s);
-                    // await stagedToShipped(s);
-                    // location.reload();
-                  }}
-                >
-                  Ship an update!
-                </Button>
-              ) : (
-                <p>Awaiting payout</p>
-              )
+              <p>Awaiting payout</p>
             )}
           </div>
         )}
@@ -517,6 +521,22 @@ export default function Ships({
             <Icon glyph="view-close" />
           </motion.button>
         </Card>
+      </Modal>
+
+      <Modal isOpen={!!errorModal} close={() => setErrorModal(undefined)}>
+        <p className="text-3xl mb-4">Arrrr! Something broke.</p>
+        <p className="mb-12">{errorModal}</p>
+        <img
+          src="/dino_debugging_white.svg"
+          alt="a confused dinsaur"
+          className="mx-auto"
+        />
+        <Button
+          className="block ml-auto"
+          onClick={() => setErrorModal(undefined)}
+        >
+          Whatever
+        </Button>
       </Modal>
     </>
   );
