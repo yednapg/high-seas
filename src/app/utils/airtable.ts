@@ -3,13 +3,14 @@
 import { person } from "./data";
 
 export const getSelfPerson = async (slackId: string) => {
-  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/people`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`;
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`);
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSelfPerson)'
     },
   });
 
@@ -28,16 +29,18 @@ export const getSelfPerson = async (slackId: string) => {
 };
 
 export const getSignpostUpdates = async () => {
-  const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/signpost`;
-  const response = await fetch(`${url}}`, {
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/signpost`;
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getSignpostUpdates)'
     },
   });
 
   if (!response.ok) {
+    console.log(response);
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
@@ -48,6 +51,7 @@ export const getSignpostUpdates = async () => {
     console.error(e, await response.text());
     throw e;
   }
+  console.log(data.records);
   return data.records;
 };
 
@@ -60,12 +64,13 @@ export async function getPersonByMagicToken(token: string): Promise<{
   const apiKey = process.env.AIRTABLE_API_KEY;
   const table = "people";
 
-  const url = `https://api.airtable.com/v0/${baseId}/${table}?filterByFormula={magic_auth_token}='${encodeURIComponent(token)}'`;
+  const url = `https://middleman.hackclub.com/airtable/v0/${baseId}/${table}?filterByFormula={magic_auth_token}='${encodeURIComponent(token)}'`;
 
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (getPersonByMagicToken)'
     },
   });
 
@@ -106,7 +111,7 @@ export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongP
 // deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);
-  return person.fields.votes_remaining_for_next_pending_ship as number;
+  return person["fields"]["votes_remaining_for_next_pending_ship"] as number;
 }
 
 /// Person record info we can expose to the frontend
@@ -124,27 +129,25 @@ export interface SafePerson {
 
 // Good method
 export async function safePerson(): Promise<SafePerson> {
-  return new Promise(async (resolve, reject) => {
-    const record = await person();
+  const record = await person();
 
-    const id = record.id;
-    const createdTime = new Date(record.createdTime);
-    const settledTickets = Number(record.fields.settled_tickets);
-    const hasCompletedTutorial = !!record.fields.academy_completed;
-    const votesRemainingForNextPendingShip = parseInt(
-      record.fields.votes_remaining_for_next_pending_ship,
-    );
-    const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile;
-    const preexistingUser = !!record.fields.preexisting_user;
+  const id = record.id;
+  const createdTime = new Date(record.createdTime);
+  const settledTickets = Number(record.fields.settled_tickets);
+  const hasCompletedTutorial = !!record.fields.academy_completed;
+  const votesRemainingForNextPendingShip = parseInt(
+    record.fields.votes_remaining_for_next_pending_ship,
+  );
+  const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile;
+  const preexistingUser = !!record.fields.preexisting_user;
 
-    resolve({
-      id,
-      createdTime,
-      settledTickets,
-      hasCompletedTutorial,
-      votesRemainingForNextPendingShip,
-      emailSubmittedOnMobile,
-      preexistingUser,
-    });
-  });
+  return {
+    id,
+    createdTime,
+    settledTickets,
+    hasCompletedTutorial,
+    votesRemainingForNextPendingShip,
+    emailSubmittedOnMobile,
+    preexistingUser,
+  };
 }

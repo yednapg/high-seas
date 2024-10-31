@@ -5,7 +5,8 @@ import Harbor from "../harbor/tabs/tabs";
 import { createMagicSession, getSession } from "../utils/auth";
 import { Card } from "@/components/ui/card";
 import { SoundButton } from "../../components/sound-button.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useLocalStorageState from "../../../lib/useLocalStorageState";
 
 export default function Page({
   params,
@@ -14,7 +15,7 @@ export default function Page({
   params: { tab: string };
   searchParams: any;
 }) {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useLocalStorageState('cache.session', {});
 
   useEffect(() => {
     getSession().then((s) => {
@@ -54,10 +55,10 @@ export default function Page({
       />
       <SoundButton />
       <Card
-        className="w-full max-w-4xl flex flex-col mx-auto mt-20"
+        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 overflow-x-hidden"
         type={"cardboard"}
       >
-        {session ? (
+        {session?.slackId ? (
           <Harbor session={session} currentTab={tab} />
         ) : (
           <p className="text-center">Session is loading...</p>

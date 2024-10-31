@@ -4,9 +4,11 @@ import { Button, buttonVariants } from "./ui/button";
 
 export default function SignOut() {
   const handleOnClick = () => {
-    localStorage.removeItem("cache.wakaToken");
-    localStorage.removeItem("cache.hasWakaHb");
-    localStorage.removeItem("cache.wakaEmail");
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith("cache.")) {
+        localStorage.removeItem(key);
+      }
+    })
   };
 
   return (

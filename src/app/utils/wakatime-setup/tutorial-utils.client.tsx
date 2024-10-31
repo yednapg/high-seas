@@ -6,29 +6,34 @@ import { Button } from "../../../components/ui/button";
 
 export type Os = "windows" | "macos" | "linux" | "unknown";
 export const getInstallCommand = (platform: string, wakaKey: string) => {
+  const currentBaseUrl = window.location.origin;
   switch (platform) {
     case "windows":
       return {
         label: "Windows PowerShell",
-        command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl https://hack.club/haka-install.ps1)`,
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.ps1`,
+        command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl ${currentBaseUrl}/scripts/hackatime-install.ps1)`,
         lang: "powershell",
       };
     case "macos":
       return {
         label: "macOS Terminal",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/waka-setup.sh | sh`,
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
     case "linux":
       return {
         label: "Linux Terminal",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/haka-install.sh | sh`,
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
     default:
       return {
         label: "Unknown Platform",
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL https://hack.club/haka-install.sh | sh`,
+        installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
   }
@@ -36,15 +41,10 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
 
 export const osFromAgent = (): Os => {
   const ua = window.navigator.userAgent.toLowerCase();
-  if (ua.includes("win")) {
-    return "windows";
-  } else if (ua.includes("mac")) {
-    return "macos";
-  } else if (ua.includes("linux")) {
-    return "linux";
-  } else {
-    return "unknown";
-  }
+  if (ua.includes("win")) return "windows";
+  if (ua.includes("mac")) return "macos";
+  if (ua.includes("linux")) return "linux";
+  return "unknown";
 };
 
 export const SinglePlatform = ({
@@ -59,7 +59,13 @@ export const SinglePlatform = ({
     <div className="w-full mt-4">
       <p className="mb-1 inline-flex items-end gap-2">
         <Icon glyph="terminal" size={26} />
-        <span>Install instructions for {platform.label}</span>
+        <span>
+          Install instructions for {platform.label} (
+          <a href={platform.installScript} className="underline italic`">
+            source
+          </a>
+          )
+        </span>
       </p>
       <div className="flex flex-col sm:flex-row items-stretch gap-2">
         <pre className="text-sm bg-white/20 rounded-lg p-5 overflow-x-auto w-full flex-grow relative">

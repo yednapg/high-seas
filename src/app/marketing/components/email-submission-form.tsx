@@ -50,7 +50,7 @@ export default function EmailSubmissionForm() {
 
     await Promise.all([
       handleEmailSubmission(emailStr, mobile, ua),
-      sendInviteJob({ email: emailStr, userAgent: navigator.userAgent })
+      sendInviteJob({ email: emailStr, userAgent: ua })
     ])
     setEmail(emailStr);
   };

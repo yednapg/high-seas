@@ -12,12 +12,12 @@ export async function middleware(request: NextRequest) {
 
   if (!request.cookies.get("ships")) {
     const ships = await fetchShips(slackId);
-    response.cookies.set({
-      name: "ships",
-      value: JSON.stringify(ships),
-      path: "/shipyard",
-      expires: new Date(Date.now() + 10 * 60 * 1000), // In 10 mins
-    });
+    // response.cookies.set({
+    //   name: "ships",
+    //   value: JSON.stringify(ships),
+    //   path: "/shipyard",
+    //   expires: new Date(Date.now() + 10 * 60 * 1000), // In 10 mins
+    // });
   }
 
   if (!request.cookies.get("waka")) {

@@ -105,10 +105,49 @@ export async function createSlackSession(slackOpenidToken: string) {
 
     if (!payload) throw new Error("Failed to decode the Slack OpenId JWT");
 
-    const person = (await getSelfPerson(payload.sub as string)) as any;
+    let person = (await getSelfPerson(payload.sub as string)) as any;
+
     if (!person) {
-      throw new Error(`Failed to look up Person by Slack ID: ${payload.sub}`);
+      const body = JSON.stringify({
+        records: [
+          {
+            fields: {
+              email: payload.email,
+              slack_id: payload.sub,
+            },
+          },
+        ],
+      });
+
+      // Let's create a Person record
+      const result = await fetch(
+        "https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+            "Content-Type": "application/json",
+            'User-Agent': 'highseas.hackclub.com (createPersonRecord)'
+          },
+          body,
+        },
+      ).then((d) => d.json());
+
+      console.error("MAXSIGNINTEST", {
+        payload,
+        payloadSub: payload.sub,
+        body,
+        atApiKey: process.env.AIRTABLE_API_KEY,
+        result,
+      });
+
+      person = result.records[0];
     }
+
+    if (!person)
+      throw new Error(
+        "Couldn't find OR create a person! :(( Sad face. Tell malted that Airtable broke",
+      );
 
     const sessionData: HsSession = {
       personId: person.id,

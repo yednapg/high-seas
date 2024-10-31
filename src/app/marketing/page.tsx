@@ -624,7 +624,9 @@ export default async function Marketing() {
                     className="max-w-[360px] sm:max-w-[420px] md:max-w-[500px] border-dashed border-4 p-4 border-blue-800"
                   />
                   <p className="flex flex-col justify-center items-center text-center mt-2">
-                    Hack Clubbers at the Boreal Express Hackathon!
+                    <span>
+                      Hack Clubbers at <Link href="https://www.youtube.com/user/linustechtips">Linus Tech Tips</Link>!
+                    </span>
                   </p>
                 </div>
 
@@ -746,7 +748,7 @@ export default async function Marketing() {
                 <div className="flex flex-col justify-center text-center items-center">
                   <div className="flex flex-row gap-4">
                     <div
-                      className="rounded-md p-2 max-w-2xl pop"
+                      className="rounded-md p-2 max-w-2xl pop z-10"
                       style={{
                         backgroundImage: "url(/floorboard.svg)",
                         backgroundSize: "cover",
@@ -1047,7 +1049,7 @@ const faqData: FaqItem[] = [
   },
   {
     question: "I need help!",
-    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-skies-help</a> channel of the Hack Club Slack and we'll help you out!`,
+    answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-seas-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
     question: "Does school work or a job count?",
@@ -1104,20 +1106,22 @@ interface PrizeProps {
   image: string;
   sub: string | undefined;
 }
-const nf = new Intl.NumberFormat()
-const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub}) => {
+const nf = new Intl.NumberFormat();
+const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub }) => {
   return (
     <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
         src="/shopback.svg"
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
-      />        <p>
-      ~{Math.floor(doubloons/63*0.75)}–{Math.ceil(doubloons/63*1.25)} hours
-    </p>
+      />{" "}
+      <p>
+        ~{Math.floor((doubloons / 63) * 0.75)}–
+        {Math.ceil((doubloons / 63) * 1.25)} hours
+      </p>
       <div className="relative my-2">
         <p className="flex justify-center text-center text-3xl">{name}</p>
-        {sub && (<p className="flex justify-center text-center">{sub}</p>)}
+        {sub && <p className="flex justify-center text-center">{sub}</p>}
         <img
           src="/divider.svg"
           className="w-full object-cover absolute mt-2 opacity-60"
@@ -1190,7 +1194,7 @@ const PrizeData = [
     name: "Domain",
     doubloons: 420,
     image: "https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png",
-    sub: "for a year!"
+    sub: "for a year!",
   },
   // {
   //   name: "Raspberry Pi Zero",
@@ -1201,7 +1205,7 @@ const PrizeData = [
     name: "Pinecil",
     doubloons: 876,
     image: "https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png",
-    sub: "solder!!"
+    sub: "solder!!",
   },
   // {
   //   name: "iFixit Kit",
@@ -1217,7 +1221,7 @@ const PrizeData = [
     name: "Blahåj (friend)",
     doubloons: 1312,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
-    sub: "soft to hold of the shark :3"
+    sub: "soft to hold of the shark :3",
   },
   // {
   //   name: "Skeletool KBX",
@@ -1233,13 +1237,13 @@ const PrizeData = [
     name: "Raspberry Pi 5",
     doubloons: 2710,
     image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
-    sub: "home server, mayhaps?"
+    sub: "home server, mayhaps?",
   },
   {
     name: "Flipper Zero",
     doubloons: 9_000,
     image: "https://noras-secret-cdn.hackclub.dev/shop/flipper.png",
-    sub: "don't do anything i wouldn't do :-P"
+    sub: "don't do anything i wouldn't do :-P",
   },
   // {
   //   name: "GitHub Backpack",
@@ -1250,20 +1254,20 @@ const PrizeData = [
     name: "Bambu A1 Mini",
     doubloons: 14_196,
     image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
-    sub: "what are you gonna print?"
+    sub: "what are you gonna print?",
   },
   {
     name: "iPad",
     doubloons: 28_003,
     image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
-    sub:"with Apple Pencil!"
+    sub: "with Apple Pencil!",
   },
 
   {
     name: "Framework Laptop",
     doubloons: 54_000,
     image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
-    sub: '16", 16GB RAM....16 16 16'
+    sub: '16", 16GB RAM....16 16 16',
   },
 ];
 

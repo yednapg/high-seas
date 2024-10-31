@@ -65,7 +65,7 @@ export interface WakaInfo {
 
 //     // Add to person record
 //     const res = await fetch(
-//       `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people`,
+//       `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people`,
 //       {
 //         method: "PATCH",
 //         headers: {
@@ -138,17 +138,12 @@ export async function createWaka(
     username:
       slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
   };
-
-  console.log(
-    "Attempting to sign up for wakatime:",
-    payload,
-    new URLSearchParams(payload),
-  );
   
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${WAKA_API_KEY}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams(payload),
   });
@@ -169,7 +164,6 @@ export async function createWaka(
 }
 
 export async function getWakaSessions(): Promise<any> {
-  // const waka = await getWaka();
   const { username, key } = await fetchWaka();
 
   if (!username || !key) {

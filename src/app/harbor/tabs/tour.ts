@@ -56,6 +56,20 @@ export function tour() {
   console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
   sessionStorage.setItem("tutorial", "true");
 
+  const currentStepId = getCookie('tour-step');
+  if (currentStepId) {
+    const requiredUrl = stepToUrlMapping[currentStepId];
+    if (requiredUrl && window.location.pathname !== requiredUrl) {
+      window.location.href = requiredUrl;
+      return;
+    }
+  } else {
+    if (window.location.pathname !== '/shipyard') {
+      window.location.href = '/shipyard';
+      return;
+    }
+  }
+
   if (!hasSetUp) {
     setupSteps(t);
     t.start();
@@ -74,6 +88,10 @@ function setupSteps(tourManager: Tour) {
   tourManager.on("show", (e) => {
     if (e.step.id === "ts-draft-field-submit") {
       setCookie("tour-step", "ts-staged-ship-0");
+    }
+
+    if (e.step.id) {
+      setCookie('tour-step', e.step.id);
     }
   });
 
@@ -427,7 +445,7 @@ function setupSteps(tourManager: Tour) {
             <br /><br />
             word to the wise… prosperous pirates take time with their votes, for <strong style="color:#ec3750;">the ocean can tell when ye vote without care. and legends say it will punish ye for it!!!!</strong>
             <br /><br />
-            click the <strong style="color:#ec3750;">Demo</strong> button to experience this lovely ship!!`,
+            click the <strong style="color:#ec3750;">Repository</strong> button to experience this lovely ship!!`,
       attachTo: {
         element: "#voting-project-left #repository-link",
         on: "top",
@@ -568,3 +586,25 @@ function setupSteps(tourManager: Tour) {
 
   tourManager.addSteps(steps);
 }
+// because mapping is ezy & nice
+const stepToUrlMapping: Record<string, string> = {
+  'ts-greet-1': '/shipyard',
+  'ts-greet-2': '/shipyard',
+  'ts-draft-button': '/shipyard',
+  'ts-new-ship-explanation': '/shipyard',
+  'ts-draft-field-title': '/shipyard',
+  'ts-draft-field-project': '/shipyard',
+  'ts-draft-field-repo': '/shipyard',
+  'ts-draft-field-deployment': '/shipyard',
+  'ts-draft-field-screenshot': '/shipyard',
+  'ts-draft-field-submit': '/shipyard',
+  'ts-staged-ship-0': '/shipyard',
+  'ts-staged-ship-edit-finale': '/shipyard',
+  'ts-vote-left': '/wonderdome',
+  'ts-vote-reason-submit': '/wonderdome',
+  'ts-vote-reason-finale': '/wonderdome',
+  'ts-shop-welcome': '/shop',
+  'ts-shop-region': '/shop',
+  'ts-shop-free-stickers': '/shop',
+  'ts-signpost': '/shop'
+};

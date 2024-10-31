@@ -3,7 +3,7 @@ Write-Host "Starting Hakatime setup..."
 # Check if BEARER_TOKEN is set
 if (-not $env:BEARER_TOKEN) {
     Write-Host "Error: BEARER_TOKEN environment variable is not set"
-    exit 1
+    return
 }
 
 # Step 1: Add settings to the WakaTime config file
@@ -27,7 +27,7 @@ Write-Host "Checking for VS Code installation..."
 if (-not (Get-Command code -ErrorAction SilentlyContinue)) {
     Write-Host "Error: VS Code is not installed. You can install it at https://code.visualstudio.com/Download"
     Write-Host "(If you're certain it is, open vscode, hit Ctrl+Shift+P and type `"Shell Command: Install 'code' command in PATH`") then press enter. After doing that come back here, close and reopen this powershell window and rerun the setup command"
-    exit 1
+    return
 }
 
 # Install the WakaTime extension in VS Code
@@ -37,7 +37,7 @@ try {
     Write-Host "$([char]9830) VS Code extension installed successfully"
 } catch {
     Write-Host "Error: Failed to install WakaTime extension"
-    exit 1
+    return
 }
 Write-Host ""
 
@@ -46,7 +46,7 @@ Write-Host "Sending test heartbeats to verify setup..."
 for ($i = 1; $i -le 2; $i++) {
     Write-Host "Sending heartbeat $i/2..."
     
-    $time = (Get-Date -UFormat %s0000)
+    $time = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
     $jsonData = @{
         branch = "master"
         category = "coding"
@@ -56,23 +56,22 @@ for ($i = 1; $i -le 2; $i++) {
         lineno = 1
         lines = 1
         project = "welcome"
-        time = $time
+        time = $time  # Removed quotes to keep it as a number
         user_agent = "wakatime/v1.102.1 (windows) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
-    } | ConvertTo-Json
+    } | ConvertTo-Json -Compress
 
     try {
         $response = Invoke-RestMethod -Uri "https://waka.hackclub.com/api/heartbeat" `
-                                      -Method Post `
-                                      -Headers @{
-                                          Authorization = "Bearer $bearerToken"
-                                          "Content-Type" = "application/json"
-                                      } `
-                                      -Body $jsonData
-        # Success message for each heartbeat
-        Write-Host "$([char]9830) Heartbeat $i sent successfully"
+                                    -Method Post `
+                                    -Headers @{
+                                        Authorization = "Bearer $bearerToken"
+                                        "Content-Type" = "application/json"
+                                    } `
+                                    -Body $jsonData
+        Write-Host "$([char]9830) Heartbeat sent successfully"
     } catch {
-        Write-Host "Error: Heartbeat $i failed with HTTP status $($_.Exception.Response.StatusCode)"
-        exit 1
+        Write-Host "Error: Heartbeat failed with HTTP status $($_.Exception.Response.StatusCode)"
+        return
     }
 
     # Sleep for 1 second only if this is not the last iteration

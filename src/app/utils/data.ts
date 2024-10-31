@@ -51,22 +51,25 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     {ship_status} != 'deleted'
   )`;
 
-  const url = `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(filterFormula)}`;
+  const url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
+    filterFormula
+  )}`;
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
       "Content-Type": "application/json",
+      'User-Agent': 'highseas.hackclub.com (fetchShips)'
     },
   }).then((data) => data.json());
 
   return res.records.map((r: any) => {
-    const reshippedToIdRaw = r.fields["reshipped_to"] as [string] | null;
+    const reshippedToIdRaw = r["fields"]["reshipped_to"] as [string] | null;
     const reshippedToId = reshippedToIdRaw ? reshippedToIdRaw[0] : null;
 
-    const reshippedFromIdRaw = r.fields["reshipped_from"] as [string] | null;
+    const reshippedFromIdRaw = r["fields"]["reshipped_from"] as [string] | null;
     const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
 
-    const wakatimeProjectNameRaw = r.fields["wakatime_project_name"] as
+    const wakatimeProjectNameRaw = r["fields"]["wakatime_project_name"] as
       | string
       | null;
     const wakatimeProjectNames = wakatimeProjectNameRaw
@@ -75,22 +78,22 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
 
     const ship: Ship = {
       id: r.id as string,
-      title: r.fields["title"] as string,
-      repoUrl: r.fields["repo_url"] as string,
-      deploymentUrl: r.fields["deploy_url"] as string,
-      readmeUrl: r.fields["readme_url"] as string,
-      screenshotUrl: r.fields["screenshot_url"] as string,
-      voteRequirementMet: Boolean(r.fields["vote_requirement_met"]),
-      matchups_count: r.fields["matchups_count"] as number,
-      doubloonPayout: r.fields["doubloon_payout"] as number,
-      shipType: r.fields["ship_type"] as ShipType,
-      shipStatus: r.fields["ship_status"] as ShipStatus,
+      title: r["fields"]["title"] as string,
+      repoUrl: r["fields"]["repo_url"] as string,
+      deploymentUrl: r["fields"]["deploy_url"] as string,
+      readmeUrl: r["fields"]["readme_url"] as string,
+      screenshotUrl: r["fields"]["screenshot_url"] as string,
+      voteRequirementMet: Boolean(r["fields"]["vote_requirement_met"]),
+      matchups_count: r["fields"]["matchups_count"] as number,
+      doubloonPayout: r["fields"]["doubloon_payout"] as number,
+      shipType: r["fields"]["ship_type"] as ShipType,
+      shipStatus: r["fields"]["ship_status"] as ShipStatus,
       wakatimeProjectNames,
-      hours: r.fields["hours"] as number | null,
-      credited_hours: r.fields["credited_hours"] as number | null,
-      total_hours: r.fields["total_hours"] as number | null,
-      createdTime: r.fields["created_time"] as string,
-      updateDescription: r.fields["update_description"] as string | null,
+      hours: r["fields"]["hours"] as number | null,
+      credited_hours: r["fields"]["credited_hours"] as number | null,
+      total_hours: r["fields"]["total_hours"] as number | null,
+      createdTime: r["fields"]["created_time"] as string,
+      updateDescription: r["fields"]["update_description"] as string | null,
       reshippedFromId,
       reshippedToId,
     };
@@ -107,17 +110,16 @@ export async function person(): Promise<any> {
     if (!session) return reject("No session present");
 
     const record = await fetch(
-      `https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
+      `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
           "Content-Type": "application/json",
+          'User-Agent': 'highseas.hackclub.com (person)'
         },
-      },
+      }
     ).then((d) => d.json());
     if (!record) return reject("Person not found");
-
-    console.log("oh that's not...", record);
 
     resolve(record);
   });
@@ -127,13 +129,15 @@ export async function person(): Promise<any> {
 //#region Wakatime
 export async function hasHbData(username: string): Promise<boolean> {
   const res = await fetch(
-    `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(username)}`,
+    `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(
+      username
+    )}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
         accept: "application/json",
       },
-    },
+    }
   ).then((res) => res.json());
 
   return res.hasData;
@@ -143,15 +147,14 @@ export async function fetchWaka(): Promise<{
   key: string;
   hasHb: boolean;
 }> {
-  const { slack_id, email, name, preexistingUser } = await person().then(
-    (p) => p.fields,
+  const { slack_id, email, full_name, preexisting_user } = await person().then(
+    (p) => p["fields"]
   );
-  console.log("Weeeeeee!", { slack_id, email, name, preexistingUser });
 
   const { username, key } = await createWaka(
     email,
-    preexistingUser ? name : null,
-    preexistingUser ? slack_id : null,
+    preexisting_user ? full_name : null,
+    preexisting_user ? slack_id : null
   );
 
   const hasHb = await hasHbData(username);
@@ -173,12 +176,13 @@ export interface SignpostFeedItem {
 }
 export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   const result = await fetch(
-    "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/signpost",
+    "https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/signpost",
     {
       headers: {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'User-Agent': 'highseas.hackclub.com (fetchSignpostFeed)'
       },
-    },
+    }
   ).then((d) => d.json());
 
   const records = result.records;
@@ -187,12 +191,12 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   return records.map((r: any) => ({
     id: r.id,
     createdTime: new Date(r.createdTime),
-    content: r.fields.content,
-    autonumber: Number(r.fields.autonumber),
-    category: r.fields.category,
-    backgroundColor: r.fields.background_color,
-    textColor: r.fields.text_color,
-    visible: !!r.fields.visible,
+    content: r["fields"].content,
+    autonumber: Number(r["fields"].autonumber),
+    category: r["fields"].category,
+    backgroundColor: r["fields"].background_color,
+    textColor: r["fields"].text_color,
+    visible: !!r["fields"].visible,
   }));
 }
 //#endregion
