@@ -26,11 +26,13 @@ export default function Platforms({ wakaKey }: { wakaKey: string }) {
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={"windows"} wakaKey={wakaKey} />
+          <hr className="my-8" />
           <SinglePlatform os={"macos"} wakaKey={wakaKey} />
+          <hr className="my-8" />
           <SinglePlatform os={"linux"} wakaKey={wakaKey} />
-          <hr />
+          <hr className="my-8" />
           <p>
-            Script not working? High Seas is wakatime-compatible and you can
+            Script not working? High Seas is wakatime-compatible, so you can
             configure wakatime plugins using the following:
           </p>
           <code className="block bg-gray-800 p-2 rounded-md mt-2">
@@ -44,7 +46,7 @@ api_key = ${wakaKey}`}
           </code>
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <p
-            className="text-xs mt-1 underline cursor-pointer"
+            className="text-xs mt-4 underline cursor-pointer"
             onClick={() => setShowAllPlatforms(false)}
           >
             Nevermind
@@ -58,13 +60,17 @@ api_key = ${wakaKey}`}
           exit={{ height: 0, opacity: 0 }}
         >
           <SinglePlatform os={userOs} wakaKey={wakaKey} />
-          <p className="pt-4">
-            In case you are worried about us installing malware on your computer
-            (and rightly so! you should never trust a random script someone
-            tells you to run) rest assured that the script{" "}
-            <b className="font-black italic">does not</b> need admin permission
-            and you can view exactly what the script does via the source link
-            above :)
+          <h2 className="mt-6 text-xl">What exactly does the script do?</h2>
+          <p className="mt-2">
+            This script installs and configures Hakatime, our custom fork of a 
+            popular open-source coding time-tracker called Wakatime. 
+            First it tries to install the Wakatime extension for VS Code, 
+            and then it installs a configuration file that tells the extension 
+            to send your coding hours to the Hakatime server.
+            <br></br>
+            <br></br>
+            If you don't use VS Code, run the script anyway and manually install the 
+            Wakatime extension for your editor. The configuration will apply automatically!
           </p>
           <video
             src={
@@ -80,7 +86,7 @@ api_key = ${wakaKey}`}
             playsInline
             className="mt-8 rounded shadow"
           />
-          <p className="text-xs mt-1">
+          <p className="text-xs mt-4">
             Not using {userOs}?{" "}
             {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <span

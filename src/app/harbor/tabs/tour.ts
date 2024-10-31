@@ -275,7 +275,7 @@ function setupSteps(tourManager: Tour) {
       id: "ts-draft-field-screenshot",
       text: `finally, yer ship needs an image so other pirates can size it up at a glance. <strong style="color:#ec3750;">appearances are important!!</strong>
             <br /><br />
-            i'll give ye a link to use this time (but we have a neat image-upload tool in Slack called #cdn to make it easy for ye to use later)`,
+            i'll give ye a link to use this time (but we have a neat image-upload tool in Slack called #cdn to make it easy for ye later)`,
       attachTo: {
         element: "#screenshot-field",
         on: "top",
@@ -466,7 +466,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-left",
-      text: `i know ye haven't seen the other ship, but say ye chose this one. click here to vote for it`,
+      text: `I know ye haven't seen the other ship, but say ye chose this one. click here to vote for it!!`,
       attachTo: {
         element: "#voting-project-left button#vote-button",
         on: "top",
@@ -495,7 +495,7 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-vote-reason-finale",
-      text: `yer first vote is cast!! enough of these, and soon enough the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
+      text: `yer first vote is cast!! <strong style="color:#ec3750;">cast a dozen votes for each of yer ships</strong> and the doubloons will roll in. now let's move on to the best part… the <i>spending.</i>`,
       focusedElBeforeOpen: false,
       buttons: [
         {
@@ -556,7 +556,7 @@ function setupSteps(tourManager: Tour) {
       text: `<div style="display:flex; flex-direction:column; align-items:center;">
               <img src="/trashbeard_pfp_1.png"></img>
               <p>
-                and so concludes Pirate Academy. yer stickers will ship as soon as we check yer identity. ye won't be able to ship projects until then, but the time to start building is now!!
+                and so concludes Pirate Academy. yer stickers will ship as soon as ye get verified (unless ye be previously verified with Hack Club). ye won't be able to ship projects until then, but the time to start building is now!!
                 <br/><br/>
                 <strong style="color:#ec3750;">ye just need to install Hakatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
                 <br/><br/>

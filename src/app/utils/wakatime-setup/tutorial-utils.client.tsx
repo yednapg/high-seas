@@ -10,21 +10,24 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
   switch (platform) {
     case "windows":
       return {
-        label: "Windows PowerShell",
+        label: "Windows",
+        application: "PowerShell",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.ps1`,
         command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl ${currentBaseUrl}/scripts/hackatime-install.ps1)`,
         lang: "powershell",
       };
     case "macos":
       return {
-        label: "macOS Terminal",
+        label: "MacOS ",
+        application: "Terminal",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
     case "linux":
       return {
-        label: "Linux Terminal",
+        label: "Linux",
+        application: "Terminal",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
@@ -32,6 +35,7 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
     default:
       return {
         label: "Unknown Platform",
+        application: "a shell",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
@@ -55,19 +59,21 @@ export const SinglePlatform = ({
   wakaKey: string;
 }) => {
   const platform = getInstallCommand(os, wakaKey);
+
   return (
     <div className="w-full mt-4">
-      <p className="mb-1 inline-flex items-end gap-2">
+      <p className="inline-flex items-end gap-2 text-xl">
         <Icon glyph="terminal" size={26} />
         <span>
-          Install instructions for {platform.label} (
-          <a href={platform.installScript} className="underline italic`">
-            source
-          </a>
-          )
+          How to install Hakatime on {platform.label}:
         </span>
       </p>
-      <div className="flex flex-col sm:flex-row items-stretch gap-2">
+      <ol className="mt-2 list-inside list-decimal">
+        <li>Open {platform.application} on the computer you use to code</li>
+        <li>Paste in the command below and hit enter</li>
+        <li>Come back here to the Harbor!</li>
+      </ol>
+      <div className="flex flex-col sm:flex-row items-stretch gap-2 mt-4">
         <pre className="text-sm bg-white/20 rounded-lg p-5 overflow-x-auto w-full flex-grow relative">
           <span className="absolute left-1.5 top-0.5 text-xs opacity-40 select-none pointer-events-none">
             {platform.lang}
@@ -84,6 +90,9 @@ export const SinglePlatform = ({
           </Button>
         </div>
       </div>
+      <p className="italic mt-3 text-sm">
+        <a href={platform.installScript} className="underline">source code for this script</a>
+      </p>
     </div>
   );
 };
