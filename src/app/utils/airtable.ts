@@ -108,7 +108,7 @@ export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongP
 // deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);
-  return person.fields.votes_remaining_for_next_pending_ship as number;
+  return person["fields"]["votes_remaining_for_next_pending_ship"] as number;
 }
 
 /// Person record info we can expose to the frontend
