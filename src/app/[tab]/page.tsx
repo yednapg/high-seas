@@ -55,7 +55,7 @@ export default function Page({
       />
       <SoundButton />
       <Card
-        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 overflow-x-hidden"
+        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 overflow-x-hidden mb-14"
         type={"cardboard"}
       >
         {session?.slackId ? (
