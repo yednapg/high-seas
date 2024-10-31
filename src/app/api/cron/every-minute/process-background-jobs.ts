@@ -63,6 +63,7 @@ async function processPendingPersonInitJobs() {
       'email': row.email,
       'ip_address': row.ipAddress,
       'email_submitted_on_mobile': row.isMobile,
+      'arrpheus_ready_to_invite': true,
     }
   }))
 
