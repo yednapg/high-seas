@@ -68,7 +68,8 @@ export default function Harbor({
   currentTab: string;
   session: HsSession;
 }) {
-  const [hasHb, setHasHb] = useLocalStorageState<boolean>("cache.hasHb", false);
+  // default to true so we don't flash a warning at the user
+  const [hasHb, setHasHb] = useLocalStorageState<boolean>("cache.hasHb", true);
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
