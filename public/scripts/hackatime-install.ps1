@@ -46,7 +46,7 @@ Write-Host "Sending test heartbeats to verify setup..."
 for ($i = 1; $i -le 2; $i++) {
     Write-Host "Sending heartbeat $i/2..."
     
-    $time = (Get-Date -UFormat %s)
+    $time = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
     $jsonData = @{
         branch = "master"
         category = "coding"
@@ -56,22 +56,21 @@ for ($i = 1; $i -le 2; $i++) {
         lineno = 1
         lines = 1
         project = "welcome"
-        time = "$time"
+        time = $time  # Removed quotes to keep it as a number
         user_agent = "wakatime/v1.102.1 (windows) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
-    } | ConvertTo-Json
+    } | ConvertTo-Json -Compress
 
     try {
         $response = Invoke-RestMethod -Uri "https://waka.hackclub.com/api/heartbeat" `
-                                      -Method Post `
-                                      -Headers @{
-                                          Authorization = "Bearer $bearerToken"
-                                          "Content-Type" = "application/json"
-                                      } `
-                                      -Body $jsonData
-        # Success message for each heartbeat
-        Write-Host "$([char]9830) Heartbeat $i sent successfully"
+                                    -Method Post `
+                                    -Headers @{
+                                        Authorization = "Bearer $bearerToken"
+                                        "Content-Type" = "application/json"
+                                    } `
+                                    -Body $jsonData
+        Write-Host "$([char]9830) Heartbeat sent successfully"
     } catch {
-        Write-Host "Error: Heartbeat $i failed with HTTP status $($_.Exception.Response.StatusCode)"
+        Write-Host "Error: Heartbeat failed with HTTP status $($_.Exception.Response.StatusCode)"
         return
     }
 

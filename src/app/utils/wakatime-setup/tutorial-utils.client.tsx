@@ -19,21 +19,21 @@ export const getInstallCommand = (platform: string, wakaKey: string) => {
       return {
         label: "macOS Terminal",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
     case "linux":
       return {
         label: "Linux Terminal",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
     default:
       return {
         label: "Unknown Platform",
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
-        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | sh`,
+        command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
         lang: "bash",
       };
   }
