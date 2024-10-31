@@ -1,23 +1,18 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import SetupModal from "@/app/utils/wakatime-setup/setup-modal";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../../../components/ui/button";
 import Icon from "@hackclub/icons";
 import Modal from "../../../components/ui/modal";
 import {
   handleEmailSubmission,
-  markArrpheusReadyToInvite,
+  // markArrpheusReadyToInvite,
 } from "../marketing-utils";
 import { sendInviteJob } from "../invite-job";
 
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
-  const [wakaKey, setWakaKey] = useState<string>();
-  const [wakaUsername, setWakaUsername] = useState<string>();
-  const [detectedInstall, setDetectedInstall] = useState<boolean>();
-  const [personRecordId, setPersonRecordId] = useState<string>();
   const [errorText, setErrorText] = useState<string>();
   const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
@@ -50,24 +45,14 @@ export default function EmailSubmissionForm() {
       return;
     }
 
-    console.log({ email: emailStr, userAgent: navigator.userAgent });
-    await sendInviteJob({
-      email: emailStr,
-      userAgent: navigator.userAgent,
-    });
+    const ua = navigator?.userAgent;
+    const mobile = !!ua?.toLowerCase().includes("mobile");
+
+    await Promise.all([
+      handleEmailSubmission(emailStr, mobile, ua),
+      sendInviteJob({ email: emailStr, userAgent: navigator.userAgent })
+    ])
     setEmail(emailStr);
-    // const hfsRes = await handleEmailSubmission(emailStr, mobile, ua);
-    // if (!hfsRes) throw new Error("Failed to handle email submission");
-    // const { username, key, personRecordId } = hfsRes;
-    // console.log("Handled email submission with res:", {
-    //   username,
-    //   key,
-    //   personRecordId,
-    // });
-    // setWakaKey(key);
-    // setWakaUsername(username);
-    // setPersonRecordId(personRecordId);
-    // setEmail(emailStr);
   };
 
   return (

@@ -19,74 +19,29 @@ export async function handleEmailSubmission(
 ): Promise<{
   username: string;
   key: string;
-  personRecordId: string;
 } | null> {
   if (!email) throw new Error("No email supplied to handleEmailSubmission");
   if (!userAgent)
     throw new Error("No user agent supplied to handleEmailSubmission");
 
   const ipAddress = headers().get("x-forwarded-for");
-  // await sendInviteJob({ email, userAgent });
-  const args = { email, ipAddress, userAgent, isMobile };
-  await createBackgroundJob('invite', args);
 
-  // Create HackaTime user
-  const session = await getSession();
-  let signup;
-  try {
-    signup = await createWaka(
-      email,
-      session?.name ?? null,
-      session?.slackId ?? null,
-    );
-    console.log(signup);
-  } catch (e) {
-    console.log(e);
-    throw e;
-    // const error = new Error("Failed to create HackaTime user:", e);
-    // console.error(e);
-    // throw error;
+  const [
+    session,
+    _backgroundJob
+  ] = await Promise.all([
+    getSession(),
+    createBackgroundJob('invite', { email, ipAddress, userAgent, isMobile }),
+  ])
+
+  const slackId = session?.slackId
+
+  const signup = await createWaka( email, null, slackId );
+  const { username, key } = signup
+
+  if (username) {
+    await createBackgroundJob('create_person', { email, ipAddress, isMobile, username });
   }
-  console.log("handleEmailSubmission Step 4:", signup);
-
-  const { username, key } = signup;
-
-  // Create person record (email & IP) in High Seas base
-  const personRecordId: any = await new Promise((resolve, reject) => {
-    highSeasPeopleTable().create(
-      [
-        {
-          fields: {
-            email,
-            ip_address: ipAddress,
-            email_submitted_on_mobile: isMobile,
-          },
-        },
-      ],
-      (err: Error, records: any) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else if (!records || records.length < 1) {
-          const error = new Error("No person record was created");
-          console.error(error);
-          reject(error);
-        } else {
-          const id = records[0].id;
-          if (!id) {
-            const error = new Error("Person record ID is missing");
-            console.error(error);
-            reject(error);
-          } else {
-            resolve(id);
-          }
-        }
-      },
-    );
-  });
-
-  console.log("handleEmailSubmission Step 3:", personRecordId);
-  await createBackgroundJob('create_person', { email, ipAddress, isMobile, username });
 
   return {
     username,
