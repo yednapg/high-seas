@@ -23,7 +23,7 @@ export default function SignPost({ session }: { session: any }) {
 
   const [verification, setVerification] = useLocalStorageState(
     "cache.verification",
-    "Eligible L1",
+    "Eligible L1", // load in verified by default to prevent warning sign "popping" in 
   );
   const [reason, setReason] = useLocalStorageState("cache.reason", "");
   const [signpostUpdates, setSignpostUpdates] = useLocalStorageState<SignpostFeedItem[]>("cache.signpost", []);
