@@ -105,7 +105,8 @@ export async function createSlackSession(slackOpenidToken: string) {
 
     if (!payload) throw new Error("Failed to decode the Slack OpenId JWT");
 
-    const person = (await getSelfPerson(payload.sub as string)) as any;
+    let person = (await getSelfPerson(payload.sub as string)) as any;
+
     if (!person) {
       // Let's create a Person record
       const result = await fetch(
@@ -130,8 +131,13 @@ export async function createSlackSession(slackOpenidToken: string) {
             ],
           }),
         },
-      );
+      ).then((d) => d.json());
+
+      person = result.records[0];
     }
+
+    if (!person)
+      throw new Error("Couldn't find OR create a person! :(( Sad face");
 
     const sessionData: HsSession = {
       personId: person.id,
