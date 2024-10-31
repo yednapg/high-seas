@@ -22,6 +22,7 @@ import { sample, zeroMessage } from "../../../../lib/flavor";
 import SetupModal from "../../utils/wakatime-setup/setup-modal";
 import Cookies from "js-cookie";
 import JaggedCard from "@/components/jagged-card";
+import { fetchWaka } from "@/app/utils/data";
 
 const Balance = ({ balance }: { balance: number }) => {
   const [open, setOpen] = useState(false);
@@ -64,9 +65,9 @@ export default function Harbor({
   currentTab: string;
   session: HsSession;
 }) {
-  const [wakaUsername, setWakaUsername] = useState<string>();
-  const [wakaKey, setWakaKey] = useState<string>();
-  const [hasWakaHb, setHasWakaHb] = useState<boolean>();
+  const [wakaUsername, setWakaUsername] = useLocalStorageState<string>('cache.wakaUsername', '');
+  const [wakaKey, setWakaKey] = useLocalStorageState<string>('cache.wakaKey', '');
+  const [hasHb, setHasHb] = useLocalStorageState<boolean>('cache.hasHb', false);
   // All the content management for all the tabs goes here.
   const [myShipChains, setMyShipChains] = useLocalStorageState(
     "cache.myShipChains",
@@ -87,10 +88,11 @@ export default function Harbor({
 
   // This could do with a lot of optimisation
   useEffect(() => {
-    const { username, key, hasHb } = JSON.parse(Cookies.get("waka")); //await getCookie("waka");
-    setWakaKey(key);
-    setWakaUsername(username);
-    setHasWakaHb(hasHb);
+    fetchWaka().then(({ key, username, hasHb }) => {
+      setWakaKey(key)
+      setWakaUsername(username)
+      setHasHb(hasHb)
+    })
 
     // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
     // setWakaKey(key);
@@ -167,7 +169,7 @@ export default function Harbor({
   return (
     <>
       <div className="mt-4">
-        {!hasWakaHb ? (
+        {!hasHb ? (
           <JaggedCard className="!p-4">
             <p className="text-center text-white">
               No Hakatime install detected. Have you run the script?{" "}

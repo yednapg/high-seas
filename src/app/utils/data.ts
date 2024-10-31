@@ -62,13 +62,13 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
   }).then((data) => data.json());
 
   return res.records.map((r: any) => {
-    const reshippedToIdRaw = r.fields["reshipped_to"] as [string] | null;
+    const reshippedToIdRaw = r["fields"]["reshipped_to"] as [string] | null;
     const reshippedToId = reshippedToIdRaw ? reshippedToIdRaw[0] : null;
 
-    const reshippedFromIdRaw = r.fields["reshipped_from"] as [string] | null;
+    const reshippedFromIdRaw = r["fields"]["reshipped_from"] as [string] | null;
     const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
 
-    const wakatimeProjectNameRaw = r.fields["wakatime_project_name"] as
+    const wakatimeProjectNameRaw = r["fields"]["wakatime_project_name"] as
       | string
       | null;
     const wakatimeProjectNames = wakatimeProjectNameRaw
@@ -77,22 +77,22 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
 
     const ship: Ship = {
       id: r.id as string,
-      title: r.fields["title"] as string,
-      repoUrl: r.fields["repo_url"] as string,
-      deploymentUrl: r.fields["deploy_url"] as string,
-      readmeUrl: r.fields["readme_url"] as string,
-      screenshotUrl: r.fields["screenshot_url"] as string,
-      voteRequirementMet: Boolean(r.fields["vote_requirement_met"]),
-      matchups_count: r.fields["matchups_count"] as number,
-      doubloonPayout: r.fields["doubloon_payout"] as number,
-      shipType: r.fields["ship_type"] as ShipType,
-      shipStatus: r.fields["ship_status"] as ShipStatus,
+      title: r["fields"]["title"] as string,
+      repoUrl: r["fields"]["repo_url"] as string,
+      deploymentUrl: r["fields"]["deploy_url"] as string,
+      readmeUrl: r["fields"]["readme_url"] as string,
+      screenshotUrl: r["fields"]["screenshot_url"] as string,
+      voteRequirementMet: Boolean(r["fields"]["vote_requirement_met"]),
+      matchups_count: r["fields"]["matchups_count"] as number,
+      doubloonPayout: r["fields"]["doubloon_payout"] as number,
+      shipType: r["fields"]["ship_type"] as ShipType,
+      shipStatus: r["fields"]["ship_status"] as ShipStatus,
       wakatimeProjectNames,
-      hours: r.fields["hours"] as number | null,
-      credited_hours: r.fields["credited_hours"] as number | null,
-      total_hours: r.fields["total_hours"] as number | null,
-      createdTime: r.fields["created_time"] as string,
-      updateDescription: r.fields["update_description"] as string | null,
+      hours: r["fields"]["hours"] as number | null,
+      credited_hours: r["fields"]["credited_hours"] as number | null,
+      total_hours: r["fields"]["total_hours"] as number | null,
+      createdTime: r["fields"]["created_time"] as string,
+      updateDescription: r["fields"]["update_description"] as string | null,
       reshippedFromId,
       reshippedToId,
     };
@@ -146,7 +146,7 @@ export async function fetchWaka(): Promise<{
   hasHb: boolean;
 }> {
   const { slack_id, email, full_name, preexisting_user } = await person().then(
-    (p) => p.fields
+    (p) => p["fields"]
   );
 
   const { username, key } = await createWaka(
@@ -188,12 +188,12 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   return records.map((r: any) => ({
     id: r.id,
     createdTime: new Date(r.createdTime),
-    content: r.fields.content,
-    autonumber: Number(r.fields.autonumber),
-    category: r.fields.category,
-    backgroundColor: r.fields.background_color,
-    textColor: r.fields.text_color,
-    visible: !!r.fields.visible,
+    content: r["fields"].content,
+    autonumber: Number(r["fields"].autonumber),
+    category: r["fields"].category,
+    backgroundColor: r["fields"].background_color,
+    textColor: r["fields"].text_color,
+    visible: !!r["fields"].visible,
   }));
 }
 //#endregion

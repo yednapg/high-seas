@@ -1,18 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { getSelfPerson, getSignpostUpdates } from "../../utils/airtable";
 import Verification from "./verification";
 import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
-import Cookies from "js-cookie";
-import { SignpostFeedItem } from "@/app/utils/data";
+import { fetchSignpostFeed, fetchWaka, SignpostFeedItem } from "@/app/utils/data";
 
 export default function SignPost({ session }: { session: any }) {
-  const [wakaKey, setWakaKey] = useState<string>();
+  const [wakaKey, setWakaKey] = useLocalStorageState("cache.wakaKey", "");
   const motionProps = useMemo(
     () => ({
       initial: { opacity: 0 },
@@ -26,16 +25,12 @@ export default function SignPost({ session }: { session: any }) {
     "",
   );
   const [reason, setReason] = useLocalStorageState("cache.reason", "");
-  const [signpostUpdates, setSignpostUpdates] = useState<SignpostFeedItem[]>();
+  const [signpostUpdates, setSignpostUpdates] = useLocalStorageState<SignpostFeedItem[]>("cache.signpost", []);
 
   useEffect(() => {
-    // getCookie("waka").then(({ key }) => setWakaKey(key));
-    const { key } = JSON.parse(Cookies.get("waka"));
-    setWakaKey(key);
+    fetchWaka().then(({ key }) => setWakaKey(key));
 
-    // getCookie("signpost-feed").then(setSignpostUpdates);
-    const signpostFeed = JSON.parse(Cookies.get("signpost-feed"));
-    setSignpostUpdates(signpostFeed);
+    getSignpostUpdates().then((data) => {setSignpostUpdates(data)});
 
     getSelfPerson(session.slackId).then((data) => {
       setVerification(
@@ -53,21 +48,21 @@ export default function SignPost({ session }: { session: any }) {
       <h1 className="font-heading text-5xl font-bold text-white mb-6 text-center">
         The Signpost
       </h1>
-      <Verification status={verification} reason={reason} />
+        <Verification status={verification} reason={reason} />
 
-      {signpostUpdates
+        {signpostUpdates
         ? signpostUpdates.map(
-            (update: any, index: number) =>
-              update.visible && (
-                <JaggedCard
-                  key={index}
-                  className={`text-[${update.textColor}]`}
-                  bgColor={update.backgroundColor}
-                >
-                  <span className="text-bold">{update.title}</span>
-                  <p>{update.content}</p>
-                </JaggedCard>
-              ),
+          (update: any, index: number) =>
+            update?.["fields"]?.["visible"] && (
+            <JaggedCard
+              key={index}
+              className={`text-[${update?.["fields"]?.["text_color"]}}]`}
+              bgColor={update?.["fields"]?.["background_color"]}
+            >
+              <span className="text-bold text-xl">{update?.["fields"]?.["title"]}</span>
+              <p>{update?.["fields"]?.["content"]}</p>
+            </JaggedCard>
+            ),
           )
         : null}
 

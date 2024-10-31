@@ -29,7 +29,7 @@ export const getSelfPerson = async (slackId: string) => {
 
 export const getSignpostUpdates = async () => {
   const url = `https://api.airtable.com/v0/${process.env.BASE_ID}/signpost`;
-  const response = await fetch(`${url}}`, {
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
@@ -38,6 +38,7 @@ export const getSignpostUpdates = async () => {
   });
 
   if (!response.ok) {
+    console.log(response);
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
@@ -48,6 +49,7 @@ export const getSignpostUpdates = async () => {
     console.error(e, await response.text());
     throw e;
   }
+  console.log(data.records)
   return data.records;
 };
 
@@ -106,7 +108,7 @@ export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongP
 // deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId);
-  return person.fields.votes_remaining_for_next_pending_ship as number;
+  return person["fields"]["votes_remaining_for_next_pending_ship"] as number;
 }
 
 /// Person record info we can expose to the frontend
@@ -124,27 +126,25 @@ export interface SafePerson {
 
 // Good method
 export async function safePerson(): Promise<SafePerson> {
-  return new Promise(async (resolve, reject) => {
-    const record = await person();
+  const record = await person();
 
-    const id = record.id;
-    const createdTime = new Date(record.createdTime);
-    const settledTickets = Number(record.fields.settled_tickets);
-    const hasCompletedTutorial = !!record.fields.academy_completed;
-    const votesRemainingForNextPendingShip = parseInt(
-      record.fields.votes_remaining_for_next_pending_ship,
-    );
-    const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile;
-    const preexistingUser = !!record.fields.preexisting_user;
+  const id = record.id;
+  const createdTime = new Date(record.createdTime);
+  const settledTickets = Number(record.fields.settled_tickets);
+  const hasCompletedTutorial = !!record.fields.academy_completed;
+  const votesRemainingForNextPendingShip = parseInt(
+    record.fields.votes_remaining_for_next_pending_ship,
+  );
+  const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile;
+  const preexistingUser = !!record.fields.preexisting_user;
 
-    resolve({
-      id,
-      createdTime,
-      settledTickets,
-      hasCompletedTutorial,
-      votesRemainingForNextPendingShip,
-      emailSubmittedOnMobile,
-      preexistingUser,
-    });
-  });
+  return {
+    id,
+    createdTime,
+    settledTickets,
+    hasCompletedTutorial,
+    votesRemainingForNextPendingShip,
+    emailSubmittedOnMobile,
+    preexistingUser,
+  };
 }

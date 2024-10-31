@@ -138,15 +138,7 @@ export async function createWaka(
     username:
       slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
   };
-
-  console.log(
-    "Attempting to sign up for wakatime:",
-    payload,
-    (new URLSearchParams(payload)).toString(),
-  );
   
-  console.error("trying to run it!", {key: WAKA_API_KEY, payload});
-
   const signup = await fetch("https://waka.hackclub.com/signup", {
     method: "POST",
     headers: {
@@ -155,7 +147,6 @@ export async function createWaka(
     },
     body: new URLSearchParams(payload),
   });
-  signup.headers.forEach((v, k) => console.log(k, v));
 
   let signupResponse: WakaSignupResponse;
   try {
@@ -173,7 +164,6 @@ export async function createWaka(
 }
 
 export async function getWakaSessions(): Promise<any> {
-  // const waka = await getWaka();
   const { username, key } = await fetchWaka();
 
   if (!username || !key) {

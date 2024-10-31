@@ -14,7 +14,7 @@ export default function Page({
   params: { tab: string };
   searchParams: any;
 }) {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState({});
 
   useEffect(() => {
     getSession().then((s) => {

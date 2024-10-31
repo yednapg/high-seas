@@ -23,8 +23,6 @@ export default function Shop({ session }: { session: HsSession }) {
     useLocalStorageState<string>("cache.personTicketBalance", "-");
 
   const [bannerText, setBannerText] = useState("");
-  const verificationStatus = /*session.verificationStatus[0] ||*/ "Eligible L1";
-  const slackId = session.slackId;
   const isTutorial = sessionStorage.getItem("tutorial");
   useEffect(() => {
     setBannerText(sample(shopBanner));

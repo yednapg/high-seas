@@ -21,7 +21,7 @@ import NewUpdateForm from "./new-update-form";
 import Modal from "../../../components/ui/modal";
 
 export default function Ships({
-  ships,
+  ships = [],
   shipChains = new Map(),
   bareShips = false,
   setShips,
