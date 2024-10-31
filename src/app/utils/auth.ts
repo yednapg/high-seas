@@ -114,9 +114,6 @@ export async function createSlackSession(slackOpenidToken: string) {
             fields: {
               email: payload.email,
               slack_id: payload.sub,
-              first_name: payload.given_name,
-              last_name: payload.family_name,
-              full_name: payload.name,
             },
           },
         ],
