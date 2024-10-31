@@ -108,6 +108,20 @@ export async function createSlackSession(slackOpenidToken: string) {
     let person = (await getSelfPerson(payload.sub as string)) as any;
 
     if (!person) {
+      const body = JSON.stringify({
+        records: [
+          {
+            fields: {
+              email: payload.email,
+              slack_id: payload.sub,
+              first_name: payload.given_name,
+              last_name: payload.family_name,
+              full_name: payload.name,
+            },
+          },
+        ],
+      });
+
       // Let's create a Person record
       const result = await fetch(
         "https://api.airtable.com/v0/appTeNFYcUiYfGcR6/people",
@@ -117,27 +131,25 @@ export async function createSlackSession(slackOpenidToken: string) {
             Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            records: [
-              {
-                fields: {
-                  email: payload.email,
-                  slack_id: payload.sub,
-                  first_name: payload.given_name,
-                  last_name: payload.family_name,
-                  full_name: payload.name,
-                },
-              },
-            ],
-          }),
+          body,
         },
       ).then((d) => d.json());
+
+      console.log({
+        payload,
+        payloadSub: payload.sub,
+        body,
+        atApiKey: process.env.AIRTABLE_API_KEY,
+        result,
+      });
 
       person = result.records[0];
     }
 
     if (!person)
-      throw new Error("Couldn't find OR create a person! :(( Sad face");
+      throw new Error(
+        "Couldn't find OR create a person! :(( Sad face. Tell malted that Airtable broke",
+      );
 
     const sessionData: HsSession = {
       personId: person.id,
