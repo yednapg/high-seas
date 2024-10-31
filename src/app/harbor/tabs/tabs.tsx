@@ -61,6 +61,17 @@ const Balance = ({ balance }: { balance: number }) => {
   );
 };
 
+const LoadingOverlay = () => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <div className="bg-purple-dark rounded-lg p-8 text-white text-center">
+        <p className="text-xl mb-4">Loading...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mx-auto"></div>
+      </div>
+    </div>
+  );
+};
+
 export default function Harbor({
   currentTab,
   session,
@@ -85,46 +96,27 @@ export default function Harbor({
     router.push(`/${newTab}`); // Navigate to the new tab slug
   };
 
-  // This could do with a lot of optimisation
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    fetchWaka().then(({ key, username, hasHb }) => {
-      setHasHb(hasHb);
-    });
+    const initializeHarbor = async () => {
+      try {
+        const { hasHb } = await fetchWaka();
+        setHasHb(hasHb);
 
-    // const { username, key, hasHb } = JSON.parse(Cookies.get("waka"));
-    // setWakaKey(key);
-    // setWakaUsername(username);
-    // setHasWakaHb(hasHb);
+        const p: SafePerson = await safePerson();
+        setPersonTicketBalance(p.settledTickets);
 
-    // getUserShips(session.slackId).then(({ ships, shipChains }) => {
-    //   console.log({ ships, shipChains });
-    //   setMyShipChains(shipChains);
-    // });
-
-    safePerson().then(async (p: SafePerson) => {
-      setPersonTicketBalance(p.settledTickets);
-      // sessionStorage.setItem("tutorial", (!p.hasCompletedTutorial).toString());
-
-      console.log("safeperson:", p);
-      console.log(
-        `hasCompletedTutorial: ${p.hasCompletedTutorial}\nemailSubmittedOnMobile: ${p.emailSubmittedOnMobile}`,
-      );
-
-      if (!p.hasCompletedTutorial) {
-        console.warn("1 triggering tour");
-        tour();
-      }
-      /*else {
         if (!p.hasCompletedTutorial) {
-          if (p.emailSubmittedOnMobile) {
-            setShowWakaSetupModal(true);
-          } else {
-            console.warn("1 triggering tour");
-            tour();
-          }
+          console.warn("1 triggering tour");
+          tour();
         }
-      }*/
-    });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeHarbor();
   }, []);
 
   // Keep ships and shipChain in sync
@@ -161,6 +153,7 @@ export default function Harbor({
 
   return (
     <>
+      {isLoading && <LoadingOverlay />}
       <div className="mt-4">
         {!hasHb ? (
           <JaggedCard className="!p-4">
