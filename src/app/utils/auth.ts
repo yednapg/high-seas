@@ -116,12 +116,18 @@ export async function createSlackSession(slackOpenidToken: string) {
             Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(records:;  [{
-            email: payload.email,
-            slack_id: payload.sub,
-            first_name: payload.given_name,
-            last_name: payload.family_name,
-            full_name: payload.name
+          body: JSON.stringify({
+            records: [
+              {
+                fields: {
+                  email: payload.email,
+                  slack_id: payload.sub,
+                  first_name: payload.given_name,
+                  last_name: payload.family_name,
+                  full_name: payload.name,
+                },
+              },
+            ],
           }),
         },
       );
