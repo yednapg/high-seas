@@ -45,8 +45,30 @@ export async function GET() {
         { status: 404 },
       );
     }
+    const rMatchup = {
+      project1: {
+        id: matchup.project1.id,
+        title: matchup.project1.title,
+        screenshot_url: matchup.project1.screenshot_url,
+        readme_url: matchup.project1.readme_url,
+        repo_url: matchup.project1.repo_url,
+        deploy_url: matchup.project1.deploy_url,
+        rating: matchup.project1.rating,
+      },
+      project2: {
+        id: matchup.project2.id,
+        title: matchup.project2.title,
+        screenshot_url: matchup.project2.screenshot_url,
+        readme_url: matchup.project2.readme_url,
+        repo_url: matchup.project2.repo_url,
+        deploy_url: matchup.project2.deploy_url,
+        rating: matchup.project2.rating,
+      },
+      signature: matchup.signature,
+      ts: matchup.ts,
+    };
 
-    return NextResponse.json(matchup);
+    return NextResponse.json(rMatchup);
   } catch (error) {
     console.error("Error generating matchup:", error);
     return NextResponse.json(
