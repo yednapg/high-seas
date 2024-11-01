@@ -14,6 +14,8 @@ import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import { useToast } from "@/hooks/use-toast";
 import { HsSession } from "@/app/utils/auth";
 
+import SpeechToText from "@/components/speech-to-text";
+
 interface Matchup {
   project1: Ships;
   project2: Ships;
@@ -277,6 +279,10 @@ export default function Matchups({ session }: { session: HsSession }) {
     fetchVoteBalance();
   }, []);
 
+  const handleAudioTranscription = (transcript: string) => {
+    setReason(reason + transcript);
+  }
+
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
 
@@ -472,7 +478,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                   disabled={
                     isSubmitting || reason.trim().split(" ").length < 10
                   }
-                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 mr-3 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
@@ -506,6 +512,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                     "Submit Vote"
                   )}
                 </button>
+                <SpeechToText handleResults={handleAudioTranscription} />
               </div>
             )}
           </>
