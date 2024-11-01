@@ -46,13 +46,19 @@ const config: Config = {
 					'50%': { transform: 'rotate(3.5deg)' },
 					'95%': { transform: 'rotate(-4deg)' },
 					'100%': { transform: 'rotate(-4deg)' }
+				},
+				trumpet4: {
+					'0%': { transform: 'rotate(-2deg)' },
+					'40%': { transform: 'rotate(1deg)' },
+					'67%': { transform: 'rotate(-1.5deg)' },
+					'80%': { transform: 'rotate(2deg)' }
 				}
 			},
 			animation: {
 				'trumpet1': 'trumpet1 1.5s alternate infinite',
 				'trumpet2': 'trumpet2 1.5s alternate infinite',
 				'trumpet3': 'trumpet3 1.25s alternate infinite',
-				'trumpet4': 'animate-wiggle 1s animate-infinite animate-ease-in-out',
+				'trumpet4': 'trumpet4 1s alternate infinite',
 				'quick_yapping': 'yap 0.25s alternate infinite',
 				'slide_in_right': 'slide_in_right 0.5s ease-in-out',
 				'slide_in_left': 'slide_in_left 0.5s ease-in-out',
