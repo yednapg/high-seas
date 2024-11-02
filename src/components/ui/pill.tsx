@@ -33,7 +33,7 @@ export default function Pill({
 
   const progressBarStyle = percentage
     ? {
-        background: `linear-gradient(to right, #dee9f7, ${percentage}%, transparent ${percentage}%)`,
+        background: `linear-gradient(to right, #C8DBFF, ${percentage}%, transparent ${percentage}%)`,
       }
     : {};
 
