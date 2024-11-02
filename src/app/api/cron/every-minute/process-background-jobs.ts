@@ -58,6 +58,7 @@ async function processPendingPersonInitJobs() {
   if (rows.length === 0) { return }
 
   console.log(`Processing ${rows.length} create_person jobs`)
+  console.log({rows})
 
   const fields = rows.map(row => ({
     'fields': {
@@ -113,6 +114,6 @@ async function processPendingPersonInitJobs() {
 export async function processBackgroundJobs() {
   await Promise.all([
     processPendingInviteJobs(),
-    processPendingPersonInitJobs()
+    // processPendingPersonInitJobs()
   ])
 }
