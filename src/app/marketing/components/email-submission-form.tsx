@@ -7,12 +7,14 @@ import Icon from "@hackclub/icons";
 import Modal from "../../../components/ui/modal";
 import { handleEmailSubmission } from "../marketing-utils";
 import { sendInviteJob } from "../invite-job";
+import { usePlausible } from "next-plausible";
 
 export default function EmailSubmissionForm() {
   const [email, setEmail] = useState<string>();
   const [errorText, setErrorText] = useState<string>();
   const [t, sT] = useState<Timer>();
   const formRef = useRef<HTMLFormElement>(null);
+  const plausible = usePlausible();
 
   const handleForm = async (formData: FormData) => {
     const emailStr = (formData.get("email") as string).trim();
@@ -51,6 +53,7 @@ export default function EmailSubmissionForm() {
       sendInviteJob({ email: emailStr, userAgent: ua }),
     ]);
     setEmail(emailStr);
+    plausible("sign-up");
   };
 
   return (

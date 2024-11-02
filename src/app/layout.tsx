@@ -5,6 +5,7 @@ import "./globals.css";
 import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
 
+import PlausibleProvider from 'next-plausible'
 import { Analytics } from "@vercel/analytics/react";
 import Fullstory from "@/components/fullstory";
 
@@ -53,11 +54,11 @@ export default function RootLayout({
         <link rel="manifest" href="/favicons/site.webmanifest" />
         <Nav />
         <main>{children}</main>
+        <PlausibleProvider domain="highseas.hackclub.com" />
         <Analytics />
         <Fullstory />
         <SpeedInsights />
         <Toaster />
-        <script defer data-domain="highseas.hackclub.com" src="https://plausible.io/js/script.js"></script>
       </body>
     </html>
   );
