@@ -44,9 +44,10 @@ export default function EmailSubmissionForm() {
 
     const ua = navigator?.userAgent;
     const mobile = !!ua?.toLowerCase().includes("mobile");
+    const urlParams = window?.location?.search || '';
 
     await Promise.all([
-      handleEmailSubmission(emailStr, mobile, ua),
+      handleEmailSubmission(emailStr, mobile, ua, urlParams),
       sendInviteJob({ email: emailStr, userAgent: ua }),
     ]);
     setEmail(emailStr);
