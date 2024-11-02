@@ -70,7 +70,7 @@ async function processPendingPersonInitJobs() {
   }))
 
   console.log(
-    "Creating person"
+    "Creating person with", JSON.stringify(fields, null, 2)
   )
   const upsertBody = {
     records: fields,
