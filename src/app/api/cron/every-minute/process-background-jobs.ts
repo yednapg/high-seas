@@ -44,10 +44,10 @@ async function processPendingPersonInitJobs() {
   const { rows } = await sql`
   SELECT DISTINCT ON (args->>'email') 
     args->>'email' AS email, 
-    args->>'ipAddress' AS ipAddress, 
-    args->>'isMobile' AS isMobile,
+    args->>'ipAddress' AS ip_address, 
+    args->>'isMobile' AS is_mobile,
     args->>'username' AS username,
-    args->>'urlParams' AS urlParams
+    args->>'urlParams' AS url_params
   FROM background_job
   WHERE type = 'create_person'
   AND status = 'pending'
@@ -57,16 +57,13 @@ async function processPendingPersonInitJobs() {
 
   if (rows.length === 0) { return }
 
-  console.log(`Processing ${rows.length} create_person jobs`)
-  console.log({rows})
-
   const fields = rows.map(row => ({
     'fields': {
       'email': row.email,
-      'ip_address': row.ipAddress,
-      'email_submitted_on_mobile': row.isMobile,
+      'ip_address': row.ip_address,
+      'email_submitted_on_mobile': Boolean(row.is_mobile),
       'arrpheus_ready_to_invite': true,
-      'invite_url_params': row.urlParams,
+      'invite_url_params': row.url_params,
     }
   }))
 
@@ -114,6 +111,6 @@ async function processPendingPersonInitJobs() {
 export async function processBackgroundJobs() {
   await Promise.all([
     processPendingInviteJobs(),
-    // processPendingPersonInitJobs()
+    processPendingPersonInitJobs()
   ])
 }
