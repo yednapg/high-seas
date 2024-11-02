@@ -21,16 +21,20 @@ export default function ShipPillCluster({
       <Pill msg={`${ship.credited_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
-        (ship.voteRequirementMet ? (
+        (ship.voteBalanceExceedsRequirement ? (
           ship.doubloonPayout ? (
             <Pill
               msg={`${Math.floor(ship.doubloonPayout)} Doubloons`}
               color="green"
-              glyphImage={<Image src={DoubloonsImage} alt="doubloons" height={20} />}
+              glyphImage={
+                <Image src={DoubloonsImage} alt="doubloons" height={20} />
+              }
             />
           ) : (
             <Pill
-              msg={`Pending: ${10 - ship.matchups_count} votes left till you get doubloons`}
+              msg={`Pending: ${
+                10 - ship.matchups_count
+              } votes left till you get doubloons`}
               color="blue"
               glyph="event-add"
               percentage={ship.matchups_count * 10}
