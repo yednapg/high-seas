@@ -16,6 +16,7 @@ export async function handleEmailSubmission(
   email: string,
   isMobile: boolean,
   userAgent: string,
+  urlParams: string,
 ): Promise<{
   username: string;
   key: string;
@@ -40,7 +41,7 @@ export async function handleEmailSubmission(
   const { username, key } = signup
 
   if (username) {
-    await createBackgroundJob('create_person', { email, ipAddress, isMobile, username });
+    await createBackgroundJob('create_person', { email, ipAddress, isMobile, username, urlParams });
   }
 
   return {

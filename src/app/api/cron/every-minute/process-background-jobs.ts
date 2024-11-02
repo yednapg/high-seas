@@ -46,7 +46,8 @@ async function processPendingPersonInitJobs() {
     args->>'email' AS email, 
     args->>'ipAddress' AS ipAddress, 
     args->>'isMobile' AS isMobile,
-    args->>'username' AS username
+    args->>'username' AS username,
+    args->>'urlParams' AS urlParams
   FROM background_job
   WHERE type = 'create_person'
   AND status = 'pending'
@@ -64,6 +65,7 @@ async function processPendingPersonInitJobs() {
       'ip_address': row.ipAddress,
       'email_submitted_on_mobile': row.isMobile,
       'arrpheus_ready_to_invite': true,
+      'invite_url_params': row.urlParams,
     }
   }))
 
