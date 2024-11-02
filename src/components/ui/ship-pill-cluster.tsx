@@ -37,7 +37,7 @@ export default function ShipPillCluster({
               } votes left till you get doubloons`}
               color="blue"
               glyph="event-add"
-              percentage={ship.matchups_count * 10}
+              percentage={Math.max(ship.matchups_count * 10, 5)}
             />
           )
         ) : (
