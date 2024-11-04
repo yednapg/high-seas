@@ -52,7 +52,7 @@ const Balance = () => {
             className="w-4 sm:w-5 h-4 sm:h-5"
           />
           <span className="mr-2">
-            {Math.floor(balance) || "..."}
+            {balance || balance === 0 ? Math.floor(balance) : "..."}
             <span className="sm:inline hidden"> Doubloons</span>
           </span>
         </div>
