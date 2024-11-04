@@ -21,7 +21,7 @@ export default function ShipPillCluster({
       <Pill msg={`${ship.credited_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
-        (ship.voteBalanceExceedsRequirement ? (
+        (ship.voteRequirementMet ? (
           ship.doubloonPayout ? (
             <Pill
               msg={`${Math.floor(ship.doubloonPayout)} Doubloons`}
