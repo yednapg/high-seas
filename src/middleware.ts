@@ -77,7 +77,7 @@ export async function middleware(request: NextRequest) {
         expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
       });
     } catch (e) {
-      console.error("Verification cookie error:", e);
+      console.warn("Verification cookie error:", e);
     }
   }
 
