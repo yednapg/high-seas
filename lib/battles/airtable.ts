@@ -74,15 +74,18 @@ export const getMatchups = async (): Promise<Ships[]> => {
   return records.map((record) => record.fields as Ships);
 };
 
-export const submitVote = async (voteData: {
-  slackId: string;
-  explanation: string;
-  winner: string;
-  loser: string;
-  winnerRating: number;
-  loserRating: number;
-  ts: number;
-}): Promise<Battles> => {
+export const submitVote = async (
+  voteData: {
+    slackId: string;
+    explanation: string;
+    winner: string;
+    loser: string;
+    winnerRating: number;
+    loserRating: number;
+    ts: number;
+  },
+  bot: boolean,
+): Promise<Battles> => {
   const person = await getPersonBySlackId(voteData.slackId);
   if (!person) {
     throw new Error("User not found");
@@ -113,6 +116,7 @@ export const submitVote = async (voteData: {
     loser_adjustment: newLoserRating - voteData.loserRating,
     is_tutorial_vote: !person.user_has_graduated,
     generated_at: voteData.ts,
+    bot,
   });
 
   return {

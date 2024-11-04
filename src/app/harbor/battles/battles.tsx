@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Ships } from "../../../../types/battles/airtable";
 import Icon from "@hackclub/icons";
 import Pill from "@/components/ui/pill";
@@ -95,12 +95,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Pill
-                msg="Demo"
-                color="green"
-                glyph="link"
-                classes="text-lg"
-              />
+              <Pill msg="Demo" color="green" glyph="link" classes="text-lg" />
             </a>
           )}
           {project.readme_url && (
@@ -223,6 +218,9 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [isReadmeView, setIsReadmeView] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const turnstileRef = useRef(null);
+  const [turnstileWidget, setTurnstileWidget] = useState<string | null>(null);
+
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>(
     "cache.voteBalance",
     0,
@@ -281,7 +279,7 @@ export default function Matchups({ session }: { session: HsSession }) {
 
   const handleAudioTranscription = (transcript: string) => {
     setReason(reason + transcript);
-  }
+  };
 
   const handleVoteClick = (project: Ships) => {
     setSelectedProject(project);
@@ -322,32 +320,42 @@ export default function Matchups({ session }: { session: HsSession }) {
             ? matchup.project2
             : matchup.project1;
 
-        const response = await fetch("/api/battles/vote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            signature: matchup.signature,
-            ts: matchup.ts,
-            project1: matchup.project1,
-            project2: matchup.project2,
-            slackId,
-            explanation: reason,
-            winner: winner.id,
-            loser: loser.id,
-            winnerRating: winner.rating,
-            loserRating: loser.rating,
-          }),
+        // Preflight turnstile
+        const widgetId = window.turnstile!.render(turnstileRef.current, {
+          sitekey: "0x4AAAAAAAzOAaBz1TUgJG68",
+          theme: "dark",
+          callback: async (token: string) => {
+            const response = await fetch("/api/battles/vote", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                signature: matchup.signature,
+                ts: matchup.ts,
+                project1: matchup.project1,
+                project2: matchup.project2,
+                slackId,
+                explanation: reason,
+                winner: winner.id,
+                loser: loser.id,
+                winnerRating: winner.rating,
+                loserRating: loser.rating,
+                turnstileToken: token,
+              }),
+            });
+
+            if (response.ok) {
+              setSelectedProject(null);
+              setReason("");
+              fetchMatchup();
+              fetchVoteBalance();
+            } else {
+              const errorData = await response.json();
+              setError(`Failed to submit vote: ${errorData.error}`);
+            }
+          },
         });
 
-        if (response.ok) {
-          setSelectedProject(null);
-          setReason("");
-          fetchMatchup();
-          fetchVoteBalance();
-        } else {
-          const errorData = await response.json();
-          setError(`Failed to submit vote: ${errorData.error}`);
-        }
+        setTurnstileWidget(widgetId);
       } catch (error) {
         console.error("Error submitting vote:", error);
         setError(
@@ -355,6 +363,10 @@ export default function Matchups({ session }: { session: HsSession }) {
         );
       } finally {
         setIsSubmitting(false);
+        if (turnstileWidget) {
+          window.turnstile!.reset(turnstileWidget);
+          setTurnstileWidget(null);
+        }
       }
     }
   };
@@ -471,6 +483,8 @@ export default function Matchups({ session }: { session: HsSession }) {
                     <p className="text-red-500 text-sm mb-4">{error}</p>
                   )}
                 </div>
+
+                <div ref={turnstileRef} className="mb-4"></div>
 
                 <button
                   id="submit-vote"
