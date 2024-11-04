@@ -46,10 +46,7 @@ Write-Host "Sending test heartbeats to verify setup..."
 for ($i = 1; $i -le 2; $i++) {
     Write-Host "Sending heartbeat $i/2..."
     
-    # Standardize Unix timestamp calculation
-    $epoch = Get-Date -Date "1970-01-01 00:00:00Z"
-    $time = [int][double]((Get-Date).ToUniversalTime() - $epoch).TotalSeconds
-
+    $time = (Get-Date -UFormat %s)
     $jsonData = @{
         branch = "master"
         category = "coding"
@@ -59,7 +56,7 @@ for ($i = 1; $i -le 2; $i++) {
         lineno = 1
         lines = 1
         project = "welcome"
-        time = $time
+        time = "$time"
         user_agent = "wakatime/v1.102.1 (windows) go1.22.5 vscode/1.94.2 vscode-wakatime/24.6.2"
     } | ConvertTo-Json
 
