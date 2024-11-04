@@ -1,80 +1,48 @@
 "use client";
 
-import { motion } from "framer-motion";
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import Link from "next/link";
-import { getSelfPerson, getSignpostUpdates } from "../../utils/airtable";
+import { motion } from "framer-motion";
 import Verification from "./verification";
-import useLocalStorageState from "../../../../lib/useLocalStorageState";
 import Platforms from "@/app/utils/wakatime-setup/platforms";
 import JaggedCard from "../../../components/jagged-card";
-import { fetchWaka, SignpostFeedItem } from "@/app/utils/data";
+import Cookies from "js-cookie";
+import FeedItems from "./feed-items";
 
-export default function SignPost({ session }: { session: any }) {
-  const [wakaKey, setWakaKey] = useLocalStorageState("cache.wakaKey", "");
-  const motionProps = useMemo(
-    () => ({
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-    }),
-    [],
-  );
-
-  const [verification, setVerification] = useLocalStorageState(
-    "cache.verification",
-    "Eligible L1", // load in verified by default to prevent warning sign "popping" in 
-  );
-  const [reason, setReason] = useLocalStorageState("cache.reason", "");
-  const [signpostUpdates, setSignpostUpdates] = useLocalStorageState<SignpostFeedItem[]>("cache.signpost", []);
-  const [lastSignpostUpdate, setLastSignpostUpdate] = useLocalStorageState("cache.lastSignpostUpdate", new Date(0));
-
-  useEffect(() => {
-    fetchWaka().then(({ key }) => setWakaKey(key));
-
-    if ((new Date()).getTime() - lastSignpostUpdate > 1000 * 60 * 15) {
-      getSignpostUpdates().then((data) => {
-        setSignpostUpdates(data)
-        setLastSignpostUpdate(new Date())
-      });
-    }
-
-    if (session?.slackId) {
-      getSelfPerson(session.slackId).then((data) => {
-        setVerification(
-          data?.["fields"]?.["verification_status"]?.[0]?.toString() || "",
+export default function Signpost() {
+  let wakaKey: string | null = null;
+  let hasHb: boolean | null = null;
+  const wakaCookie = Cookies.get("waka");
+  if (wakaCookie) {
+    try {
+      const parsedCookie = JSON.parse(wakaCookie);
+      if (Object.hasOwn(parsedCookie, "key")) {
+        wakaKey = parsedCookie.key;
+      } else {
+        throw new Error(
+          "The parsed waka cookie has no key 'key' (the waka api key)",
         );
-        setReason(data?.["fields"]?.["Rejection Reason"] || "");
-      });
+      }
+
+      if (Object.hasOwn(parsedCookie, "hasHb")) {
+        hasHb = parsedCookie.hasHb;
+      } else {
+        throw new Error("The parsed waka cookie has no key 'hasHb'");
+      }
+    } catch (e) {
+      console.error("Couldn't JSON parse the waka cookie: ", e);
     }
-  }, [session.slackId]);
+  }
 
   return (
-    <motion.div
-      {...motionProps}
-      className="container mx-auto px-4 py-8 max-w-prose"
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <h1 className="font-heading text-5xl font-bold text-white mb-6 text-center">
         The Signpost
       </h1>
-        <Verification status={verification} reason={reason} />
 
-        {signpostUpdates
-        ? signpostUpdates.map(
-          (update: any, index: number) =>
-            update?.["fields"]?.["visible"] && (
-            <JaggedCard
-              key={index}
-              className={`text-[${update?.["fields"]?.["text_color"]}}]`}
-              bgColor={update?.["fields"]?.["background_color"]}
-            >
-              <span className="text-bold text-xl">{update?.["fields"]?.["title"]}</span>
-              <p>{update?.["fields"]?.["content"]}</p>
-            </JaggedCard>
-            ),
-          )
-        : null}
+      <Verification />
 
-      <JaggedCard className="text-white">
+      <JaggedCard className="text-white" shadow={false}>
         {wakaKey ? (
           <Platforms wakaKey={wakaKey} />
         ) : (
@@ -92,6 +60,11 @@ export default function SignPost({ session }: { session: any }) {
         </Link>
         !
       </p>
+
+      <h2 className="mt-12 font-heading text-2xl font-bold text-white mb-4 text-center">
+        What's happening?
+      </h2>
+      <FeedItems />
     </motion.div>
   );
 }

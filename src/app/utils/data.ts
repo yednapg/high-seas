@@ -172,12 +172,12 @@ export async function fetchWaka(): Promise<{
 export interface SignpostFeedItem {
   id: string;
   createdTime: Date;
+  title: string;
   content: string;
   autonumber: number;
   category: "update" | "announcement" | "sale" | "alert";
   backgroundColor: string;
   textColor: string;
-  visible: boolean;
 }
 export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   const result = await fetch(
@@ -193,15 +193,17 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
   const records = result.records;
 
   //TODO: Pagination.
-  return records.map((r: any) => ({
-    id: r.id,
-    createdTime: new Date(r.createdTime),
-    content: r["fields"].content,
-    autonumber: Number(r["fields"].autonumber),
-    category: r["fields"].category,
-    backgroundColor: r["fields"].background_color,
-    textColor: r["fields"].text_color,
-    visible: !!r["fields"].visible,
-  }));
+  return records
+    .filter((r: any) => r["fields"].visible === true)
+    .map((r: any) => ({
+      id: r.id,
+      createdTime: new Date(r.createdTime),
+      title: r["fields"].title,
+      content: r["fields"].content,
+      autonumber: Number(r["fields"].autonumber),
+      category: r["fields"].category,
+      backgroundColor: r["fields"].background_color,
+      textColor: r["fields"].text_color,
+    }));
 }
 //#endregion

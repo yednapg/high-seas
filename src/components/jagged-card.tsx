@@ -1,6 +1,6 @@
 import React from "react";
 
-const Svg = (bgColor) => (
+const Svg = ({ bgColor }) => (
   <svg
     width="403"
     height="575"
@@ -34,7 +34,7 @@ const Svg = (bgColor) => (
         y2="574.503"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#48BBFE" />
+        <stop stop-color={bgColor} />
         <stop offset="1" stop-color="#2B7098" />
       </linearGradient>
       <linearGradient
@@ -56,15 +56,18 @@ const JaggedCard = ({
   children,
   className = "",
   bgColor = "#48BBFE",
+  shadow = true,
   ...props
 }) => {
   return (
     <div
       className="relative w-full"
       {...props}
-      style={{ filter: "drop-shadow(0 0 5rem #88FDFF)" }}
+      style={{
+        filter: shadow ? "drop-shadow(0 0 5rem #88FDFF)" : "",
+      }}
     >
-      <Svg />
+      <Svg bgColor={bgColor} />
       <div className={`relative z-10 py-[8%] px-[10%] ${className}`}>
         {children}
       </div>
