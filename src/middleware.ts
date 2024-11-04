@@ -26,14 +26,18 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  if (!request.cookies.get("waka")) {
-    const wakaData = await fetchWaka();
-    response.cookies.set({
-      name: "waka",
-      value: JSON.stringify(wakaData),
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
-    });
+  try {
+    if (!request.cookies.get("waka")) {
+      const wakaData = await fetchWaka();
+      response.cookies.set({
+        name: "waka",
+        value: JSON.stringify(wakaData),
+        path: "/",
+        expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
+      });
+    }
+  } catch (e) {
+    console.log("Middleware errored on waka cookie step", e);
   }
 
   // Signpost base
