@@ -224,7 +224,6 @@ export async function stagedToShipped(ship: Ship) {
         fields: {
           ship_status: "shipped",
           credited_hours: totalHours,
-          ship_time: new Date().toISOString(),
         },
       },
     ],
