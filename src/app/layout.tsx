@@ -5,7 +5,7 @@ import "./globals.css";
 import Nav from "@/components/nav";
 import { Toaster } from "@/components/ui/toaster";
 
-import PlausibleProvider from 'next-plausible'
+import PlausibleProvider from "next-plausible";
 import { Analytics } from "@vercel/analytics/react";
 import Fullstory from "@/components/fullstory";
 
@@ -36,7 +36,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${mainFont.variable} antialiased`}>
+      <head>
+        <script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          defer
+        ></script>
         <link
           rel="icon"
           type="image/png"
@@ -52,6 +56,8 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="High Seas" />
         <link rel="manifest" href="/favicons/site.webmanifest" />
+      </head>
+      <body className={`${mainFont.variable} antialiased`}>
         <Nav />
         <main>{children}</main>
         <PlausibleProvider domain="highseas.hackclub.com" />

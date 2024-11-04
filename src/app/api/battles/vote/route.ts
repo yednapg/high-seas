@@ -14,6 +14,31 @@ export async function POST(request: Request) {
 
   try {
     const voteData = await request.json();
+
+    // Validate turnstile token
+    const turnstileResult = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          secret: process.env.TURNSTILE_SECRET_KEY,
+          response: voteData.turnstileToken,
+        }),
+        headers: { "Content-Type": "application/json" },
+      },
+    ).then((r) => r.json());
+    if (!turnstileResult.success) {
+      return NextResponse.json(
+        {
+          error:
+            "I took one look at this request and do you know what I said? I said 'Wow, this looks like voter fraud'. Everyone knows it, folks. And I said, I'll tell you exactly what I said, I said 'I'm not going to let it happen'. I said that. I've never allowed voter fraud, never allowed it. They're saying I wasn't catching voter fraud earlier in the event, and you know what? They're wrong. We all know it, don't we. They're wrong about many things, so many things. Maybe all the things.",
+        },
+        { status: 403 },
+      );
+    }
+    console.log("TSRUSTUL", turnstileResult);
+    return NextResponse.json({ ok: true });
+
     const matchup = {
       winner: voteData.winner,
       loser: voteData.loser,
