@@ -162,3 +162,12 @@ export const getPersonBySlackId = async (
 
   return null;
 };
+
+export async function markVoterFraud(id: string) {
+  await base("people").update([
+    {
+      id,
+      fields: { bot: true },
+    },
+  ]);
+}
