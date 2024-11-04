@@ -14,6 +14,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    let isBot = false;
     const voteData = await request.json();
 
     // Validate turnstile token
@@ -29,13 +30,11 @@ export async function POST(request: Request) {
       },
     ).then((r) => r.json());
     if (!turnstileResult.success) {
-      console.error(turnstileResult);
-      await markVoterFraud(session.personId);
-      return NextResponse.json({
-        ok: true,
-        message:
-          "I took one look at this request and do you know what I said? I said 'Wow, this looks like voter fraud'. Everyone knows it, folks. And I said, I'll tell you exactly what I said, I said 'I'm not going to let it happen'. I said that. I've never allowed voter fraud, never allowed it. They're saying I wasn't catching voter fraud earlier in the event, and you know what? They're wrong. We all know it, don't we? They're wrong about many things, so many things. Maybe all the things.",
-      });
+      isBot = true;
+      console.error(
+        "I took one look at this request and do you know what I said? I said 'Wow, this looks like voter fraud'. Everyone knows it, folks. And I said, I'll tell you exactly what I said, I said 'I'm not going to let it happen'. I said that. I've never allowed voter fraud, never allowed it. They're saying I wasn't catching voter fraud earlier in the event, and you know what? They're wrong. We all know it, don't we? They're wrong about many things, so many things. Maybe all the things.",
+        turnstileResult,
+      );
     }
 
     const matchup = {
@@ -63,7 +62,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    const _result = await submitVote(voteData);
+    const _result = await submitVote(voteData, isBot);
 
     return NextResponse.json({ ok: true });
   } catch (error) {
