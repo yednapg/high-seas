@@ -81,6 +81,7 @@ export const submitVote = async (voteData: {
   loser: string;
   winnerRating: number;
   loserRating: number;
+  ts: number;
 }): Promise<Battles> => {
   const person = await getPersonBySlackId(voteData.slackId);
   if (!person) {
@@ -111,6 +112,7 @@ export const submitVote = async (voteData: {
     loser_rating: voteData.loserRating,
     loser_adjustment: newLoserRating - voteData.loserRating,
     is_tutorial_vote: !person.user_has_graduated,
+    generated_at: voteData.ts,
   });
 
   return {
