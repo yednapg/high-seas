@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
       });
     }
   } catch (e) {
-    console.log("Middleware errored on waka cookie step");
+    console.log("Middleware errored on waka cookie step", e);
   }
 
   // Signpost base
