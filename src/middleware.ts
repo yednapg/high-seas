@@ -63,18 +63,22 @@ export async function middleware(request: NextRequest) {
       expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
     });
 
-    const verificationStatus = p["verification_status"][0];
-    const verificationReason = p["Rejection Reason"];
-    console.log(p);
-    response.cookies.set({
-      name: "verification",
-      value: JSON.stringify({
-        status: verificationStatus,
-        reason: verificationReason,
-      }),
-      path: "/",
-      expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
-    });
+    try {
+      const verificationStatus = p["verification_status"][0];
+      const verificationReason = p["Rejection Reason"];
+      console.log(p);
+      response.cookies.set({
+        name: "verification",
+        value: JSON.stringify({
+          status: verificationStatus,
+          reason: verificationReason,
+        }),
+        path: "/",
+        expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
+      });
+    } catch (e) {
+      console.error("Verification cookie error:", e);
+    }
   }
 
   return response;
