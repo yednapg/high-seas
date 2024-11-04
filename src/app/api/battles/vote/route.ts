@@ -31,12 +31,11 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "I took one look at this request and do you know what I said? I said 'Wow, this looks like voter fraud'. Everyone knows it, folks. And I said, I'll tell you exactly what I said, I said 'I'm not going to let it happen'. I said that. I've never allowed voter fraud, never allowed it. They're saying I wasn't catching voter fraud earlier in the event, and you know what? They're wrong. We all know it, don't we. They're wrong about many things, so many things. Maybe all the things.",
+            "I took one look at this request and do you know what I said? I said 'Wow, this looks like voter fraud'. Everyone knows it, folks. And I said, I'll tell you exactly what I said, I said 'I'm not going to let it happen'. I said that. I've never allowed voter fraud, never allowed it. They're saying I wasn't catching voter fraud earlier in the event, and you know what? They're wrong. We all know it, don't we? They're wrong about many things, so many things. Maybe all the things.",
         },
         { status: 403 },
       );
     }
-    console.log("TSRUSTUL", turnstileResult);
     return NextResponse.json({ ok: true });
 
     const matchup = {
