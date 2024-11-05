@@ -365,12 +365,10 @@ export default function Matchups({ session }: { session: HsSession }) {
 
         if (response.ok) {
           const json = await response.json();
-          console.log(json);
-
-          // if (response.reload) {
-          //   window.location.reload();
-          //   return;
-          // }
+          if (json.reload) {
+            window.location.reload();
+            return;
+          }
 
           setSelectedProject(null);
           setReason("");
