@@ -42,7 +42,6 @@ export default function FeedItems() {
               <br />
               <span style={{ color: `#${item.textColor}` }}>
                 <Markdown>{item.content}</Markdown>
-                {item.backgroundColor}
               </span>
             </p>
           </JaggedCardSmall>
