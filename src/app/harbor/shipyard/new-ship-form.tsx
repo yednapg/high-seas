@@ -57,13 +57,12 @@ export default function NewShipForm({
           const res = await getWakaSessions();
           const shippedShips = ships
             .filter((s) => s.shipStatus !== "deleted")
-            .map((s) => s.wakatimeProjectName)
-            .filter((n) => n);
+            .flatMap((s) => s.wakatimeProjectNames);
           setProjects(
             res.projects.filter(
               (p: { key: string; total: number }) =>
-                p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-            ),
+                p.key !== "<<LAST_PROJECT>>" && !shippedShips.includes(p.key)
+            )
           );
         }
       } catch (error) {
@@ -71,7 +70,7 @@ export default function NewShipForm({
       }
     }
     fetchProjects();
-  }, [session?.slackId]);
+  }, [ships]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
