@@ -128,10 +128,7 @@ export default function Harbor({
   const tabs = [
     {
       name: (
-        <>
-          <img src="/signpost.png" className="mr-2" width={16} alt="" />
-          Signpost
-        </>
+        <>Signpost</>
       ),
       path: "signpost",
       component: <SignPost session={session} />,
