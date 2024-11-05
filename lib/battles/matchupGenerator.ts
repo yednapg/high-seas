@@ -137,7 +137,7 @@ export async function generateMatchup(
   const unpaidProjects = availableProjects.filter((p) => !p.doubloon_payout);
 
   // Chris, randomly decide if we want paid vs unpaid or unpaid vs unpaid otherwise our sample size might get too tight
-  const usePaidComparison = Math.random() < 0.7 && paidProjects.length > 0;
+  const usePaidComparison = 1; // quicky dirty hack to always use paid vs unpaid
 
   let project1, project2;
 
