@@ -15,7 +15,7 @@ export default async function SignIn({
   const proto = headersList.get("x-forwarded-proto") || "http";
   const origin = encodeURIComponent(`${proto}://${host}`);
 
-  const slackAuthUrl = `https://slack.com/oauth/v2/authorize?scope=&user_scope=openid%2Cprofile%2Cemail&redirect_uri=${origin}/api/slack_redirect&client_id=${process.env.SLACK_CLIENT_ID}`;
+  const slackAuthUrl = `https://hackclub.slack.com/oauth/v2/authorize?scope=&user_scope=openid%2Cprofile%2Cemail&redirect_uri=${origin}/api/slack_redirect&client_id=${process.env.SLACK_CLIENT_ID}`;
 
   const textSize = variant === "small" ? "text-base" : "text-2xl";
   return (
