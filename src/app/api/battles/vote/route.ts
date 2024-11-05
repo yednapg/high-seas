@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import {
   ensureUniqueVote,
-  markVoterFraud,
   submitVote,
 } from "../../../../../lib/battles/airtable";
 import { getSession } from "@/app/utils/auth";
@@ -64,7 +63,7 @@ export async function POST(request: Request) {
     }
     const _result = await submitVote(voteData, isBot);
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, reload: isBot });
   } catch (error) {
     console.error("Error submitting vote:", error);
     return NextResponse.json(
