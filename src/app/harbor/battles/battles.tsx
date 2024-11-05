@@ -219,7 +219,7 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const turnstileRef = useRef(null);
-  const [turnstileWidget, setTurnstileWidget] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>(
     "cache.voteBalance",
@@ -231,6 +231,31 @@ export default function Matchups({ session }: { session: HsSession }) {
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(" ").length < 10);
   }, [reason]);
+
+  useEffect(() => {
+    if (turnstileRef.current) {
+      let widgetId;
+
+      const genToken = () => {
+        widgetId = window.turnstile!.render(turnstileRef.current, {
+          sitekey: "0x4AAAAAAAzOAaBz1TUgJG68", // Site key
+          theme: "dark",
+          callback: (token: string) => {
+            console.log(token);
+            setTurnstileToken(token);
+          },
+        });
+      };
+      genToken();
+
+      const genTokenInterval = setInterval(genToken, 4 * 60 * 1_000); // Every 4 minutes
+
+      return () => {
+        window.turnstile!.reset(widgetId);
+        clearInterval(genTokenInterval);
+      };
+    }
+  }, [selectedProject]);
 
   const fetchVoteBalance = async () => {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
@@ -320,42 +345,41 @@ export default function Matchups({ session }: { session: HsSession }) {
             ? matchup.project2
             : matchup.project1;
 
-        // Preflight turnstile
-        const widgetId = window.turnstile!.render(turnstileRef.current, {
-          sitekey: "0x4AAAAAAAzOAaBz1TUgJG68",
-          theme: "dark",
-          callback: async (token: string) => {
-            const response = await fetch("/api/battles/vote", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                signature: matchup.signature,
-                ts: matchup.ts,
-                project1: matchup.project1,
-                project2: matchup.project2,
-                slackId,
-                explanation: reason,
-                winner: winner.id,
-                loser: loser.id,
-                winnerRating: winner.rating,
-                loserRating: loser.rating,
-                turnstileToken: token,
-              }),
-            });
-
-            if (response.ok) {
-              setSelectedProject(null);
-              setReason("");
-              fetchMatchup();
-              fetchVoteBalance();
-            } else {
-              const errorData = await response.json();
-              setError(`Failed to submit vote: ${errorData.error}`);
-            }
-          },
+        const response = await fetch("/api/battles/vote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            signature: matchup.signature,
+            ts: matchup.ts,
+            project1: matchup.project1,
+            project2: matchup.project2,
+            slackId,
+            explanation: reason,
+            winner: winner.id,
+            loser: loser.id,
+            winnerRating: winner.rating,
+            loserRating: loser.rating,
+            turnstileToken,
+          }),
         });
 
-        setTurnstileWidget(widgetId);
+        if (response.ok) {
+          const json = await response.json();
+          console.log(json);
+
+          // if (response.reload) {
+          //   window.location.reload();
+          //   return;
+          // }
+
+          setSelectedProject(null);
+          setReason("");
+          fetchMatchup();
+          fetchVoteBalance();
+        } else {
+          const errorData = await response.json();
+          setError(`Failed to submit vote: ${errorData.error}`);
+        }
       } catch (error) {
         console.error("Error submitting vote:", error);
         setError(
@@ -363,10 +387,6 @@ export default function Matchups({ session }: { session: HsSession }) {
         );
       } finally {
         setIsSubmitting(false);
-        if (turnstileWidget) {
-          window.turnstile!.reset(turnstileWidget);
-          setTurnstileWidget(null);
-        }
       }
     }
   };
@@ -461,6 +481,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                 />
               </div>
             </div>
+            <div ref={turnstileRef} className="mb-4"></div>
             {selectedProject && (
               <div
                 id="voting-reason-container-parent"
@@ -483,8 +504,6 @@ export default function Matchups({ session }: { session: HsSession }) {
                     <p className="text-red-500 text-sm mb-4">{error}</p>
                   )}
                 </div>
-
-                <div ref={turnstileRef} className="mb-4"></div>
 
                 <button
                   id="submit-vote"
