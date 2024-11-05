@@ -39,7 +39,12 @@ export default function Signpost() {
     useState<{ key: string; total: number }[]>();
 
   useEffect(() => {
-    getWakaSessions().then((s) => setWakaSessions(s.projects));
+    getWakaSessions().then((s) => {
+      setWakaSessions(s.projects)
+      if (s.projects.length > 0 ) {
+        hasHb = true
+      }
+    });
   }, []);
 
   const hms = wakaSessions
