@@ -25,7 +25,7 @@ import JaggedCard from "@/components/jagged-card";
 const Balance = () => {
   "use client";
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const brokeMessage = useMemo(() => sample(zeroMessage), []);
 
   const balance = Number(Cookies.get("tickets"));
