@@ -1192,7 +1192,7 @@ const PrizeData = [
   }, */
   {
     name: "Domain",
-    doubloons: 420,
+    doubloons: 40,
     image: "https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png",
     sub: "for a year!",
   },
@@ -1203,7 +1203,7 @@ const PrizeData = [
   // },
   {
     name: "Pinecil",
-    doubloons: 876,
+    doubloons: 82,
     image: "https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png",
     sub: "solder!!",
   },
@@ -1219,7 +1219,7 @@ const PrizeData = [
   // },
   {
     name: "Blahåj (friend)",
-    doubloons: 1312,
+    doubloons: 123,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
     sub: "soft to hold of the shark :3",
   },
@@ -1235,13 +1235,13 @@ const PrizeData = [
   // },
   {
     name: "Raspberry Pi 5",
-    doubloons: 2710,
+    doubloons: 265,
     image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
     sub: "home server, mayhaps?",
   },
   {
     name: "Flipper Zero",
-    doubloons: 9_000,
+    doubloons: 850,
     image: "https://noras-secret-cdn.hackclub.dev/shop/flipper.png",
     sub: "don't do anything i wouldn't do :-P",
   },
@@ -1252,20 +1252,20 @@ const PrizeData = [
   // },
   {
     name: "Bambu A1 Mini",
-    doubloons: 14_196,
+    doubloons: 1337,
     image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
     sub: "what are you gonna print?",
   },
   {
     name: "iPad",
-    doubloons: 28_003,
+    doubloons: 2090,
     image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
     sub: "with Apple Pencil!",
   },
 
   {
     name: "Framework Laptop",
-    doubloons: 54_000,
+    doubloons: 3075,
     image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
     sub: '16", 16GB RAM....16 16 16',
   },
