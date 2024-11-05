@@ -133,16 +133,32 @@ export async function generateMatchup(
 
   if (availableProjects.length < 2) return null;
 
-  const paidProjects = availableProjects.filter((p) => p.doubloon_payout);
-  const unpaidProjects = availableProjects.filter((p) => !p.doubloon_payout);
-
+  const paidProjects = availableProjects.filter((p) => p.doubloon_payout || p.project_source === 'arcade');
+  const unpaidProjects = availableProjects
+    .filter((p) => !p.doubloon_payout && p.project_source === 'high_seas')
   // Chris, randomly decide if we want paid vs unpaid or unpaid vs unpaid otherwise our sample size might get too tight
   const usePaidComparison = 1; // quicky dirty hack to always use paid vs unpaid
 
   let project1, project2;
 
   if (usePaidComparison) {
-    project1 = unpaidProjects[Math.floor(Math.random() * unpaidProjects.length)];
+    const now = Date.now();
+    const weightedUnpaidProjects = unpaidProjects.map(p => ({
+      project: p,
+      // tbh, weights can be pretty simple, but this works fine
+      weight: 1 + (now - (new Date(p.created_time).getTime())) / (1000 * 60 * 60 * 24)
+    }));
+    let totalWeight = weightedUnpaidProjects.reduce((sum, p) => sum + p.weight, 0);
+    let random = (Math.random() * totalWeight)/2;
+    
+    for (const {project, weight} of weightedUnpaidProjects.sort((a, b) => b.weight - a.weight)) {
+      random -= weight * 1.2;
+      if (random <= 0) {
+        project1 = project;
+        break;
+      }
+    }
+    if (!project1) project1 = unpaidProjects[0]; // Fallback to oldest project
     
     const project1Hours = project1.total_hours || 0;
     const hourRange = project1Hours * 0.5; // Chris, setting this to 50% but can bring it down to 30% if we want
@@ -159,8 +175,8 @@ export async function generateMatchup(
       weight: Math.pow(0.8, i) * (1 / (1 + Math.abs((p.total_hours || 0) - project1Hours) / project1Hours))
     }));
     
-    const totalWeight = weightedProjects.reduce((sum, p) => sum + p.weight, 0);
-    let random = Math.random() * totalWeight;
+    totalWeight = weightedProjects.reduce((sum, p) => sum + p.weight, 0);
+    random = Math.random() * totalWeight;
     
     for (const {project, weight} of weightedProjects) {
       random -= weight;
