@@ -109,7 +109,7 @@ export default function EmailSubmissionForm() {
             </p>
           </div>
           <img src="/party-orpheus.svg" className="w-1/2 mx-auto" />
-          <Button>Aye aye!</Button>
+          <Button onClick={() => setEmail(null)}>Aye aye!</Button>
         </div>
       </Modal>
     </>
