@@ -23,12 +23,10 @@ import Modal from "../../../components/ui/modal";
 
 export default function Ships({
   ships = [],
-  shipChains = new Map<string, string[]>(),
   bareShips = false,
   setShips,
 }: {
   ships: Ship[];
-  shipChains: Map<string, string[]>;
   bareShips: boolean;
   setShips: any;
 }) {
@@ -45,7 +43,7 @@ export default function Ships({
   const [errorModal, setErrorModal] = useState<string>();
   const canvasRef = useRef(null);
 
-  if (!shipChains) shipChains = new Map<string, string[]>();
+  const [shipChains, setShipChains] = useState<Map<string, string[]>>();
 
   useEffect(() => {
     getSession().then((sesh) => setSession(sesh));
@@ -131,13 +129,15 @@ export default function Ships({
 
   // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
   useEffect(() => {
+    const newShipChains = new Map<string, string[]>();
     for (const ship of shippedShips) {
       const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
       if (ship.reshippedAll) {
-        shipChains.set(wakatimeProjectName, ship.reshippedAll);
+        newShipChains.set(wakatimeProjectName, ship.reshippedAll);
       }
     }
-  }, [shippedShips, shipChains]);
+    setShipChains(newShipChains);
+  }, [shippedShips]);
 
   // let selectedProjectWakatimeProjectShipChain;
 

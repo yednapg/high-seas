@@ -33,18 +33,18 @@ const tutorialShips: Ship[] = [
   },
 ];
 
-export default function Shipyard({ shipChains, session }: any) {
+export default function Shipyard({ session }: any) {
   const [ships, setShips] = useLocalStorageState("cache.ships", []);
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     "cache.voteBalance",
-    0,
+    0
   );
 
   useEffect(() => {
     fetchShips(session.slackId).then((ships) => setShips(ships));
 
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
-      setVoteBalance(balance),
+      setVoteBalance(balance)
     );
   }, []);
 
@@ -79,7 +79,6 @@ export default function Shipyard({ shipChains, session }: any) {
         <div className="mt-6">
           <Ships
             ships={isTutorial ? tutorialShips : ships}
-            shipChains={shipChains}
             setShips={setShips}
             bareShips={false}
           />
