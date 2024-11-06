@@ -958,7 +958,7 @@ interface PrizeProps {
   sub: string | undefined;
 }
 const nf = new Intl.NumberFormat();
-const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub }) => {
+const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub, estMin, estMax}) => {
   return (
     <div className="relative p-6 px-4 rounded-lg m-4 pop">
       <img
@@ -967,8 +967,8 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub }) => {
         className="absolute w-full h-full inset-0 object-cover opacity-80"
       />{" "}
       <p>
-        ~{Math.floor((doubloons / 63) * 0.75)}–
-        {Math.ceil((doubloons / 63) * 1.25)} hours
+        ~{estMin}–
+        {estMax} hours
       </p>
       <div className="relative my-2">
         <p className="flex justify-center text-center text-3xl">{name}</p>
@@ -1010,6 +1010,8 @@ interface PrizeItem {
   name: string;
   doubloons: string;
   image: string;
+  estMin: number;
+  estMax: number;
 }
 
 const PrizeData = [
@@ -1038,6 +1040,8 @@ const PrizeData = [
     doubloons: 40,
     image: "https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png",
     sub: "for a year!",
+    estMin: 2,
+    estMax: 8
   },
   // {
   //   name: "Raspberry Pi Zero",
@@ -1049,6 +1053,8 @@ const PrizeData = [
     doubloons: 82,
     image: "https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png",
     sub: "solder!!",
+    estMin: 3,
+    estMax: 17
   },
   // {
   //   name: "iFixit Kit",
@@ -1065,6 +1071,8 @@ const PrizeData = [
     doubloons: 123,
     image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
     sub: "soft to hold of the shark :3",
+    estMin: 5,
+    estMax: 26
   },
   // {
   //   name: "Skeletool KBX",
@@ -1081,12 +1089,16 @@ const PrizeData = [
     doubloons: 265,
     image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
     sub: "home server, mayhaps?",
+    estMin: 11,
+    estMax: 55
   },
   {
     name: "Flipper Zero",
     doubloons: 850,
     image: "https://noras-secret-cdn.hackclub.dev/shop/flipper.png",
     sub: "don't do anything i wouldn't do :-P",
+    estMin: 35,
+    estMax: 177
   },
   // {
   //   name: "GitHub Backpack",
@@ -1095,15 +1107,19 @@ const PrizeData = [
   // },
   {
     name: "Bambu A1 Mini",
-    doubloons: 1337,
+    doubloons: 1000,
     image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
     sub: "what are you gonna print?",
+    estMin: 42,
+    estMax: 208
   },
   {
     name: "iPad",
     doubloons: 2090,
     image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
     sub: "with Apple Pencil!",
+    estMin: 87,
+    estMax: 435
   },
 
   {
@@ -1111,6 +1127,8 @@ const PrizeData = [
     doubloons: 3075,
     image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
     sub: '16", 16GB RAM....16 16 16',
+    estMin: 208,
+    estMax: 1037
   },
 ];
 
@@ -1124,6 +1142,8 @@ const Prizes: React.FC = () => {
           doubloons={item.doubloons}
           image={item.image}
           sub={item.sub}
+          estMin={item.estMin}
+          estMax={item.estMax}
         />
       ))}
     </div>
