@@ -52,7 +52,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Person base
-  if (!request.cookies.get("tickets") || !request.cookies.get("verification")) {
+  if (
+    !request.cookies.get("tickets") ||
+    !request.cookies.get("verification") ||
+    !request.cookies.get("academy-completed")
+  ) {
     const p = (await person()).fields;
 
     const tickets = Number(p["settled_tickets"]);
@@ -66,7 +70,6 @@ export async function middleware(request: NextRequest) {
     try {
       const verificationStatus = p["verification_status"][0];
       const verificationReason = p["Rejection Reason"];
-      console.log(p);
       response.cookies.set({
         name: "verification",
         value: JSON.stringify({
@@ -79,6 +82,14 @@ export async function middleware(request: NextRequest) {
     } catch (e) {
       console.warn("Verification cookie error:", e);
     }
+
+    const academyCompleted = p["academy_completed"];
+    response.cookies.set({
+      name: "academy-completed",
+      value: JSON.stringify(academyCompleted),
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
+    });
   }
 
   return response;

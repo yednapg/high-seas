@@ -2,6 +2,7 @@ import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
 import { markAcademyComplete } from "@/app/utils/wakatime-setup/tutorial-utils";
+import Cookies from "js-cookie";
 
 const waitForElement = (
   selector: string,
@@ -56,7 +57,7 @@ export function tour() {
   console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
   sessionStorage.setItem("tutorial", "true");
 
-  const currentStepId = getCookie('tour-step');
+  const currentStepId = getCookie("tour-step");
   if (currentStepId) {
     const requiredUrl = stepToUrlMapping[currentStepId];
     if (requiredUrl && window.location.pathname !== requiredUrl) {
@@ -64,8 +65,8 @@ export function tour() {
       return;
     }
   } else {
-    if (window.location.pathname !== '/shipyard') {
-      window.location.href = '/shipyard';
+    if (window.location.pathname !== "/shipyard") {
+      window.location.href = "/shipyard";
       return;
     }
   }
@@ -91,13 +92,14 @@ function setupSteps(tourManager: Tour) {
     }
 
     if (e.step.id) {
-      setCookie('tour-step', e.step.id);
+      setCookie("tour-step", e.step.id);
     }
   });
 
   tourManager.on("complete", async () => {
     sessionStorage.setItem("tutorial", "false");
-    markAcademyComplete();
+    await markAcademyComplete();
+    Cookies.remove("academy-completed"); // This will cause a refetch next page load.
   });
 
   document.addEventListener("keydown", (e) => {
@@ -453,11 +455,14 @@ function setupSteps(tourManager: Tour) {
       beforeShowPromise: () => {
         // return new Promise((r) => setTimeout(r, 3_000));
 
-        return waitForElement("#voting-project-left button#readme-button", () => {
-          document.querySelector!(
-            "#voting-project-left button#readme-button",
-          )?.setAttribute('disabled', 'true');
-        });
+        return waitForElement(
+          "#voting-project-left button#readme-button",
+          () => {
+            document.querySelector!(
+              "#voting-project-left button#readme-button",
+            )?.setAttribute("disabled", "true");
+          },
+        );
       },
       advanceOn: {
         selector: "#voting-project-left #repository-link",
@@ -588,23 +593,23 @@ function setupSteps(tourManager: Tour) {
 }
 // because mapping is ezy & nice
 const stepToUrlMapping: Record<string, string> = {
-  'ts-greet-1': '/shipyard',
-  'ts-greet-2': '/shipyard',
-  'ts-draft-button': '/shipyard',
-  'ts-new-ship-explanation': '/shipyard',
-  'ts-draft-field-title': '/shipyard',
-  'ts-draft-field-project': '/shipyard',
-  'ts-draft-field-repo': '/shipyard',
-  'ts-draft-field-deployment': '/shipyard',
-  'ts-draft-field-screenshot': '/shipyard',
-  'ts-draft-field-submit': '/shipyard',
-  'ts-staged-ship-0': '/shipyard',
-  'ts-staged-ship-edit-finale': '/shipyard',
-  'ts-vote-left': '/wonderdome',
-  'ts-vote-reason-submit': '/wonderdome',
-  'ts-vote-reason-finale': '/wonderdome',
-  'ts-shop-welcome': '/shop',
-  'ts-shop-region': '/shop',
-  'ts-shop-free-stickers': '/shop',
-  'ts-signpost': '/shop'
+  "ts-greet-1": "/shipyard",
+  "ts-greet-2": "/shipyard",
+  "ts-draft-button": "/shipyard",
+  "ts-new-ship-explanation": "/shipyard",
+  "ts-draft-field-title": "/shipyard",
+  "ts-draft-field-project": "/shipyard",
+  "ts-draft-field-repo": "/shipyard",
+  "ts-draft-field-deployment": "/shipyard",
+  "ts-draft-field-screenshot": "/shipyard",
+  "ts-draft-field-submit": "/shipyard",
+  "ts-staged-ship-0": "/shipyard",
+  "ts-staged-ship-edit-finale": "/shipyard",
+  "ts-vote-left": "/wonderdome",
+  "ts-vote-reason-submit": "/wonderdome",
+  "ts-vote-reason-finale": "/wonderdome",
+  "ts-shop-welcome": "/shop",
+  "ts-shop-region": "/shop",
+  "ts-shop-free-stickers": "/shop",
+  "ts-signpost": "/shop",
 };
