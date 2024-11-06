@@ -106,6 +106,7 @@ export default function Harbor({
     try {
       academyCompleted = JSON.parse(Cookies.get("academy-completed"));
     } catch (e) {
+      console.error(e);
       academyCompleted = false;
     }
 

@@ -83,7 +83,7 @@ export async function middleware(request: NextRequest) {
       console.warn("Verification cookie error:", e);
     }
 
-    const academyCompleted = p["academy_completed"];
+    const academyCompleted = p["academy_completed"] === true;
     response.cookies.set({
       name: "academy-completed",
       value: JSON.stringify(academyCompleted),
