@@ -32,16 +32,20 @@ export default function ShipPillCluster({
             />
           ) : (
             <Pill
-              msg={`Awaiting ${
-                10 - ship.matchups_count
-              } more vote${(10-ship.matchups_count) == 1 ? '' : 's'} from other pirates…`}
+              msg={`Awaiting ${10 - ship.matchups_count} more vote${
+                10 - ship.matchups_count === 1 ? "" : "s"
+              } from other pirates…`}
               color="blue"
               glyph="event-add"
               percentage={Math.max(ship.matchups_count * 10, 5)}
             />
           )
         ) : (
-          <Pill msg={"Pending: Vote to unlock payout!"} color="blue" glyph="enter" />
+          <Pill
+            msg={"Pending: Vote to unlock payout!"}
+            color="blue"
+            glyph="enter"
+          />
         ))}
 
       {/* {shipUpdateCount && shipUpdateCount > 0 ? (
