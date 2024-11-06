@@ -38,7 +38,7 @@ export default function NewUpdateForm({
   const [staging, setStaging] = useState(false);
   const confettiRef = useRef<JSConfetti | null>(null);
   const [projects, setProjects] = useState<{ key: string; total: number }[]>(
-    [],
+    []
   );
   const [selectedProject, setSelectedProject] = useState<{
     key: string;
@@ -104,7 +104,7 @@ export default function NewUpdateForm({
           minLength={10}
           required
           className="w-full p-2 border rounded"
-        ></textarea>
+        />
 
         <Button type="submit" className="w-full" disabled={staging}>
           {staging ? (
