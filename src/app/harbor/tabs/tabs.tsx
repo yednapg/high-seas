@@ -101,7 +101,14 @@ export default function Harbor({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const academyCompleted = JSON.parse(Cookies.get("academy-completed"));
+    let academyCompleted;
+
+    try {
+      academyCompleted = JSON.parse(Cookies.get("academy-completed"));
+    } catch (e) {
+      academyCompleted = false;
+    }
+
     if (!academyCompleted) {
       tour();
     }
