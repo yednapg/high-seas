@@ -118,7 +118,9 @@ export default function Ships({
   }
 
   const shipMap = new Map();
-  ships.forEach((s: Ship) => shipMap.set(s.id, s));
+  for (const s of ships) {
+    shipMap.set(s.id, s);
+  }
 
   // let selectedProjectWakatimeProjectShipChain;
 
