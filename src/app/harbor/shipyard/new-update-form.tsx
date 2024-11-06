@@ -19,6 +19,7 @@ export default function NewUpdateForm({
   session: any;
 }) {
   const [staging, setStaging] = useState(false);
+  const [loading, setLoading] = useState(true);
   const confettiRef = useRef<JSConfetti | null>(null);
   const [projectHours, setProjectHours] = useState<number>(0);
 
@@ -28,7 +29,7 @@ export default function NewUpdateForm({
   }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
-  const fetchWakaSessions = useCallback(async (scope = undefined) => {
+  const fetchWakaSessions = useCallback(async (scope?: string) => {
     try {
       return await getWakaSessions(scope);
     } catch (error) {
@@ -59,6 +60,7 @@ export default function NewUpdateForm({
 
   useEffect(() => {
     async function fetchAndSetProjectHours() {
+      setLoading(true);
       const res = await fetchWakaSessions();
 
       if (res && shipToUpdate.total_hours) {
@@ -72,8 +74,8 @@ export default function NewUpdateForm({
         }
 
         setProjectHours(creditedTime);
-        console.log("Project hours:", creditedTime);
       }
+      setLoading(false);
     }
 
     fetchAndSetProjectHours();
@@ -98,7 +100,13 @@ export default function NewUpdateForm({
         You are adding {projectHours} hours of work to this project
       </p>
 
-      <form action={handleForm} className="space-y-3">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleForm(new FormData(e.target as HTMLFormElement));
+        }}
+        className="space-y-3"
+      >
         <label htmlFor="update_description">Description of the update</label>
         <textarea
           id="update_description"
@@ -110,11 +118,16 @@ export default function NewUpdateForm({
           className="w-full p-2 border rounded"
         />
 
-        <Button type="submit" className="w-full" disabled={staging}>
+        <Button type="submit" className="w-full" disabled={staging || loading}>
           {staging ? (
             <>
-              <Icon glyph="more" />
+              <Icon glyph="attachment" className="animate-spin" />
               Staging!
+            </>
+          ) : loading ? (
+            <>
+              <Icon glyph="clock" className="animate-spin p-1" />
+              Loading...
             </>
           ) : (
             "Stage my Ship!"
