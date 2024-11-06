@@ -33,7 +33,7 @@ export default function Ships({
 }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
-    null,
+    null
   );
 
   const [readmeText, setReadmeText] = useState<string | null>(null);
@@ -85,11 +85,12 @@ export default function Ships({
   };
 
   const stagedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "staged",
+    (ship: Ship) => ship.shipStatus === "staged"
   );
   const shippedShips = ships.filter(
     (ship: Ship) =>
-      ship.shipStatus === "shipped" && ship.shipType === "project",
+      ship.shipStatus === "shipped" &&
+      (ship.shipType === "project" || ship.shipType === "update")
   );
 
   const shipMap = new Map();
@@ -350,7 +351,9 @@ export default function Ships({
                   <Link
                     id="selected-ship-repo-button"
                     target="_blank"
-                    className={`${buttonVariants({ variant: "outline" })} h-full`}
+                    className={`${buttonVariants({
+                      variant: "outline",
+                    })} h-full`}
                     href={selectedShip?.repoUrl}
                     prefetch={false}
                   >
@@ -359,7 +362,9 @@ export default function Ships({
 
                   <Button
                     id="selected-ship-edit-button"
-                    className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
+                    className={`${buttonVariants({
+                      variant: "outline",
+                    })} w-fit p-2 h-full text-black`}
                     onClick={() => setIsEditingShip((p) => !p)}
                   >
                     <Icon glyph="edit" width={24} /> Edit
