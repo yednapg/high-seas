@@ -364,11 +364,11 @@ export default function Matchups({ session }: { session: HsSession }) {
         });
 
         if (response.ok) {
-          const json = await response.json();
-          if (json.reload) {
-            window.location.reload();
-            return;
-          }
+          // const json = await response.json();
+          // if (json.reload) {
+          //   window.location.reload();
+          //   return;
+          // }
 
           setSelectedProject(null);
           setReason("");
