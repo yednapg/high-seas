@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Ship, stagedToShipped } from "./ship-utils";
+import { stagedToShipped } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
@@ -88,10 +89,33 @@ export default function Ships({
     (ship: Ship) => ship.shipStatus === "staged"
   );
   const shippedShips = ships.filter(
-    (ship: Ship) =>
-      ship.shipStatus === "shipped" &&
-      (ship.shipType === "project" || ship.shipType === "update")
+    (ship: Ship) => ship.shipStatus === "shipped" && ship.shipType === "project"
   );
+
+  const updateShips = ships.filter(
+    (ship: Ship) => ship.shipStatus === "shipped" && ship.shipType === "update"
+  );
+
+  // go throught the updates and if the reshippedFromId exists as an id in shippedShips then replace that entry with the update ship if it doesn't exist then simply apphend it
+  for (const update of updateShips) {
+    const reshippedFromId = update.reshippedFromId;
+
+    if (reshippedFromId) {
+      const reshippedFromShip = shippedShips.find(
+        (s) => s.id === reshippedFromId
+      );
+
+      if (reshippedFromShip) {
+        const reshippedFromShipIdx = shippedShips.indexOf(reshippedFromShip);
+
+        shippedShips[reshippedFromShipIdx] = update;
+      } else {
+        shippedShips.push(update);
+      }
+    } else {
+      shippedShips.push(update);
+    }
+  }
 
   const shipMap = new Map();
   ships.forEach((s: Ship) => shipMap.set(s.id, s));
