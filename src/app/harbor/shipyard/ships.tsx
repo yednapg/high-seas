@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { stagedToShipped } from "./ship-utils";
@@ -87,9 +87,11 @@ export default function Ships({
     }
   };
 
-  const stagedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "staged"
+  const stagedShips = useMemo(
+    () => ships.filter((ship: Ship) => ship.shipStatus === "staged"),
+    [ships]
   );
+
   const [shippedShips, setShippedShips] = useState<Ship[]>([]);
 
   useEffect(() => {
@@ -103,6 +105,7 @@ export default function Ships({
         ship.shipStatus === "shipped" && ship.shipType === "update"
     );
 
+    // Consolidate projects and updates in a Map to handle "reshipping" logic efficiently
     const shippedShipsMap = new Map(
       localShippedShips.map((ship) => [ship.id, { ...ship }])
     );
@@ -124,20 +127,17 @@ export default function Ships({
     }
 
     setShippedShips(Array.from(shippedShipsMap.values()) as Ship[]);
-  }, [ships, shippedShips]);
+  }, [ships]);
 
-  // update shipchains with data from the shippedShips
-  for (const ship of shippedShips) {
-    const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
-    if (!shipChains.has(wakatimeProjectName) && ship.reshippedAll) {
-      shipChains.set(wakatimeProjectName, ship.reshippedAll);
+  // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
+  useEffect(() => {
+    for (const ship of shippedShips) {
+      const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
+      if (!shipChains.has(wakatimeProjectName) && ship.reshippedAll) {
+        shipChains.set(wakatimeProjectName, ship.reshippedAll);
+      }
     }
-  }
-
-  const shipMap = new Map();
-  for (const s of ships) {
-    shipMap.set(s.id, s);
-  }
+  }, [shippedShips, shipChains]);
 
   // let selectedProjectWakatimeProjectShipChain;
 
