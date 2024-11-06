@@ -109,7 +109,7 @@ api_key = ${wakaKey}`}
             </motion.div>)}
         </AnimatePresence>
       ) : (
-        <p className="text-sm m-2">
+        <p className="text-sm">
           <span
             className="underline cursor-pointer"
             onClick={() => setShowInstructions(true)}
