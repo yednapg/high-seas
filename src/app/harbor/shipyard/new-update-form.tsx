@@ -1,6 +1,7 @@
 // Import necessary modules and components
 import Link from "next/link";
-import { createShip, createShipUpdate, Ship } from "./ship-utils";
+import { createShip, createShipUpdate } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useEffect, useRef, useState } from "react";
@@ -20,7 +21,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
-import { Checkbox } from "@/components/ui/checkbox";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 
@@ -37,15 +37,7 @@ export default function NewUpdateForm({
 }) {
   const [staging, setStaging] = useState(false);
   const confettiRef = useRef<JSConfetti | null>(null);
-  const [projects, setProjects] = useState<{ key: string; total: number }[]>(
-    []
-  );
-  const [selectedProject, setSelectedProject] = useState<{
-    key: string;
-    total: number;
-  } | null>(null);
-  const [open, setOpen] = useState(false);
-  const [isShipUpdate, setIsShipUpdate] = useState(false);
+  const [projectHours, setProjectHours] = useState<number>(0);
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -53,28 +45,40 @@ export default function NewUpdateForm({
   }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
-  // useEffect(() => {
-  //   async function fetchProjects() {
-  //     try {
-  //       const slackId = session.payload.sub;
-  //       const res = await getWakaSessions();
-  //       const shippedShips = ships
-  //         .filter((s) => s.shipStatus !== "deleted")
-  //         .map((s) => s.wakatimeProjectName)
-  //         .filter((n) => n);
-  //       setProjects(
-  //         res.projects.filter(
-  //           (p) => p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-  //         ),
-  //       );
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        let res = await getWakaSessions();
 
-  //       console.log(res);
-  //     } catch (error) {
-  //       console.error("Error fetching projects:", error);
-  //     }
-  //   }
-  //   fetchProjects();
-  // }, [session.payload.sub]);
+        if (shipToUpdate.total_hours) {
+          let creditedTime =
+            res.projects.filter((p) =>
+              (shipToUpdate.wakatimeProjectNames as string[]).includes(p.key)
+            )[0].total /
+              3600 -
+            shipToUpdate.total_hours;
+
+          if (creditedTime < 0) {
+            res = await getWakaSessions("any");
+            creditedTime =
+              res.projects.filter((p) =>
+                (shipToUpdate.wakatimeProjectNames as string[]).includes(p.key)
+              )[0].total /
+                3600 -
+              shipToUpdate.total_hours;
+          }
+
+          const projectHours = Math.round(creditedTime * 1000) / 1000;
+
+          setProjectHours(projectHours);
+          console.log("Project hours:", projectHours, res.projects);
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    }
+    fetchProjects();
+  });
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
@@ -83,7 +87,7 @@ export default function NewUpdateForm({
     //   formData.append("hours", selectedProject.key.toString());
     // }
 
-    await createShipUpdate(shipToUpdate.id, formData);
+    await createShipUpdate(shipToUpdate.id, projectHours, formData);
     confettiRef.current?.addConfetti();
     closeForm();
     setStaging(false);
@@ -91,9 +95,14 @@ export default function NewUpdateForm({
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl font-bold mb-2">
         Ship an update to {shipToUpdate.title}
       </h1>
+
+      <p className="mb-2">
+        You are adding {projectHours} hours of work to this project
+      </p>
+
       <form action={handleForm} className="space-y-3">
         <label htmlFor="update_description">Description of the update</label>
         <textarea

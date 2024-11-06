@@ -163,7 +163,7 @@ export async function createWaka(
   return { username, key: api_key };
 }
 
-export async function getWakaSessions(): Promise<{
+export async function getWakaSessions(interval?: string): Promise<{
   projects: { key: string; total: number }[];
 }> {
   const { username, key } = await fetchWaka();
@@ -181,7 +181,7 @@ export async function getWakaSessions(): Promise<{
   const slackId = session.slackId;
 
   const summaryRes = await fetch(
-    `https://waka.hackclub.com/api/summary?interval=high_seas&user=${slackId}&recompute=true`,
+    `https://waka.hackclub.com/api/summary?interval=${interval || "high_seas"}&user=${slackId}&recompute=true`,
     {
       headers: {
         // Note, this should probably just be an admin token in the future.

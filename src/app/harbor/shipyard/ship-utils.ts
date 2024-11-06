@@ -74,6 +74,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
 // @malted: I'm confident this is secure.
 export async function createShipUpdate(
   dangerousReshippedFromShipId: string,
+  credited_hours: number,
   formData: FormData,
 ) {
   const session = await getSession();
@@ -118,6 +119,7 @@ export async function createShipUpdate(
           ship_type: "update",
           update_description: formData.get("update_description"),
           reshipped_from: [reshippedFromShip.id],
+          credited_hours
         },
       },
     ],
