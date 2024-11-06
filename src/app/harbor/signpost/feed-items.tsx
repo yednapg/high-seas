@@ -29,7 +29,6 @@ export default function FeedItems() {
             key={idx}
             bgColor={`#${item.backgroundColor}`}
           >
-            {item.autonumber}
             <p style={{ color: `#${item.textColor}` }}>
               <span className="text-xl">
                 {item.title}
