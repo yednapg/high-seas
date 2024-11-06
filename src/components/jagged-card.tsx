@@ -1,4 +1,5 @@
 import React from "react";
+import JaggedCardSmall from "./jagged-card-small";
 
 const Svg = ({ bgColor }) => (
   <svg
@@ -57,8 +58,22 @@ const JaggedCard = ({
   className = "",
   bgColor = "#48BBFE",
   shadow = true,
+  small = false,
   ...props
 }) => {
+  if (small) {
+    return (
+      <JaggedCardSmall
+        className={className}
+        bgColor={bgColor}
+        shadow={shadow}
+        {...props}
+      >
+        {children}
+      </JaggedCardSmall>
+    )
+  }
+
   return (
     <div
       className="relative w-full"

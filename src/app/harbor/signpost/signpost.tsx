@@ -55,6 +55,9 @@ export default function Signpost() {
         .map((s) => Number(s))
     : null;
 
+  // Show or hide instructions for installing hakatime
+  const [showInstructions, setShowInstructions] = useState(!hasHb);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -67,7 +70,7 @@ export default function Signpost() {
 
       <Verification />
 
-      <div className="text-center">
+      <div className="text-center mb-4">
         <h2 className="mt-12 font-heading text-2xl font-bold mb-4">Stats</h2>
         <p>
           {hasHb ? (
@@ -86,9 +89,9 @@ export default function Signpost() {
         </p>
       </div>
 
-      <JaggedCard shadow={false}>
+      <JaggedCard shadow={false} small={!showInstructions}>
         {wakaKey ? (
-          <Platforms wakaKey={wakaKey} hasHb={hasHb} />
+          <Platforms wakaKey={wakaKey} hasHb={hasHb} showInstructions={showInstructions} setShowInstructions={setShowInstructions} />
         ) : (
           <p>Loading Hakatime token...</p>
         )}

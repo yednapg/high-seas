@@ -87,7 +87,7 @@ export default function Verification() {
   const { message, redirect } = getVerificationMessage(status, reason);
 
   return (
-    <JaggedCardSmall bgColor={"#EF4444"} className="px-6 py-4 text-white">
+    <JaggedCardSmall bgColor={"#EF4444"} className="text-white">
       <p style={{ textWrap: "pretty" }}>{message}</p>
       {redirect ? (
         <Link

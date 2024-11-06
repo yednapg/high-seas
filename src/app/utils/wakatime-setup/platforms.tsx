@@ -6,8 +6,7 @@ import {
 } from "@/app/utils/wakatime-setup/tutorial-utils.client";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function Platforms({ wakaKey, hasHb }: { wakaKey: string, hasHb: boolean }) {
-  const [showInstructions, setShowInstructions] = useState(!hasHb);
+export default function Platforms({ wakaKey, hasHb, showInstructions, setShowInstructions }: { wakaKey: string, hasHb: boolean, showInstructions: boolean, setShowInstructions: any }) {
   const [showAllPlatforms, setShowAllPlatforms] = useState(false);
   const [userOs, setUserOs] = useState<Os>("unknown");
 
@@ -110,12 +109,12 @@ api_key = ${wakaKey}`}
             </motion.div>)}
         </AnimatePresence>
       ) : (
-        <p className="text-xs mt-4">
+        <p className="text-sm m-2">
           <span
             className="underline cursor-pointer"
             onClick={() => setShowInstructions(true)}
           >
-            View Hakatime instructions
+            {"> Show Hakatime install instructions"}
           </span>
         </p>
       )}
