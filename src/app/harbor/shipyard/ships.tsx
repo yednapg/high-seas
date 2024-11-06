@@ -90,13 +90,15 @@ export default function Ships({
   const stagedShips = ships.filter(
     (ship: Ship) => ship.shipStatus === "staged"
   );
-  const shippedShips = ((localShips) => {
-    const localShippedShips = localShips.filter(
+  const [shippedShips, setShippedShips] = useState<Ship[]>([]);
+
+  useEffect(() => {
+    const localShippedShips = ships.filter(
       (ship: Ship) =>
         ship.shipStatus === "shipped" && ship.shipType === "project"
     );
 
-    const localUpdateShips = localShips.filter(
+    const localUpdateShips = ships.filter(
       (ship: Ship) =>
         ship.shipStatus === "shipped" && ship.shipType === "update"
     );
@@ -121,8 +123,8 @@ export default function Ships({
       }
     }
 
-    return Array.from(shippedShipsMap.values());
-  })(ships);
+    setShippedShips(Array.from(shippedShipsMap.values()) as Ship[]);
+  });
 
   // update shipchains with data from the shippedShips
   for (const ship of shippedShips) {
