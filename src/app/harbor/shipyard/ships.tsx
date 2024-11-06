@@ -88,34 +88,39 @@ export default function Ships({
   const stagedShips = ships.filter(
     (ship: Ship) => ship.shipStatus === "staged"
   );
-  const shippedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "shipped" && ship.shipType === "project"
-  );
+  const shippedShips = ((localShips) => {
+    const localShippedShips = localShips.filter(
+      (ship: Ship) =>
+        ship.shipStatus === "shipped" && ship.shipType === "project"
+    );
 
-  const updateShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "shipped" && ship.shipType === "update"
-  );
+    const localUpdateShips = localShips.filter(
+      (ship: Ship) =>
+        ship.shipStatus === "shipped" && ship.shipType === "update"
+    );
 
-  // go throught the updates and if the reshippedFromId exists as an id in shippedShips then replace that entry with the update ship if it doesn't exist then simply apphend it
-  for (const update of updateShips) {
-    const reshippedFromId = update.reshippedFromId;
+    const shippedShipsMap = new Map(
+      localShippedShips.map((ship) => [ship.id, { ...ship }])
+    );
 
-    if (reshippedFromId) {
-      const reshippedFromShip = shippedShips.find(
-        (s) => s.id === reshippedFromId
-      );
+    for (const update of localUpdateShips) {
+      const reshippedFromId = update.reshippedFromId;
+      const updateCopy = { ...update };
 
-      if (reshippedFromShip) {
-        const reshippedFromShipIdx = shippedShips.indexOf(reshippedFromShip);
-
-        shippedShips[reshippedFromShipIdx] = update;
+      if (reshippedFromId && shippedShipsMap.has(reshippedFromId)) {
+        const originalShip = shippedShipsMap.get(reshippedFromId);
+        shippedShipsMap.set(reshippedFromId, {
+          ...updateCopy,
+          doubloonPayout:
+            updateCopy.doubloonPayout + (originalShip?.doubloonPayout || 0),
+        });
       } else {
-        shippedShips.push(update);
+        shippedShipsMap.set(updateCopy.id, updateCopy);
       }
-    } else {
-      shippedShips.push(update);
     }
-  }
+
+    return Array.from(shippedShipsMap.values());
+  })(ships);
 
   const shipMap = new Map();
   for (const s of ships) {
