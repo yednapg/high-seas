@@ -100,6 +100,13 @@ export default function Harbor({
 
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const academyCompleted = JSON.parse(Cookies.get("academy-completed"));
+    if (!academyCompleted) {
+      tour();
+    }
+  }, []);
+
   // useEffect(() => {
   //   const initializeHarbor = async () => {
   //     try {
@@ -127,9 +134,7 @@ export default function Harbor({
 
   const tabs = [
     {
-      name: (
-        <>Signpost</>
-      ),
+      name: <>Signpost</>,
       path: "signpost",
       component: <SignPost session={session} />,
     },
