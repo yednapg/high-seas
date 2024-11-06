@@ -133,7 +133,7 @@ export default function Ships({
   useEffect(() => {
     for (const ship of shippedShips) {
       const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
-      if (!shipChains.has(wakatimeProjectName) && ship.reshippedAll) {
+      if (ship.reshippedAll) {
         shipChains.set(wakatimeProjectName, ship.reshippedAll);
       }
     }
