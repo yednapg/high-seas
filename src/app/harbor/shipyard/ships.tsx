@@ -124,7 +124,7 @@ export default function Ships({
     }
 
     setShippedShips(Array.from(shippedShipsMap.values()) as Ship[]);
-  });
+  }, [ships, shippedShips]);
 
   // update shipchains with data from the shippedShips
   for (const ship of shippedShips) {
