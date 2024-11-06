@@ -1,31 +1,12 @@
 import "./index.css";
 
-// import SignIn from "@/components/sign_in";
-// import HighSeas from "/public/logo.png";
-// import BackgroundImage from "/public/bg.png";
 import Image from "next/image";
-import SignIn from "@/components/sign_in";
 import Link from "next/link";
-
-import orphwoah from "./art/orphwoah.png";
-
-import how1 from "./art/how1.png";
-import how2 from "./art/how2.png";
-import how3 from "./art/how3.png";
-import divider from "./art/divider.png";
-import divider2 from "./art/divider2.png";
-// import paper from "./art/paper.png";
 
 import { IdeaGenerator } from "../../components/idea-generator.js";
 
 import shop1 from "./art/shop/shop1.png";
-import shop2 from "./art/shop/shop2.png";
-import shop3 from "./art/shop/shop3.png";
-import shop4 from "./art/shop/shop4.png";
-import shop5 from "./art/shop/shop5.png";
-import shop6 from "./art/shop/shop6.png";
 import { getSession } from "../utils/auth";
-import bg from "../../../public/background.svg";
 
 import EmailSubmissionForm from "./components/email-submission-form";
 import ScrollShop from "./components/ScrollShop.jsx";
@@ -42,17 +23,6 @@ export default async function Marketing() {
           alt="background"
           className="absolute inset-0 w-full h-full object-cover"
         />
-
-        {/* <div className="flex flex-col justify-center items-center">
-          <div className="absolute flex flex-col justify-center items-center text-center">
-            <img src="/faqbkgr.svg" alt="banner backing" className="absolute inset-0 w-full h-full object-cover rounded-md z-10"/>
-            <div className="relative z-10">
-              <p className="p-5 px-24 text-white text-2xl">
-                coming soon!!! (tm) :eyes:
-              </p>
-            </div>
-          </div>
-        </div> */}
 
         <div className="relative h-screen flex items-center justify-center">
           <div className="flex flex-col justify-center items-center text-center mt-20 xl:mt-10">
@@ -456,30 +426,6 @@ export default async function Marketing() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-8 mx-8 lg:mx-24 2xl:mx-64 mt-10">
-              {/* <div className="border-4 border-dashed border-white border-opacity-50 rounded-lg md:col-span-6 pop p-2">
-                <iframe
-                  src="https://high-seas-map.vercel.app/"
-                  className="w-full h-96 rounded-lg"
-                  title="High Seas Map"
-                ></iframe>
-                <p className="flex flex-col justify-center text-center mt-2">
-                  Drag around this map and click on the ships!
-                </p>
-              </div> */}
-
-              {/* <div className="bg-blue-500 p-8 rounded-lg md:col-span-6 pop">
-                <p>insert sam's map here</p>
-                }
-                <p className="text-3xl">Build whatever you want!</p>
-                <p className="my-4 text-lg">
-                  Any technical project counts. You could build an AR game,
-                  pixel art display, drawing robot, and more! After you{"'"}re
-                  done your project, submit it to The Keep! Your project will
-                  compete against other similar-timed projects and you{"'"}ll
-                  earn Doubloons based on how well you do.
-                </p>
-
-              </div>*/}
 
               <div className="relative p-8 rounded-lg pop md:col-span-4 overflow-hidden">
                 <img
@@ -632,8 +578,6 @@ export default async function Marketing() {
 
                 <iframe
                   className="w-[360px] h-[260px] sm:w-[420px] sm:h-[300px] md:w-[500px] md:h-[360px]"
-                  // width="640"
-                  // height="360"
                   src="https://www.youtube.com/embed/hiG3fYq3xUU"
                 ></iframe>
               </div>
@@ -764,9 +708,6 @@ export default async function Marketing() {
                         See more projects →
                       </Link>
                     </div>
-                    {/*<div className="bg-blue-500 rounded-3xl p-2 max-w-2xl">
-                      <Link href="#" className="text-2xl mx-4">Join the Hack Club Slack →</Link>
-                    </div>*/}
                   </div>
                 </div>
               </div>
@@ -909,96 +850,6 @@ export default async function Marketing() {
         className="w-full h-full object-cover"
       />
 
-      {/*}
-
-        <div className="bg-blue-500 p-8">
-          <div className="xl:mx-44 md:mx-22 my-4">
-            <p className="mb-4 text-xl">
-              A project by{" "}
-              <Link
-                href="https://hackclub.com/"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="footLink"
-              >
-                Hack Club
-              </Link>
-              .
-            </p>
-            <p className="max-w-3xl">
-              Hack Club is a registered 501(c)3 nonprofit organization that
-              supports a network of 20k+ technical high schoolers. We believe
-              you learn best by building so we{"'"}re creating community and
-              providing grants so you can make. In the past few years, we{"'"}ve{" "}
-              <Link
-                href="https://hackclub.com/arcade/"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="footLink"
-              >
-                partnered with GitHub to run Arcade
-              </Link>
-              ,{" "}
-              <Link
-                href="https://github.com/hackclub/the-hacker-zephyr"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="footLink"
-              >
-                {"hosted the world's longest hackathon on land"}
-              </Link>
-              , and{" "}
-              <Link
-                href="https://www.youtube.com/watch?v=QvCoISXfcE8"
-                target="_blank"
-                rel="noopenner noreferrer"
-                className="footLink"
-              >
-                {"ran Canada's largest high school hackathon"}
-              </Link>
-              .
-            </p>
-          </div>
-        </div> */}
-
-      {/*<div className="w-full h-full max-w-prose mx-auto">
-      <Image
-        className="-z-10 fixed inset-0 w-full h-full object-cover"
-        src={BackgroundImage}
-        alt=""
-        style={{
-          maxWidth: "100%",
-          height: "auto",
-        }}
-      />
-      <header className="w-fit mx-auto flex flex-col items-center gap-4">
-        <Image
-          src={HighSeas}
-          alt="High Seas"
-          style={{
-            maxWidth: "100%",
-            height: "auto",
-          }}
-        />
-        <h1 className="text-white text-2xl">Welcome to High Seas</h1>
-      </header>
-
-      <SignIn />
-
-      <div className="text-white">
-        <p>This is the signed out marketing page</p>
-        <br />
-        <p>
-          Body body body body body body body body body body body body body body
-          body body body body body body body body body body body body body body
-          body body body body body body body body body body body body body body
-          body body body body body body body body body body body body body body
-          body body body body body body body body body body body body body body
-          body body body body body body body body body body body body body body
-          body
-        </p>
-      </div>
-    </div> */}
     </div>
   );
 }
@@ -1126,14 +977,6 @@ const PrizeCard: React.FC<PrizeProps> = ({ name, doubloons, image, sub }) => {
           src="/divider.svg"
           className="w-full object-cover absolute mt-2 opacity-60"
         />
-
-        {/*}
-        <p className="mt-4 text-xl text-center">{doubloons} doubloons</p>
-        <img src="/doubloon.svg" className="w-12 h-12"/>
-        <img
-          src="/divider.svg"
-          className="w-full object-cover absolute opacity-60"
-        /> */}
         <div className="relative">
           <div className="w-72 h-72 my-4 rounded-sm flex flex-col justify-center items-center">
             <Image
