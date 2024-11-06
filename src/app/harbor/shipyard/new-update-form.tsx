@@ -1,27 +1,10 @@
 // Import necessary modules and components
-import Link from "next/link";
-import { createShip, createShipUpdate } from "./ship-utils";
+import { createShipUpdate } from "./ship-utils";
 import type { Ship } from "@/app/utils/data";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { getWakaSessions } from "@/app/utils/waka";
-import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 
 export default function NewUpdateForm({
@@ -98,10 +81,6 @@ export default function NewUpdateForm({
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
-    // // Append the selected project's hours to the form data
-    // if (selectedProject) {
-    //   formData.append("hours", selectedProject.key.toString());
-    // }
 
     await createShipUpdate(shipToUpdate.id, projectHours, formData);
     confettiRef.current?.addConfetti();
