@@ -28,7 +28,6 @@ export default function FeedItems() {
           <JaggedCardSmall
             key={idx}
             bgColor={`#${item.backgroundColor}`}
-            className="px-6 py-4"
           >
             <p style={{ color: `#${item.textColor}` }}>
               <span className="text-xl">

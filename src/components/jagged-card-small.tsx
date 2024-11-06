@@ -51,7 +51,7 @@ const JaggedCardSmall = ({
 }) => {
   return (
     <div
-      className="relative w-full"
+      className="relative w-full px-6 py-4"
       {...props}
       style={{
         filter: shadow ? `drop-shadow(0 0 1rem ${bgColor}80)` : "",
