@@ -88,7 +88,7 @@ export default function Signpost() {
 
       <JaggedCard shadow={false}>
         {wakaKey ? (
-          <Platforms wakaKey={wakaKey} />
+          <Platforms wakaKey={wakaKey} hasHb={hasHb} />
         ) : (
           <p>Loading Hakatime token...</p>
         )}
