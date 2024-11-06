@@ -1,4 +1,4 @@
-import type { Ship } from "@/app/harbor/shipyard/ship-utils";
+import type { Ship } from "@/app/utils/data";
 import Pill from "./pill";
 
 import DoubloonsImage from "/public/doubloon.svg";
@@ -11,10 +11,10 @@ export default function ShipPillCluster({
   ship: Ship;
   shipChains: Map<string, string[]>;
 }) {
-  // const shipUpdates = shipChains
-  //   ? shipChains.get(ship.wakatimeProjectName)
-  //   : null;
-  // const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
+  const shipUpdates = shipChains
+    ? shipChains.get(ship.wakatimeProjectNames.join(","))
+    : null;
+  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
 
   return (
     <>
@@ -48,14 +48,16 @@ export default function ShipPillCluster({
           />
         ))}
 
-      {/* {shipUpdateCount && shipUpdateCount > 0 ? (
+      {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
-          msg={`${shipUpdateCount} Ship update${shipUpdateCount === 1 ? "" : "s"}`}
+          msg={`${shipUpdateCount} Ship update${
+            shipUpdateCount === 1 ? "" : "s"
+          }`}
           color="purple"
           glyph="reply"
           glyphStyles={{ transform: "scaleX(-1)" }}
         />
-      ) : null} */}
+      ) : null}
     </>
   );
 }
