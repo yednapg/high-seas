@@ -4,7 +4,7 @@ import { createShip, createShipUpdate } from "./ship-utils";
 import type { Ship } from "@/app/utils/data";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -45,40 +45,56 @@ export default function NewUpdateForm({
   }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
+  const fetchWakaSessions = useCallback(async (scope = undefined) => {
+    try {
+      return await getWakaSessions(scope);
+    } catch (error) {
+      console.error("Error fetching Waka sessions:", error);
+      return null;
+    }
+  }, []);
+
+  const calculateCreditedTime = useCallback(
+    (
+      projects: {
+        key: string;
+        total: number;
+      }[]
+    ): number => {
+      const project = projects.find((p) =>
+        (shipToUpdate.wakatimeProjectNames || []).includes(p.key)
+      );
+
+      if (!project) return 0;
+
+      const creditedTime =
+        project.total / 3600 - (shipToUpdate.total_hours || 0);
+      return Math.round(creditedTime * 1000) / 1000;
+    },
+    [shipToUpdate]
+  );
+
   useEffect(() => {
-    async function fetchProjects() {
-      try {
-        let res = await getWakaSessions();
+    async function fetchAndSetProjectHours() {
+      const res = await fetchWakaSessions();
 
-        if (shipToUpdate.total_hours) {
-          let creditedTime =
-            res.projects.filter((p) =>
-              (shipToUpdate.wakatimeProjectNames as string[]).includes(p.key)
-            )[0].total /
-              3600 -
-            shipToUpdate.total_hours;
+      if (res && shipToUpdate.total_hours) {
+        let creditedTime = calculateCreditedTime(res.projects);
 
-          if (creditedTime < 0) {
-            res = await getWakaSessions("any");
-            creditedTime =
-              res.projects.filter((p) =>
-                (shipToUpdate.wakatimeProjectNames as string[]).includes(p.key)
-              )[0].total /
-                3600 -
-              shipToUpdate.total_hours;
+        if (creditedTime < 0) {
+          const anyScopeRes = await fetchWakaSessions("any");
+          if (anyScopeRes) {
+            creditedTime = calculateCreditedTime(anyScopeRes.projects);
           }
-
-          const projectHours = Math.round(creditedTime * 1000) / 1000;
-
-          setProjectHours(projectHours);
-          console.log("Project hours:", projectHours, res.projects);
         }
-      } catch (error) {
-        console.error("Error fetching projects:", error);
+
+        setProjectHours(creditedTime);
+        console.log("Project hours:", creditedTime);
       }
     }
-    fetchProjects();
-  });
+
+    fetchAndSetProjectHours();
+  }, [fetchWakaSessions, calculateCreditedTime, shipToUpdate]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
