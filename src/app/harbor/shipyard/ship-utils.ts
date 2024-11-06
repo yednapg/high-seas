@@ -89,7 +89,7 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const ships = await fetchShips(session.personId);
+  const ships = await fetchShips(slackId);
 
   const reshippedFromShip = ships.find(
     (ship: Ship) => ship.id === dangerousReshippedFromShipId,
