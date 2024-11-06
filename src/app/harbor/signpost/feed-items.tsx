@@ -11,7 +11,7 @@ export default function FeedItems() {
 
   let feedItems: SignpostFeedItem[];
   try {
-    feedItems = JSON.parse(cookie);
+    feedItems = JSON.parse(cookie).sort((a, b) => a?.autonumber < b?.autonumber);
   } catch (e) {
     console.error("Could't parse signpost feed cookie into JSON:", e);
     return null;
@@ -29,6 +29,7 @@ export default function FeedItems() {
             key={idx}
             bgColor={`#${item.backgroundColor}`}
           >
+            {item.autonumber}
             <p style={{ color: `#${item.textColor}` }}>
               <span className="text-xl">
                 {item.title}
