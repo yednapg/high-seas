@@ -263,7 +263,7 @@ export default async function Marketing() {
               </div>
               <div className="flex justify-center items-center w-full xl:w-auto bobble">
                 <Image
-                  src="/chest.svg"
+                  src="/chest.png"
                   alt="treasure chest"
                   width={400}
                   height={400}
