@@ -218,8 +218,8 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [isReadmeView, setIsReadmeView] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const turnstileRef = useRef(null);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // const turnstileRef = useRef(null);
+  // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>(
     "cache.voteBalance",
@@ -232,30 +232,30 @@ export default function Matchups({ session }: { session: HsSession }) {
     setFewerThanTenWords(reason.trim().split(" ").length < 10);
   }, [reason]);
 
-  useEffect(() => {
-    if (turnstileRef.current) {
-      let widgetId;
+  // useEffect(() => {
+  //   if (turnstileRef.current) {
+  //     let widgetId;
 
-      const genToken = () => {
-        widgetId = window.turnstile!.render(turnstileRef.current, {
-          sitekey: "0x4AAAAAAAzOAaBz1TUgJG68", // Site key
-          theme: "dark",
-          callback: (token: string) => {
-            console.log(token);
-            setTurnstileToken(token);
-          },
-        });
-      };
-      genToken();
+  //     const genToken = () => {
+  //       widgetId = window.turnstile!.render(turnstileRef.current, {
+  //         sitekey: "0x4AAAAAAAzOAaBz1TUgJG68", // Site key
+  //         theme: "dark",
+  //         callback: (token: string) => {
+  //           console.log(token);
+  //           setTurnstileToken(token);
+  //         },
+  //       });
+  //     };
+  //     genToken();
 
-      const genTokenInterval = setInterval(genToken, 4 * 60 * 1_000); // Every 4 minutes
+  //     const genTokenInterval = setInterval(genToken, 4 * 60 * 1_000); // Every 4 minutes
 
-      return () => {
-        window.turnstile!.reset(widgetId);
-        clearInterval(genTokenInterval);
-      };
-    }
-  }, [selectedProject]);
+  //     return () => {
+  //       window.turnstile!.reset(widgetId);
+  //       clearInterval(genTokenInterval);
+  //     };
+  //   }
+  // }, [selectedProject]);
 
   const fetchVoteBalance = async () => {
     setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
@@ -359,7 +359,7 @@ export default function Matchups({ session }: { session: HsSession }) {
             loser: loser.id,
             winnerRating: winner.rating,
             loserRating: loser.rating,
-            turnstileToken,
+            // turnstileToken,
           }),
         });
 
@@ -479,7 +479,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                 />
               </div>
             </div>
-            <div ref={turnstileRef} className="mb-4"></div>
+            {/* <div ref={turnstileRef} className="mb-4"></div> */}
             {selectedProject && (
               <div
                 id="voting-reason-container-parent"
