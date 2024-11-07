@@ -34,7 +34,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -67,7 +67,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -75,12 +75,12 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
 export async function createShipUpdate(
   dangerousReshippedFromShipId: string,
   credited_hours: number,
-  formData: FormData,
+  formData: FormData
 ) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.error(error);
     throw error;
@@ -93,7 +93,7 @@ export async function createShipUpdate(
   const ships = await fetchShips(slackId);
 
   const reshippedFromShip = ships.find(
-    (ship: Ship) => ship.id === dangerousReshippedFromShipId,
+    (ship: Ship) => ship.id === dangerousReshippedFromShipId
   );
   if (!reshippedFromShip) {
     const error = new Error("Invalid reshippedFromShipId!");
@@ -119,7 +119,7 @@ export async function createShipUpdate(
           ship_type: "update",
           update_description: formData.get("update_description"),
           reshipped_from: [reshippedFromShip.id],
-          credited_hours
+          credited_hours,
         },
       },
     ],
@@ -127,11 +127,12 @@ export async function createShipUpdate(
       if (err) {
         console.error("createShipUpdate step 1:", err);
         throw err;
-      } else if (records) {
+      }
+      if (records) {
         // Step 2
         if (records.length !== 1) {
           const error = new Error(
-            "createShipUpdate: step 1 created records result length is not 1",
+            "createShipUpdate: step 1 created records result length is not 1"
           );
           console.error(error);
           throw error;
@@ -151,7 +152,7 @@ export async function createShipUpdate(
       } else {
         console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
       }
-    },
+    }
   );
 }
 
@@ -159,7 +160,7 @@ export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to stage a ship with no Slack OAuth session",
+      "Tried to stage a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -182,7 +183,7 @@ export async function updateShip(ship: Ship) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
@@ -191,7 +192,7 @@ export async function stagedToShipped(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "You tried to ship a draft Ship, but you're not signed in!",
+      "You tried to ship a draft Ship, but you're not signed in!"
     );
     console.log(error);
     throw error;
@@ -201,23 +202,25 @@ export async function stagedToShipped(ship: Ship) {
 
   if (!p.fields.academy_completed) {
     throw new Error(
-      "You can't ship a Ship if you haven't completed Pirate Academy!",
+      "You can't ship a Ship if you haven't completed Pirate Academy!"
     );
-  } else if (!p.fields.verified_eligible) {
+  }
+  if (!p.fields.verified_eligible) {
     throw new Error("You can't ship a Ship before you've been verified!");
-  } else if (!ship.wakatimeProjectNames) {
+  }
+  if (!ship.wakatimeProjectNames) {
     throw new Error(
-      "You can't ship a Ship that has no Hakatime projects associated with it!",
+      "You can't ship a Ship that has no Hakatime projects associated with it!"
     );
   }
 
   const wakatimeProjects = await getWakaSessions();
   console.log("woah. we got waktime projects", wakatimeProjects);
   const associatedProjects = wakatimeProjects.projects.filter(({ key }) =>
-    ship.wakatimeProjectNames.includes(key),
+    ship.wakatimeProjectNames.includes(key)
   );
   const projectHours = associatedProjects.map(({ total }) => total / 60 / 60);
-  const totalHours = projectHours.reduce((prev, curr) => (prev += curr), 0);
+  const totalHours = projectHours.reduce((prev, curr) => prev + curr, 0);
 
   base()(shipsTableName).update(
     [
@@ -234,7 +237,7 @@ export async function stagedToShipped(ship: Ship) {
         console.error(err);
         throw err;
       }
-    },
+    }
   );
 }
 
@@ -242,7 +245,7 @@ export async function deleteShip(shipId: string) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to delete a ship with no Slack OAuth session",
+      "Tried to delete a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -259,6 +262,6 @@ export async function deleteShip(shipId: string) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
