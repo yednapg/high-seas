@@ -311,13 +311,13 @@ export default function Ships({
             <div className="text-white mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
               <img src="/curly-arrow.svg" alt="" width="64" />
               <div className="flex flex-col justify-between">
-                <p></p>
+                <p />
                 <p className="-translate-x-3 translate-y-2">
                   Ship your first project!
                 </p>
               </div>
             </div>
-            <div className="mt-24"></div>
+            <div className="mt-24" />
           </>
         ) : null}
       </div>
