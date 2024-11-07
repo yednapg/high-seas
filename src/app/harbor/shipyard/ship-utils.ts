@@ -110,57 +110,64 @@ export async function createShipUpdate(
    */
 
   // Step 1:
-  base()(shipsTableName).create(
-    [
-      {
-        // @ts-expect-error No overload matches this call - but it does
-        fields: {
-          ...shipToFields(reshippedFromShip, entrantId),
-          ship_type: "update",
-          update_description: formData.get("update_description"),
-          reshipped_from: [reshippedFromShip.id],
-          reshipped_from_all: reshippedFromShip.reshippedFromAll
-            ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
-            : [reshippedFromShip.id],
-          credited_hours,
-        },
-      },
-    ],
-    (err: Error, records: any) => {
-      if (err) {
-        console.error("createShipUpdate step 1:", err);
-        throw err;
-      }
-      if (records) {
-        // Step 2
-        if (records.length !== 1) {
-          const error = new Error(
-            "createShipUpdate: step 1 created records result length is not 1"
-          );
-          console.error(error);
-          throw error;
-        }
-        const reshippedToShip = records[0];
-
-        // Update previous ship to point reshipped_to to the newly created update record
-        base()(shipsTableName).update([
+  const res: { id: string; fields: any } = await new Promise(
+    (resolve, reject) => {
+      base()(shipsTableName).create(
+        [
           {
-            id: reshippedFromShip.id,
+            // @ts-expect-error No overload matches this call - but it does
             fields: {
-              reshipped_to: [reshippedToShip.id],
-              reshipped_all: [reshippedToShip, reshippedFromShip],
+              ...shipToFields(reshippedFromShip, entrantId),
+              ship_type: "update",
+              update_description: formData.get("update_description"),
+              reshipped_from: [reshippedFromShip.id],
+              reshipped_from_all: reshippedFromShip.reshippedFromAll
+                ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
+                : [reshippedFromShip.id],
+              credited_hours,
             },
           },
-        ]);
-      } else {
-        console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
-      }
+        ],
+        (err: Error, records: any) => {
+          if (err) {
+            console.error("createShipUpdate step 1:", err);
+            throw err;
+          }
+          if (records) {
+            // Step 2
+            if (records.length !== 1) {
+              const error = new Error(
+                "createShipUpdate: step 1 created records result length is not 1"
+              );
+              console.error(error);
+              reject(error);
+            }
+            const reshippedToShip = records[0];
+
+            // Update previous ship to point reshipped_to to the newly created update record
+            base()(shipsTableName).update([
+              {
+                id: reshippedFromShip.id,
+                fields: {
+                  reshipped_to: [reshippedToShip.id],
+                  reshipped_all: [reshippedToShip, reshippedFromShip],
+                },
+              },
+            ]);
+
+            resolve(reshippedToShip);
+          } else {
+            console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
+            reject(new Error("createShipUpdate: step 1 created no records"));
+          }
+        }
+      );
     }
   );
 
   return {
     ...reshippedFromShip,
-    id: reshippedFromShip.id,
+    id: res.id,
     repoUrl: reshippedFromShip.repoUrl,
     readmeUrl: reshippedFromShip.readmeUrl,
     screenshotUrl: reshippedFromShip.screenshotUrl,
