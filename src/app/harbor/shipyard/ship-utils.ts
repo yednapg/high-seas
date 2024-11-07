@@ -76,7 +76,7 @@ export async function createShipUpdate(
   dangerousReshippedFromShipId: string,
   credited_hours: number,
   formData: FormData
-) {
+): Promise<Ship> {
   const session = await getSession();
   if (!session) {
     const error = new Error(
@@ -157,6 +157,24 @@ export async function createShipUpdate(
       }
     }
   );
+
+  return {
+    ...reshippedFromShip,
+    id: reshippedFromShip.id,
+    repoUrl: reshippedFromShip.repoUrl,
+    readmeUrl: reshippedFromShip.readmeUrl,
+    screenshotUrl: reshippedFromShip.screenshotUrl,
+    deploymentUrl: reshippedFromShip.deploymentUrl,
+    shipType: "update",
+    shipStatus: "staged",
+    updateDescription: formData.get("update_description")?.toString() || null,
+    reshippedFromId: reshippedFromShip.id,
+    reshippedFromAll: reshippedFromShip.reshippedFromAll
+      ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
+      : [reshippedFromShip.id],
+    credited_hours,
+    wakatimeProjectNames: reshippedFromShip.wakatimeProjectNames,
+  };
 }
 
 export async function updateShip(ship: Ship) {

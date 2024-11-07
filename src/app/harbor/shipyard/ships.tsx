@@ -343,6 +343,7 @@ export default function Ships({
           shipToUpdate={newUpdateShip}
           canvasRef={canvasRef}
           closeForm={() => setNewUpdateShip(null)}
+          setShips={setShips}
           session={session}
         />
       </Modal>

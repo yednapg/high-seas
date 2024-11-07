@@ -12,11 +12,13 @@ export default function NewUpdateForm({
   canvasRef,
   closeForm,
   session,
+  setShips,
 }: {
   shipToUpdate: Ship;
   canvasRef: any;
   closeForm: any;
   session: any;
+  setShips: any;
 }) {
   const [staging, setStaging] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -84,11 +86,24 @@ export default function NewUpdateForm({
   const handleForm = async (formData: FormData) => {
     setStaging(true);
 
-    await createShipUpdate(shipToUpdate.id, projectHours, formData);
+    const updatedShip = await createShipUpdate(
+      shipToUpdate.id,
+      projectHours,
+      formData
+    );
     confettiRef.current?.addConfetti();
     closeForm();
     setStaging(false);
-    location.reload();
+
+    if (setShips) {
+      console.log("Set ships is passed! Adding stagged ship", shipToUpdate.id);
+
+      setShips((previousShips: Ship[]) => {
+        return [...previousShips, updatedShip];
+      });
+    } else {
+      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+    }
   };
 
   return (
