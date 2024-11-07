@@ -1,5 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button";
-import { deleteShip, Ship, updateShip } from "./ship-utils";
+import { deleteShip, updateShip } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
 import { useState } from "react";
@@ -53,7 +54,7 @@ export default function EditShipForm({
       setShips((previousShips: Ship[]) => {
         console.log("the previous ships were", previousShips);
         const newShips = previousShips.map((s: Ship) =>
-          s.id === newShip.id ? newShip : s,
+          s.id === newShip.id ? newShip : s
         );
 
         setSaving(false);
@@ -84,7 +85,7 @@ export default function EditShipForm({
       console.log(`Deleted ${ship.title} (${ship.id})`);
 
       setShips((previousShips: Ship[]) =>
-        previousShips.filter((s: Ship) => s.id !== ship.id),
+        previousShips.filter((s: Ship) => s.id !== ship.id)
       );
     } else {
       console.error("Deleted a ship but can't setShips bc you didn't pass it.");
@@ -93,7 +94,9 @@ export default function EditShipForm({
 
     toast({
       title: "Ship deleted!",
-      description: `${ship.shipType === "update" ? "Your update to " : ""}${ship.title} ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
+      description: `${ship.shipType === "update" ? "Your update to " : ""}${
+        ship.title
+      } ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
     });
 
     setDeleting(false);
