@@ -9,7 +9,7 @@ import {
   person,
 } from "./app/utils/data";
 
-export async function middleware(request: NextRequest) {
+const userPageMiddleware = async (request: NextRequest) => {
   const slackId = await getSession().then((p) => p?.slackId);
 
   const response = NextResponse.next();
@@ -95,6 +95,25 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
+const cronjobMiddleware = async (request: NextRequest) => {
+  const authHeader = request.headers.get('authorization');
+  const isDev = process.env.NODE_ENV === 'development';
+  if (!isDev && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', {
+      status: 401,
+    });
+  }
+  return NextResponse.next();
+}
+
+export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/api/cron")) {
+    return cronjobMiddleware(request);
+  } else {
+    return userPageMiddleware(request);
+  }
+}
+
 export const config = {
-  matcher: ["/signpost", "/shipyard", "/wonderdome", "/shop"],
+  matcher: ["/signpost", "/shipyard", "/wonderdome", "/shop", "/api/cron/"],
 };
