@@ -192,14 +192,10 @@ export async function createMagicSession(magicCode: string) {
 
 export async function getSession(): Promise<HsSession | null> {
   try {
-    console.log("GETTING SESSION");
     const sessionCookie = cookies().get(sessionCookieName);
-    console.log({sessionCookie})
     if (!sessionCookie) return null;
-    console.log("Continuing with session cookie");
 
     const unsafeSession = JSON.parse(sessionCookie.value);
-    console.log({unsafeSession})
     return verifySession(unsafeSession);
   } catch (error) {
     console.error("Error verifying session:", error);
