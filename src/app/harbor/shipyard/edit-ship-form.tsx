@@ -40,6 +40,9 @@ export default function EditShipForm({
     const newShip: Ship = {
       ...ship,
       title: formValues.title as string,
+      ...(formValues.update_description && {
+        updateDescription: formValues.update_description as string,
+      }),
       repoUrl: formValues.repoUrl as string,
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
@@ -118,6 +121,19 @@ export default function EditShipForm({
           className="w-full p-2 border rounded"
         />
       </div>
+
+      {ship.updateDescription && (
+        <div>
+          <label htmlFor="reshippedFromId">Update description</label>
+          <input
+            id="update_description"
+            name="update_description"
+            defaultValue={ship.updateDescription}
+            required
+            className="w-full p-2 border rounded"
+          />
+        </div>
+      )}
 
       <div>
         <label htmlFor="repoUrl">Repo URL</label>

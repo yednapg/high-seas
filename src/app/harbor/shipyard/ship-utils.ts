@@ -207,6 +207,9 @@ export async function updateShip(ship: Ship) {
           readme_url: ship.readmeUrl,
           deploy_url: ship.deploymentUrl,
           screenshot_url: ship.screenshotUrl,
+          ...(ship.updateDescription && {
+            update_description: ship.updateDescription,
+          }),
         },
       },
     ],
