@@ -118,7 +118,11 @@ export default function NewUpdateForm({
           className="w-full p-2 border rounded"
         />
 
-        <Button type="submit" className="w-full" disabled={staging || loading}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={staging || loading || projectHours <= 0.5}
+        >
           {staging ? (
             <>
               <Icon glyph="attachment" className="animate-spin" />
@@ -129,8 +133,10 @@ export default function NewUpdateForm({
               <Icon glyph="clock" className="animate-spin p-1" />
               Loading...
             </>
-          ) : (
+          ) : projectHours > 0.5 ? (
             "Stage my Ship!"
+          ) : (
+            "You don't have enough hours to ship an update"
           )}
         </Button>
       </form>
