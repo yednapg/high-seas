@@ -42,6 +42,7 @@ export interface Ship {
   reshippedFromId: string | null;
   reshippedToId: string | null;
   reshippedAll: string[] | null;
+  reshippedFromAll: string[] | null;
   paidOut: boolean;
 }
 
@@ -58,7 +59,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
   )`;
 
   const url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
-    filterFormula,
+    filterFormula
   )}`;
   const res = await fetch(url, {
     headers: {
@@ -75,6 +76,9 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     const reshippedFromIdRaw = r["fields"]["reshipped_from"] as [string] | null;
     const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
     const reshippedAll = r["fields"]["reshipped_all"] as [string] | null;
+    const reshippedFromAll = r["fields"]["reshipped_from_all"] as
+      | [string]
+      | null;
 
     const wakatimeProjectNameRaw = r["fields"]["wakatime_project_name"] as
       | string
@@ -92,7 +96,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
       screenshotUrl: r["fields"]["screenshot_url"] as string,
       voteRequirementMet: Boolean(r["fields"]["vote_requirement_met"]),
       voteBalanceExceedsRequirement: Boolean(
-        r["fields"]["vote_balance_exceeds_requirement"],
+        r["fields"]["vote_balance_exceeds_requirement"]
       ),
       matchups_count: r["fields"]["matchups_count"] as number,
       doubloonPayout: r["fields"]["doubloon_payout"] as number,
@@ -107,6 +111,7 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
       reshippedFromId,
       reshippedToId,
       reshippedAll,
+      reshippedFromAll,
       paidOut: Boolean(r["fields"]["paid_out"]),
     };
 
@@ -129,7 +134,7 @@ export async function person(): Promise<any> {
           "Content-Type": "application/json",
           "User-Agent": "highseas.hackclub.com (person)",
         },
-      },
+      }
     ).then((d) => d.json());
     if (!record) return reject("Person not found");
 
@@ -142,14 +147,14 @@ export async function person(): Promise<any> {
 export async function hasHbData(username: string): Promise<boolean> {
   const res = await fetch(
     `https://waka.hackclub.com/api/special/hasData/?user=${encodeURIComponent(
-      username,
+      username
     )}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.WAKA_API_KEY}`,
         accept: "application/json",
       },
-    },
+    }
   ).then((res) => res.json());
 
   return res.hasData;
@@ -160,13 +165,13 @@ export async function fetchWaka(): Promise<{
   hasHb: boolean;
 }> {
   const { slack_id, email, full_name, preexisting_user } = await person().then(
-    (p) => p["fields"],
+    (p) => p["fields"]
   );
 
   const { username, key } = await createWaka(
     email,
     preexisting_user ? full_name : null,
-    preexisting_user ? slack_id : null,
+    preexisting_user ? slack_id : null
   );
 
   const hasHb = await hasHbData(username);
@@ -194,7 +199,7 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
         Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
         "User-Agent": "highseas.hackclub.com (fetchSignpostFeed)",
       },
-    },
+    }
   ).then((d) => d.json());
 
   const records = result.records;

@@ -119,6 +119,9 @@ export async function createShipUpdate(
           ship_type: "update",
           update_description: formData.get("update_description"),
           reshipped_from: [reshippedFromShip.id],
+          reshipped_from_all: reshippedFromShip.reshippedFromAll
+            ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
+            : [reshippedFromShip.id],
           credited_hours,
         },
       },
