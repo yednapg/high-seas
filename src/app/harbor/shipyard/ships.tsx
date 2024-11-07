@@ -216,15 +216,23 @@ export default function Ships({
                 SHIP SHIP!
               </Button>
             ) : s.paidOut ? (
-              <Button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping an update...", s);
-                  setNewUpdateShip(s);
-                }}
-              >
-                Ship an update!
-              </Button>
+              !stagedShips.find(
+                (stagedShip) =>
+                  stagedShip.wakatimeProjectNames.join(",") ===
+                  s.wakatimeProjectNames.join(",")
+              ) ? (
+                <Button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    console.log("Shipping an update...", s);
+                    setNewUpdateShip(s);
+                  }}
+                >
+                  Ship an update!
+                </Button>
+              ) : (
+                <p>Ship your Update!</p>
+              )
             ) : (
               <p>Awaiting payout</p>
             )}
