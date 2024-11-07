@@ -88,6 +88,7 @@ export default function NewUpdateForm({
     confettiRef.current?.addConfetti();
     closeForm();
     setStaging(false);
+    location.reload();
   };
 
   return (
