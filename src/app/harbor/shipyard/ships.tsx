@@ -43,6 +43,8 @@ export default function Ships({
   const [errorModal, setErrorModal] = useState<string>();
   const canvasRef = useRef(null);
 
+  const [isShipping, setIsShipping] = useState(false);
+
   const [shipChains, setShipChains] = useState<Map<string, string[]>>();
 
   useEffect(() => {
@@ -139,18 +141,6 @@ export default function Ships({
     setShipChains(newShipChains);
   }, [shippedShips]);
 
-  // let selectedProjectWakatimeProjectShipChain;
-
-  // if (selectedShip) {
-  //   try {
-  //     selectedProjectWakatimeProjectShipChain = shipChains.get(
-  //       selectedShip.wakatimeProjectName,
-  //     );
-  //   } catch (e) {
-  //     console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
-  //   }
-  // }
-
   const SingleShip = ({
     s,
     id,
@@ -202,18 +192,22 @@ export default function Ships({
                   console.log("Shipping", s);
 
                   try {
+                    setIsShipping(true);
                     await stagedToShipped(s);
+                    location.reload();
                   } catch (err: unknown) {
                     if (err instanceof Error) {
                       setErrorModal(err.message);
                     } else {
                       setErrorModal(String(err));
                     }
+                  } finally {
+                    setIsShipping(false);
                   }
-                  location.reload();
                 }}
+                disabled={isShipping}
               >
-                SHIP SHIP!
+                {isShipping ? "Shipping..." : "SHIP SHIP!"}
               </Button>
             ) : s.paidOut ? (
               !stagedShips.find(
@@ -460,64 +454,6 @@ export default function Ships({
                     shipChains={shipChains}
                   />
                 </motion.div>
-
-                {/* {bareShips ? null : (
-                  <div>
-                    <hr className="my-5" />
-                    <h3>Ship update chain</h3>
-                    <ol className="flex flex-col">
-                      {selectedProjectWakatimeProjectShipChain ? (
-                        selectedProjectWakatimeProjectShipChain.map(
-                          (shipChainId: string, shipChainIdx: number) => {
-                            const foundShip = ships.find(
-                              (s: Ship) => s.id === shipChainId,
-                            );
-
-                            if (!foundShip)
-                              return (
-                                <p key={shipChainIdx}>
-                                  {
-                                    "selectedProjectWakatimeProjectShipChain -> foundShip is None"
-                                  }
-                                </p>
-                              );
-
-                            return (
-                              <li
-                                className={`inline-flex items-center gap-3 ${shipChainIdx === 0 ? "" : "ml-7"}`}
-                                key={shipChainIdx}
-                              >
-                                {shipChainIdx === 0 ? (
-                                  <Icon glyph="home" />
-                                ) : (
-                                  <Icon
-                                    glyph="reply"
-                                    style={{
-                                      transform: "scaleX(-1) scaleY(-1)",
-                                    }}
-                                  />
-                                )}
-                                <span>
-                                  {foundShip.title} ({foundShip.shipType})
-                                </span>
-                                <span className="text-sm opacity-50">
-                                  {foundShip.shipType === "update"
-                                    ? foundShip.updateDescription
-                                    : null}
-                                </span>
-                                <span className="text-sm opacity-50">
-                                  {ago(foundShip.createdTime)}
-                                </span>
-                              </li>
-                            );
-                          },
-                        )
-                      ) : (
-                        <p>wat</p>
-                      )}
-                    </ol>
-                  </div>
-                )} */}
 
                 {selectedShip?.shipType === "update" ? (
                   <>
