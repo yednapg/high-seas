@@ -180,6 +180,7 @@ export async function createShipUpdate(
       ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
       : [reshippedFromShip.id],
     credited_hours,
+    total_hours: (reshippedFromShip.total_hours ?? 0) + credited_hours,
     wakatimeProjectNames: reshippedFromShip.wakatimeProjectNames,
   };
 }
