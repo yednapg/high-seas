@@ -26,12 +26,15 @@ export default function Modal({
               initial={{ opacity: 0, backdropFilter: "blur(0)" }}
               animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
               exit={{ opacity: 0, backdropFilter: "blur(0)" }}
-              style={{ willChange: "filter, transform" }}
+              style={{ willChange: "filter, transform", position: "fixed" }}
               className="absolute inset-0 w-full"
               onClick={close}
               {...props}
             >
-              <div className="absolute inset-0 w-full h-full bg-black/50 " />
+              <div
+                className="inset-0 w-full h-full bg-black/50 overflow-hidden"
+                style={{ position: "fixed" }}
+              />
 
               <motion.div
                 initial={{ scale: 0.5 }}
@@ -56,7 +59,7 @@ export default function Modal({
                 </JaggedCard>
               </motion.div>
             </motion.div>,
-            document.body,
+            document.body
           )}
         </>
       ) : null}
