@@ -10,15 +10,22 @@ export default async function Nav() {
   const session = await getSession();
 
   return (
-    <div
-      className={`absolute flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-2 bg-transparent z-30 text-white`}
-    >
-      <a href="/">
-        <Image src={Logo} alt="High Seas!" height={48} />
-      </a>
+    <div className="absolute flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-2 bg-transparent z-2 text-white">
+      <div
+        style={{
+          position: "fixed",
+          zIndex: 30,
+        }}
+      >
+        <a href="/">
+          <Image src={Logo} alt="High Seas!" height={48} />
+        </a>
+      </div>
+
+      <span />
 
       <div className="flex gap-4 items-center text-nowrap">
-        {session && session.picture && session.givenName ? (
+        {session?.picture && session.givenName ? (
           <div className="flex gap-2 items-center">
             <Image
               src={session.picture}
