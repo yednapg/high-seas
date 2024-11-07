@@ -217,7 +217,7 @@ export async function updateShip(ship: Ship) {
 }
 
 // Good function. I like. Wawaweewah very nice.
-export async function stagedToShipped(ship: Ship) {
+export async function stagedToShipped(ship: Ship, ships: Ship[]) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
@@ -243,13 +243,17 @@ export async function stagedToShipped(ship: Ship) {
     );
   }
 
+  const previousShip = ships.find((s) => s.id === ship.reshippedFromId);
+
   const wakatimeProjects = await getWakaSessions();
   console.log("woah. we got waktime projects", wakatimeProjects);
   const associatedProjects = wakatimeProjects.projects.filter(({ key }) =>
     ship.wakatimeProjectNames.includes(key)
   );
   const projectHours = associatedProjects.map(({ total }) => total / 60 / 60);
-  const totalHours = projectHours.reduce((prev, curr) => prev + curr, 0);
+  const totalHours =
+    projectHours.reduce((prev, curr) => prev + curr, 0) -
+    (previousShip?.total_hours ?? 0);
 
   base()(shipsTableName).update(
     [

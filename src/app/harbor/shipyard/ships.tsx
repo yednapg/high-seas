@@ -193,7 +193,7 @@ export default function Ships({
 
                   try {
                     setIsShipping(true);
-                    await stagedToShipped(s);
+                    await stagedToShipped(s, ships);
                     location.reload();
                   } catch (err: unknown) {
                     if (err instanceof Error) {
