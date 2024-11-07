@@ -12,7 +12,7 @@
  * You've been warned.
  */
 
-import { getSession } from "./auth";
+import { getSession, type HsSession } from "./auth";
 import { createWaka } from "./waka";
 import { cookies } from "next/headers";
 
@@ -152,7 +152,7 @@ export async function hasHbData(username: string): Promise<boolean> {
 
   return res.hasData;
 }
-export async function fetchWaka(): Promise<{
+export async function fetchWaka(session: HsSession): Promise<{
   username: string;
   key: string;
   hasHb: boolean;
@@ -163,8 +163,8 @@ export async function fetchWaka(): Promise<{
 
   const { username, key } = await createWaka(
     email,
-    preexisting_user ? full_name : null,
-    preexisting_user ? slack_id : null
+    preexisting_user ? full_name : session.name,
+    preexisting_user ? slack_id : session.slackId
   );
 
   const hasHb = await hasHbData(username);
