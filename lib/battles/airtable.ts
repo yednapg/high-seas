@@ -24,15 +24,7 @@ export const getProjects = async (userId: string): Promise<Ships[]> => {
 export const getAllProjects = async (): Promise<Ships[]> => {
   const records = await base("ships")
     .select({
-      filterByFormula: `AND(
-      NOT(hidden),
-      {project_source} != 'test',
-      {project_source} != 'tutorial',
-      {ship_status} != 'staged',
-      {ship_status} != 'deleted',
-      {ship_type} != 'update',
-      {project_source} != 'tutorial_battle'
-      )`,
+      filterByFormula: `eligible_for_voting`,
     })
     .all();
   return records.map((record) => ({
