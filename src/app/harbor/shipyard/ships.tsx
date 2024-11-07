@@ -203,8 +203,12 @@ export default function Ships({
 
                   try {
                     await stagedToShipped(s);
-                  } catch (err: any) {
-                    setErrorModal(err.toString());
+                  } catch (err: unknown) {
+                    if (err instanceof Error) {
+                      setErrorModal(err.message);
+                    } else {
+                      setErrorModal(String(err));
+                    }
                   }
                   location.reload();
                 }}
@@ -217,8 +221,6 @@ export default function Ships({
                   e.stopPropagation();
                   console.log("Shipping an update...", s);
                   setNewUpdateShip(s);
-                  // await stagedToShipped(s);
-                  // location.reload();
                 }}
               >
                 Ship an update!
