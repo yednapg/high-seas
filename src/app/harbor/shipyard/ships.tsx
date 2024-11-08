@@ -345,6 +345,10 @@ export default function Ships({
       <Modal isOpen={!!selectedShip} close={() => setSelectedShip(null)}>
         <Card
           className="relative w-full max-w-2xl"
+          style={{
+            maxHeight: "75vh",
+            overflowY: "auto",
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="absolute top-0 left-0 right-0 h-48 z-10">
