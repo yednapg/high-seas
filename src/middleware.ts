@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
   // Ships base
   if (!request.cookies.get("ships")) {
-    const ships = (await fetchShips(slackId)).slice(0, 3);
+    const ships = (await fetchShips(slackId, 3));
     response.cookies.set({
       name: "ships",
       value: JSON.stringify(ships),

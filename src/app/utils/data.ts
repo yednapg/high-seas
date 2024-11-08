@@ -46,7 +46,7 @@ export interface Ship {
   paidOut: boolean;
 }
 
-export async function fetchShips(slackId: string): Promise<Ship[]> {
+export async function fetchShips(slackId: string, maxRecords: null | number = null): Promise<Ship[]> {
   const realSlackId = await getSession().then((d) => d?.slackId);
 
   if (!realSlackId || realSlackId !== slackId) return [];
@@ -58,9 +58,10 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
     {ship_status} != 'deleted'
   )`;
 
-  const url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
+  let url = `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?filterByFormula=${encodeURIComponent(
     filterFormula
   )}`;
+  if (maxRecords != null) url += `&maxRecords=${maxRecords}`;
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
