@@ -129,9 +129,10 @@ const cronjobMiddleware = async (request: NextRequest) => {
   const authHeader = request.headers.get('authorization')
   const isDev = process.env.NODE_ENV === 'development'
   if (!isDev && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response('Unauthorized', {
-      status: 401,
-    })
+    return Response.json(
+      { success: false, message: 'authentication failed' },
+      { status: 401 }
+    )
   }
   return NextResponse.next()
 }
