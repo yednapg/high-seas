@@ -22,10 +22,8 @@ async function processDailyJobs() {
   })
 
   // read all free sticker orders created in the last 24 hours
-  const eligibleUsers = await base('people')
-    .select({
-      filterByFormula: `AND(
-    has_ordered_free_stickers,
+  const eligibleUsers = await base('people').select({
+    filterByFormula: `AND(
     has_ordered_free_stickers = TRUE(),
     verified_eligible = TRUE()
     )`,
