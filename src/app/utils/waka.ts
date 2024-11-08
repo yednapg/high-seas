@@ -129,11 +129,11 @@ export async function createWaka(
 ): Promise<WakaInfo> {
   const password = crypto.randomUUID();
 
-  if (!slackId) {
-    const err = new Error("No slack ID found while trying to create WakaTime");
-    console.error(err);
-    throw err;
-  }
+  // if (!slackId) {
+  //   const err = new Error("No slack ID found while trying to create WakaTime");
+  //   console.error(err);
+  //   throw err;
+  // }
 
   const payload = {
     location: "America/New_York",
