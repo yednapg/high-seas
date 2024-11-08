@@ -54,7 +54,7 @@ export default function Shipyard({ session }: any) {
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-[75vh]">
         <div className="text-center text-white pt-6">
           <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
             The Shipyard

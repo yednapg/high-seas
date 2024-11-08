@@ -240,7 +240,7 @@ export default function Ships({
     <>
       <canvas
         ref={canvasRef}
-        className="fixed w-screen h-screen left-0 top-0 pointer-events-none"
+        className="fixed w-screen left-0 top-0 pointer-events-none"
       />
 
       {bareShips ? null : (
