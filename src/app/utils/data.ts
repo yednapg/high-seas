@@ -169,8 +169,16 @@ export async function fetchWaka(session: HsSession): Promise<{
 
   const { username, key } = await createWaka(
     email,
-    preexisting_user ? full_name : session.name,
-    preexisting_user ? slack_id : session.slackId
+    preexisting_user
+      ? full_name
+      : (session.name?.length ?? 0) > 0
+      ? session.name
+      : null,
+    preexisting_user
+      ? slack_id
+      : session.slackId.length > 0
+      ? session.slackId
+      : null
   );
 
   const hasHb = await hasHbData(username);

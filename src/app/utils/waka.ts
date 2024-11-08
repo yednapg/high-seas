@@ -141,7 +141,8 @@ export async function createWaka(
     password,
     password_repeat: password,
     name: name ?? "Unkown",
-    username: slackId,
+    username:
+      slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
   };
 
   const signup = await fetch("https://waka.hackclub.com/signup", {
@@ -186,7 +187,9 @@ export async function getWakaSessions(interval?: string): Promise<{
   const slackId = session.slackId;
 
   const summaryRes = await fetch(
-    `https://waka.hackclub.com/api/summary?interval=${interval || "high_seas"}&user=${slackId}&recompute=true`,
+    `https://waka.hackclub.com/api/summary?interval=${
+      interval || "high_seas"
+    }&user=${slackId}&recompute=true`,
     {
       headers: {
         // Note, this should probably just be an admin token in the future.
