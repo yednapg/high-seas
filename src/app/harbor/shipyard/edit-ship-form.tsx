@@ -1,5 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button";
-import { deleteShip, Ship, updateShip } from "./ship-utils";
+import { deleteShip, updateShip } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import { useToast } from "@/hooks/use-toast";
 import Icon from "@hackclub/icons";
 import { useState } from "react";
@@ -39,6 +40,9 @@ export default function EditShipForm({
     const newShip: Ship = {
       ...ship,
       title: formValues.title as string,
+      ...(formValues.update_description && {
+        updateDescription: formValues.update_description as string,
+      }),
       repoUrl: formValues.repoUrl as string,
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
@@ -53,7 +57,7 @@ export default function EditShipForm({
       setShips((previousShips: Ship[]) => {
         console.log("the previous ships were", previousShips);
         const newShips = previousShips.map((s: Ship) =>
-          s.id === newShip.id ? newShip : s,
+          s.id === newShip.id ? newShip : s
         );
 
         setSaving(false);
@@ -84,7 +88,7 @@ export default function EditShipForm({
       console.log(`Deleted ${ship.title} (${ship.id})`);
 
       setShips((previousShips: Ship[]) =>
-        previousShips.filter((s: Ship) => s.id !== ship.id),
+        previousShips.filter((s: Ship) => s.id !== ship.id)
       );
     } else {
       console.error("Deleted a ship but can't setShips bc you didn't pass it.");
@@ -93,7 +97,9 @@ export default function EditShipForm({
 
     toast({
       title: "Ship deleted!",
-      description: `${ship.shipType === "update" ? "Your update to " : ""}${ship.title} ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
+      description: `${ship.shipType === "update" ? "Your update to " : ""}${
+        ship.title
+      } ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
     });
 
     setDeleting(false);
@@ -115,6 +121,19 @@ export default function EditShipForm({
           className="w-full p-2 border rounded"
         />
       </div>
+
+      {ship.updateDescription && (
+        <div>
+          <label htmlFor="reshippedFromId">Update description</label>
+          <input
+            id="update_description"
+            name="update_description"
+            defaultValue={ship.updateDescription}
+            required
+            className="w-full p-2 border rounded"
+          />
+        </div>
+      )}
 
       <div>
         <label htmlFor="repoUrl">Repo URL</label>

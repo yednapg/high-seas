@@ -39,18 +39,19 @@ export default function Page({
     // const person =
 
     createMagicSession(magic_auth_token).then(
-      () => (window.location.href = window.location.pathname),
+      () => (window.location.href = window.location.pathname)
     );
   }
 
   return (
     <>
       <div
-        className="fixed inset-0 z-[-1]"
+        className="inset-0 z-[-1]"
         style={{
           backgroundImage: "url(/bg.svg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          position: "fixed",
         }}
       />
       <SoundButton />

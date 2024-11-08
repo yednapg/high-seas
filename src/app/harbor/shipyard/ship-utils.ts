@@ -34,7 +34,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -67,19 +67,20 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
 // @malted: I'm confident this is secure.
 export async function createShipUpdate(
   dangerousReshippedFromShipId: string,
-  formData: FormData,
-) {
+  credited_hours: number,
+  formData: FormData
+): Promise<Ship> {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to submit a ship with no Slack OAuth session",
+      "Tried to submit a ship with no Slack OAuth session"
     );
     console.error(error);
     throw error;
@@ -89,10 +90,10 @@ export async function createShipUpdate(
   const entrantId = await getSelfPerson(slackId).then((p) => p.id);
 
   // This pattern makes sure the ship data is not fraudulent
-  const ships = await fetchShips(session.personId);
+  const ships = await fetchShips(slackId);
 
   const reshippedFromShip = ships.find(
-    (ship: Ship) => ship.id === dangerousReshippedFromShipId,
+    (ship: Ship) => ship.id === dangerousReshippedFromShipId
   );
   if (!reshippedFromShip) {
     const error = new Error("Invalid reshippedFromShipId!");
@@ -109,55 +110,86 @@ export async function createShipUpdate(
    */
 
   // Step 1:
-  base()(shipsTableName).create(
-    [
-      {
-        // @ts-expect-error No overload matches this call - but it does
-        fields: {
-          ...shipToFields(reshippedFromShip, entrantId),
-          ship_type: "update",
-          update_description: formData.get("update_description"),
-          reshipped_from: [reshippedFromShip.id],
-        },
-      },
-    ],
-    (err: Error, records: any) => {
-      if (err) {
-        console.error("createShipUpdate step 1:", err);
-        throw err;
-      } else if (records) {
-        // Step 2
-        if (records.length !== 1) {
-          const error = new Error(
-            "createShipUpdate: step 1 created records result length is not 1",
-          );
-          console.error(error);
-          throw error;
-        }
-        const reshippedToShip = records[0];
-
-        // Update previous ship to point reshipped_to to the newly created update record
-        base()(shipsTableName).update([
+  const res: { id: string; fields: any } = await new Promise(
+    (resolve, reject) => {
+      base()(shipsTableName).create(
+        [
           {
-            id: reshippedFromShip.id,
+            // @ts-expect-error No overload matches this call - but it does
             fields: {
-              reshipped_to: [reshippedToShip.id],
-              reshipped_all: [reshippedToShip, reshippedFromShip],
+              ...shipToFields(reshippedFromShip, entrantId),
+              ship_type: "update",
+              update_description: formData.get("update_description"),
+              reshipped_from: [reshippedFromShip.id],
+              reshipped_from_all: reshippedFromShip.reshippedFromAll
+                ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
+                : [reshippedFromShip.id],
+              credited_hours,
             },
           },
-        ]);
-      } else {
-        console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
-      }
-    },
+        ],
+        (err: Error, records: any) => {
+          if (err) {
+            console.error("createShipUpdate step 1:", err);
+            throw err;
+          }
+          if (records) {
+            // Step 2
+            if (records.length !== 1) {
+              const error = new Error(
+                "createShipUpdate: step 1 created records result length is not 1"
+              );
+              console.error(error);
+              reject(error);
+            }
+            const reshippedToShip = records[0];
+
+            // Update previous ship to point reshipped_to to the newly created update record
+            base()(shipsTableName).update([
+              {
+                id: reshippedFromShip.id,
+                fields: {
+                  reshipped_to: [reshippedToShip.id],
+                  reshipped_all: [reshippedToShip, reshippedFromShip],
+                },
+              },
+            ]);
+
+            resolve(reshippedToShip);
+          } else {
+            console.error("AAAFAUKCSCSAEVTNOESIFNVFEINTTET🤬🤬🤬");
+            reject(new Error("createShipUpdate: step 1 created no records"));
+          }
+        }
+      );
+    }
   );
+
+  return {
+    ...reshippedFromShip,
+    id: res.id,
+    repoUrl: reshippedFromShip.repoUrl,
+    readmeUrl: reshippedFromShip.readmeUrl,
+    screenshotUrl: reshippedFromShip.screenshotUrl,
+    deploymentUrl: reshippedFromShip.deploymentUrl,
+    shipType: "update",
+    shipStatus: "staged",
+    updateDescription: formData.get("update_description")?.toString() || null,
+    reshippedFromId: reshippedFromShip.id,
+    reshippedFromAll: reshippedFromShip.reshippedFromAll
+      ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id]
+      : [reshippedFromShip.id],
+    credited_hours,
+    total_hours: (reshippedFromShip.total_hours ?? 0) + credited_hours,
+    wakatimeProjectNames: reshippedFromShip.wakatimeProjectNames,
+  };
 }
 
 export async function updateShip(ship: Ship) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to stage a ship with no Slack OAuth session",
+      "Tried to stage a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -175,21 +207,24 @@ export async function updateShip(ship: Ship) {
           readme_url: ship.readmeUrl,
           deploy_url: ship.deploymentUrl,
           screenshot_url: ship.screenshotUrl,
+          ...(ship.updateDescription && {
+            update_description: ship.updateDescription,
+          }),
         },
       },
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }
 
 // Good function. I like. Wawaweewah very nice.
-export async function stagedToShipped(ship: Ship) {
+export async function stagedToShipped(ship: Ship, ships: Ship[]) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "You tried to ship a draft Ship, but you're not signed in!",
+      "You tried to ship a draft Ship, but you're not signed in!"
     );
     console.log(error);
     throw error;
@@ -199,23 +234,29 @@ export async function stagedToShipped(ship: Ship) {
 
   if (!p.fields.academy_completed) {
     throw new Error(
-      "You can't ship a Ship if you haven't completed Pirate Academy!",
-    );
-  } else if (!p.fields.verified_eligible) {
-    throw new Error("You can't ship a Ship before you've been verified!");
-  } else if (!ship.wakatimeProjectNames) {
-    throw new Error(
-      "You can't ship a Ship that has no Hakatime projects associated with it!",
+      "You can't ship a Ship if you haven't completed Pirate Academy!"
     );
   }
+  if (!p.fields.verified_eligible) {
+    throw new Error("You can't ship a Ship before you've been verified!");
+  }
+  if (!ship.wakatimeProjectNames) {
+    throw new Error(
+      "You can't ship a Ship that has no Hakatime projects associated with it!"
+    );
+  }
+
+  const previousShip = ships.find((s) => s.id === ship.reshippedFromId);
 
   const wakatimeProjects = await getWakaSessions();
   console.log("woah. we got waktime projects", wakatimeProjects);
   const associatedProjects = wakatimeProjects.projects.filter(({ key }) =>
-    ship.wakatimeProjectNames.includes(key),
+    ship.wakatimeProjectNames.includes(key)
   );
   const projectHours = associatedProjects.map(({ total }) => total / 60 / 60);
-  const totalHours = projectHours.reduce((prev, curr) => (prev += curr), 0);
+  const totalHours =
+    projectHours.reduce((prev, curr) => prev + curr, 0) -
+    (previousShip?.total_hours ?? 0);
 
   base()(shipsTableName).update(
     [
@@ -232,7 +273,7 @@ export async function stagedToShipped(ship: Ship) {
         console.error(err);
         throw err;
       }
-    },
+    }
   );
 }
 
@@ -240,7 +281,7 @@ export async function deleteShip(shipId: string) {
   const session = await getSession();
   if (!session) {
     const error = new Error(
-      "Tried to delete a ship with no Slack OAuth session",
+      "Tried to delete a ship with no Slack OAuth session"
     );
     console.log(error);
     throw error;
@@ -257,6 +298,6 @@ export async function deleteShip(shipId: string) {
     ],
     (err: Error, records: any) => {
       if (err) console.error(err);
-    },
+    }
   );
 }

@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Ship, stagedToShipped } from "./ship-utils";
+import { stagedToShipped } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import Image from "next/image";
 import Icon from "@hackclub/icons";
 import ReactMarkdown from "react-markdown";
@@ -22,18 +23,16 @@ import Modal from "../../../components/ui/modal";
 
 export default function Ships({
   ships = [],
-  shipChains = new Map(),
   bareShips = false,
   setShips,
 }: {
   ships: Ship[];
-  shipChains: Map<string, string[]>;
   bareShips: boolean;
   setShips: any;
 }) {
   const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
   const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
-    null,
+    null
   );
 
   const [readmeText, setReadmeText] = useState<string | null>(null);
@@ -43,6 +42,10 @@ export default function Ships({
   const [isEditingShip, setIsEditingShip] = useState(false);
   const [errorModal, setErrorModal] = useState<string>();
   const canvasRef = useRef(null);
+
+  const [isShipping, setIsShipping] = useState(false);
+
+  const [shipChains, setShipChains] = useState<Map<string, string[]>>();
 
   useEffect(() => {
     getSession().then((sesh) => setSession(sesh));
@@ -84,28 +87,59 @@ export default function Ships({
     }
   };
 
-  const stagedShips = ships.filter(
-    (ship: Ship) => ship.shipStatus === "staged",
-  );
-  const shippedShips = ships.filter(
-    (ship: Ship) =>
-      ship.shipStatus === "shipped" && ship.shipType === "project",
+  const stagedShips = useMemo(
+    () => ships.filter((ship: Ship) => ship.shipStatus === "staged"),
+    [ships]
   );
 
-  const shipMap = new Map();
-  ships.forEach((s: Ship) => shipMap.set(s.id, s));
+  const [shippedShips, setShippedShips] = useState<Ship[]>([]);
 
-  // let selectedProjectWakatimeProjectShipChain;
+  useEffect(() => {
+    const localShippedShips = ships.filter(
+      (ship: Ship) =>
+        ship.shipStatus === "shipped" && ship.shipType === "project"
+    );
 
-  // if (selectedShip) {
-  //   try {
-  //     selectedProjectWakatimeProjectShipChain = shipChains.get(
-  //       selectedShip.wakatimeProjectName,
-  //     );
-  //   } catch (e) {
-  //     console.error("err with selectedProjectWakatimeProjectShipChain: ", e);
-  //   }
-  // }
+    const localUpdateShips = ships.filter(
+      (ship: Ship) =>
+        ship.shipStatus === "shipped" && ship.shipType === "update"
+    );
+
+    // Consolidate projects and updates in a Map to handle "reshipping" logic efficiently
+    const shippedShipsMap = new Map(
+      localShippedShips.map((ship) => [ship.id, { ...ship }])
+    );
+
+    for (const update of localUpdateShips) {
+      const reshippedFromId = update.reshippedFromId;
+      const updateCopy = { ...update };
+
+      if (reshippedFromId && shippedShipsMap.has(reshippedFromId)) {
+        const originalShip = shippedShipsMap.get(reshippedFromId);
+        shippedShipsMap.set(reshippedFromId, {
+          ...updateCopy,
+          doubloonPayout:
+            updateCopy.doubloonPayout + (originalShip?.doubloonPayout || 0),
+        });
+      } else {
+        shippedShipsMap.set(updateCopy.id, updateCopy);
+      }
+    }
+
+    setShippedShips(Array.from(shippedShipsMap.values()) as Ship[]);
+  }, [ships]);
+
+  // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
+  useEffect(() => {
+    const newShipChains = new Map<string, string[]>();
+    for (const ship of shippedShips) {
+      const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
+      if (ship.reshippedAll) {
+        newShipChains.set(wakatimeProjectName, ship.reshippedAll);
+      }
+    }
+    setShipChains(newShipChains);
+  }, [shippedShips]);
 
   const SingleShip = ({
     s,
@@ -158,27 +192,41 @@ export default function Ships({
                   console.log("Shipping", s);
 
                   try {
-                    await stagedToShipped(s);
-                  } catch (err: any) {
-                    setErrorModal(err.toString());
+                    setIsShipping(true);
+                    await stagedToShipped(s, ships);
+                    location.reload();
+                  } catch (err: unknown) {
+                    if (err instanceof Error) {
+                      setErrorModal(err.message);
+                    } else {
+                      setErrorModal(String(err));
+                    }
+                  } finally {
+                    setIsShipping(false);
                   }
-                  location.reload();
                 }}
+                disabled={isShipping}
               >
-                SHIP SHIP!
+                {isShipping ? "Shipping..." : "SHIP SHIP!"}
               </Button>
             ) : s.paidOut ? (
-              <Button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping an update...", s);
-                  setNewUpdateShip(s);
-                  // await stagedToShipped(s);
-                  // location.reload();
-                }}
-              >
-                Ship an update!
-              </Button>
+              !stagedShips.find(
+                (stagedShip) =>
+                  stagedShip.wakatimeProjectNames.join(",") ===
+                  s.wakatimeProjectNames.join(",")
+              ) ? (
+                <Button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    console.log("Shipping an update...", s);
+                    setNewUpdateShip(s);
+                  }}
+                >
+                  Ship an update!
+                </Button>
+              ) : (
+                <p>Ship your Update!</p>
+              )
             ) : (
               <p>Awaiting payout</p>
             )}
@@ -257,13 +305,13 @@ export default function Ships({
             <div className="text-white mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
               <img src="/curly-arrow.svg" alt="" width="64" />
               <div className="flex flex-col justify-between">
-                <p></p>
+                <p />
                 <p className="-translate-x-3 translate-y-2">
                   Ship your first project!
                 </p>
               </div>
             </div>
-            <div className="mt-24"></div>
+            <div className="mt-24" />
           </>
         ) : null}
       </div>
@@ -289,13 +337,22 @@ export default function Ships({
           shipToUpdate={newUpdateShip}
           canvasRef={canvasRef}
           closeForm={() => setNewUpdateShip(null)}
+          setShips={setShips}
           session={session}
         />
       </Modal>
 
-      <Modal isOpen={!!selectedShip} close={() => setSelectedShip(null)}>
+      <Modal
+        isOpen={!!selectedShip}
+        close={() => setSelectedShip(null)}
+        hideCloseButton={false}
+      >
         <Card
           className="relative w-full max-w-2xl"
+          style={{
+            maxHeight: "75vh",
+            overflowY: "auto",
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="absolute top-0 left-0 right-0 h-48 z-10">
@@ -350,7 +407,9 @@ export default function Ships({
                   <Link
                     id="selected-ship-repo-button"
                     target="_blank"
-                    className={`${buttonVariants({ variant: "outline" })} h-full`}
+                    className={`${buttonVariants({
+                      variant: "outline",
+                    })} h-full`}
                     href={selectedShip?.repoUrl}
                     prefetch={false}
                   >
@@ -359,7 +418,9 @@ export default function Ships({
 
                   <Button
                     id="selected-ship-edit-button"
-                    className={`${buttonVariants({ variant: "outline" })} w-fit p-2 h-full text-black`}
+                    className={`${buttonVariants({
+                      variant: "outline",
+                    })} w-fit p-2 h-full text-black`}
                     onClick={() => setIsEditingShip((p) => !p)}
                   >
                     <Icon glyph="edit" width={24} /> Edit
@@ -401,64 +462,6 @@ export default function Ships({
                     shipChains={shipChains}
                   />
                 </motion.div>
-
-                {/* {bareShips ? null : (
-                  <div>
-                    <hr className="my-5" />
-                    <h3>Ship update chain</h3>
-                    <ol className="flex flex-col">
-                      {selectedProjectWakatimeProjectShipChain ? (
-                        selectedProjectWakatimeProjectShipChain.map(
-                          (shipChainId: string, shipChainIdx: number) => {
-                            const foundShip = ships.find(
-                              (s: Ship) => s.id === shipChainId,
-                            );
-
-                            if (!foundShip)
-                              return (
-                                <p key={shipChainIdx}>
-                                  {
-                                    "selectedProjectWakatimeProjectShipChain -> foundShip is None"
-                                  }
-                                </p>
-                              );
-
-                            return (
-                              <li
-                                className={`inline-flex items-center gap-3 ${shipChainIdx === 0 ? "" : "ml-7"}`}
-                                key={shipChainIdx}
-                              >
-                                {shipChainIdx === 0 ? (
-                                  <Icon glyph="home" />
-                                ) : (
-                                  <Icon
-                                    glyph="reply"
-                                    style={{
-                                      transform: "scaleX(-1) scaleY(-1)",
-                                    }}
-                                  />
-                                )}
-                                <span>
-                                  {foundShip.title} ({foundShip.shipType})
-                                </span>
-                                <span className="text-sm opacity-50">
-                                  {foundShip.shipType === "update"
-                                    ? foundShip.updateDescription
-                                    : null}
-                                </span>
-                                <span className="text-sm opacity-50">
-                                  {ago(foundShip.createdTime)}
-                                </span>
-                              </li>
-                            );
-                          },
-                        )
-                      ) : (
-                        <p>wat</p>
-                      )}
-                    </ol>
-                  </div>
-                )} */}
 
                 {selectedShip?.shipType === "update" ? (
                   <>
@@ -511,15 +514,6 @@ export default function Ships({
               </div>
             </CardContent>
           </div>
-
-          <motion.button
-            className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-            onClick={() => setSelectedShip(null)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Icon glyph="view-close" />
-          </motion.button>
         </Card>
       </Modal>
 
