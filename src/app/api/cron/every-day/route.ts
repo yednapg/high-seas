@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 
 Airtable.configure({
   apiKey: process.env.AIRTABLE_API_KEY,
-  endpointUrl: 'https://middleman.hackclub.com/airtable/v0',
+  endpointUrl: 'https://middleman.hackclub.com/airtable'
 })
 
 const base = Airtable.base('appTeNFYcUiYfGcR6')
@@ -13,6 +13,8 @@ const base = Airtable.base('appTeNFYcUiYfGcR6')
 const highSeasChannelId = 'C07PZMBUNDS'
 
 async function processDailyJobs() {
+  console.log("Processing daily jobs")
+
   const startingMessage = base('arrpheus_message_requests').create({
     message_text: `Each day, a newly signed up user will win a free Raspberry Pi Zero! Today's winner is...`,
     target_slack_id: highSeasChannelId,
@@ -24,7 +26,8 @@ async function processDailyJobs() {
     .select({
       filterByFormula: `AND(
     has_ordered_free_stickers,
-    verified_eligible,
+    has_ordered_free_stickers = TRUE(),
+    verified_eligible = TRUE()
     )`,
     })
     .all()
