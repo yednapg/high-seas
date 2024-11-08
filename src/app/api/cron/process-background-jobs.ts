@@ -1,6 +1,7 @@
 'use server'
 
-import { sql } from '@vercel/postgres'
+import { sql } from "@vercel/postgres";
+import Airtable from 'airtable';
 
 async function processPendingInviteJobs() {
   const { rows } =
@@ -120,9 +121,100 @@ async function processPendingPersonInitJobs() {
   )
 }
 
+async function processLotteryJobs() {
+  const { rows } = await sql`
+  SELECT *
+  FROM background_job
+  WHERE type = 'run_lottery'
+  AND status = 'pending'
+  LIMIT 1;
+  `
+
+  if (rows.length === 0) { return }
+
+  const previous = (await sql`
+  SELECT *
+  FROM background_job
+  WHERE type = 'run_lottery'
+  AND status = 'completed'
+  ORDER BY created_at DESC
+  LIMIT 1;`).rows[0]
+
+  console.log("Previous lottery job", previous)
+
+  if (previous && previous.created_at > new Date(Date.now() - 1000 * 60 * 60 * 23)) { return }
+
+  Airtable.configure({
+    apiKey: process.env.AIRTABLE_API_KEY,
+    endpointUrl: process.env.AIRTABLE_ENDPOINT_URL,
+  })
+
+  const base = Airtable.base('appTeNFYcUiYfGcR6')
+
+  const highSeasChannelId = 'C07PZMBUNDS'
+  await base('arrpheus_message_requests').create({
+    message_text: `Each day, a newly signed up user will win a free Raspberry Pi Zero! Today's winner is...`,
+    // target_slack_id: highSeasChannelId,
+    target_slack_id: 'U0C7B14Q3',
+    requester_identifier: 'cron-job',
+  })
+
+  // read all free sticker orders created in the last 24 hours
+  const eligibleUsers = await base('people').select({
+    filterByFormula: `AND(
+      has_ordered_free_stickers = TRUE(),
+      verified_eligible = TRUE(),
+      verified_ineligible = FALSE(),
+      DATETIME_DIFF(NOW(), verification_updated_at, 'hours') <= 24
+    )`,
+  }).all()
+
+  const winner = eligibleUsers.sort(() => Math.random() - 0.5)[0]
+  console.log("Winner", winner)
+
+  // create the order
+  const order = await base('shop_orders').create({
+    status: 'draft',
+    shop_item: ['recKV56D2PATOqK4W'],
+    recipient: [winner?.id]
+  })
+
+  // send a DM to the winner
+  const messageRequests = [{
+    message_text: `Hey, congrats <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉`,
+    // target_slack_id: winner?.fields['slack_id'],
+    target_slack_id: 'U0C7B14Q3',
+    requester_identifier: 'cron-job',
+  }, {
+    message_text: `Congratulations to <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉`,
+    // target_slack_id: highSeasChannelId,
+    target_slack_id: 'U0C7B14Q3',
+    requester_identifier: 'cron-job',
+  }]
+
+  // const messagePromise = base('arrpheus_message_requests').create(messageRequests[0])
+  const messagePromise = await base('arrpheus_message_requests').create({
+    message_text: `Each day, a newly signed up user will win a free Raspberry Pi Zero! Today's winner is...`,
+    // target_slack_id: highSeasChannelId,
+    target_slack_id: 'U0C7B14Q3',
+    requester_identifier: 'cron-job',
+  })
+
+  const _upsert = await sql`
+  UPDATE background_job
+  SET status='completed',
+    output=${JSON.stringify(order)}
+    WHERE type='run_lottery'
+    AND status='pending'`
+
+  console.log({rows})
+    console.log("Lottery job completed", _upsert)
+
+}
 export async function processBackgroundJobs() {
   await Promise.all([
     processPendingInviteJobs(),
     processPendingPersonInitJobs(),
+    processLotteryJobs(),
   ])
 }
