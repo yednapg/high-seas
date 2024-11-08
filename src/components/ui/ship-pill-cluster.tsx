@@ -1,4 +1,4 @@
-import type { Ship } from "@/app/harbor/shipyard/ship-utils";
+import type { Ship } from "@/app/utils/data";
 import Pill from "./pill";
 
 import DoubloonsImage from "/public/doubloon.svg";
@@ -11,14 +11,14 @@ export default function ShipPillCluster({
   ship: Ship;
   shipChains: Map<string, string[]>;
 }) {
-  // const shipUpdates = shipChains
-  //   ? shipChains.get(ship.wakatimeProjectName)
-  //   : null;
-  // const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
+  const shipUpdates = shipChains
+    ? shipChains.get(ship.wakatimeProjectNames.join(","))
+    : null;
+  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
 
   return (
     <>
-      <Pill msg={`${ship.credited_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
+      <Pill msg={`${ship.total_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === "shipped" &&
         (ship.voteRequirementMet ? (
@@ -32,26 +32,32 @@ export default function ShipPillCluster({
             />
           ) : (
             <Pill
-              msg={`Awaiting ${
-                10 - ship.matchups_count
-              } more vote${(10-ship.matchups_count) == 1 ? '' : 's'} from other pirates…`}
+              msg={`Awaiting ${10 - ship.matchups_count} more vote${
+                10 - ship.matchups_count === 1 ? "" : "s"
+              } from other pirates…`}
               color="blue"
               glyph="event-add"
               percentage={Math.max(ship.matchups_count * 10, 5)}
             />
           )
         ) : (
-          <Pill msg={"Pending: Vote to unlock payout!"} color="blue" glyph="enter" />
+          <Pill
+            msg={"Pending: Vote to unlock payout!"}
+            color="blue"
+            glyph="enter"
+          />
         ))}
 
-      {/* {shipUpdateCount && shipUpdateCount > 0 ? (
+      {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
-          msg={`${shipUpdateCount} Ship update${shipUpdateCount === 1 ? "" : "s"}`}
+          msg={`${shipUpdateCount} Ship update${
+            shipUpdateCount === 1 ? "" : "s"
+          }`}
           color="purple"
           glyph="reply"
           glyphStyles={{ transform: "scaleX(-1)" }}
         />
-      ) : null} */}
+      ) : null}
     </>
   );
 }

@@ -41,6 +41,8 @@ export interface Ship {
   updateDescription: string | null;
   reshippedFromId: string | null;
   reshippedToId: string | null;
+  reshippedAll: string[] | null;
+  reshippedFromAll: string[] | null;
   paidOut: boolean;
 }
 
@@ -73,6 +75,10 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
 
     const reshippedFromIdRaw = r.fields.reshipped_from as [string] | null;
     const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
+    const reshippedAll = r["fields"]["reshipped_all"] as [string] | null;
+    const reshippedFromAll = r["fields"]["reshipped_from_all"] as
+      | [string]
+      | null;
 
     const wakatimeProjectNameRaw = r.fields.wakatime_project_name as
       | string
@@ -104,6 +110,8 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
       updateDescription: r.fields.update_description,
       reshippedFromId,
       reshippedToId,
+      reshippedAll,
+      reshippedFromAll,
       paidOut: Boolean(r.fields.paid_out),
     };
 

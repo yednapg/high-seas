@@ -33,8 +33,8 @@ const Balance = () => {
     getSession().then((s) =>
       console.error(
         "Ticket balance is NaN, which signals an issue with the ticket fetching from Airtable in middleware. Session: ",
-        JSON.stringify(s),
-      ),
+        JSON.stringify(s)
+      )
     );
   }
 
@@ -87,10 +87,6 @@ export default function Harbor({
   // default to true so we don't flash a warning at the user
   const [hasHb, setHasHb] = useLocalStorageState<boolean>("cache.hasHb", true);
   // All the content management for all the tabs goes here.
-  const [myShipChains, setMyShipChains] = useLocalStorageState(
-    "cache.myShipChains",
-    null,
-  );
 
   const router = useRouter();
 
@@ -149,7 +145,7 @@ export default function Harbor({
     {
       name: <>Shipyard</>,
       path: "shipyard",
-      component: <Shipyard session={session} shipChains={myShipChains} />,
+      component: <Shipyard session={session} />,
       lockOnNoHb: true,
     },
     {

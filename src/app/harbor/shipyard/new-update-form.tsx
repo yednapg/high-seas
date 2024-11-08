@@ -1,27 +1,10 @@
 // Import necessary modules and components
-import Link from "next/link";
-import { createShip, createShipUpdate, Ship } from "./ship-utils";
+import { createShipUpdate } from "./ship-utils";
+import type { Ship } from "@/app/utils/data";
 import { Button } from "@/components/ui/button";
 import JSConfetti from "js-confetti";
-import { useEffect, useRef, useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getWakaSessions } from "@/app/utils/waka";
-import { Checkbox } from "@/components/ui/checkbox";
-import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 
 export default function NewUpdateForm({
@@ -29,23 +12,18 @@ export default function NewUpdateForm({
   canvasRef,
   closeForm,
   session,
+  setShips,
 }: {
   shipToUpdate: Ship;
   canvasRef: any;
   closeForm: any;
   session: any;
+  setShips: any;
 }) {
   const [staging, setStaging] = useState(false);
+  const [loading, setLoading] = useState(true);
   const confettiRef = useRef<JSConfetti | null>(null);
-  const [projects, setProjects] = useState<{ key: string; total: number }[]>(
-    [],
-  );
-  const [selectedProject, setSelectedProject] = useState<{
-    key: string;
-    total: number;
-  } | null>(null);
-  const [open, setOpen] = useState(false);
-  const [isShipUpdate, setIsShipUpdate] = useState(false);
+  const [projectHours, setProjectHours] = useState<number>(0);
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -53,48 +31,98 @@ export default function NewUpdateForm({
   }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
-  // useEffect(() => {
-  //   async function fetchProjects() {
-  //     try {
-  //       const slackId = session.payload.sub;
-  //       const res = await getWakaSessions();
-  //       const shippedShips = ships
-  //         .filter((s) => s.shipStatus !== "deleted")
-  //         .map((s) => s.wakatimeProjectName)
-  //         .filter((n) => n);
-  //       setProjects(
-  //         res.projects.filter(
-  //           (p) => p.key != "<<LAST_PROJECT>>" && !shippedShips.includes(p.key),
-  //         ),
-  //       );
+  const fetchWakaSessions = useCallback(async (scope?: string) => {
+    try {
+      return await getWakaSessions(scope);
+    } catch (error) {
+      console.error("Error fetching Waka sessions:", error);
+      return null;
+    }
+  }, []);
 
-  //       console.log(res);
-  //     } catch (error) {
-  //       console.error("Error fetching projects:", error);
-  //     }
-  //   }
-  //   fetchProjects();
-  // }, [session.payload.sub]);
+  const calculateCreditedTime = useCallback(
+    (
+      projects: {
+        key: string;
+        total: number;
+      }[]
+    ): number => {
+      const project = projects.find((p) =>
+        (shipToUpdate.wakatimeProjectNames || []).includes(p.key)
+      );
+
+      if (!project) return 0;
+
+      const creditedTime =
+        project.total / 3600 - (shipToUpdate.total_hours || 0);
+      return Math.round(creditedTime * 1000) / 1000;
+    },
+    [shipToUpdate]
+  );
+
+  useEffect(() => {
+    async function fetchAndSetProjectHours() {
+      setLoading(true);
+      const res = await fetchWakaSessions();
+
+      if (res && shipToUpdate.total_hours) {
+        let creditedTime = calculateCreditedTime(res.projects);
+
+        if (creditedTime < 0) {
+          const anyScopeRes = await fetchWakaSessions("any");
+          if (anyScopeRes) {
+            creditedTime = calculateCreditedTime(anyScopeRes.projects);
+          }
+        }
+
+        setProjectHours(creditedTime);
+      }
+      setLoading(false);
+    }
+
+    fetchAndSetProjectHours();
+  }, [fetchWakaSessions, calculateCreditedTime, shipToUpdate]);
 
   const handleForm = async (formData: FormData) => {
     setStaging(true);
-    // // Append the selected project's hours to the form data
-    // if (selectedProject) {
-    //   formData.append("hours", selectedProject.key.toString());
-    // }
 
-    await createShipUpdate(shipToUpdate.id, formData);
+    const updatedShip = await createShipUpdate(
+      shipToUpdate.id,
+      projectHours,
+      formData
+    );
     confettiRef.current?.addConfetti();
     closeForm();
     setStaging(false);
+
+    if (setShips) {
+      console.log("Set ships is passed! Adding stagged ship", shipToUpdate.id);
+
+      setShips((previousShips: Ship[]) => {
+        return [...previousShips, updatedShip];
+      });
+    } else {
+      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+    }
   };
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl font-bold mb-2">
         Ship an update to {shipToUpdate.title}
       </h1>
-      <form action={handleForm} className="space-y-3">
+
+      <p className="mb-2">
+        You are adding {projectHours} hours of work to this project
+      </p>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleForm(new FormData(e.target as HTMLFormElement));
+        }}
+        className="space-y-3"
+      >
         <label htmlFor="update_description">Description of the update</label>
         <textarea
           id="update_description"
@@ -104,16 +132,27 @@ export default function NewUpdateForm({
           minLength={10}
           required
           className="w-full p-2 border rounded"
-        ></textarea>
+        />
 
-        <Button type="submit" className="w-full" disabled={staging}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={staging || loading || projectHours <= 0.5}
+        >
           {staging ? (
             <>
-              <Icon glyph="more" />
+              <Icon glyph="attachment" className="animate-spin" />
               Staging!
             </>
-          ) : (
+          ) : loading ? (
+            <>
+              <Icon glyph="clock" className="animate-spin p-1" />
+              Loading...
+            </>
+          ) : projectHours > 0.5 ? (
             "Stage my Ship!"
+          ) : (
+            "You don't have enough hours to ship an update"
           )}
         </Button>
       </form>

@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 import JaggedCard from "../jagged-card";
@@ -26,12 +26,15 @@ export default function Modal({
               initial={{ opacity: 0, backdropFilter: "blur(0)" }}
               animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
               exit={{ opacity: 0, backdropFilter: "blur(0)" }}
-              style={{ willChange: "filter, transform" }}
+              style={{ willChange: "filter, transform", position: "fixed" }}
               className="absolute inset-0 w-full"
               onClick={close}
               {...props}
             >
-              <div className="absolute inset-0 w-full h-full bg-black/50 " />
+              <div
+                className="inset-0 w-full h-full bg-black/50 overflow-hidden"
+                style={{ position: "fixed" }}
+              />
 
               <motion.div
                 initial={{ scale: 0.5 }}
@@ -44,19 +47,26 @@ export default function Modal({
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
                   {hideCloseButton ? null : (
-                    <div
-                      id="modal-close-button"
-                      className="absolute top-4 right-4 cursor-pointer p-4 sm:p-6"
+                    <motion.button
+                      className="absolute top-2 right-2 p-1 rounded-full bg-blues shadow-md z-20 bg-opacity-30"
+                      style={{
+                        maskImage:
+                          "radial-gradient(circle, rgb(0, 0, 0) 0%, rgba(255,255,255,0) 100%)",
+                        WebkitMaskImage:
+                          "radial-gradient(circle, rgb(0, 0, 0) 0%, rgba(255,255,255,0) 100%)",
+                      }}
                       onClick={close}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <Icon glyph="view-close" />
-                    </div>
+                    </motion.button>
                   )}
                   {children}
                 </JaggedCard>
               </motion.div>
             </motion.div>,
-            document.body,
+            document.body
           )}
         </>
       ) : null}
