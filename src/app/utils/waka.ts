@@ -2,7 +2,7 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSession } from "./auth";
+import { getSession, HsSession } from "./auth";
 import { fetchWaka } from "./data";
 
 const WAKA_API_KEY = process.env.WAKA_API_KEY;
@@ -172,7 +172,11 @@ export async function createWaka(
 export async function getWakaSessions(interval?: string): Promise<{
   projects: { key: string; total: number }[];
 }> {
-  const { username, key } = await fetchWaka();
+  const session = await getSession();
+  if (!session) throw new Error("No session found");
+  const slackId = session.slackId;
+
+  const { username, key } = await fetchWaka(session);
 
   if (!username || !key) {
     const err = new Error(
@@ -181,10 +185,6 @@ export async function getWakaSessions(interval?: string): Promise<{
     console.error(err);
     throw err;
   }
-
-  const session = await getSession();
-  if (!session) throw new Error("No session found");
-  const slackId = session.slackId;
 
   const summaryRes = await fetch(
     `https://waka.hackclub.com/api/summary?interval=${
