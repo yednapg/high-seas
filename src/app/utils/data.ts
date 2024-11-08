@@ -75,10 +75,8 @@ export async function fetchShips(slackId: string): Promise<Ship[]> {
 
     const reshippedFromIdRaw = r.fields.reshipped_from as [string] | null;
     const reshippedFromId = reshippedFromIdRaw ? reshippedFromIdRaw[0] : null;
-    const reshippedAll = r["fields"]["reshipped_all"] as [string] | null;
-    const reshippedFromAll = r["fields"]["reshipped_from_all"] as
-      | [string]
-      | null;
+    const reshippedAll = r.fields.reshipped_all as [string] | null;
+    const reshippedFromAll = r.fields.reshipped_from_all as [string] | null;
 
     const wakatimeProjectNameRaw = r.fields.wakatime_project_name as
       | string
@@ -171,8 +169,16 @@ export async function fetchWaka(session: HsSession): Promise<{
 
   const { username, key } = await createWaka(
     email,
-    preexisting_user ? full_name : session.name,
-    preexisting_user ? slack_id : session.slackId
+    preexisting_user
+      ? full_name
+      : (session.name?.length ?? 0) > 0
+      ? session.name
+      : null,
+    preexisting_user
+      ? slack_id
+      : session.slackId.length > 0
+      ? session.slackId
+      : null
   );
 
   const hasHb = await hasHbData(username);
