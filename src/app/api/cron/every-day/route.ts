@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Airtable from 'airtable';
 import type { NextRequest } from 'next/server';
 
@@ -54,6 +56,3 @@ export async function GET(request: NextRequest) {
   await processDailyJobs()
   return Response.json({ success: true });
 }
-
-export const maxDuration = 60
-export const fetchCache = 'force-no-store'
