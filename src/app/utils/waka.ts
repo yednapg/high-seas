@@ -125,18 +125,23 @@ export interface WakaInfo {
 export async function createWaka(
   email: string,
   name: string | null | undefined,
-  slackId: string | null | undefined,
+  slackId: string | null | undefined
 ): Promise<WakaInfo> {
   const password = crypto.randomUUID();
+
+  if (!slackId) {
+    const err = new Error("No slack ID found while trying to create WakaTime");
+    console.error(err);
+    throw err;
+  }
 
   const payload = {
     location: "America/New_York",
     email,
     password,
     password_repeat: password,
-    name: name ?? "",
-    username:
-      slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
+    name: name ?? "Unkown",
+    username: slackId,
   };
 
   const signup = await fetch("https://waka.hackclub.com/signup", {
@@ -170,7 +175,7 @@ export async function getWakaSessions(interval?: string): Promise<{
 
   if (!username || !key) {
     const err = new Error(
-      "While getting sessions, no waka info could be found or created",
+      "While getting sessions, no waka info could be found or created"
     );
     console.error(err);
     throw err;
@@ -187,10 +192,10 @@ export async function getWakaSessions(interval?: string): Promise<{
         // Note, this should probably just be an admin token in the future.
         Authorization: `Bearer ${key}`,
       },
-    },
+    }
   );
 
-  let summaryResJson;
+  let summaryResJson: { projects: { key: string; total: number }[] };
   try {
     summaryResJson = await summaryRes.json();
   } catch (e) {

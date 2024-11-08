@@ -10,7 +10,8 @@ import {
 } from "./app/utils/data";
 
 export async function middleware(request: NextRequest) {
-  const slackId = await getSession().then((p) => p?.slackId);
+  const session = await getSession();
+  const slackId = session?.slackId;
 
   const response = NextResponse.next();
   if (!slackId) return response;
@@ -28,7 +29,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     if (!request.cookies.get("waka")) {
-      const wakaData = await fetchWaka();
+      const wakaData = await fetchWaka(session);
       response.cookies.set({
         name: "waka",
         value: JSON.stringify(wakaData),
