@@ -342,7 +342,11 @@ export default function Ships({
         />
       </Modal>
 
-      <Modal isOpen={!!selectedShip} close={() => setSelectedShip(null)}>
+      <Modal
+        isOpen={!!selectedShip}
+        close={() => setSelectedShip(null)}
+        hideCloseButton={false}
+      >
         <Card
           className="relative w-full max-w-2xl"
           style={{
@@ -510,15 +514,6 @@ export default function Ships({
               </div>
             </CardContent>
           </div>
-
-          <motion.button
-            className="absolute top-2 right-2 p-1 rounded-full bg-white shadow-md z-20"
-            onClick={() => setSelectedShip(null)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Icon glyph="view-close" />
-          </motion.button>
         </Card>
       </Modal>
 

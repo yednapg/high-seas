@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "@hackclub/icons";
 import JaggedCard from "../jagged-card";
@@ -47,13 +47,20 @@ export default function Modal({
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
                   {hideCloseButton ? null : (
-                    <div
-                      id="modal-close-button"
-                      className="absolute top-4 right-4 cursor-pointer p-4 sm:p-6"
+                    <motion.button
+                      className="absolute top-2 right-2 p-1 rounded-full bg-blues shadow-md z-20 bg-opacity-30"
+                      style={{
+                        maskImage:
+                          "radial-gradient(circle, rgb(0, 0, 0) 0%, rgba(255,255,255,0) 100%)",
+                        WebkitMaskImage:
+                          "radial-gradient(circle, rgb(0, 0, 0) 0%, rgba(255,255,255,0) 100%)",
+                      }}
                       onClick={close}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <Icon glyph="view-close" />
-                    </div>
+                    </motion.button>
                   )}
                   {children}
                 </JaggedCard>
