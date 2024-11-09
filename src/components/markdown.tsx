@@ -22,6 +22,7 @@ export const markdownComponents: Components = {
   p: ({ ...props }) => <p className="mb-4" {...props} />,
   a: ({ ...props }) => (
     <a
+      target="_blank"
       className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
       {...props}
     />
