@@ -319,7 +319,6 @@ export default function Ships({
       <Modal
         isOpen={newShipVisible && session}
         close={() => setNewShipVisible(false)}
-        id="new-ship-form-container-card"
       >
         <NewShipForm
           ships={ships}
