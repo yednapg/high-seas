@@ -146,7 +146,7 @@ export async function generateMatchup(
     const weightedUnpaidProjects = unpaidProjects.map(p => ({
       project: p,
       // tbh, weights can be pretty simple, but this works fine
-      weight: 1 + (now - (new Date(p.created_time).getTime())) / (1000 * 60 * 60 * 24)
+      weight: 1 + (now - (new Date(p.ship_time).getTime())) / (1000 * 60 * 60 * 24)
     }));
     let totalWeight = weightedUnpaidProjects.reduce((sum, p) => sum + p.weight, 0);
     let random = (Math.random() * totalWeight)/2;
