@@ -22,29 +22,3 @@ import { getSession } from "../../utils/auth";
 //   const resJson = await res.json();
 //   return resJson.hasData === true;
 // }
-
-export async function markAcademyComplete() {
-  const session = await getSession();
-  if (!session) throw new Error("Mark academy complete not worky! :(");
-
-  const res = await fetch(
-    "https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people",
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-        "Content-Type": "application/json",
-        'User-Agent': 'highseas.hackclub.com (markAcademyComplete)'
-      },
-      body: JSON.stringify({
-        records: [
-          {
-            id: session.personId,
-            fields: { academy_completed: true },
-          },
-        ],
-      }),
-    }
-  ).then((d) => d.json());
-  console.log("RSNOTOESRNTESRNTITSRTF##33", res);
-}

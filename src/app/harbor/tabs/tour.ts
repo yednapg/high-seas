@@ -1,7 +1,6 @@
 import Shepherd, { Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
-import { markAcademyComplete } from "@/app/utils/wakatime-setup/tutorial-utils";
 import Cookies from "js-cookie";
 
 const waitForElement = (
@@ -98,7 +97,6 @@ function setupSteps(tourManager: Tour) {
 
   tourManager.on("complete", async () => {
     sessionStorage.setItem("tutorial", "false");
-    await markAcademyComplete();
     Cookies.remove("academy-completed"); // This will cause a refetch next page load.
   });
 
