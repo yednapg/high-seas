@@ -35,7 +35,6 @@ const setCookie = (name: string, value: string, days = 7, sameSite = 'strict') =
 };
 
 const getCookie = (name: string): string | null => {
-  console.log(document.cookie);
   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
   return match ? match[2] : null;
 };
@@ -53,7 +52,6 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
-  console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
   sessionStorage.setItem("tutorial", "true");
 
   const currentStepId = getCookie("tour-step");
@@ -76,7 +74,6 @@ export function tour() {
     hasSetUp = true;
   }
 
-  console.log(t.steps);
 }
 
 let signal, controller;
@@ -205,7 +202,6 @@ function setupSteps(tourManager: Tour) {
             "mousedown",
             () => {
               setTimeout(() => {
-                console.log(el.value);
                 if (el.value === "hack-club-site") {
                   document.querySelector(".multiselect-close-button")!.click();
                   tourManager.next();
@@ -319,7 +315,6 @@ function setupSteps(tourManager: Tour) {
       },
       beforeShowPromise: () =>
         new Promise((r) => {
-          console.log(document.querySelector("#staged-ships-container"));
           document
             .querySelector("#staged-ships-container")!
             .addEventListener("click", (e) => {
@@ -548,7 +543,6 @@ function setupSteps(tourManager: Tour) {
 
         btn.addEventListener("click", (e) => {
           e.preventDefault();
-          console.log("clicked!");
           setCookie("tour-step", "ts-signpost");
           location.pathname = "/api/buy/item_free_stickers_41";
         });
