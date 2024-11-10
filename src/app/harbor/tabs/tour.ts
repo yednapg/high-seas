@@ -61,6 +61,11 @@ export function tour() {
       window.location.href = requiredUrl;
       return;
     }
+
+    if (currentStepId.startsWith("ts-draft-field-")) {
+      setCookie("tour-step", "ts-draft-button");
+    }
+
   } else {
     if (window.location.pathname !== "/shipyard") {
       window.location.href = "/shipyard";
