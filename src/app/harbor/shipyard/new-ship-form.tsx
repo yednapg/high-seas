@@ -122,7 +122,11 @@ export default function NewShipForm({
   }));
 
   return (
-    <div {...props} style={{ maxHeight: "75vh", overflowY: "auto" }}>
+    <div {...props}
+      style={{ maxHeight: "75vh", overflowY: "auto" }}
+      id="new-ship-form-container-card"
+    >
+
       <h1 className="text-2xl font-bold mb-4">
         {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
