@@ -62,7 +62,7 @@ export function tour() {
       return;
     }
 
-    if (currentStepId.startsWith("ts-draft-field-")) {
+    if (currentStepId.startsWith("ts-draft-field-") || currentStepId === "ts-new-ship-explanation") {
       setCookie("tour-step", "ts-draft-button");
     }
 
