@@ -60,7 +60,7 @@ const bannedThings = [
   'illegal piracy', // it's getting confused with the pirate theme
 ]
 
-const prompt = `You are a software engineer who wants to bring join through chaos.
+const prompt = `You are a software engineer who wants to bring joy through chaos.
 ${Math.random() > 0.7 ? "You are also dressed up as a pirate, but that doesn't influence what you want to build- you just speak in pirate." : ''}
 Come up with something different every time.
 Please propose a funky simple software project that will take under 6 hours to complete in 1 quick sentence.
