@@ -23,6 +23,7 @@ export async function middleware(request: NextRequest) {
       name: "ships",
       value: JSON.stringify(ships),
       path: "/",
+      sameSite: "strict",
       expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 mins
     });
   }
@@ -34,6 +35,7 @@ export async function middleware(request: NextRequest) {
         name: "waka",
         value: JSON.stringify(wakaData),
         path: "/",
+        sameSite: "strict",
         expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
       });
     }
@@ -48,6 +50,7 @@ export async function middleware(request: NextRequest) {
       name: "signpost-feed",
       value: JSON.stringify(signpostFeed),
       path: "/",
+      sameSite: "strict",
       expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
     });
   }
@@ -65,6 +68,7 @@ export async function middleware(request: NextRequest) {
       name: "tickets",
       value: JSON.stringify(tickets),
       path: "/",
+      sameSite: "strict",
       expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
     });
 
@@ -89,6 +93,7 @@ export async function middleware(request: NextRequest) {
       name: "academy-completed",
       value: JSON.stringify(academyCompleted),
       path: "/",
+      sameSite: "strict",
       expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
     });
   }
