@@ -126,16 +126,14 @@ function setupSteps(tourManager: Tour) {
               <p>
                 right then, let's weigh anchor and hoist the mizzen!! here's how this works.
                 <br /><br />
-                the first step of being a pirate is to build yerself a ship. pirates <i>love</i> ships. let's take a look at how to draft one
+                the first step of being a pirate is to build yerself a ship. pirates <i>love</i> ships. let's take a look at how to draft one!!
               </p>
             </div>`,
       buttons: [{ text: "SGTM, buster", action: tourManager.next }],
     },
     {
       id: "ts-draft-button",
-      text: `scenario!!
-            <br/><br/>
-            ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
+      text: `ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
             <br/><br/>
             click that thar button…`,
       attachTo: {
