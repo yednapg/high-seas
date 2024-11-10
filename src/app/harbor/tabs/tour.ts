@@ -27,15 +27,14 @@ const waitForElement = (
   });
 };
 
-const setCookie = (name: string, value: string, days = 7) => {
+const setCookie = (name: string, value: string, days = 7, sameSite = 'strict') => {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
   const expires = `expires=${date.toUTCString()}`;
-  document.cookie = `${name}=${value};${expires};path=/`;
+  document.cookie = `${name}=${value};${expires};SameSite=${sameSite};path=/`;
 };
 
 const getCookie = (name: string): string | null => {
-  console.log(document.cookie);
   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
   return match ? match[2] : null;
 };
@@ -53,7 +52,6 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false;
 export function tour() {
-  console.log("[Justin Timberlake DUI mugshot] This is going to ruin the tour");
   sessionStorage.setItem("tutorial", "true");
 
   const currentStepId = getCookie("tour-step");
@@ -63,6 +61,11 @@ export function tour() {
       window.location.href = requiredUrl;
       return;
     }
+
+    if (currentStepId.startsWith("ts-draft-field-")) {
+      setCookie("tour-step", "ts-draft-button");
+    }
+
   } else {
     if (window.location.pathname !== "/shipyard") {
       window.location.href = "/shipyard";
@@ -76,7 +79,6 @@ export function tour() {
     hasSetUp = true;
   }
 
-  console.log(t.steps);
 }
 
 let signal, controller;
@@ -129,16 +131,14 @@ function setupSteps(tourManager: Tour) {
               <p>
                 right then, let's weigh anchor and hoist the mizzen!! here's how this works.
                 <br /><br />
-                the first step of being a pirate is to build yerself a ship. pirates <i>love</i> ships. let's take a look at how to draft one
+                the first step of being a pirate is to build yerself a ship. pirates <i>love</i> ships. let's take a look at how to draft one!!
               </p>
             </div>`,
       buttons: [{ text: "SGTM, buster", action: tourManager.next }],
     },
     {
       id: "ts-draft-button",
-      text: `scenario!!
-            <br/><br/>
-            ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
+      text: `ye have a project in the works. yer not ready to ship it, but ye want to see it drafted.
             <br/><br/>
             click that thar button…`,
       attachTo: {
@@ -205,7 +205,6 @@ function setupSteps(tourManager: Tour) {
             "mousedown",
             () => {
               setTimeout(() => {
-                console.log(el.value);
                 if (el.value === "hack-club-site") {
                   document.querySelector(".multiselect-close-button")!.click();
                   tourManager.next();
@@ -319,7 +318,6 @@ function setupSteps(tourManager: Tour) {
       },
       beforeShowPromise: () =>
         new Promise((r) => {
-          console.log(document.querySelector("#staged-ships-container"));
           document
             .querySelector("#staged-ships-container")!
             .addEventListener("click", (e) => {
@@ -548,7 +546,6 @@ function setupSteps(tourManager: Tour) {
 
         btn.addEventListener("click", (e) => {
           e.preventDefault();
-          console.log("clicked!");
           setCookie("tour-step", "ts-signpost");
           location.pathname = "/api/buy/item_free_stickers_41";
         });
