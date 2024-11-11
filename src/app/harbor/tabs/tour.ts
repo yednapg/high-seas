@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 const waitForElement = (
   selector: string,
-  callback = () => {},
+  callback = () => {}
 ): Promise<Element> => {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -27,7 +27,12 @@ const waitForElement = (
   });
 };
 
-const setCookie = (name: string, value: string, days = 7, sameSite = 'strict') => {
+const setCookie = (
+  name: string,
+  value: string,
+  days = 7,
+  sameSite = "strict"
+) => {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
   const expires = `expires=${date.toUTCString()}`;
@@ -62,10 +67,12 @@ export function tour() {
       return;
     }
 
-    if (currentStepId.startsWith("ts-draft-field-") || currentStepId === "ts-new-ship-explanation") {
+    if (
+      currentStepId.startsWith("ts-draft-field-") ||
+      currentStepId === "ts-new-ship-explanation"
+    ) {
       setCookie("tour-step", "ts-draft-button");
     }
-
   } else {
     if (window.location.pathname !== "/shipyard") {
       window.location.href = "/shipyard";
@@ -78,7 +85,6 @@ export function tour() {
     t.start();
     hasSetUp = true;
   }
-
 }
 
 let signal, controller;
@@ -198,7 +204,7 @@ function setupSteps(tourManager: Tour) {
           controller = new AbortController();
 
           const el: HTMLInputElement = document.querySelector(
-            "input#wakatime-project-name",
+            "input#wakatime-project-name"
           )!;
 
           document.addEventListener(
@@ -211,7 +217,7 @@ function setupSteps(tourManager: Tour) {
                 }
               }, 500);
             },
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           r();
         }),
@@ -262,7 +268,7 @@ function setupSteps(tourManager: Tour) {
           text: "a demo, aye!",
           action: () => {
             const el: HTMLInputElement = document.querySelector(
-              "#deployment-field input",
+              "#deployment-field input"
             )!;
             el.value = "https://hackclub.com";
             tourManager.next();
@@ -284,7 +290,7 @@ function setupSteps(tourManager: Tour) {
           text: "link please!",
           action: () => {
             const el: HTMLInputElement = document.querySelector(
-              "input#screenshot_url",
+              "input#screenshot_url"
             )!;
             el.value =
               "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png";
@@ -303,7 +309,7 @@ function setupSteps(tourManager: Tour) {
       advanceOn: {
         selector: "#new-ship-submit",
         event: "click",
-      }
+      },
     },
     {
       id: "ts-staged-ship-0",
@@ -455,9 +461,9 @@ function setupSteps(tourManager: Tour) {
           "#voting-project-left button#readme-button",
           () => {
             document.querySelector!(
-              "#voting-project-left button#readme-button",
+              "#voting-project-left button#readme-button"
             )?.setAttribute("disabled", "true");
-          },
+          }
         );
       },
       advanceOn: {
@@ -577,7 +583,7 @@ function setupSteps(tourManager: Tour) {
 
   if (currentStepId) {
     const currentStepIndex = steps.findIndex(
-      (step) => step.id === currentStepId,
+      (step) => step.id === currentStepId
     );
     if (currentStepIndex !== -1) {
       steps.splice(0, currentStepIndex);
