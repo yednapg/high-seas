@@ -304,6 +304,7 @@ function setupSteps(tourManager: Tour) {
         selector: "#new-ship-submit",
         event: "click",
       },
+      scrollTo: true
     },
     {
       id: "ts-staged-ship-0",
