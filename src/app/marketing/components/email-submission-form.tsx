@@ -30,23 +30,24 @@ export default function EmailSubmissionForm() {
         setTimeout(() => {
           setErrorText(undefined);
           formRef.current?.reset();
-        }, 2_500),
+        }, 2_500)
       );
       return;
-    } else if (!validEmail(emailStr)) {
+    }
+    if (!validEmail(emailStr)) {
       setErrorText("You need to enter a valid email.");
       sT(
         setTimeout(() => {
           setErrorText(undefined);
           formRef.current?.reset();
-        }, 2_500),
+        }, 2_500)
       );
       return;
     }
 
     const ua = navigator?.userAgent;
     const mobile = !!ua?.toLowerCase().includes("mobile");
-    const urlParams = window?.location?.search || '';
+    const urlParams = window?.location?.search || "";
 
     await Promise.all([
       handleEmailSubmission(emailStr, mobile, ua, urlParams),
@@ -92,24 +93,31 @@ export default function EmailSubmissionForm() {
         </AnimatePresence>
       </div>
 
-      <Modal isOpen={email} close={() => setEmail(null)}>
+      <Modal isOpen={!!email} close={() => setEmail(undefined)}>
         <div className="flex flex-col gap-12">
           <div className="space-y-4">
             <p className="text-3xl">Ahoy!</p>
             <p className="text-xl mb-4">
-                   We can't wait for you to join High Seas! We're under heavy demand
-          right now, so it may take some time to get through the queue.
-          <br></br>
-          <br></br>
-          <b>Look out for an email from Slack—<i>that's your ticket in!</i> </b>
-          When it comes, we strongly recommend joining from the computer you code on.
-          <br></br>
-          <br></br>
-          Hang tight and we'll see you soon 🏴‍☠️
+              We can't wait for you to join High Seas! We're under heavy demand
+              right now, so it may take some time to get through the queue.
+              <br />
+              <br />
+              <b>
+                Look out for an email from Slack—<i>that's your ticket in!</i>{" "}
+              </b>
+              When it comes, we strongly recommend joining from the computer you
+              code on.
+              <br />
+              <br />
+              Hang tight and we'll see you soon 🏴‍☠️
             </p>
           </div>
-          <img src="/party-orpheus.svg" className="w-1/2 mx-auto" />
-          <Button onClick={() => setEmail(null)}>Aye aye!</Button>
+          <img
+            src="/party-orpheus.svg"
+            className="w-1/2 mx-auto"
+            alt="Party Orpheus"
+          />
+          <Button onClick={() => setEmail(undefined)}>Aye aye!</Button>
         </div>
       </Modal>
     </>
@@ -120,5 +128,5 @@ export const validEmail = (email: string): boolean =>
   !!String(email)
     .toLowerCase()
     .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
