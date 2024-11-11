@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 import { getAllProjects } from "../../../../../lib/battles/airtable";
 import { generateMatchup } from "../../../../../lib/battles/matchupGenerator";
 import { Ships } from "../../../../../types/battles/airtable";
-import Redis from "ioredis";
+// import Redis from "ioredis";
 import { getSession } from "@/app/utils/auth";
-const redis = new Redis(process.env.REDIS_URL as string, {
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+// const redis = new Redis(process.env.REDIS_URL as string, {
+//   tls: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
-const CACHE_DURATION = 5;
+// const CACHE_DURATION = 5;
 export const dynamic = "force-dynamic";
 
 async function getCachedProjects(): Promise<Ships[]> {
