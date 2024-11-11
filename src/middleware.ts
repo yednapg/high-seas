@@ -37,12 +37,16 @@ export async function middleware(request: NextRequest) {
     console.log("Checking for waka cookie");
     if (!request.cookies.get("waka")) {
       const wakaData = await fetchWaka(session);
+      let expiration = 60 * 60 * 1000; // In 1 hour
+      if (wakaData?.hasHb) {
+        expiration = 7 * 24 * 60 * 60 * 1000; // In 7 days
+      }
       response.cookies.set({
         name: "waka",
         value: JSON.stringify(wakaData),
         path: "/",
         sameSite: "strict",
-        expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
+        expires: new Date(Date.now() + expiration),
       });
     }
   } catch (e) {
@@ -85,29 +89,33 @@ export async function middleware(request: NextRequest) {
         expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
       });
 
-      try {
-        const verificationStatus = p["verification_status"][0];
-        const verificationReason = p["Rejection Reason"];
-        response.cookies.set({
-          name: "verification",
-          value: JSON.stringify({
-            status: verificationStatus,
-            reason: verificationReason,
-          }),
-          path: "/",
-          expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
-        });
-      } catch (e) {
-        console.warn("Verification cookie error:", e);
+      const verificationStatus = p["verification_status"][0];
+      const verificationReason = p["Rejection Reason"];
+      let verifExpiration = 5 * 60 * 1000;
+      if (verificationStatus.startsWith("Eligible")) {
+        verifExpiration = 24 * 60 * 60 * 1000; // In 1 day
       }
+      response.cookies.set({
+        name: "verification",
+        value: JSON.stringify({
+          status: verificationStatus,
+          reason: verificationReason,
+        }),
+        path: "/",
+        expires: new Date(Date.now() + verifExpiration),
+      });
 
       const academyCompleted = p["academy_completed"] === true;
+      let acadExpiration = 60 * 60 * 1000; // In 1 hour
+      if (academyCompleted) {
+        acadExpiration = 7 * 24 * 60 * 60 * 1000; // In 7 days
+      }
       response.cookies.set({
         name: "academy-completed",
         value: JSON.stringify(academyCompleted),
         path: "/",
         sameSite: "strict",
-        expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
+        expires: new Date(Date.now() + acadExpiration),
       });
     }
   } catch (e) {
