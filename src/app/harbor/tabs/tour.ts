@@ -43,7 +43,7 @@ const t = new Shepherd.Tour({
   useModalOverlay: true,
   keyboardNavigation: false,
   defaultStepOptions: {
-    scrollTo: false,
+    scrollTo: true,
     modalOverlayOpeningPadding: 4,
     floatingUIOptions: { middleware: [offset(16)] },
     classes: "shadow-md bg-purple-dark",
@@ -303,8 +303,7 @@ function setupSteps(tourManager: Tour) {
       advanceOn: {
         selector: "#new-ship-submit",
         event: "click",
-      },
-      scrollTo: true
+      }
     },
     {
       id: "ts-staged-ship-0",
