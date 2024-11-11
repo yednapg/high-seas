@@ -1,4 +1,4 @@
-import Shepherd, { Tour } from "shepherd.js";
+import Shepherd, { type Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
 import Cookies from "js-cookie";
@@ -110,6 +110,18 @@ function setupSteps(tourManager: Tour) {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Tab") e.preventDefault();
+  });
+
+  window.addEventListener("wheel", (event) => {
+    const target = document.querySelector(".shepherd-target");
+    if (target !== null) {
+      event.preventDefault();
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
   });
 
   // ts stands for «tour step»
