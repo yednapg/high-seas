@@ -26,7 +26,10 @@ export default function Modal({
               initial={{ opacity: 0, backdropFilter: "blur(0)" }}
               animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
               exit={{ opacity: 0, backdropFilter: "blur(0)" }}
-              style={{ willChange: "filter, transform", position: "fixed" }}
+              style={{
+                willChange: "filter, transform",
+                position: "fixed",
+              }}
               className="absolute inset-0 w-full"
               onClick={close}
               {...props}
