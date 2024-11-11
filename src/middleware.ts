@@ -17,26 +17,36 @@ export async function middleware(request: NextRequest) {
   if (!slackId) return response;
 
   // Ships base
-  if (!request.cookies.get("ships")) {
-    const ships = (await fetchShips(slackId, 3));
-    response.cookies.set({
-      name: "ships",
-      value: JSON.stringify(ships),
-      path: "/",
-      sameSite: "strict",
-      expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 mins
-    });
+  try {
+    const shipyardPage = request.nextUrl.pathname.startsWith("/shipyard");
+    if (shipyardPage && !request.cookies.get("ships")) {
+      const ships = (await fetchShips(slackId, 3));
+      response.cookies.set({
+        name: "ships",
+        value: JSON.stringify(ships),
+        path: "/",
+        sameSite: "strict",
+        expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 mins
+      });
+    }
+  } catch (e) {
+    console.log("Middleware errored on ships cookie step", e);
   }
 
   try {
+    console.log("Checking for waka cookie");
     if (!request.cookies.get("waka")) {
       const wakaData = await fetchWaka(session);
+      let expiration = 60 * 60 * 1000; // In 1 hour
+      if (wakaData?.hasHb) {
+        expiration = 7 * 24 * 60 * 60 * 1000; // In 7 days
+      }
       response.cookies.set({
         name: "waka",
         value: JSON.stringify(wakaData),
         path: "/",
         sameSite: "strict",
-        expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
+        expires: new Date(Date.now() + expiration),
       });
     }
   } catch (e) {
@@ -44,37 +54,47 @@ export async function middleware(request: NextRequest) {
   }
 
   // Signpost base
-  if (!request.cookies.get("signpost-feed")) {
-    const signpostFeed = await fetchSignpostFeed();
-    response.cookies.set({
-      name: "signpost-feed",
-      value: JSON.stringify(signpostFeed),
-      path: "/",
-      sameSite: "strict",
-      expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
-    });
+  try {
+    console.log("Checking for signpost-feed cookie");
+    const signpostPage = request.nextUrl.pathname.startsWith("/signpost");
+    if (signpostPage && !request.cookies.get("signpost-feed")) {
+      const signpostFeed = await fetchSignpostFeed();
+      response.cookies.set({
+        name: "signpost-feed",
+        value: JSON.stringify(signpostFeed),
+        path: "/",
+        sameSite: "strict",
+        expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
+      });
+    }
+  } catch (e) {
+    console.log("Middleware errored on signpost-feed cookie step", e);
   }
 
   // Person base
-  if (
-    !request.cookies.get("tickets") ||
-    !request.cookies.get("verification") ||
-    !request.cookies.get("academy-completed")
-  ) {
-    const p = (await person()).fields;
+  try {
+    if (
+      !request.cookies.get("tickets") ||
+      !request.cookies.get("verification") ||
+      !request.cookies.get("academy-completed")
+    ) {
+      const p = (await person()).fields;
 
-    const tickets = Number(p["settled_tickets"]);
-    response.cookies.set({
-      name: "tickets",
-      value: JSON.stringify(tickets),
-      path: "/",
-      sameSite: "strict",
-      expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
-    });
+      const tickets = Number(p["settled_tickets"]);
+      response.cookies.set({
+        name: "tickets",
+        value: JSON.stringify(tickets),
+        path: "/",
+        sameSite: "strict",
+        expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
+      });
 
-    try {
       const verificationStatus = p["verification_status"][0];
       const verificationReason = p["Rejection Reason"];
+      let verifExpiration = 5 * 60 * 1000;
+      if (verificationStatus.startsWith("Eligible")) {
+        verifExpiration = 24 * 60 * 60 * 1000; // In 1 day
+      }
       response.cookies.set({
         name: "verification",
         value: JSON.stringify({
@@ -82,20 +102,24 @@ export async function middleware(request: NextRequest) {
           reason: verificationReason,
         }),
         path: "/",
-        expires: new Date(Date.now() + 5 * 60 * 1000), // In 5 minutes
+        expires: new Date(Date.now() + verifExpiration),
       });
-    } catch (e) {
-      console.warn("Verification cookie error:", e);
-    }
 
-    const academyCompleted = p["academy_completed"] === true;
-    response.cookies.set({
-      name: "academy-completed",
-      value: JSON.stringify(academyCompleted),
-      path: "/",
-      sameSite: "strict",
-      expires: new Date(Date.now() + 60 * 60 * 1000), // In 1 hour
-    });
+      const academyCompleted = p["academy_completed"] === true;
+      let acadExpiration = 60 * 60 * 1000; // In 1 hour
+      if (academyCompleted) {
+        acadExpiration = 7 * 24 * 60 * 60 * 1000; // In 7 days
+      }
+      response.cookies.set({
+        name: "academy-completed",
+        value: JSON.stringify(academyCompleted),
+        path: "/",
+        sameSite: "strict",
+        expires: new Date(Date.now() + acadExpiration),
+      });
+    }
+  } catch (e) {
+    console.log("Middleware errored on person cookie step", e);
   }
 
   return response;

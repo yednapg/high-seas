@@ -134,7 +134,7 @@ export async function person(): Promise<any> {
             "User-Agent": "highseas.hackclub.com (person)",
           },
         }
-      ).then((d) => d.json());
+      ).then((d) => d.json()).catch(console.error);
       if (!record) return reject("Person not found");
 
       resolve(record);
@@ -166,7 +166,7 @@ export async function fetchWaka(session: HsSession): Promise<{
 }> {
   const { slack_id, email, full_name, preexisting_user } = await person().then(
     (p) => p.fields
-  );
+  ).catch(console.error);
 
   const { username, key } = await createWaka(
     email,
