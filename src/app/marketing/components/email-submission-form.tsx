@@ -94,7 +94,10 @@ export default function EmailSubmissionForm() {
       </div>
 
       <Modal isOpen={!!email} close={() => setEmail(undefined)}>
-        <div className="flex flex-col gap-12">
+        <div
+          className="flex flex-col gap-12"
+          style={{ maxHeight: "75vh", overflowY: "auto" }}
+        >
           <div className="space-y-4">
             <p className="text-3xl">Ahoy!</p>
             <p className="text-xl mb-4">
