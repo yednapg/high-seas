@@ -73,11 +73,11 @@ api_key = ${wakaKey}`}
               <SinglePlatform os={userOs} wakaKey={wakaKey} />
               <h2 className="mt-6 text-xl">What exactly does the script do?</h2>
               <p className="mt-2">
-                This script installs and configures Hakatime, our custom fork of a
+                This script installs and configures Hackatime, our custom fork of a
                 popular open-source coding time-tracker called Wakatime.
                 First it tries to install the Wakatime extension for VS Code,
                 and then it installs a configuration file that tells the extension
-                to send your coding hours to the Hakatime server.
+                to send your coding hours to the Hackatime server.
                 <br></br>
                 <br></br>
                 If you don't use VS Code, run the script anyway and manually install the
@@ -114,7 +114,7 @@ api_key = ${wakaKey}`}
             className="underline cursor-pointer"
             onClick={() => setShowInstructions(true)}
           >
-            {"> Show Hakatime install instructions"}
+            {"> Show Hackatime install instructions"}
           </span>
         </p>
       )}

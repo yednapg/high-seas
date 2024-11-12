@@ -55,7 +55,7 @@ export default function Signpost() {
         .map((s) => Number(s))
     : null;
 
-  // Show or hide instructions for installing hakatime
+  // Show or hide instructions for installing Hackatime
   const [showInstructions, setShowInstructions] = useState(!hasHb);
 
   return (
@@ -95,7 +95,7 @@ export default function Signpost() {
               : "Project time loading..."}
             </>) : (
             <>
-              You have <b>NOT</b> set up Hakatime. Your hours are <b>not</b>{" "}
+              You have <b>NOT</b> set up Hackatime. Your hours are <b>not</b>{" "}
               being tracked!
             </>
           )}
@@ -109,7 +109,7 @@ export default function Signpost() {
         {wakaKey ? (
           <Platforms wakaKey={wakaKey} hasHb={hasHb} showInstructions={showInstructions} setShowInstructions={setShowInstructions} />
         ) : (
-          <p>Loading Hakatime token...</p>
+          <p>Loading Hackatime token...</p>
         )}
       </JaggedCard>
 

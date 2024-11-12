@@ -126,7 +126,7 @@ EOF
 }
 
 main() {
-    log "Starting Hakatime setup..."
+    log "Starting Hackatime setup..."
 
     check_command "curl"
 
@@ -140,7 +140,7 @@ main() {
     install_wakatime_extension
     send_heartbeat
 
-    echo "✨ Hakatime setup completed successfully!"
+    echo "✨ Hackatime setup completed successfully!"
     echo "You can now return to the setup page for further instructions."
 }
 

@@ -204,9 +204,9 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: "ts-draft-field-project",
-      text: `next ye link yer ship to <strong style='color: #ec3750;'>Hakatime</strong>, the Hack Club time-tracking tool. if ye haven't installed it yet… we'll get to that later.
+      text: `next ye link yer ship to <strong style='color: #ec3750;'>Hackatime</strong>, the Hack Club time-tracking tool. if ye haven't installed it yet… we'll get to that later.
             <br /><br />
-            select <strong style='color: #ec3750;'>hack-club-site</strong> from the dropdown. when ye start coding for real, yer Hakatime hours will magically appear here!!`,
+            select <strong style='color: #ec3750;'>hack-club-site</strong> from the dropdown. when ye start coding for real, yer Hackatime hours will magically appear here!!`,
       attachTo: {
         element: "#project-field",
         on: "top",
@@ -576,7 +576,7 @@ function setupSteps(tourManager: Tour) {
               <p>
                 and so concludes Pirate Academy. yer stickers will ship as soon as ye get verified (unless ye be previously verified with Hack Club). ye won't be able to ship projects until then, but the time to start building is now!!
                 <br/><br/>
-                <strong style="color:#ec3750;">ye just need to install Hakatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
+                <strong style="color:#ec3750;">ye just need to install Hackatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
                 <br/><br/>
                 good luck to ye 🫡
               </p>
