@@ -4,7 +4,7 @@
 set -e
 
 # Enable verbose logging if VERBOSE is set to true
-VERBOSE=false
+VERBOSE=${VERBOSE:-false}
 
 log() {
     if [ "$VERBOSE" = true ]; then
