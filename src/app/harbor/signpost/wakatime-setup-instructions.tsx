@@ -43,7 +43,7 @@ export default function WakatimeSetupInstructions({
             style={{ "-webkit-user-select": "none", userSelect: "none" }}
           >
             <p className="m-0 opacity-80">Step 1</p>
-            <p className="m-0 text-xl">{"Let's set up Hakatime!"}</p>
+            <p className="m-0 text-xl">{"Let's set up Hackatime!"}</p>
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default function WakatimeSetupInstructions({
                 <code>{session ? session?.slackId : "???"}</code>), and your
                 email is <code>{email ? email : "???"}</code>. {"You'll"} need
                 to request a password reset link (unless {"you've"} already
-                signed up for Hakatime!)
+                signed up for Hackatime!)
               </p>
             </Card>
           </motion.div>

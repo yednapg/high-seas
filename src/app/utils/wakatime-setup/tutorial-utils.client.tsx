@@ -65,7 +65,7 @@ export const SinglePlatform = ({
       <p className="inline-flex items-end gap-2 text-xl">
         <Icon glyph="terminal" size={26} />
         <span>
-          How to install Hakatime on {platform.label}:
+          How to install Hackatime on {platform.label}:
         </span>
       </p>
       <ol className="mt-2 list-inside list-decimal">

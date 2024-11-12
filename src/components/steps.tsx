@@ -1,7 +1,7 @@
 import Pill from "./ui/pill";
 
 const steps = [
-  { name: "Hakatime", done: true },
+  { name: "Hackatime", done: true },
   { name: "Ship", done: true },
   { name: "Vote", done: false },
   { name: "Prizes", done: false },

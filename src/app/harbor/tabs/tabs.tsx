@@ -168,7 +168,7 @@ export default function Harbor({
         {!hasHb ? (
           <JaggedCard className="!p-4">
             <p className="text-center text-white">
-              No Hakatime install detected. Have you run the script?{" "}
+              No Hackatime install detected. Have you run the script?{" "}
               <a className="underline" href="/signpost">
                 See the instructions at the Signpost.
               </a>

@@ -242,7 +242,7 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
   }
   if (!ship.wakatimeProjectNames) {
     throw new Error(
-      "You can't ship a Ship that has no Hakatime projects associated with it!"
+      "You can't ship a Ship that has no Hackatime projects associated with it!"
     );
   }
 
