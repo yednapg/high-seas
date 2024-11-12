@@ -2,7 +2,7 @@ import Shepherd, { type Tour } from "shepherd.js";
 import "./shepherd.css";
 import { offset } from "@floating-ui/dom";
 import Cookies from "js-cookie";
-import { fetchTutorialCompletionStatus } from "../../utils/airtable"; // P1f2d
+import { fetchTutorialCompletionStatus } from "../../utils/airtable";
 
 const waitForElement = (
   selector: string,
