@@ -127,8 +127,7 @@ export async function generateMatchup(
   const availableProjects = projects.filter(
     (p) =>
       !userVotedShips.has(p.autonumber?.toString()) &&
-      p.entrant__slack_id[0] !== userSlackId &&
-      (p.total_hours || 0) >= 1  // Filter out projects with less than 1 hour
+      p.entrant__slack_id[0] !== userSlackId
   );
 
   if (availableProjects.length < 2) return null;
