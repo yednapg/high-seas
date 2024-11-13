@@ -154,8 +154,7 @@ async function processLotteryJobs() {
   const highSeasChannelId = 'C07PZMBUNDS'
   await base('arrpheus_message_requests').create({
     message_text: `Each day, a newly signed up user will win a free Raspberry Pi Zero! Today's winner is...`,
-    // target_slack_id: highSeasChannelId,
-    target_slack_id: 'U0C7B14Q3',
+    target_slack_id: highSeasChannelId,
     requester_identifier: 'cron-job',
   })
 
@@ -174,42 +173,36 @@ async function processLotteryJobs() {
 
   // create the order
   const order = await base('shop_orders').create({
-    status: 'draft',
+    status: 'fresh',
     shop_item: ['recKV56D2PATOqK4W'],
     recipient: [winner?.id]
   })
 
   // send a DM to the winner
   const messageRequests = [{
-    message_text: `Hey, congrats <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉`,
-    // target_slack_id: winner?.fields['slack_id'],
-    target_slack_id: 'U0C7B14Q3',
+    message_text: `Hey, congrats <@${winner?.fields['slack_id']}>! You won today's free Raspberry Pi Zero! 🎉 We're shipping it to the same address as your sticker bundle.`,
+    target_slack_id: winner?.fields['slack_id'],
     requester_identifier: 'cron-job',
   }, {
-    message_text: `Congratulations to <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉`,
-    // target_slack_id: highSeasChannelId,
-    target_slack_id: 'U0C7B14Q3',
+    message_text: `Heads up, <@${winner?.fields['slack_id']}> won today's Raspberry Pi Zero! 🎉`,
+    target_slack_id: 'U0C7B14Q3', // notify msw for observability
+    requester_identifier: 'cron-job',
+  },{
+    message_text: `Congratulations to <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉 Every day a newly signed up person will get one.`,
+    target_slack_id: highSeasChannelId,
     requester_identifier: 'cron-job',
   }]
 
-  // const messagePromise = base('arrpheus_message_requests').create(messageRequests[0])
-  const messagePromise = await base('arrpheus_message_requests').create({
-    message_text: `Each day, a newly signed up user will win a free Raspberry Pi Zero! Today's winner is...`,
-    // target_slack_id: highSeasChannelId,
-    target_slack_id: 'U0C7B14Q3',
-    requester_identifier: 'cron-job',
-  })
+  const messagePromise = base('arrpheus_message_requests').create(messageRequests.map(m => ({fields: m})))
 
-  const _upsert = await sql`
+  const upsert = await sql`
   UPDATE background_job
   SET status='completed',
     output=${JSON.stringify(order)}
     WHERE type='run_lottery'
     AND status='pending'`
 
-  console.log({rows})
-    console.log("Lottery job completed", _upsert)
-
+  await Promise.all([upsert, messagePromise])
 }
 export async function processBackgroundJobs() {
   await Promise.all([
