@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/every-minute",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/every-day",
+      "schedule": "0 18 * * *"
     }
   ]
 }
