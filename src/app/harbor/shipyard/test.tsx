@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const FullScreenOverlay = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   const toggleOverlay = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
     // Toggle scrolling on body
-    document.body.style.overflow = isOpen ? "auto" : "hidden";
-  };
+    document.body.style.overflow = isOpen ? 'auto' : 'hidden'
+  }
 
   return (
     <div>
@@ -46,7 +46,7 @@ const FullScreenOverlay = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FullScreenOverlay;
+export default FullScreenOverlay

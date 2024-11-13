@@ -1,19 +1,22 @@
-"use client";
+'use client'
 
-import React from "react";
-import Marquee from "react-fast-marquee";
-import Image from "next/image";
+import React from 'react'
+import Marquee from 'react-fast-marquee'
+import Image from 'next/image'
 
-import Photo1 from "../marquee/1.jpeg";
-import Photo2 from "../marquee/2.png";
-import Photo3 from "../marquee/3.jpeg";
-import Photo4 from "../marquee/4.jpeg";
-import Photo5 from "../marquee/5.jpeg";
+import Photo1 from '../marquee/1.jpeg'
+import Photo2 from '../marquee/2.png'
+import Photo3 from '../marquee/3.jpeg'
+import Photo4 from '../marquee/4.jpeg'
+import Photo5 from '../marquee/5.jpeg'
 
 export default function ScrollShopReversed() {
   return (
     <Marquee autoFill pauseOnHover direction="right" speed="75">
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://cloud-a823iqif6-hack-club-bot.vercel.app/0image.png"
           alt="Photo 1"
@@ -23,7 +26,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png"
           alt="Photo 2"
@@ -33,7 +39,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://cloud-1e0x3bwfz-hack-club-bot.vercel.app/0image.png"
           alt="Photo 3"
@@ -43,7 +52,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png"
           alt="Photo 4"
@@ -53,7 +65,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png"
           alt="Photo 5"
@@ -63,7 +78,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png"
           alt="Photo 5"
@@ -73,7 +91,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png"
           alt="Photo 5"
@@ -83,7 +104,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://noras-secret-cdn.hackclub.dev/shop/ipad.png"
           alt="Photo 5"
@@ -93,7 +117,10 @@ export default function ScrollShopReversed() {
           objectFit="cover"
         />
       </div>
-      <div style={{ width: "200px", margin: "0 10px" }} className="border-dashed border-4 border-blue-800 p-4">
+      <div
+        style={{ width: '200px', margin: '0 10px' }}
+        className="border-dashed border-4 border-blue-800 p-4"
+      >
         <Image
           src="https://noras-secret-cdn.hackclub.dev/shop/fw_13.png"
           alt="Photo 5"
@@ -104,5 +131,5 @@ export default function ScrollShopReversed() {
         />
       </div>
     </Marquee>
-  );
+  )
 }

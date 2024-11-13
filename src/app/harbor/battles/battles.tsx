@@ -1,42 +1,42 @@
-"use client";
+'use client'
 
-import { useState, useEffect, useMemo, useRef } from "react";
-import { Ships } from "../../../../types/battles/airtable";
-import Icon from "@hackclub/icons";
-import Pill from "@/components/ui/pill";
-import Link from "next/link";
-import Image from "next/image";
-import ReactMarkdown, { Components } from "react-markdown";
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { Ships } from '../../../../types/battles/airtable'
+import Icon from '@hackclub/icons'
+import Pill from '@/components/ui/pill'
+import Link from 'next/link'
+import Image from 'next/image'
+import ReactMarkdown, { Components } from 'react-markdown'
 
-import { LoadingSpinner } from "../../../components/ui/loading_spinner.js";
-import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
-import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useToast } from "@/hooks/use-toast";
-import { HsSession } from "@/app/utils/auth";
+import { LoadingSpinner } from '../../../components/ui/loading_spinner.js'
+import { getVotesRemainingForNextPendingShip } from '@/app/utils/airtable'
+import useLocalStorageState from '../../../../lib/useLocalStorageState'
+import { useToast } from '@/hooks/use-toast'
+import { HsSession } from '@/app/utils/auth'
 
-import SpeechToText from "@/components/speech-to-text";
+import SpeechToText from '@/components/speech-to-text'
 
 interface Matchup {
-  project1: Ships;
-  project2: Ships;
-  signature: string;
-  ts: number;
+  project1: Ships
+  project2: Ships
+  signature: string
+  ts: number
 }
 
 interface ProjectCardProps {
-  key: number;
-  project: Ships;
-  onVote: () => void;
-  onReadmeClick: () => void;
+  key: number
+  project: Ships
+  onVote: () => void
+  onReadmeClick: () => void
 }
 
 const notFoundImages = [
-  "https://cloud-6laa73jem-hack-club-bot.vercel.app/0not_found5.png",
-  "https://cloud-6laa73jem-hack-club-bot.vercel.app/1not_found4.png",
-  "https://cloud-6laa73jem-hack-club-bot.vercel.app/2not_found3.png",
-  "https://cloud-6laa73jem-hack-club-bot.vercel.app/3not_found2.png",
-  "https://cloud-6laa73jem-hack-club-bot.vercel.app/4not_found1.png",
-];
+  'https://cloud-6laa73jem-hack-club-bot.vercel.app/0not_found5.png',
+  'https://cloud-6laa73jem-hack-club-bot.vercel.app/1not_found4.png',
+  'https://cloud-6laa73jem-hack-club-bot.vercel.app/2not_found3.png',
+  'https://cloud-6laa73jem-hack-club-bot.vercel.app/3not_found2.png',
+  'https://cloud-6laa73jem-hack-club-bot.vercel.app/4not_found1.png',
+]
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   key,
@@ -45,12 +45,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onReadmeClick,
 }) => {
   const notFoundImage = useMemo(() => {
-    return notFoundImages[Math.floor(Math.random() * notFoundImages.length)];
-  }, []);
+    return notFoundImages[Math.floor(Math.random() * notFoundImages.length)]
+  }, [])
   const imageStyle = {
     backgroundImage: `url(${notFoundImage})`,
-    backgroundSize: "cover",
-  };
+    backgroundSize: 'cover',
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
@@ -120,8 +120,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const markdownComponents: Components = {
   h1: ({ ...props }) => (
@@ -156,14 +156,14 @@ const markdownComponents: Components = {
     <div className="mb-4">
       <img
         src={src}
-        alt={alt || ""}
+        alt={alt || ''}
         className="rounded-lg shadow-md"
         {...props}
       />
     </div>
   ),
   code: ({ className, children, ...props }) => {
-    const match = /language-(\w+)/.exec(className || "");
+    const match = /language-(\w+)/.exec(className || '')
     return match ? (
       <pre className="bg-gray-100 dark:bg-gray-700 rounded p-4 overflow-x-auto">
         <code className={className} {...props}>
@@ -177,7 +177,7 @@ const markdownComponents: Components = {
       >
         {children}
       </code>
-    );
+    )
   },
   blockquote: ({ ...props }) => (
     <blockquote
@@ -205,32 +205,32 @@ const markdownComponents: Components = {
       {...props}
     />
   ),
-};
+}
 
 export default function Matchups({ session }: { session: HsSession }) {
-  const [matchup, setMatchup] = useState<Matchup | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [selectedProject, setSelectedProject] = useState<Ships | null>(null);
-  const [reason, setReason] = useState("");
-  const [fewerThanTenWords, setFewerThanTenWords] = useState(true);
-  const [error, setError] = useState("");
-  const [readmeContent, setReadmeContent] = useState("");
-  const [isReadmeView, setIsReadmeView] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [matchup, setMatchup] = useState<Matchup | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [selectedProject, setSelectedProject] = useState<Ships | null>(null)
+  const [reason, setReason] = useState('')
+  const [fewerThanTenWords, setFewerThanTenWords] = useState(true)
+  const [error, setError] = useState('')
+  const [readmeContent, setReadmeContent] = useState('')
+  const [isReadmeView, setIsReadmeView] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // const turnstileRef = useRef(null);
   // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const [voteBalance, setVoteBalance] = useLocalStorageState<number>(
-    "cache.voteBalance",
-    0
-  );
+    'cache.voteBalance',
+    0,
+  )
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   useEffect(() => {
-    setFewerThanTenWords(reason.trim().split(" ").length < 10);
-  }, [reason]);
+    setFewerThanTenWords(reason.trim().split(' ').length < 10)
+  }, [reason])
 
   // useEffect(() => {
   //   if (turnstileRef.current) {
@@ -258,96 +258,96 @@ export default function Matchups({ session }: { session: HsSession }) {
   // }, [selectedProject]);
 
   const fetchVoteBalance = async () => {
-    setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId));
-  };
+    setVoteBalance(await getVotesRemainingForNextPendingShip(session.slackId))
+  }
 
   const fetchMatchup = async (
-    { retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 }
+    { retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 },
   ) => {
-    setLoading(true);
+    setLoading(true)
     try {
       // require at least 1.25 seconds of loading time for full loop of loading animations
       const [response, _] = await Promise.all([
-        fetch("/api/battles/matchups"),
+        fetch('/api/battles/matchups'),
         new Promise((r) => setTimeout(r, 1250)),
-      ]);
+      ])
       if (response.ok) {
-        const data: Matchup = await response.json();
-        setMatchup(data);
+        const data: Matchup = await response.json()
+        setMatchup(data)
       } else {
-        console.error("Failed to fetch matchup");
+        console.error('Failed to fetch matchup')
 
         toast({
-          title: "Failed to fetch a new thing to vote on.",
-          description: "Retrying automatically...",
-        });
+          title: 'Failed to fetch a new thing to vote on.',
+          description: 'Retrying automatically...',
+        })
 
         setTimeout(
           () =>
             fetchMatchup({
               retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2),
             }),
-          retryTimeout
-        );
+          retryTimeout,
+        )
       }
     } catch (error) {
-      console.error("Error fetching matchup:", error);
+      console.error('Error fetching matchup:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchMatchup();
-    fetchVoteBalance();
-  }, []);
+    fetchMatchup()
+    fetchVoteBalance()
+  }, [])
 
   const handleAudioTranscription = (transcript: string) => {
-    setReason(reason + transcript);
-  };
+    setReason(reason + transcript)
+  }
 
   const handleVoteClick = (project: Ships) => {
-    setSelectedProject(project);
+    setSelectedProject(project)
 
-    if (sessionStorage.getItem("tutorial") === "true") {
+    if (sessionStorage.getItem('tutorial') === 'true') {
       setReason(
-        "I really love the simple art style and I think overall it's a highly creative project, even though the other one might be a bit more technical!"
-      );
+        "I really love the simple art style and I think overall it's a highly creative project, even though the other one might be a bit more technical!",
+      )
     } else {
-      setReason("");
+      setReason('')
     }
 
-    setError("");
-  };
+    setError('')
+  }
 
   const handleVoteSubmit = async () => {
-    if (reason.split(" ").length < 10) {
-      setError("Please provide a reason with at least 10 words.");
-      return;
+    if (reason.split(' ').length < 10) {
+      setError('Please provide a reason with at least 10 words.')
+      return
     }
 
-    if (sessionStorage.getItem("tutorial") === "true") {
-      setSelectedProject(null);
-      setReason("");
-      fetchMatchup();
-      fetchVoteBalance();
-      setIsSubmitting(false);
-      return;
+    if (sessionStorage.getItem('tutorial') === 'true') {
+      setSelectedProject(null)
+      setReason('')
+      fetchMatchup()
+      fetchVoteBalance()
+      setIsSubmitting(false)
+      return
     }
 
     if (selectedProject && matchup && session) {
-      setIsSubmitting(true);
+      setIsSubmitting(true)
       try {
-        const slackId = session.slackId;
-        const winner = selectedProject;
+        const slackId = session.slackId
+        const winner = selectedProject
         const loser =
           selectedProject.id === matchup.project1.id
             ? matchup.project2
-            : matchup.project1;
+            : matchup.project1
 
-        const response = await fetch("/api/battles/vote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch('/api/battles/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             signature: matchup.signature,
             ts: matchup.ts,
@@ -361,7 +361,7 @@ export default function Matchups({ session }: { session: HsSession }) {
             loserRating: loser.rating,
             // turnstileToken,
           }),
-        });
+        })
 
         if (response.ok) {
           // const json = await response.json();
@@ -370,35 +370,35 @@ export default function Matchups({ session }: { session: HsSession }) {
           //   return;
           // }
 
-          setSelectedProject(null);
-          setReason("");
-          fetchMatchup();
-          fetchVoteBalance();
+          setSelectedProject(null)
+          setReason('')
+          fetchMatchup()
+          fetchVoteBalance()
         } else {
-          const errorData = await response.json();
-          setError(`Failed to submit vote: ${errorData.error}`);
+          const errorData = await response.json()
+          setError(`Failed to submit vote: ${errorData.error}`)
         }
       } catch (error) {
-        console.error("Error submitting vote:", error);
+        console.error('Error submitting vote:', error)
         setError(
-          "An error occurred while submitting your vote. Please try again."
-        );
+          'An error occurred while submitting your vote. Please try again.',
+        )
       } finally {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
       }
     }
-  };
+  }
 
   const handleReadmeClick = async (project: Ships) => {
     try {
-      const response = await fetch(project.readme_url);
-      const content = await response.text();
-      setReadmeContent(content);
-      setIsReadmeView(true);
+      const response = await fetch(project.readme_url)
+      const content = await response.text()
+      setReadmeContent(content)
+      setIsReadmeView(true)
     } catch (error) {
-      console.error("Error fetching README:", error);
+      console.error('Error fetching README:', error)
     }
-  };
+  }
 
   if (isReadmeView) {
     return (
@@ -417,7 +417,7 @@ export default function Matchups({ session }: { session: HsSession }) {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -436,7 +436,7 @@ export default function Matchups({ session }: { session: HsSession }) {
 
           {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
-              {voteBalance} more vote{voteBalance == 1 ? "" : "s"} until your
+              {voteBalance} more vote{voteBalance == 1 ? '' : 's'} until your
               next ship's payout!
             </div>
           )}
@@ -507,14 +507,14 @@ export default function Matchups({ session }: { session: HsSession }) {
                   id="submit-vote"
                   onClick={handleVoteSubmit}
                   disabled={
-                    isSubmitting || reason.trim().split(" ").length < 10
+                    isSubmitting || reason.trim().split(' ').length < 10
                   }
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 mr-3 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
-                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
-                  {reason.trim().split(" ").length < 10 ? (
-                    `${10 - reason.trim().split(" ").length} words left...`
+                  {reason.trim().split(' ').length < 10 ? (
+                    `${10 - reason.trim().split(' ').length} words left...`
                   ) : isSubmitting ? (
                     <>
                       <svg
@@ -540,7 +540,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                       Submitting...
                     </>
                   ) : (
-                    "Submit Vote"
+                    'Submit Vote'
                   )}
                 </button>
                 <SpeechToText handleResults={handleAudioTranscription} />
@@ -550,5 +550,5 @@ export default function Matchups({ session }: { session: HsSession }) {
         )}
       </div>
     </div>
-  );
+  )
 }

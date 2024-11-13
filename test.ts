@@ -1,22 +1,22 @@
 export const getSelfPerson = async (slackId: string) => {
-  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`;
-  const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`);
+  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`
+  const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`)
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
-    method: "GET",
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-      "Content-Type": "application/json",
-      'User-Agent': 'highseas.hackclub.com (tests)'
+      'Content-Type': 'application/json',
+      'User-Agent': 'highseas.hackclub.com (tests)',
     },
-  });
+  })
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`HTTP error! status: ${response.status}`)
   }
 
-  const data = await response.json();
-  return data.records[0];
-};
+  const data = await response.json()
+  return data.records[0]
+}
 
-const r = await getSelfPerson("U07TETATJE7");
+const r = await getSelfPerson('U07TETATJE7')
 console.log(r)

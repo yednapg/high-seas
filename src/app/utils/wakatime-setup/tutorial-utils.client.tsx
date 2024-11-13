@@ -1,72 +1,70 @@
-"use client";
+'use client'
 
-import React from "react";
-import Icon from "@hackclub/icons";
-import { Button } from "../../../components/ui/button";
+import React from 'react'
+import Icon from '@hackclub/icons'
+import { Button } from '../../../components/ui/button'
 
-export type Os = "windows" | "macos" | "linux" | "unknown";
+export type Os = 'windows' | 'macos' | 'linux' | 'unknown'
 export const getInstallCommand = (platform: string, wakaKey: string) => {
-  const currentBaseUrl = window.location.origin;
+  const currentBaseUrl = window.location.origin
   switch (platform) {
-    case "windows":
+    case 'windows':
       return {
-        label: "Windows",
-        application: "PowerShell",
+        label: 'Windows',
+        application: 'PowerShell',
         installScript: `${currentBaseUrl}/scripts/hackatime-install.ps1`,
         command: `$env:BEARER_TOKEN="${wakaKey}"; iex (curl ${currentBaseUrl}/scripts/hackatime-install.ps1)`,
-        lang: "powershell",
-      };
-    case "macos":
+        lang: 'powershell',
+      }
+    case 'macos':
       return {
-        label: "MacOS ",
-        application: "Terminal",
+        label: 'MacOS ',
+        application: 'Terminal',
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
-        lang: "bash",
-      };
-    case "linux":
+        lang: 'bash',
+      }
+    case 'linux':
       return {
-        label: "Linux",
-        application: "Terminal",
+        label: 'Linux',
+        application: 'Terminal',
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
-        lang: "bash",
-      };
+        lang: 'bash',
+      }
     default:
       return {
-        label: "Unknown Platform",
-        application: "a shell",
+        label: 'Unknown Platform',
+        application: 'a shell',
         installScript: `${currentBaseUrl}/scripts/hackatime-install.sh`,
         command: `export BEARER_TOKEN="${wakaKey}" && curl -fsSL ${currentBaseUrl}/scripts/hackatime-install.sh | bash`,
-        lang: "bash",
-      };
+        lang: 'bash',
+      }
   }
-};
+}
 
 export const osFromAgent = (): Os => {
-  const ua = window.navigator.userAgent.toLowerCase();
-  if (ua.includes("win")) return "windows";
-  if (ua.includes("mac")) return "macos";
-  if (ua.includes("linux")) return "linux";
-  return "unknown";
-};
+  const ua = window.navigator.userAgent.toLowerCase()
+  if (ua.includes('win')) return 'windows'
+  if (ua.includes('mac')) return 'macos'
+  if (ua.includes('linux')) return 'linux'
+  return 'unknown'
+}
 
 export const SinglePlatform = ({
   os,
   wakaKey,
 }: {
-  os: Os;
-  wakaKey: string;
+  os: Os
+  wakaKey: string
 }) => {
-  const platform = getInstallCommand(os, wakaKey);
+  const platform = getInstallCommand(os, wakaKey)
 
   return (
     <div className="w-full mt-4">
       <p className="inline-flex items-end gap-2 text-xl">
         <Icon glyph="terminal" size={26} />
-        <span>
-          How to install Hakatime on {platform.label}:
-        </span>
+        <span>How to install Hackatime on {platform.label}:</span>
       </p>
       <ol className="mt-2 list-inside list-decimal">
         <li>Open {platform.application} on the computer you use to code</li>
@@ -91,8 +89,10 @@ export const SinglePlatform = ({
         </div>
       </div>
       <p className="italic mt-3 text-sm">
-        <a href={platform.installScript} className="underline">source code for this script</a>
+        <a href={platform.installScript} className="underline">
+          source code for this script
+        </a>
       </p>
     </div>
-  );
-};
+  )
+}

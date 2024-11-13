@@ -1,41 +1,41 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import { deleteShip, updateShip } from "./ship-utils";
-import type { Ship } from "@/app/utils/data";
-import { useToast } from "@/hooks/use-toast";
-import Icon from "@hackclub/icons";
-import { useState } from "react";
+import { Button, buttonVariants } from '@/components/ui/button'
+import { deleteShip, updateShip } from './ship-utils'
+import type { Ship } from '@/app/utils/data'
+import { useToast } from '@/hooks/use-toast'
+import Icon from '@hackclub/icons'
+import { useState } from 'react'
 
 const editMessages = [
-  "Orpheus hopes you know that she put a lot of effort into recording your changes~",
-  "Heidi scribbles down your changes hastily...",
+  'Orpheus hopes you know that she put a lot of effort into recording your changes~',
+  'Heidi scribbles down your changes hastily...',
   "Orpheus put your Ship changes in the logbook. They're going nowhere, rest assured.",
-];
+]
 
 const deleteMessages = [
-  "is no more!",
-  "has been struck from the logbook",
-  "has been lost to time...",
-];
+  'is no more!',
+  'has been struck from the logbook',
+  'has been lost to time...',
+]
 
 export default function EditShipForm({
   ship,
   closeForm,
   setShips,
 }: {
-  ship: Ship;
-  closeForm: () => void;
-  setShips: any;
+  ship: Ship
+  closeForm: () => void
+  setShips: any
 }) {
-  const [deleting, setDeleting] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false)
+  const [saving, setSaving] = useState(false)
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const handleSubmit = async (e) => {
-    setSaving(true);
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const formValues = Object.fromEntries(formData.entries());
+    setSaving(true)
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const formValues = Object.fromEntries(formData.entries())
 
     const newShip: Ship = {
       ...ship,
@@ -47,63 +47,63 @@ export default function EditShipForm({
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
       screenshotUrl: formValues.screenshotUrl as string,
-    };
-    console.log("updating...", formValues, ship, newShip);
-    await updateShip(newShip);
+    }
+    console.log('updating...', formValues, ship, newShip)
+    await updateShip(newShip)
 
     if (setShips) {
-      console.log("Set ships is passed! Updating ship with ID", newShip.id);
+      console.log('Set ships is passed! Updating ship with ID', newShip.id)
 
       setShips((previousShips: Ship[]) => {
-        console.log("the previous ships were", previousShips);
+        console.log('the previous ships were', previousShips)
         const newShips = previousShips.map((s: Ship) =>
-          s.id === newShip.id ? newShip : s
-        );
+          s.id === newShip.id ? newShip : s,
+        )
 
-        setSaving(false);
-        return newShips;
-      });
+        setSaving(false)
+        return newShips
+      })
     } else {
-      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+      console.error("Updated a ship but can't setShips bc you didn't pass it.")
     }
-    closeForm();
+    closeForm()
 
     toast({
-      title: "Ship updated!",
+      title: 'Ship updated!',
       description:
         editMessages[Math.floor(Math.random() * editMessages.length)],
-    });
+    })
 
-    setSaving(false);
-  };
+    setSaving(false)
+  }
 
   const handleDelete = async (e) => {
-    setDeleting(true);
+    setDeleting(true)
 
-    e.preventDefault();
-    console.log("trying to delete ", ship.id, ship.title);
-    await deleteShip(ship.id);
+    e.preventDefault()
+    console.log('trying to delete ', ship.id, ship.title)
+    await deleteShip(ship.id)
 
     if (setShips) {
-      console.log(`Deleted ${ship.title} (${ship.id})`);
+      console.log(`Deleted ${ship.title} (${ship.id})`)
 
       setShips((previousShips: Ship[]) =>
-        previousShips.filter((s: Ship) => s.id !== ship.id)
-      );
+        previousShips.filter((s: Ship) => s.id !== ship.id),
+      )
     } else {
-      console.error("Deleted a ship but can't setShips bc you didn't pass it.");
+      console.error("Deleted a ship but can't setShips bc you didn't pass it.")
     }
-    closeForm();
+    closeForm()
 
     toast({
-      title: "Ship deleted!",
-      description: `${ship.shipType === "update" ? "Your update to " : ""}${
+      title: 'Ship deleted!',
+      description: `${ship.shipType === 'update' ? 'Your update to ' : ''}${
         ship.title
       } ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
-    });
+    })
 
-    setDeleting(false);
-  };
+    setDeleting(false)
+  }
 
   return (
     <form
@@ -182,7 +182,7 @@ export default function EditShipForm({
       <div className="flex justify-between">
         <Button
           id="submit"
-          className={buttonVariants({ variant: "default" })}
+          className={buttonVariants({ variant: 'default' })}
           type="submit"
           disabled={saving}
         >
@@ -191,7 +191,7 @@ export default function EditShipForm({
         </Button>
 
         <Button
-          className={`${buttonVariants({ variant: "destructive" })} ml-auto`}
+          className={`${buttonVariants({ variant: 'destructive' })} ml-auto`}
           onClick={handleDelete}
           disabled={deleting}
         >
@@ -200,5 +200,5 @@ export default function EditShipForm({
         </Button>
       </div>
     </form>
-  );
+  )
 }

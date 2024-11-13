@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-import { withPlausibleProxy }from 'next-plausible';
+import { withPlausibleProxy } from 'next-plausible'
 
 const nextConfig = {
   typescript: {
@@ -12,10 +12,10 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "avatars.slack-edge.com" },
-      { protocol: "https", hostname: "**" },
+      { protocol: 'https', hostname: 'avatars.slack-edge.com' },
+      { protocol: 'https', hostname: '**' },
     ],
   },
-};
+}
 
-export default withPlausibleProxy()(nextConfig);
+export default withPlausibleProxy()(nextConfig)

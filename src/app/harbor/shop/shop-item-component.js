@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
 import {
   Card,
@@ -6,26 +6,26 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useMemo } from "react";
-import { cantAffordWords, purchaseWords, sample } from "../../../../lib/flavor";
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { useMemo } from 'react'
+import { cantAffordWords, purchaseWords, sample } from '../../../../lib/flavor'
 
 const ActionArea = ({ item, filterIndex, affordable }) => {
-  const buyWord = useMemo(() => sample(purchaseWords), [item.id]);
-  const getYourRacksUp = useMemo(() => sample(cantAffordWords), [item.id]);
+  const buyWord = useMemo(() => sample(purchaseWords), [item.id])
+  const getYourRacksUp = useMemo(() => sample(cantAffordWords), [item.id])
 
   if (filterIndex == 0) {
-    return <Button disabled={true}>pick a region to buy!</Button>;
+    return <Button disabled={true}>pick a region to buy!</Button>
   }
   if (item.comingSoon) {
-    return <Button disabled={true}>🕑 coming soon...</Button>;
+    return <Button disabled={true}>🕑 coming soon...</Button>
   }
   if (item.outOfStock) {
-    return <Button disabled={true}>out of stock...</Button>;
+    return <Button disabled={true}>out of stock...</Button>
   }
   if (!affordable) {
-    return <Button disabled={true}>💸 {getYourRacksUp}</Button>;
+    return <Button disabled={true}>💸 {getYourRacksUp}</Button>
   }
   return (
     <form action={`/api/buy/${item.id}`} className="w-full">
@@ -33,8 +33,8 @@ const ActionArea = ({ item, filterIndex, affordable }) => {
         {buyWord}
       </Button>
     </form>
-  );
-};
+  )
+}
 
 export const ShopItemComponent = ({
   item,
@@ -46,7 +46,7 @@ export const ShopItemComponent = ({
     whileHover: {
       scale: 1.05,
     },
-  };
+  }
 
   return (
     <motion.div {...cardHoverProps}>
@@ -63,7 +63,7 @@ export const ShopItemComponent = ({
           <hr />
           <p
             className="text-sm text-gray-600 mt-1"
-            dangerouslySetInnerHTML={{ __html: item.subtitle ?? "" }}
+            dangerouslySetInnerHTML={{ __html: item.subtitle ?? '' }}
           ></p>
 
           <span className="text-green-500 font-semibold flex items-center">
@@ -101,5 +101,5 @@ export const ShopItemComponent = ({
         </CardFooter>
       </Card>
     </motion.div>
-  );
-};
+  )
+}

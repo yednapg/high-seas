@@ -1,41 +1,41 @@
-"use client";
+'use client'
 
-import React, { useMemo, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Shipyard from "../shipyard/shipyard";
-import Battles from "../battles/battles";
-import Shop from "../shop/shop";
-import { useEffect } from "react";
-import SignPost from "../signpost/signpost";
-import { type SafePerson, safePerson } from "../../utils/airtable";
+import React, { useMemo, useState } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import Shipyard from '../shipyard/shipyard'
+import Battles from '../battles/battles'
+import Shop from '../shop/shop'
+import { useEffect } from 'react'
+import SignPost from '../signpost/signpost'
+import { type SafePerson, safePerson } from '../../utils/airtable'
 // import { WakaLock } from "../../../components/ui/waka-lock";
-import { tour } from "./tour";
-import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useRouter } from "next/navigation";
-import { getSession, type HsSession } from "@/app/utils/auth";
+import { tour } from './tour'
+import useLocalStorageState from '../../../../lib/useLocalStorageState'
+import { useRouter } from 'next/navigation'
+import { getSession, type HsSession } from '@/app/utils/auth'
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/ui/popover";
-import { sample, zeroMessage } from "../../../../lib/flavor";
-import Cookies from "js-cookie";
-import JaggedCard from "@/components/jagged-card";
+} from '@/components/ui/popover'
+import { sample, zeroMessage } from '../../../../lib/flavor'
+import Cookies from 'js-cookie'
+import JaggedCard from '@/components/jagged-card'
 
 const Balance = () => {
-  "use client";
+  'use client'
 
-  const [open, setOpen] = useState(false);
-  const brokeMessage = useMemo(() => sample(zeroMessage), []);
+  const [open, setOpen] = useState(false)
+  const brokeMessage = useMemo(() => sample(zeroMessage), [])
 
-  const balance = Number(Cookies.get("tickets"));
+  const balance = Number(Cookies.get('tickets'))
   if (Number.isNaN(balance)) {
     getSession().then((s) =>
       console.error(
-        "Ticket balance is NaN, which signals an issue with the ticket fetching from Airtable in middleware. Session: ",
-        JSON.stringify(s)
-      )
-    );
+        'Ticket balance is NaN, which signals an issue with the ticket fetching from Airtable in middleware. Session: ',
+        JSON.stringify(s),
+      ),
+    )
   }
 
   return (
@@ -52,7 +52,7 @@ const Balance = () => {
             className="w-4 sm:w-5 h-4 sm:h-5"
           />
           <span className="mr-2">
-            {balance || balance === 0 ? Math.floor(balance) : "..."}
+            {balance || balance === 0 ? Math.floor(balance) : '...'}
             <span className="sm:inline hidden"> Doubloons</span>
           </span>
         </div>
@@ -63,8 +63,8 @@ const Balance = () => {
         </div>
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}
 
 const LoadingOverlay = () => {
   return (
@@ -74,42 +74,42 @@ const LoadingOverlay = () => {
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mx-auto"></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default function Harbor({
   currentTab,
   session,
 }: {
-  currentTab: string;
-  session: HsSession;
+  currentTab: string
+  session: HsSession
 }) {
   // default to true so we don't flash a warning at the user
-  const [hasHb, setHasHb] = useLocalStorageState<boolean>("cache.hasHb", true);
+  const [hasHb, setHasHb] = useLocalStorageState<boolean>('cache.hasHb', true)
   // All the content management for all the tabs goes here.
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleTabChange = (newTab: string) => {
-    router.push(`/${newTab}`); // Navigate to the new tab slug
-  };
+    router.push(`/${newTab}`) // Navigate to the new tab slug
+  }
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    let academyCompleted;
+    let academyCompleted
 
     try {
-      academyCompleted = JSON.parse(Cookies.get("academy-completed"));
+      academyCompleted = JSON.parse(Cookies.get('academy-completed'))
     } catch (e) {
-      console.error(e);
-      academyCompleted = false;
+      console.error(e)
+      academyCompleted = false
     }
 
     if (!academyCompleted) {
-      tour();
+      tour()
     }
-  }, []);
+  }, [])
 
   // useEffect(() => {
   //   const initializeHarbor = async () => {
@@ -139,27 +139,27 @@ export default function Harbor({
   const tabs = [
     {
       name: <>Signpost</>,
-      path: "signpost",
+      path: 'signpost',
       component: <SignPost session={session} />,
     },
     {
       name: <>Shipyard</>,
-      path: "shipyard",
+      path: 'shipyard',
       component: <Shipyard session={session} />,
       lockOnNoHb: true,
     },
     {
       name: <>Wonderdome</>,
-      path: "wonderdome",
+      path: 'wonderdome',
       component: <Battles session={session} />,
       lockOnNoHb: true,
     },
     {
       name: <>Shop</>,
-      path: "shop",
+      path: 'shop',
       component: <Shop session={session} />,
     },
-  ];
+  ]
 
   return (
     <>
@@ -168,7 +168,7 @@ export default function Harbor({
         {!hasHb ? (
           <JaggedCard className="!p-4">
             <p className="text-center text-white">
-              No Hakatime install detected. Have you run the script?{" "}
+              No Hackatime install detected. Have you run the script?{' '}
               <a className="underline" href="/signpost">
                 See the instructions at the Signpost.
               </a>
@@ -211,5 +211,5 @@ export default function Harbor({
         </Tabs>
       </div>
     </>
-  );
+  )
 }

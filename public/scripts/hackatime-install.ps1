@@ -1,4 +1,4 @@
-Write-Host "Starting Hakatime setup..."
+Write-Host "Starting Hackatime setup..."
 
 # Check if BEARER_TOKEN is set
 if (-not $env:BEARER_TOKEN) {
@@ -81,5 +81,5 @@ for ($i = 1; $i -le 2; $i++) {
 }
 
 Write-Host ""
-Write-Host "$([char]8730) Hakatime setup completed successfully!"
+Write-Host "$([char]8730) Hackatime setup completed successfully!"
 Write-Host "You can now return to the setup page for further instructions."

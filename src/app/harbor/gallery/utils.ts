@@ -1,36 +1,38 @@
-"use server";
+'use server'
 
-import { Ship } from "../shipyard/ship-utils";
+import { Ship } from '../shipyard/ship-utils'
 
 interface AirtableShipRow {
-  id: string;
+  id: string
   fields: {
-    title: string;
-    readme_url: string;
-    repo_url: string;
-    screenshot_url: string;
-    hours: number;
-    rating: number;
-  };
+    title: string
+    readme_url: string
+    repo_url: string
+    screenshot_url: string
+    hours: number
+    rating: number
+  }
 }
 
 export async function getShips(offset: string | undefined): Promise<{
-  ships: Ship[];
-  offset: string | undefined;
+  ships: Ship[]
+  offset: string | undefined
 }> {
   const res = await fetch(
-    `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?view=Grid%20view${offset ? `&offset=${offset}` : ""}`,
-    { headers: {
-      Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-      'User-Agent': 'highseas.hackclub.com (getShips)'
-    } },
-  );
-  let data;
+    `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/ships?view=Grid%20view${offset ? `&offset=${offset}` : ''}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'User-Agent': 'highseas.hackclub.com (getShips)',
+      },
+    },
+  )
+  let data
   try {
-    data = await res.json();
+    data = await res.json()
   } catch (e) {
-    console.error(e, await res.text());
-    throw e;
+    console.error(e, await res.text())
+    throw e
   }
 
   // TODO: Error checking
@@ -43,11 +45,11 @@ export async function getShips(offset: string | undefined): Promise<{
       repoUrl: r.fields.repo_url,
       screenshotUrl: r.fields.screenshot_url,
       rating: r.fields.rating,
-    };
-  });
+    }
+  })
 
   return {
     ships,
     offset: data.offset,
-  };
+  }
 }
