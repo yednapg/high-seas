@@ -163,6 +163,10 @@ export async function generateMatchup(
     const hourRange = project1Hours * 0.5; // Chris, setting this to 50% but can bring it down to 30% if we want
     
     const similarHourProjects = paidProjects.filter(p => {
+      // Filter out projects with identical repos
+      if (project1.repo_url == p.repo_url)
+        return false;
+
       const hours = p.total_hours || 0;
       return Math.abs(hours - project1Hours) <= hourRange;
     });
@@ -193,6 +197,10 @@ export async function generateMatchup(
     const hourRange = project1Hours * 0.5;
     
     const similarHourProjects = shuffled.slice(1).filter(p => {
+      // Filter out projects with identical repos
+      if (project1.repo_url == p.repo_url)
+        return false;
+      
       const hours = p.total_hours || 0;
       return Math.abs(hours - project1Hours) <= hourRange;
     });
