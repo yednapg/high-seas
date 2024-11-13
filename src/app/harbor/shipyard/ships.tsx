@@ -126,7 +126,10 @@ export default function Ships({
       }
     }
 
-    setShippedShips(Array.from(shippedShipsMap.values()) as Ship[])
+    const sortedShips = Array.from(shippedShipsMap.values()).sort(
+      (a, b) => new Date(b?.createdTime) - new Date(a?.createdTime),
+    ) as Ship[]
+    setShippedShips(sortedShips)
   }, [ships])
 
   // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
