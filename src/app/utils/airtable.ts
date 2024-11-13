@@ -153,6 +153,6 @@ export async function safePerson(): Promise<SafePerson> {
 }
 
 export const fetchTutorialCompletionStatus = async (): Promise<boolean> => {
-  const person = await getSelfPerson(slackId);
-  return person.fields.academy_completed === true;
-};
+  const person = await getSelfPerson(slackId)
+  return person.fields.academy_completed === true
+}
