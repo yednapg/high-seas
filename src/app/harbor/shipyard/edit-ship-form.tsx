@@ -220,7 +220,7 @@ export default function EditShipForm({
             >
               NNONNO WAIT ヽ(O_O )ﾉ
             </Button>
-            <Button onClick={handleDelete}>Yes {'ദ്ദി(｡•̀ ,<)~✩‧₊'}</Button>
+            <Button onClick={handleDelete} className={`${buttonVariants({ variant: 'destructive' })}>Yes {'ദ്ദി(｡•̀ ,<)~✩‧₊'}</Button>
           </div>
         </div>
       </Modal>
