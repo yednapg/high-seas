@@ -1,4 +1,4 @@
-import { Components } from "react-markdown";
+import { Components } from 'react-markdown'
 
 export const markdownComponents: Components = {
   h1: ({ ...props }) => (
@@ -34,14 +34,14 @@ export const markdownComponents: Components = {
     <div className="mb-4">
       <img
         src={src}
-        alt={alt || ""}
+        alt={alt || ''}
         className="rounded-lg shadow-md"
         {...props}
       />
     </div>
   ),
   code: ({ className, children, ...props }) => {
-    const match = /language-(\w+)/.exec(className || "");
+    const match = /language-(\w+)/.exec(className || '')
     return match ? (
       <pre className="bg-gray-100 dark:bg-gray-700 rounded p-4 overflow-x-auto">
         <code className={className} {...props}>
@@ -55,7 +55,7 @@ export const markdownComponents: Components = {
       >
         {children}
       </code>
-    );
+    )
   },
   blockquote: ({ ...props }) => (
     <blockquote
@@ -83,4 +83,4 @@ export const markdownComponents: Components = {
       {...props}
     />
   ),
-};
+}

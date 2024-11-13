@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast'
 import {
   Toast,
   ToastClose,
@@ -8,8 +8,8 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport as OriginalToastViewport,
-} from "@/components/ui/toast"
-import React from "react"
+} from '@/components/ui/toast'
+import React from 'react'
 
 // Memoize the ToastViewport component to prevent unnecessary re-renders
 const ToastViewport = React.memo(OriginalToastViewport)

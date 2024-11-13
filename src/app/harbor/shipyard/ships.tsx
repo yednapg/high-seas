@@ -1,154 +1,154 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { stagedToShipped } from "./ship-utils";
-import type { Ship } from "@/app/utils/data";
-import Image from "next/image";
-import Icon from "@hackclub/icons";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import { markdownComponents } from "@/components/markdown";
-import { Button, buttonVariants } from "@/components/ui/button";
-import NewShipForm from "./new-ship-form";
-import EditShipForm from "./edit-ship-form";
-import { getSession } from "@/app/utils/auth";
-import Link from "next/link";
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { stagedToShipped } from './ship-utils'
+import type { Ship } from '@/app/utils/data'
+import Image from 'next/image'
+import Icon from '@hackclub/icons'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import { markdownComponents } from '@/components/markdown'
+import { Button, buttonVariants } from '@/components/ui/button'
+import NewShipForm from './new-ship-form'
+import EditShipForm from './edit-ship-form'
+import { getSession } from '@/app/utils/auth'
+import Link from 'next/link'
 
-import ShipPillCluster from "@/components/ui/ship-pill-cluster";
-import NoImgDino from "/public/no-img-dino.png";
-import NoImgBanner from "/public/no-img-banner.png";
-import ReadmeHelperImg from "/public/readme-helper.png";
-import NewUpdateForm from "./new-update-form";
-import Modal from "../../../components/ui/modal";
+import ShipPillCluster from '@/components/ui/ship-pill-cluster'
+import NoImgDino from '/public/no-img-dino.png'
+import NoImgBanner from '/public/no-img-banner.png'
+import ReadmeHelperImg from '/public/readme-helper.png'
+import NewUpdateForm from './new-update-form'
+import Modal from '../../../components/ui/modal'
 
 export default function Ships({
   ships = [],
   bareShips = false,
   setShips,
 }: {
-  ships: Ship[];
-  bareShips: boolean;
-  setShips: any;
+  ships: Ship[]
+  bareShips: boolean
+  setShips: any
 }) {
-  const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
+  const [selectedShip, setSelectedShip] = useState<Ship | null>(null)
   const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
-    null
-  );
+    null,
+  )
 
-  const [readmeText, setReadmeText] = useState<string | null>(null);
-  const [newShipVisible, setNewShipVisible] = useState(false);
-  const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null);
-  const [session, setSession] = useState<HsSession | null>(null);
-  const [isEditingShip, setIsEditingShip] = useState(false);
-  const [errorModal, setErrorModal] = useState<string>();
-  const canvasRef = useRef(null);
+  const [readmeText, setReadmeText] = useState<string | null>(null)
+  const [newShipVisible, setNewShipVisible] = useState(false)
+  const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null)
+  const [session, setSession] = useState<HsSession | null>(null)
+  const [isEditingShip, setIsEditingShip] = useState(false)
+  const [errorModal, setErrorModal] = useState<string>()
+  const canvasRef = useRef(null)
 
-  const [isShipping, setIsShipping] = useState(false);
+  const [isShipping, setIsShipping] = useState(false)
 
-  const [shipChains, setShipChains] = useState<Map<string, string[]>>();
+  const [shipChains, setShipChains] = useState<Map<string, string[]>>()
 
   useEffect(() => {
-    getSession().then((sesh) => setSession(sesh));
-  }, []);
+    getSession().then((sesh) => setSession(sesh))
+  }, [])
 
   useEffect(() => {
     setSelectedShip((s: Ship | null) => {
-      if (!s) return null;
-      return ships.find((x) => x.id === s.id) || null;
-    });
-  }, [ships]);
+      if (!s) return null
+      return ships.find((x) => x.id === s.id) || null
+    })
+  }, [ships])
 
   useEffect(() => {
     // I.e. if the user has just edited a ship
-    if (previousSelectedShip && selectedShip) return;
+    if (previousSelectedShip && selectedShip) return
 
     // Only invalidate the README text when you go from <<ship selected>> to <<no ship selected>>
     if (!selectedShip) {
-      setReadmeText(null);
-      setIsEditingShip(false);
+      setReadmeText(null)
+      setIsEditingShip(false)
     }
 
     if (selectedShip) {
-      fetchReadme();
+      fetchReadme()
     }
 
-    setPreviousSelectedShip(selectedShip);
-  }, [selectedShip]);
+    setPreviousSelectedShip(selectedShip)
+  }, [selectedShip])
 
   const fetchReadme = async () => {
     if (selectedShip && !readmeText) {
       try {
-        const text = await fetch(selectedShip.readmeUrl).then((d) => d.text());
-        setReadmeText(text);
+        const text = await fetch(selectedShip.readmeUrl).then((d) => d.text())
+        setReadmeText(text)
       } catch (error) {
-        console.error("Failed to fetch README:", error);
-        setReadmeText("?");
+        console.error('Failed to fetch README:', error)
+        setReadmeText('?')
       }
     }
-  };
+  }
 
   const stagedShips = useMemo(
-    () => ships.filter((ship: Ship) => ship.shipStatus === "staged"),
-    [ships]
-  );
+    () => ships.filter((ship: Ship) => ship.shipStatus === 'staged'),
+    [ships],
+  )
 
-  const [shippedShips, setShippedShips] = useState<Ship[]>([]);
+  const [shippedShips, setShippedShips] = useState<Ship[]>([])
 
   useEffect(() => {
     const localShippedShips = ships.filter(
       (ship: Ship) =>
-        ship.shipStatus === "shipped" && ship.shipType === "project"
-    );
+        ship.shipStatus === 'shipped' && ship.shipType === 'project',
+    )
 
     const localUpdateShips = ships.filter(
       (ship: Ship) =>
-        ship.shipStatus === "shipped" && ship.shipType === "update"
-    );
+        ship.shipStatus === 'shipped' && ship.shipType === 'update',
+    )
 
     // Consolidate projects and updates in a Map to handle "reshipping" logic efficiently
     const shippedShipsMap = new Map(
-      localShippedShips.map((ship) => [ship.id, { ...ship }])
-    );
+      localShippedShips.map((ship) => [ship.id, { ...ship }]),
+    )
 
     for (const update of localUpdateShips) {
-      const reshippedFromId = update.reshippedFromId;
-      const updateCopy = { ...update };
+      const reshippedFromId = update.reshippedFromId
+      const updateCopy = { ...update }
 
       if (reshippedFromId && shippedShipsMap.has(reshippedFromId)) {
-        const originalShip = shippedShipsMap.get(reshippedFromId);
+        const originalShip = shippedShipsMap.get(reshippedFromId)
         shippedShipsMap.set(reshippedFromId, {
           ...updateCopy,
           doubloonPayout:
             updateCopy.doubloonPayout + (originalShip?.doubloonPayout || 0),
-        });
+        })
       } else {
-        shippedShipsMap.set(updateCopy.id, updateCopy);
+        shippedShipsMap.set(updateCopy.id, updateCopy)
       }
     }
 
-    setShippedShips(Array.from(shippedShipsMap.values()) as Ship[]);
-  }, [ships]);
+    setShippedShips(Array.from(shippedShipsMap.values()) as Ship[])
+  }, [ships])
 
   // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
   useEffect(() => {
-    const newShipChains = new Map<string, string[]>();
+    const newShipChains = new Map<string, string[]>()
     for (const ship of shippedShips) {
-      const wakatimeProjectName = ship.wakatimeProjectNames.join(",");
+      const wakatimeProjectName = ship.wakatimeProjectNames.join(',')
       if (ship.reshippedAll) {
-        newShipChains.set(wakatimeProjectName, ship.reshippedAll);
+        newShipChains.set(wakatimeProjectName, ship.reshippedAll)
       }
     }
-    setShipChains(newShipChains);
-  }, [shippedShips]);
+    setShipChains(newShipChains)
+  }, [shippedShips])
 
   const SingleShip = ({
     s,
     id,
     setNewShipVisible,
   }: {
-    s: Ship;
-    id: string;
-    setNewShipVisible: any;
+    s: Ship
+    id: string
+    setNewShipVisible: any
   }) => (
     <div
       key={s.id}
@@ -164,7 +164,7 @@ export default function Ships({
               alt={`Screenshot of ${s.title}`}
               className="object-cover w-full h-full absolute top-0 left-0 rounded"
               onError={({ target }) => {
-                target.src = NoImgDino.src;
+                target.src = NoImgDino.src
               }}
             />
           </div>
@@ -184,42 +184,42 @@ export default function Ships({
 
         {bareShips ? null : (
           <div className="mt-4 sm:mt-0 sm:ml-auto">
-            {s.shipStatus === "staged" ? (
+            {s.shipStatus === 'staged' ? (
               <Button
                 id="ship-ship"
                 onClick={async (e) => {
-                  e.stopPropagation();
-                  console.log("Shipping", s);
+                  e.stopPropagation()
+                  console.log('Shipping', s)
 
                   try {
-                    setIsShipping(true);
-                    await stagedToShipped(s, ships);
-                    location.reload();
+                    setIsShipping(true)
+                    await stagedToShipped(s, ships)
+                    location.reload()
                   } catch (err: unknown) {
                     if (err instanceof Error) {
-                      setErrorModal(err.message);
+                      setErrorModal(err.message)
                     } else {
-                      setErrorModal(String(err));
+                      setErrorModal(String(err))
                     }
                   } finally {
-                    setIsShipping(false);
+                    setIsShipping(false)
                   }
                 }}
                 disabled={isShipping}
               >
-                {isShipping ? "Shipping..." : "SHIP SHIP!"}
+                {isShipping ? 'Shipping...' : 'SHIP SHIP!'}
               </Button>
             ) : s.paidOut ? (
               !stagedShips.find(
                 (stagedShip) =>
-                  stagedShip.wakatimeProjectNames.join(",") ===
-                  s.wakatimeProjectNames.join(",")
+                  stagedShip.wakatimeProjectNames.join(',') ===
+                  s.wakatimeProjectNames.join(','),
               ) ? (
                 <Button
                   onClick={async (e) => {
-                    e.stopPropagation();
-                    console.log("Shipping an update...", s);
-                    setNewUpdateShip(s);
+                    e.stopPropagation()
+                    console.log('Shipping an update...', s)
+                    setNewUpdateShip(s)
                   }}
                 >
                   Ship an update!
@@ -234,7 +234,7 @@ export default function Ships({
         )}
       </Card>
     </div>
-  );
+  )
 
   return (
     <>
@@ -246,11 +246,11 @@ export default function Ships({
       {bareShips ? null : (
         <motion.div
           className="w-fit mx-auto mb-0 mt-3"
-          whileHover={{ rotate: "-5deg", scale: 1.02 }}
+          whileHover={{ rotate: '-5deg', scale: 1.02 }}
         >
           <Button
             className="text-xl text-white"
-            style={{ background: "#D236E2" }}
+            style={{ background: '#D236E2' }}
             id="start-ship-draft"
             onClick={() => setNewShipVisible(true)}
           >
@@ -282,7 +282,7 @@ export default function Ships({
 
       <div className="w-full relative">
         {shippedShips.length > 0 ? (
-          <div className={`space-y-4 ${bareShips ? "" : "mt-8"}`}>
+          <div className={`space-y-4 ${bareShips ? '' : 'mt-8'}`}>
             {bareShips ? null : (
               <h2 className="text-center text-2xl text-blue-500">
                 Shipped Ships
@@ -349,8 +349,8 @@ export default function Ships({
         <Card
           className="relative w-full max-w-2xl"
           style={{
-            maxHeight: "75vh",
-            overflowY: "auto",
+            maxHeight: '75vh',
+            overflowY: 'auto',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -364,7 +364,7 @@ export default function Ships({
               unoptimized
               sizes="4rem"
               onError={({ target }) => {
-                target.src = NoImgBanner.src;
+                target.src = NoImgBanner.src
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
@@ -392,7 +392,7 @@ export default function Ships({
                     id="selected-ship-play-button"
                     className="flex items-center flex-grow"
                     target="_blank"
-                    href={selectedShip?.deploymentUrl || "#"}
+                    href={selectedShip?.deploymentUrl || '#'}
                     prefetch={false}
                   >
                     <Button
@@ -407,7 +407,7 @@ export default function Ships({
                     id="selected-ship-repo-button"
                     target="_blank"
                     className={`${buttonVariants({
-                      variant: "outline",
+                      variant: 'outline',
                     })} h-full`}
                     href={selectedShip?.repoUrl}
                     prefetch={false}
@@ -418,7 +418,7 @@ export default function Ships({
                   <Button
                     id="selected-ship-edit-button"
                     className={`${buttonVariants({
-                      variant: "outline",
+                      variant: 'outline',
                     })} w-fit p-2 h-full text-black`}
                     onClick={() => setIsEditingShip((p) => !p)}
                   >
@@ -436,13 +436,13 @@ export default function Ships({
                       }}
                       animate={{
                         opacity: 1,
-                        height: "fit-content",
+                        height: 'fit-content',
                       }}
                       exit={{
                         opacity: 0,
                         height: 0,
                       }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      transition={{ duration: 0.2, ease: 'easeInOut' }}
                     >
                       <Card className="p-2 mt-2 bg-neutral-100">
                         <EditShipForm
@@ -462,7 +462,7 @@ export default function Ships({
                   />
                 </motion.div>
 
-                {selectedShip?.shipType === "update" ? (
+                {selectedShip?.shipType === 'update' ? (
                   <>
                     <hr className="my-5" />
                     <div>
@@ -476,15 +476,15 @@ export default function Ships({
 
                 {readmeText ? (
                   <div className="prose max-w-none">
-                    {readmeText === "?" ? (
+                    {readmeText === '?' ? (
                       <div className="p-2 text-center">
                         <p>RAHHHH! You entered a bad README URL.</p>
                         <p className="text-xs">
                           Bestie you gotta click <code>Raw</code> on your README
                           and then copy the URL
                           <br />
-                          (it should start with{" "}
-                          <code>raw.githubusercontent.com</code> and end in{" "}
+                          (it should start with{' '}
+                          <code>raw.githubusercontent.com</code> and end in{' '}
                           <code>.md</code>)
                         </p>
                         <Image
@@ -532,5 +532,5 @@ export default function Ships({
         </Button>
       </Modal>
     </>
-  );
+  )
 }

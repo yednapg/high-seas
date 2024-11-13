@@ -1,20 +1,20 @@
-"use server";
+'use server'
 
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getSession, HsSession } from "./auth";
-import { fetchWaka } from "./data";
+import { cookies, headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { getSession, HsSession } from './auth'
+import { fetchWaka } from './data'
 
-const WAKA_API_KEY = process.env.WAKA_API_KEY;
+const WAKA_API_KEY = process.env.WAKA_API_KEY
 export interface WakaSignupResponse {
-  created: boolean;
-  api_key: string;
+  created: boolean
+  api_key: string
 }
 
 // Deprecated??
 export interface WakaInfo {
-  username: string;
-  key: string;
+  username: string
+  key: string
 }
 
 // Moved
@@ -125,9 +125,9 @@ export interface WakaInfo {
 export async function createWaka(
   email: string,
   name: string | null | undefined,
-  slackId: string | null | undefined
+  slackId: string | null | undefined,
 ): Promise<WakaInfo> {
-  const password = crypto.randomUUID();
+  const password = crypto.randomUUID()
 
   // if (!slackId) {
   //   const err = new Error("No slack ID found while trying to create WakaTime");
@@ -136,77 +136,77 @@ export async function createWaka(
   // }
 
   const payload = {
-    location: "America/New_York",
+    location: 'America/New_York',
     email,
     password,
     password_repeat: password,
-    name: name ?? "Unkown",
+    name: name ?? 'Unkown',
     username:
-      slackId ?? `$high-seas-provisional-${email.replace("+", "$plus$")}`,
-  };
-
-  const signup = await fetch("https://waka.hackclub.com/signup", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${WAKA_API_KEY}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams(payload),
-  });
-
-  let signupResponse: WakaSignupResponse;
-  try {
-    signupResponse = await signup.json();
-  } catch (e) {
-    console.error(e);
-    throw e;
+      slackId ?? `$high-seas-provisional-${email.replace('+', '$plus$')}`,
   }
 
-  const { created, api_key } = signupResponse;
+  const signup = await fetch('https://waka.hackclub.com/signup', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${WAKA_API_KEY}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams(payload),
+  })
 
-  const username = payload.username;
+  let signupResponse: WakaSignupResponse
+  try {
+    signupResponse = await signup.json()
+  } catch (e) {
+    console.error(e)
+    throw e
+  }
 
-  return { username, key: api_key };
+  const { created, api_key } = signupResponse
+
+  const username = payload.username
+
+  return { username, key: api_key }
 }
 
 export async function getWakaSessions(interval?: string): Promise<{
-  projects: { key: string; total: number }[];
+  projects: { key: string; total: number }[]
 }> {
-  const session = await getSession();
-  if (!session) throw new Error("No session found");
-  const slackId = session.slackId;
+  const session = await getSession()
+  if (!session) throw new Error('No session found')
+  const slackId = session.slackId
 
-  const { username, key } = await fetchWaka(session);
+  const { username, key } = await fetchWaka(session)
 
   if (!username || !key) {
     const err = new Error(
-      "While getting sessions, no waka info could be found or created"
-    );
-    console.error(err);
-    throw err;
+      'While getting sessions, no waka info could be found or created',
+    )
+    console.error(err)
+    throw err
   }
 
   const summaryRes = await fetch(
     `https://waka.hackclub.com/api/summary?interval=${
-      interval || "high_seas"
+      interval || 'high_seas'
     }&user=${slackId}&recompute=true`,
     {
       headers: {
         // Note, this should probably just be an admin token in the future.
         Authorization: `Bearer ${key}`,
       },
-    }
-  );
+    },
+  )
 
-  let summaryResJson: { projects: { key: string; total: number }[] };
+  let summaryResJson: { projects: { key: string; total: number }[] }
   try {
-    summaryResJson = await summaryRes.json();
+    summaryResJson = await summaryRes.json()
   } catch (e) {
-    console.error(e);
-    throw e;
+    console.error(e)
+    throw e
   }
 
-  return summaryResJson;
+  return summaryResJson
 }
 
 // export async function hasRecvFirstHeartbeat(): Promise<boolean> {

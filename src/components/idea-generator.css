@@ -16,7 +16,8 @@
 @keyframes idle {
   from {
     transform: translateY(0%);
-  } to {
+  }
+  to {
     transform: translateY(2%);
   }
 }
@@ -24,7 +25,8 @@
 @keyframes talking {
   from {
     transform: scale(1.01, 0.99) translateY(2%);
-  } to {
+  }
+  to {
     transform: scale(0.99, 1.01) translateY(0%);
   }
 }

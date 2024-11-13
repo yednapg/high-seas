@@ -1,12 +1,12 @@
-import { useMemo, useEffect, useState } from "react";
-import { loadingSpinners, sample } from "../../../lib/flavor";
+import { useMemo, useEffect, useState } from 'react'
+import { loadingSpinners, sample } from '../../../lib/flavor'
 
 const LoadingSpinner = () => {
-  const [src, setSrc] = useState("");
+  const [src, setSrc] = useState('')
 
   useEffect(() => {
-    setSrc(sample(loadingSpinners));
-  }, []);
+    setSrc(sample(loadingSpinners))
+  }, [])
 
   return useMemo(
     () => (
@@ -16,8 +16,8 @@ const LoadingSpinner = () => {
             src={src}
             className="animate-spin"
             style={{
-              filter: "invert(0.5) sepia(1) saturate(1) hue-rotate(225deg)",
-              animationDuration: "2s",
+              filter: 'invert(0.5) sepia(1) saturate(1) hue-rotate(225deg)',
+              animationDuration: '2s',
             }}
             alt="loading spinner"
           />
@@ -25,7 +25,7 @@ const LoadingSpinner = () => {
       </div>
     ),
     [src],
-  );
-};
+  )
+}
 
-export { LoadingSpinner };
+export { LoadingSpinner }

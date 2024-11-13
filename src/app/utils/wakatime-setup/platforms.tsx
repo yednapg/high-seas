@@ -1,20 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   SinglePlatform,
   osFromAgent,
   type Os,
-} from "@/app/utils/wakatime-setup/tutorial-utils.client";
-import { AnimatePresence, motion } from "framer-motion";
+} from '@/app/utils/wakatime-setup/tutorial-utils.client'
+import { AnimatePresence, motion } from 'framer-motion'
 
-export default function Platforms({ wakaKey, hasHb, showInstructions, setShowInstructions }: { wakaKey: string, hasHb: boolean, showInstructions: boolean, setShowInstructions: any }) {
-  const [showAllPlatforms, setShowAllPlatforms] = useState(false);
-  const [userOs, setUserOs] = useState<Os>("unknown");
+export default function Platforms({
+  wakaKey,
+  hasHb,
+  showInstructions,
+  setShowInstructions,
+}: {
+  wakaKey: string
+  hasHb: boolean
+  showInstructions: boolean
+  setShowInstructions: any
+}) {
+  const [showAllPlatforms, setShowAllPlatforms] = useState(false)
+  const [userOs, setUserOs] = useState<Os>('unknown')
 
   useEffect(() => {
-    const os = osFromAgent();
-    setUserOs(os);
-    setShowAllPlatforms(os === "unknown");
-  }, []);
+    const os = osFromAgent()
+    setUserOs(os)
+    setShowAllPlatforms(os === 'unknown')
+  }, [])
 
   return (
     <>
@@ -34,14 +44,14 @@ export default function Platforms({ wakaKey, hasHb, showInstructions, setShowIns
             <motion.div
               key={0}
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "fit-content", opacity: 1 }}
+              animate={{ height: 'fit-content', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
             >
-              <SinglePlatform os={"windows"} wakaKey={wakaKey} />
+              <SinglePlatform os={'windows'} wakaKey={wakaKey} />
               <hr className="my-8" />
-              <SinglePlatform os={"macos"} wakaKey={wakaKey} />
+              <SinglePlatform os={'macos'} wakaKey={wakaKey} />
               <hr className="my-8" />
-              <SinglePlatform os={"linux"} wakaKey={wakaKey} />
+              <SinglePlatform os={'linux'} wakaKey={wakaKey} />
               <hr className="my-8" />
               <p>
                 Script not working? High Seas is wakatime-compatible, so you can
@@ -67,29 +77,30 @@ api_key = ${wakaKey}`}
             <motion.div
               key={1}
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "fit-content", opacity: 1 }}
+              animate={{ height: 'fit-content', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
             >
               <SinglePlatform os={userOs} wakaKey={wakaKey} />
               <h2 className="mt-6 text-xl">What exactly does the script do?</h2>
               <p className="mt-2">
-                This script installs and configures Hackatime, our custom fork of a
-                popular open-source coding time-tracker called Wakatime.
+                This script installs and configures Hackatime, our custom fork
+                of a popular open-source coding time-tracker called Wakatime.
                 First it tries to install the Wakatime extension for VS Code,
-                and then it installs a configuration file that tells the extension
-                to send your coding hours to the Hackatime server.
+                and then it installs a configuration file that tells the
+                extension to send your coding hours to the Hackatime server.
                 <br></br>
                 <br></br>
-                If you don't use VS Code, run the script anyway and manually install the
-                Wakatime extension for your editor. The configuration will apply automatically!
+                If you don't use VS Code, run the script anyway and manually
+                install the Wakatime extension for your editor. The
+                configuration will apply automatically!
               </p>
               <video
                 src={
-                  userOs === "windows"
-                    ? "/videos/WakaSetupScriptWindows.mp4"
-                    : userOs === "macos"
-                      ? "/videos/WakaSetupScriptMacOS.mp4"
-                      : "/videos/WakaSetupScriptLinux.mp4"
+                  userOs === 'windows'
+                    ? '/videos/WakaSetupScriptWindows.mp4'
+                    : userOs === 'macos'
+                      ? '/videos/WakaSetupScriptMacOS.mp4'
+                      : '/videos/WakaSetupScriptLinux.mp4'
                 }
                 autoPlay={true}
                 muted={true}
@@ -98,7 +109,7 @@ api_key = ${wakaKey}`}
                 className="mt-8 rounded shadow"
               />
               <p className="text-xs mt-4">
-                Not using {userOs}?{" "}
+                Not using {userOs}?{' '}
                 <span
                   className="underline cursor-pointer"
                   onClick={() => setShowAllPlatforms(true)}
@@ -106,7 +117,8 @@ api_key = ${wakaKey}`}
                   View instructions for all platforms
                 </span>
               </p>
-            </motion.div>)}
+            </motion.div>
+          )}
         </AnimatePresence>
       ) : (
         <p className="text-sm">
@@ -114,10 +126,10 @@ api_key = ${wakaKey}`}
             className="underline cursor-pointer"
             onClick={() => setShowInstructions(true)}
           >
-            {"> Show Hackatime install instructions"}
+            {'> Show Hackatime install instructions'}
           </span>
         </p>
       )}
     </>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const Svg = ({ color }: { color: string }) =>
   color ? (
@@ -40,11 +40,11 @@ const Svg = ({ color }: { color: string }) =>
         </linearGradient>
       </defs>
     </svg>
-  ) : null;
+  ) : null
 
 const JaggedCardSmall = ({
   children,
-  className = "",
+  className = '',
   bgColor,
   shadow = true,
   ...props
@@ -54,13 +54,13 @@ const JaggedCardSmall = ({
       className="relative w-full px-6 py-4"
       {...props}
       style={{
-        filter: shadow ? `drop-shadow(0 0 1rem ${bgColor}80)` : "",
+        filter: shadow ? `drop-shadow(0 0 1rem ${bgColor}80)` : '',
       }}
     >
       <Svg color={bgColor} />
       <div className={`relative z-10 ${className}`}>{children}</div>
     </div>
-  );
-};
+  )
+}
 
-export default JaggedCardSmall;
+export default JaggedCardSmall

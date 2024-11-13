@@ -1,56 +1,56 @@
-"use client";
+'use client'
 
-import Ships from "./ships";
-import useLocalStorageState from "../../../../lib/useLocalStorageState";
-import { useEffect } from "react";
-import { getVotesRemainingForNextPendingShip } from "@/app/utils/airtable";
-import Pill from "@/components/ui/pill";
-import { fetchShips, Ship } from "@/app/utils/data";
+import Ships from './ships'
+import useLocalStorageState from '../../../../lib/useLocalStorageState'
+import { useEffect } from 'react'
+import { getVotesRemainingForNextPendingShip } from '@/app/utils/airtable'
+import Pill from '@/components/ui/pill'
+import { fetchShips, Ship } from '@/app/utils/data'
 
 const tutorialShips: Ship[] = [
   {
-    id: "hack-club-site",
-    title: "Hack Club Site",
-    repoUrl: "https://github.com/hackclub/site",
-    deploymentUrl: "https://hackclub.com",
+    id: 'hack-club-site',
+    title: 'Hack Club Site',
+    repoUrl: 'https://github.com/hackclub/site',
+    deploymentUrl: 'https://hackclub.com',
     screenshotUrl:
-      "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png",
+      'https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png',
     readmeUrl:
-      "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md",
+      'https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md',
     credited_hours: 123,
     voteRequirementMet: false,
     doubloonPayout: 421,
-    shipType: "project",
-    shipStatus: "staged",
-    wakatimeProjectNames: ["hack-club-site"],
+    shipType: 'project',
+    shipStatus: 'staged',
+    wakatimeProjectNames: ['hack-club-site'],
     matchups_count: 0,
     hours: null,
     total_hours: null,
-    createdTime: "",
+    createdTime: '',
     updateDescription: null,
     reshippedFromId: null,
     reshippedToId: null,
   },
-];
+]
 
 export default function Shipyard({ session }: any) {
-  const [ships, setShips] = useLocalStorageState("cache.ships", []);
+  const [ships, setShips] = useLocalStorageState('cache.ships', [])
   const [voteBalance, setVoteBalance] = useLocalStorageState(
-    "cache.voteBalance",
-    0
-  );
+    'cache.voteBalance',
+    0,
+  )
 
   useEffect(() => {
-    fetchShips(session.slackId).then((ships) => setShips(ships));
+    fetchShips(session.slackId).then((ships) => setShips(ships))
 
     getVotesRemainingForNextPendingShip(session.slackId).then((balance) =>
-      setVoteBalance(balance)
-    );
-  }, []);
+      setVoteBalance(balance),
+    )
+  }, [])
 
-  const isTutorial = sessionStorage.getItem("tutorial") === "true";
+  const isTutorial = sessionStorage.getItem('tutorial') === 'true'
 
-  if (!ships) return;
+  if (!ships) return
 
   return (
     <>
@@ -60,7 +60,7 @@ export default function Shipyard({ session }: any) {
             The Shipyard
             <span
               className="absolute text-sm animate-pulse mb-6 rotate-[-15deg] inline-block text-yellow-500 minecraft w-full pointer-events-none"
-              style={{ textShadow: "#404100 3px 3px", translate: "-6em 1.5em" }}
+              style={{ textShadow: '#404100 3px 3px', translate: '-6em 1.5em' }}
             >
               Manage yer ships!
             </span>
@@ -72,7 +72,7 @@ export default function Shipyard({ session }: any) {
               msg={`A project is pending until you vote on ${voteBalance} more matchup(s) in the Wonderdome!`}
               color="red"
               glyph="important"
-              id={""}
+              id={''}
             />
           </div>
         )}
@@ -85,5 +85,5 @@ export default function Shipyard({ session }: any) {
         </div>
       </div>
     </>
-  );
+  )
 }

@@ -1,17 +1,17 @@
 'use client'
 
-import { AlertCircle } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import { useMemo } from "react";
-import { reportError } from "./report-error";
+import { AlertCircle } from 'lucide-react'
+import { buttonVariants } from '@/components/ui/button'
+import Link from 'next/link'
+import { useMemo } from 'react'
+import { reportError } from './report-error'
 
 export default function SlackAuthErrorPage({
   searchParams,
 }: {
-  searchParams: { err?: string };
+  searchParams: { err?: string }
 }) {
-  const { err } = searchParams;
+  const { err } = searchParams
   useMemo(() => {
     reportError(err)
   }, [])
@@ -27,14 +27,16 @@ export default function SlackAuthErrorPage({
           Going overboard!
         </h1>
         <p className="text-gray-600 mb-6 text-sm">
-          We Arrrr over capacity right now, but we got your request to join the crew... we'll reach out once we figure out how to keep this ship from capsizing.
-          {err || "An error occurred during Slack authentication."}
+          We Arrrr over capacity right now, but we got your request to join the
+          crew... we'll reach out once we figure out how to keep this ship from
+          capsizing.
+          {err || 'An error occurred during Slack authentication.'}
         </p>
 
-        <Link className={buttonVariants({ variant: "outline" })} href="/">
+        <Link className={buttonVariants({ variant: 'outline' })} href="/">
           Go home
         </Link>
       </div>
     </div>
-  );
+  )
 }

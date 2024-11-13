@@ -1,61 +1,61 @@
-import { motion } from "framer-motion";
-import { LoadingSpinner } from "@/components/ui/loading_spinner";
-import { sample, shopBanner } from "../../../../lib/flavor.js";
-import { useState, useEffect } from "react";
-import { getShop, ShopItem } from "./shop-utils";
-import useLocalStorageState from "../../../../lib/useLocalStorageState.js";
-import { HsSession } from "@/app/utils/auth.js";
+import { motion } from 'framer-motion'
+import { LoadingSpinner } from '@/components/ui/loading_spinner'
+import { sample, shopBanner } from '../../../../lib/flavor.js'
+import { useState, useEffect } from 'react'
+import { getShop, ShopItem } from './shop-utils'
+import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
+import { HsSession } from '@/app/utils/auth.js'
 
-import { ShopItemComponent } from "./shop-item-component.js";
-import { ShopkeeperComponent } from "./shopkeeper.js";
-import { safePerson } from "@/app/utils/airtable";
+import { ShopItemComponent } from './shop-item-component.js'
+import { ShopkeeperComponent } from './shopkeeper.js'
+import { safePerson } from '@/app/utils/airtable'
 
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
-    "shop.country.filter",
+    'shop.country.filter',
     0,
-  );
+  )
   const [shopItems, setShopItems] = useLocalStorageState<ShopItem[] | null>(
-    "cache.shopItems",
+    'cache.shopItems',
     null,
-  );
+  )
   const [personTicketBalance, setPersonTicketBalance] =
-    useLocalStorageState<string>("cache.personTicketBalance", "-");
+    useLocalStorageState<string>('cache.personTicketBalance', '-')
 
-  const [bannerText, setBannerText] = useState("");
-  const isTutorial = sessionStorage.getItem("tutorial");
+  const [bannerText, setBannerText] = useState('')
+  const isTutorial = sessionStorage.getItem('tutorial')
   useEffect(() => {
-    setBannerText(sample(shopBanner));
-    getShop().then((shop) => setShopItems(shop));
-    safePerson().then((sp) => setPersonTicketBalance(sp.settledTickets));
-  }, []);
+    setBannerText(sample(shopBanner))
+    getShop().then((shop) => setShopItems(shop))
+    safePerson().then((sp) => setPersonTicketBalance(sp.settledTickets))
+  }, [])
 
   if (!shopItems) {
     return (
       <motion.div className="flex justify-center items-center h-screen">
         <LoadingSpinner />
       </motion.div>
-    );
+    )
   }
 
   const filters = {
-    "0": (x: any) => {
-      return true;
+    '0': (x: any) => {
+      return true
     },
-    "1": (item: any) => item.enabledUs,
-    "2": (item: any) => item.enabledEu,
-    "3": (item: any) => item.enabledIn,
-    "4": (item: any) => item.enabledCa,
-    "5": (item: any) => item.enabledXx,
-  };
+    '1': (item: any) => item.enabledUs,
+    '2': (item: any) => item.enabledEu,
+    '3': (item: any) => item.enabledIn,
+    '4': (item: any) => item.enabledCa,
+    '5': (item: any) => item.enabledXx,
+  }
   const getFilter = () => {
     // @ts-expect-error reason reason reason
-    return filters[filterIndex.toString()] || filters["0"];
-  };
+    return filters[filterIndex.toString()] || filters['0']
+  }
 
   const onOptionChangeHandler = (e) => {
-    setFilterIndex(e.target.value);
-  };
+    setFilterIndex(e.target.value)
+  }
 
   return (
     <motion.div className="container mx-auto px-4 py-8 text-white">
@@ -86,7 +86,7 @@ export default function Shop({ session }: { session: HsSession }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {shopItems.filter(getFilter()).map((item: any) => {
-          if (item.id == "item_free_stickers_41" && !isTutorial) return null;
+          if (item.id == 'item_free_stickers_41' && !isTutorial) return null
           return (
             <ShopItemComponent
               id={item.id}
@@ -95,9 +95,9 @@ export default function Shop({ session }: { session: HsSession }) {
               filterIndex={filterIndex}
               personTicketBalance={personTicketBalance}
             />
-          );
+          )
         })}
       </div>
     </motion.div>
-  );
+  )
 }
