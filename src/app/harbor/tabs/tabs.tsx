@@ -21,6 +21,38 @@ import {
 import { sample, zeroMessage } from '../../../../lib/flavor'
 import Cookies from 'js-cookie'
 import JaggedCard from '@/components/jagged-card'
+import Icon from '@hackclub/icons'
+
+const doubloonTips = [
+  {
+    icon: 'door-enter',
+    msg: (
+      <p>
+        You earn doubloons through{' '}
+        <span className="text-[#AD28C6]">shipping projects</span>.
+      </p>
+    ),
+  },
+  {
+    icon: 'door-leave',
+    msg: (
+      <p>
+        You spend them on <span className="text-[#AD28C6]">prizes</span> in the
+        shop.
+      </p>
+    ),
+  },
+  {
+    icon: 'list',
+    msg: (
+      <p>How many you earn is affected by how others vote on your projects.</p>
+    ),
+  },
+  {
+    icon: 'bolt',
+    msg: <p>Higher quality projects means more doubloons!</p>,
+  },
+]
 
 const Balance = () => {
   'use client'
@@ -57,9 +89,32 @@ const Balance = () => {
           </span>
         </div>
       </PopoverTrigger>
-      <PopoverContent>
-        <div className="text-sm">
+      <PopoverContent className="text-sm">
+        <div>
           {brokeMessage} Ship something to earn more!
+          <hr className="my-2" />
+        </div>
+
+        <div>
+          <p className="inline-flex text-base">
+            What are&nbsp;
+            <span className="inline-flex items-center gap-1">
+              <img
+                src="doubloon.svg"
+                alt="doubloons"
+                className="w-4 sm:w-5 h-4 sm:h-5"
+              />
+              doubloons?
+            </span>
+          </p>
+          <ul className="flex flex-col gap-1 mt-2">
+            {doubloonTips.map(({ icon, msg }, idx) => (
+              <li key={idx} className="flex gap-1">
+                <Icon glyph={icon} size={20} className="inline flex-shrink-0" />{' '}
+                {msg}
+              </li>
+            ))}
+          </ul>
         </div>
       </PopoverContent>
     </Popover>
