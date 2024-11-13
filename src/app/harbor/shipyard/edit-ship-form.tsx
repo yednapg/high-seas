@@ -28,6 +28,7 @@ export default function EditShipForm({
 }) {
   const [deleting, setDeleting] = useState(false)
   const [saving, setSaving] = useState(false)
+  const allowDeletion = ship.shipStatus === 'staged'
 
   const { toast } = useToast()
 
@@ -190,14 +191,16 @@ export default function EditShipForm({
           Save edits
         </Button>
 
-        <Button
-          className={`${buttonVariants({ variant: 'destructive' })} ml-auto`}
-          onClick={handleDelete}
-          disabled={deleting}
-        >
-          {deleting ? <Icon glyph="more" /> : <Icon glyph="forbidden" />}
-          Delete Ship
-        </Button>
+        {allowDeletion && (
+          <Button
+            className={`${buttonVariants({ variant: 'destructive' })} ml-auto`}
+            onClick={handleDelete}
+            disabled={deleting}
+          >
+            {deleting ? <Icon glyph="more" /> : <Icon glyph="forbidden" />}
+            Delete Ship
+          </Button>
+        )}
       </div>
     </form>
   )
