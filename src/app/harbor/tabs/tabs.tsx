@@ -71,7 +71,7 @@ const Balance = () => {
   }
 
   return (
-    <Popover open={open && balance == 0} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         asChild
         onMouseEnter={() => setOpen(true)}
@@ -90,10 +90,12 @@ const Balance = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent className="text-sm">
-        <div>
-          {brokeMessage} Ship something to earn more!
-          <hr className="my-2" />
-        </div>
+        {balance == 0 ? (
+          <div>
+            {brokeMessage} Ship something to earn more!
+            <hr className="my-2" />
+          </div>
+        ) : null}
 
         <div>
           <p className="inline-flex text-base">
