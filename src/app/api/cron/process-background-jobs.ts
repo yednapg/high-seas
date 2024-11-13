@@ -1,7 +1,7 @@
 'use server'
 
-import { sql } from "@vercel/postgres";
-import Airtable from 'airtable';
+import { sql } from '@vercel/postgres'
+import Airtable from 'airtable'
 
 async function processPendingInviteJobs() {
   const { rows } =
@@ -130,19 +130,28 @@ async function processLotteryJobs() {
   LIMIT 1;
   `
 
-  if (rows.length === 0) { return }
+  if (rows.length === 0) {
+    return
+  }
 
-  const previous = (await sql`
+  const previous = (
+    await sql`
   SELECT *
   FROM background_job
   WHERE type = 'run_lottery'
   AND status = 'completed'
   ORDER BY created_at DESC
-  LIMIT 1;`).rows[0]
+  LIMIT 1;`
+  ).rows[0]
 
-  console.log("Previous lottery job", previous)
+  console.log('Previous lottery job', previous)
 
-  if (previous && previous.created_at > new Date(Date.now() - 1000 * 60 * 60 * 23)) { return }
+  if (
+    previous &&
+    previous.created_at > new Date(Date.now() - 1000 * 60 * 60 * 23)
+  ) {
+    return
+  }
 
   Airtable.configure({
     apiKey: process.env.AIRTABLE_API_KEY,
@@ -159,41 +168,49 @@ async function processLotteryJobs() {
   })
 
   // read all free sticker orders created in the last 24 hours
-  const eligibleUsers = await base('people').select({
-    filterByFormula: `AND(
+  const eligibleUsers = await base('people')
+    .select({
+      filterByFormula: `AND(
       has_ordered_free_stickers = TRUE(),
       verified_eligible = TRUE(),
       verified_ineligible = FALSE(),
       DATETIME_DIFF(NOW(), verification_updated_at, 'hours') <= 24
     )`,
-  }).all()
+    })
+    .all()
 
   const winner = eligibleUsers.sort(() => Math.random() - 0.5)[0]
-  console.log("Winner", winner)
+  console.log('Winner', winner)
 
   // create the order
   const order = await base('shop_orders').create({
     status: 'fresh',
     shop_item: ['recKV56D2PATOqK4W'],
-    recipient: [winner?.id]
+    recipient: [winner?.id],
   })
 
   // send a DM to the winner
-  const messageRequests = [{
-    message_text: `Hey, congrats <@${winner?.fields['slack_id']}>! You won today's free Raspberry Pi Zero! 🎉 We're shipping it to the same address as your sticker bundle.`,
-    target_slack_id: winner?.fields['slack_id'],
-    requester_identifier: 'cron-job',
-  }, {
-    message_text: `Heads up, <@${winner?.fields['slack_id']}> won today's Raspberry Pi Zero! 🎉`,
-    target_slack_id: 'U0C7B14Q3', // notify msw for observability
-    requester_identifier: 'cron-job',
-  },{
-    message_text: `Congratulations to <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉 Every day a newly signed up person will get one.`,
-    target_slack_id: highSeasChannelId,
-    requester_identifier: 'cron-job',
-  }]
+  const messageRequests = [
+    {
+      message_text: `Hey, congrats <@${winner?.fields['slack_id']}>! You won today's free Raspberry Pi Zero! 🎉 We're shipping it to the same address as your sticker bundle.`,
+      target_slack_id: winner?.fields['slack_id'],
+      requester_identifier: 'cron-job',
+    },
+    {
+      message_text: `Heads up, <@${winner?.fields['slack_id']}> won today's Raspberry Pi Zero! 🎉`,
+      target_slack_id: 'U0C7B14Q3', // notify msw for observability
+      requester_identifier: 'cron-job',
+    },
+    {
+      message_text: `Congratulations to <@${winner?.fields['slack_id']}> for winning a free Raspberry Pi Zero! 🎉 Every day a newly signed up person will get one.`,
+      target_slack_id: highSeasChannelId,
+      requester_identifier: 'cron-job',
+    },
+  ]
 
-  const messagePromise = base('arrpheus_message_requests').create(messageRequests.map(m => ({fields: m})))
+  const messagePromise = base('arrpheus_message_requests').create(
+    messageRequests.map((m) => ({ fields: m })),
+  )
 
   const upsert = await sql`
   UPDATE background_job
