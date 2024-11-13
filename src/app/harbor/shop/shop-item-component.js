@@ -78,10 +78,12 @@ export const ShopItemComponent = ({
               {filterIndex == 1 ? item.priceUs : item.priceGlobal}
             </span>
 
-            <span className="text-xs text-gray-600">
-              ({item.minimumHoursEstimated.toFixed(1)} -{' '}
-              {item.maximumHoursEstimated.toFixed(1)} hours)
-            </span>
+            {item.minimumHoursEstimated && item.maximumHoursEstimated ? (
+              <span className="text-xs text-gray-600">
+                ({Math.round(item.minimumHoursEstimated)} -{' '}
+                {Math.round(item.maximumHoursEstimated)} hours)
+              </span>
+            ) : null}
           </p>
         </CardHeader>
         {item.imageUrl && (
