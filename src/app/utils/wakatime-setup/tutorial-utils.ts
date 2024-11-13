@@ -1,6 +1,6 @@
-"use server";
+'use server'
 
-import { getSession } from "../../utils/auth";
+import { getSession } from '../../utils/auth'
 
 // export async function hasHb(username: string, key: string): Promise<boolean> {
 //   if (!username)

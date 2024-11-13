@@ -1,58 +1,58 @@
-"use client";
+'use client'
 
-import { useEffect, useState, useCallback } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { getShips } from "./utils";
-import { Ship } from "../shipyard/ship-utils";
-import Ships from "../shipyard/ships";
+import { useEffect, useState, useCallback } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { getShips } from './utils'
+import { Ship } from '../shipyard/ship-utils'
+import Ships from '../shipyard/ships'
 
-export type ShipsObject = Record<string, Ship>;
+export type ShipsObject = Record<string, Ship>
 
 export default function Gallery({ ships, setShips }: any) {
-  const [nextOffset, setNextOffset] = useState<string | undefined>(undefined);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [nextOffset, setNextOffset] = useState<string | undefined>(undefined)
+  const [hasMore, setHasMore] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchShips = useCallback(async () => {
-    if (isLoading || !hasMore) return;
-    setIsLoading(true);
+    if (isLoading || !hasMore) return
+    setIsLoading(true)
 
     try {
-      const newShipInfo = await getShips(nextOffset);
-      setNextOffset(newShipInfo.offset);
-      setHasMore(!!newShipInfo.offset);
+      const newShipInfo = await getShips(nextOffset)
+      setNextOffset(newShipInfo.offset)
+      setHasMore(!!newShipInfo.offset)
 
       setShips((prev: any) => {
         const newShips = newShipInfo.ships.reduce(
           (acc: ShipsObject, ship: Ship) => {
-            acc[ship.id] = ship;
-            return acc;
+            acc[ship.id] = ship
+            return acc
           },
           {},
-        );
-        return { ...prev, ...newShips };
-      });
+        )
+        return { ...prev, ...newShips }
+      })
     } catch (error) {
-      console.error("Error fetching ships:", error);
-      setHasMore(false);
-      setIsLoading(false);
+      console.error('Error fetching ships:', error)
+      setHasMore(false)
+      setIsLoading(false)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [isLoading, hasMore, nextOffset]);
+  }, [isLoading, hasMore, nextOffset])
 
   useEffect(() => {
     if (Object.keys(ships).length === 0) {
-      fetchShips();
+      fetchShips()
     }
-  }, []);
+  }, [])
 
-  if (!ships) return <p className="text-center">Loading all ships...</p>;
+  if (!ships) return <p className="text-center">Loading all ships...</p>
 
-  const shipsArray: Ship[] = Object.values(ships);
+  const shipsArray: Ship[] = Object.values(ships)
 
   if (shipsArray.length === 0)
-    return <p className="text-center">Loading all ships...</p>;
+    return <p className="text-center">Loading all ships...</p>
 
   return (
     <InfiniteScroll
@@ -73,5 +73,5 @@ export default function Gallery({ ships, setShips }: any) {
     >
       <Ships ships={shipsArray} />
     </InfiniteScroll>
-  );
+  )
 }

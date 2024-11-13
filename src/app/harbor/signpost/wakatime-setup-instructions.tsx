@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import JaggedCard from "@/components/jagged-card";
-import Pill from "@/components/ui/pill";
-import Icon from "@hackclub/icons";
-import Image from "next/image";
-import DoubloonsImage from "/public/doubloon.svg";
-import Link from "next/link";
-import { Card } from "@/components/ui/card";
-import WakaTimeConfigTabs from "./wakatime-config-tabs";
-import { motion, AnimatePresence } from "framer-motion";
-import { getSession } from "@/app/utils/auth";
+import React, { useState, useEffect } from 'react'
+import JaggedCard from '@/components/jagged-card'
+import Pill from '@/components/ui/pill'
+import Icon from '@hackclub/icons'
+import Image from 'next/image'
+import DoubloonsImage from '/public/doubloon.svg'
+import Link from 'next/link'
+import { Card } from '@/components/ui/card'
+import WakaTimeConfigTabs from './wakatime-config-tabs'
+import { motion, AnimatePresence } from 'framer-motion'
+import { getSession } from '@/app/utils/auth'
 
 export default function WakatimeSetupInstructions({
   session,
   wakaToken,
   startsOpen = true,
 }: {
-  session: any;
-  wakaToken: string | null;
-  startsOpen: boolean;
+  session: any
+  wakaToken: string | null
+  startsOpen: boolean
 }) {
-  const [open, setOpen] = useState(startsOpen);
-  const [email, setEmail] = useState<string | null>(null);
+  const [open, setOpen] = useState(startsOpen)
+  const [email, setEmail] = useState<string | null>(null)
 
   useEffect(() => {
-    getSession().then((d: any) => setEmail(d.email));
-  }, []);
+    getSession().then((d: any) => setEmail(d.email))
+  }, [])
 
   return (
     <JaggedCard>
@@ -40,7 +40,7 @@ export default function WakatimeSetupInstructions({
         <div>
           <div
             className="text-white"
-            style={{ "-webkit-user-select": "none", userSelect: "none" }}
+            style={{ '-webkit-user-select': 'none', userSelect: 'none' }}
           >
             <p className="m-0 opacity-80">Step 1</p>
             <p className="m-0 text-xl">{"Let's set up Hackatime!"}</p>
@@ -52,9 +52,9 @@ export default function WakatimeSetupInstructions({
         {open ? (
           <motion.div
             initial={{ height: 0 }}
-            animate={{ height: "fit-content" }}
+            animate={{ height: 'fit-content' }}
             exit={{ height: 0 }}
-            style={{ overflow: "hidden" }}
+            style={{ overflow: 'hidden' }}
           >
             <Card className="mt-3 p-2">
               <p>
@@ -66,20 +66,20 @@ export default function WakatimeSetupInstructions({
                   glyphImage={
                     <Image src={DoubloonsImage} alt="Doubloons" height={20} />
                   }
-                />{" "}
-                you get when your projects are voted on in the{" "}
+                />{' '}
+                you get when your projects are voted on in the{' '}
                 <Link href="/wonderdome" className="text-blue-500">
                   Wonderdome
-                </Link>{" "}
-                by other Hack Clubbers.{" "}
+                </Link>{' '}
+                by other Hack Clubbers.{' '}
                 <Pill
                   msg="Doubloons"
                   color="green"
                   glyphImage={
                     <Image src={DoubloonsImage} alt="Doubloons" height={20} />
                   }
-                />{" "}
-                can be exchnged for items in the{" "}
+                />{' '}
+                can be exchnged for items in the{' '}
                 <Link href="/shop" className="text-blue-500">
                   Shop
                 </Link>
@@ -94,7 +94,7 @@ export default function WakatimeSetupInstructions({
                   className="text-blue-500"
                   href="https://waka.hackclub.com"
                 >
-                  {" "}
+                  {' '}
                   a Hack Clubber-forked open source version
                 </Link>
                 .
@@ -130,7 +130,7 @@ export default function WakatimeSetupInstructions({
                         api_key = {wakaToken}
                       </>
                     ) : (
-                      "loading..."
+                      'loading...'
                     )}
                   </code>
                 </pre>
@@ -144,8 +144,8 @@ export default function WakatimeSetupInstructions({
               <br />
               <p>
                 To log in to the dashboard, your username is your Slack ID (
-                <code>{session ? session?.slackId : "???"}</code>), and your
-                email is <code>{email ? email : "???"}</code>. {"You'll"} need
+                <code>{session ? session?.slackId : '???'}</code>), and your
+                email is <code>{email ? email : '???'}</code>. {"You'll"} need
                 to request a password reset link (unless {"you've"} already
                 signed up for Hackatime!)
               </p>
@@ -154,5 +154,5 @@ export default function WakatimeSetupInstructions({
         ) : null}
       </AnimatePresence>
     </JaggedCard>
-  );
+  )
 }

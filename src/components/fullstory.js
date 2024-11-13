@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import FullStory from "react-fullstory";
+import FullStory from 'react-fullstory'
 
 export default function Fullstory() {
-  return <FullStory org="ARN0J" />;
+  return <FullStory org="ARN0J" />
 }

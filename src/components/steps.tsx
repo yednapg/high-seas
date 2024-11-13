@@ -1,11 +1,11 @@
-import Pill from "./ui/pill";
+import Pill from './ui/pill'
 
 const steps = [
-  { name: "Hackatime", done: true },
-  { name: "Ship", done: true },
-  { name: "Vote", done: false },
-  { name: "Prizes", done: false },
-];
+  { name: 'Hackatime', done: true },
+  { name: 'Ship', done: true },
+  { name: 'Vote', done: false },
+  { name: 'Prizes', done: false },
+]
 
 export default function Steps({}) {
   return (
@@ -13,10 +13,10 @@ export default function Steps({}) {
       {steps.map((step, idx) => (
         <div
           key={idx}
-          className={`flex flex-col gap-1 items-center ${step.done ? "opacity-50" : null} ${idx === 4 ? "scale-50" : null}`}
+          className={`flex flex-col gap-1 items-center ${step.done ? 'opacity-50' : null} ${idx === 4 ? 'scale-50' : null}`}
         >
           <div
-            className={`w-4 h-4 ${step.done ? "bg-gray-500" : "bg-[#48BBFE]"} rounded-full leading-none text-sm text-white flex items-center justify-center`}
+            className={`w-4 h-4 ${step.done ? 'bg-gray-500' : 'bg-[#48BBFE]'} rounded-full leading-none text-sm text-white flex items-center justify-center`}
           >
             <p className="m-0">{idx + 1}</p>
           </div>
@@ -25,5 +25,5 @@ export default function Steps({}) {
       ))}
       <div className="rounded-full"></div>
     </div>
-  );
+  )
 }

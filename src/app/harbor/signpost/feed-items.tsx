@@ -1,34 +1,31 @@
-"use client";
+'use client'
 
-import { SignpostFeedItem } from "@/app/utils/data";
-import JaggedCardSmall from "@/components/jagged-card-small";
-import Cookies from "js-cookie";
-import Markdown from "react-markdown";
+import { SignpostFeedItem } from '@/app/utils/data'
+import JaggedCardSmall from '@/components/jagged-card-small'
+import Cookies from 'js-cookie'
+import Markdown from 'react-markdown'
 
 export default function FeedItems() {
-  const cookie = Cookies.get("signpost-feed");
-  if (!cookie) return null;
+  const cookie = Cookies.get('signpost-feed')
+  if (!cookie) return null
 
-  let feedItems: SignpostFeedItem[];
+  let feedItems: SignpostFeedItem[]
   try {
-    feedItems = JSON.parse(cookie).sort((a, b) => a?.autonumber < b?.autonumber);
+    feedItems = JSON.parse(cookie).sort((a, b) => a?.autonumber < b?.autonumber)
   } catch (e) {
-    console.error("Could't parse signpost feed cookie into JSON:", e);
-    return null;
+    console.error("Could't parse signpost feed cookie into JSON:", e)
+    return null
   }
 
   if (!feedItems || feedItems.length === 0) {
-    return <p>No feed updates yet! Check back soon.</p>;
+    return <p>No feed updates yet! Check back soon.</p>
   }
 
   return (
     <div className="flex flex-col gap-3">
       {feedItems.map((item, idx) => {
         return (
-          <JaggedCardSmall
-            key={idx}
-            bgColor={`#${item.backgroundColor}`}
-          >
+          <JaggedCardSmall key={idx} bgColor={`#${item.backgroundColor}`}>
             <p style={{ color: `#${item.textColor}` }}>
               <span className="text-xl">
                 {item.title}
@@ -44,8 +41,8 @@ export default function FeedItems() {
               </span>
             </p>
           </JaggedCardSmall>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from "react"
-import { Howl } from 'howler';
+import { useState } from 'react'
+import { Howl } from 'howler'
 
-import './idea-generator.css';
-import { sample } from "../../lib/flavor";
+import './idea-generator.css'
+import { sample } from '../../lib/flavor'
 
 const fetchIdea = async () => {
-  const res = await fetch('/api/project_ideas', { method: 'POST' });
-  const data = await res.json();
+  const res = await fetch('/api/project_ideas', { method: 'POST' })
+  const data = await res.json()
   return data
 }
 
@@ -48,45 +48,54 @@ const yap_sounds = {
   z: new Howl({ src: 'audio/yapping/z.wav' }),
   th: new Howl({ src: 'audio/yapping/th.wav' }),
   sh: new Howl({ src: 'audio/yapping/sh.wav' }),
-  _: new Howl({ src: 'audio/yapping/_.wav' })
+  _: new Howl({ src: 'audio/yapping/_.wav' }),
 }
 
-async function yap(text, {
-  letterCallback = () => { },
-  endCallback = () => { },
-  baseRate = 3.2,
-  rateVariance = 1,
-} = {}) {
-
-  const yap_queue = [];
+async function yap(
+  text,
+  {
+    letterCallback = () => {},
+    endCallback = () => {},
+    baseRate = 3.2,
+    rateVariance = 1,
+  } = {},
+) {
+  const yap_queue = []
   for (let i = 0; i < text.length; i++) {
-    const char = text[i];
+    const char = text[i]
     const lowerChar = char?.toLowerCase()
     const prevChar = text[i - 1]
     const prevLowerChar = prevChar?.toLowerCase()
     const nextChar = text[i + 1]
     const nextLowerChar = nextChar?.toLowerCase()
 
-    if (lowerChar === 's' && nextLowerChar === 'h') { // test for 'sh' sound
-      yap_queue.push({ letter: char, sound: yap_sounds['sh'] });
-      continue;
-    } else if (lowerChar === 't' && nextLowerChar === 'h') { // test for 'th' sound
-      yap_queue.push({ letter: char, sound: yap_sounds['th'] });
-      continue;
-    } else if (lowerChar === 'h' && (prevLowerChar === 's' || prevLowerChar === 't')) { // test if previous letter was 's' or 't' and current letter is 'h'
-      yap_queue.push({ letter: char, sound: yap_sounds['_'] });
-      continue;
+    if (lowerChar === 's' && nextLowerChar === 'h') {
+      // test for 'sh' sound
+      yap_queue.push({ letter: char, sound: yap_sounds['sh'] })
+      continue
+    } else if (lowerChar === 't' && nextLowerChar === 'h') {
+      // test for 'th' sound
+      yap_queue.push({ letter: char, sound: yap_sounds['th'] })
+      continue
+    } else if (
+      lowerChar === 'h' &&
+      (prevLowerChar === 's' || prevLowerChar === 't')
+    ) {
+      // test if previous letter was 's' or 't' and current letter is 'h'
+      yap_queue.push({ letter: char, sound: yap_sounds['_'] })
+      continue
     } else if (',?. '.includes(char)) {
-      yap_queue.push({ letter: char, sound: yap_sounds['_'] });
-      continue;
-    } else if (lowerChar === prevLowerChar) { // skip repeat letters
-      yap_queue.push({ letter: char, sound: yap_sounds['_'] });
-      continue;
+      yap_queue.push({ letter: char, sound: yap_sounds['_'] })
+      continue
+    } else if (lowerChar === prevLowerChar) {
+      // skip repeat letters
+      yap_queue.push({ letter: char, sound: yap_sounds['_'] })
+      continue
     }
 
     if (lowerChar.match(/[a-z.]/)) {
       yap_queue.push({ letter: char, sound: yap_sounds[lowerChar] })
-      continue; // skip characters that are not letters or periods
+      continue // skip characters that are not letters or periods
     }
 
     yap_queue.push({ letter: char, sound: yap_sounds['_'] })
@@ -108,14 +117,14 @@ async function yap(text, {
     })
   }
 
-  next_yap();
+  next_yap()
 }
 
 const IdeaGenerator = () => {
   // const [idea, setIdea] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false)
+  const [typing, setTyping] = useState(false)
+  const [message, setMessage] = useState('')
 
   const thinkingWords = [
     'thinking',
@@ -133,34 +142,45 @@ const IdeaGenerator = () => {
   ]
 
   const generateIdea = async () => {
-    if (typing) return;
-    setLoading(true);
+    if (typing) return
+    setLoading(true)
     setMessage(sample(thinkingWords))
     sample(thinkingSounds).play()
     let newIdea = ''
     await Promise.all([
-      fetchIdea().then(i => {newIdea = i.idea}),
-      new Promise(resolve => setTimeout(resolve, 2000))
-    ]);
-    setTyping(true);
-    setLoading(false);
+      fetchIdea().then((i) => {
+        newIdea = i.idea
+      }),
+      new Promise((resolve) => setTimeout(resolve, 2000)),
+    ])
+    setTyping(true)
+    setLoading(false)
     setMessage('')
     yap(newIdea, {
       letterCallback: ({ letter }) => {
-        setMessage(prev => prev + letter)
+        setMessage((prev) => prev + letter)
       },
       endCallback: () => {
-        setTyping(false);
-      }
+        setTyping(false)
+      },
     })
   }
 
-  const activeClass = loading ? 'thinking' : (typing ? 'typing' : 'idle');
-  const imgSrc = loading ? '/thinking.png' : (typing ? '/talking.png' : '/idle.png');
+  const activeClass = loading ? 'thinking' : typing ? 'typing' : 'idle'
+  const imgSrc = loading
+    ? '/thinking.png'
+    : typing
+      ? '/talking.png'
+      : '/idle.png'
 
   return (
     <div className="idea-generator flex flex-col justify-center items-center mb-24">
-      <img src={imgSrc} className={`mb-4 ${activeClass}`} alt="idea generator" onClick={() => generateIdea()} />
+      <img
+        src={imgSrc}
+        className={`mb-4 ${activeClass}`}
+        alt="idea generator"
+        onClick={() => generateIdea()}
+      />
       <span className="idea-box text-white w-64">{message}</span>
     </div>
   )

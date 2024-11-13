@@ -1,62 +1,62 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import Verification from "./verification";
-import Platforms from "@/app/utils/wakatime-setup/platforms";
-import JaggedCard from "../../../components/jagged-card";
-import Cookies from "js-cookie";
-import FeedItems from "./feed-items";
-import { getWakaSessions } from "@/app/utils/waka";
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import Verification from './verification'
+import Platforms from '@/app/utils/wakatime-setup/platforms'
+import JaggedCard from '../../../components/jagged-card'
+import Cookies from 'js-cookie'
+import FeedItems from './feed-items'
+import { getWakaSessions } from '@/app/utils/waka'
 
 export default function Signpost() {
-  let wakaKey: string | null = null;
-  let hasHb: boolean | null = null;
-  const wakaCookie = Cookies.get("waka");
+  let wakaKey: string | null = null
+  let hasHb: boolean | null = null
+  const wakaCookie = Cookies.get('waka')
   if (wakaCookie) {
     try {
-      const parsedCookie = JSON.parse(wakaCookie);
-      if (Object.hasOwn(parsedCookie, "key")) {
-        wakaKey = parsedCookie.key;
+      const parsedCookie = JSON.parse(wakaCookie)
+      if (Object.hasOwn(parsedCookie, 'key')) {
+        wakaKey = parsedCookie.key
       } else {
         throw new Error(
           "The parsed waka cookie has no key 'key' (the waka api key)",
-        );
+        )
       }
 
-      if (Object.hasOwn(parsedCookie, "hasHb")) {
-        hasHb = parsedCookie.hasHb;
+      if (Object.hasOwn(parsedCookie, 'hasHb')) {
+        hasHb = parsedCookie.hasHb
       } else {
-        throw new Error("The parsed waka cookie has no key 'hasHb'");
+        throw new Error("The parsed waka cookie has no key 'hasHb'")
       }
     } catch (e) {
-      console.error("Couldn't JSON parse the waka cookie: ", e);
+      console.error("Couldn't JSON parse the waka cookie: ", e)
     }
   }
 
   const [wakaSessions, setWakaSessions] =
-    useState<{ key: string; total: number }[]>();
+    useState<{ key: string; total: number }[]>()
 
   useEffect(() => {
     getWakaSessions().then((s) => {
       setWakaSessions(s.projects)
-      if (s.projects.length > 0 ) {
+      if (s.projects.length > 0) {
         hasHb = true
       }
-    });
-  }, []);
+    })
+  }, [])
 
   const hms = wakaSessions
     ? new Date(wakaSessions.reduce((a, p) => (a += p.total), 0) * 1_000)
         .toISOString()
         .slice(11, 19)
-        .split(":")
+        .split(':')
         .map((s) => Number(s))
-    : null;
+    : null
 
   // Show or hide instructions for installing Hackatime
-  const [showInstructions, setShowInstructions] = useState(!hasHb);
+  const [showInstructions, setShowInstructions] = useState(!hasHb)
 
   return (
     <motion.div
@@ -66,11 +66,15 @@ export default function Signpost() {
     >
       <h1 className="font-heading text-5xl font-bold text-white mb-2 text-center">
         The Signpost
-        <img src="/signpost.png" width={32} className="inline-block ml-4 hidden sm:inline"></img>
+        <img
+          src="/signpost.png"
+          width={32}
+          className="inline-block ml-4 hidden sm:inline"
+        ></img>
       </h1>
 
       <p className="text-center text-white text-xs sm:text-sm mb-8">
-        Have questions? Need help? Post in{" "}
+        Have questions? Need help? Post in{' '}
         <Link
           className="text-blue-500"
           href="https://hackclub.slack.com/archives/C07PZNMBPBN"
@@ -85,29 +89,42 @@ export default function Signpost() {
       <div className="text-center mb-2">
         <h2 className="font-heading text-2xl font-bold">Stats</h2>
         <p className="text-md md:text-lg">
-          {hasHb 
-            ? (<>{hms
-              ? (<p>
-                  <span>You've logged {hms[0]} hour{hms[0] !== 1 ? "s" : ""}, {hms[1]} minute{hms[1] !== 1 ? "s" : ""}, </span>
-                  <br className="sm:hidden"></br>
-                  <span>and {hms[2]} second{hms[2] !== 1 ? "s" : ""} of coding time so far!</span>
-                </p>)
-              : "Project time loading..."}
-            </>) : (
+          {hasHb ? (
             <>
-              You have <b>NOT</b> set up Hackatime. Your hours are <b>not</b>{" "}
+              {hms ? (
+                <p>
+                  <span>
+                    You've logged {hms[0]} hour{hms[0] !== 1 ? 's' : ''},{' '}
+                    {hms[1]} minute{hms[1] !== 1 ? 's' : ''},{' '}
+                  </span>
+                  <br className="sm:hidden"></br>
+                  <span>
+                    and {hms[2]} second{hms[2] !== 1 ? 's' : ''} of coding time
+                    so far!
+                  </span>
+                </p>
+              ) : (
+                'Project time loading...'
+              )}
+            </>
+          ) : (
+            <>
+              You have <b>NOT</b> set up Hackatime. Your hours are <b>not</b>{' '}
               being tracked!
             </>
           )}
         </p>
-        <p>
-          
-        </p>
+        <p></p>
       </div>
 
       <JaggedCard shadow={false} small={!showInstructions}>
         {wakaKey ? (
-          <Platforms wakaKey={wakaKey} hasHb={hasHb} showInstructions={showInstructions} setShowInstructions={setShowInstructions} />
+          <Platforms
+            wakaKey={wakaKey}
+            hasHb={hasHb}
+            showInstructions={showInstructions}
+            setShowInstructions={setShowInstructions}
+          />
         ) : (
           <p>Loading Hackatime token...</p>
         )}
@@ -118,5 +135,5 @@ export default function Signpost() {
       </h2>
       <FeedItems />
     </motion.div>
-  );
+  )
 }

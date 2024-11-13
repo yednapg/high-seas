@@ -3,7 +3,7 @@
   <h1>Build personal projects. Get free stuff.</h1>
 </div>
 
-*Welcome to the Hack Club High Seas.*
+_Welcome to the Hack Club High Seas._
 Built by a team of 20 teenagers from around the world, High Seas is a global challenge to every teenager to build awesome projects and get rewarded.
 
 Prizes range from iPads, Framework Laptops, Flipper Zeroes, and more.

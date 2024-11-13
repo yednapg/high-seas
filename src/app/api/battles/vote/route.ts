@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 import {
   ensureUniqueVote,
   submitVote,
-} from "../../../../../lib/battles/airtable";
-import { getSession } from "@/app/utils/auth";
-import { verifyMatchup } from "../../../../../lib/battles/matchupGenerator";
+} from '../../../../../lib/battles/airtable'
+import { getSession } from '@/app/utils/auth'
+import { verifyMatchup } from '../../../../../lib/battles/matchupGenerator'
 
 export async function POST(request: Request) {
-  const session = await getSession();
+  const session = await getSession()
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     // let isBot = false;
-    const voteData = await request.json();
+    const voteData = await request.json()
 
     // Validate turnstile token
     // const turnstileResult = await fetch(
@@ -41,34 +41,34 @@ export async function POST(request: Request) {
       loser: voteData.loser,
       signature: voteData.signature,
       ts: voteData.ts,
-    };
+    }
     // @ts-expect-error because i don't understand typescript
-    const isVerified = verifyMatchup(matchup, session.slackId);
+    const isVerified = verifyMatchup(matchup, session.slackId)
     if (!isVerified) {
       return NextResponse.json(
-        { error: "Invalid matchup signature" },
+        { error: 'Invalid matchup signature' },
         { status: 400 },
-      );
+      )
     }
     const isUnique = await ensureUniqueVote(
       session.slackId,
       voteData.winner,
       voteData.loser,
-    );
+    )
     if (!isUnique) {
       return NextResponse.json(
-        { error: "Vote already submitted" },
+        { error: 'Vote already submitted' },
         { status: 400 },
-      );
+      )
     }
-    const _result = await submitVote(voteData /*, isBot*/);
+    const _result = await submitVote(voteData /*, isBot*/)
 
-    return NextResponse.json({ ok: true /*, reload: isBot */ });
+    return NextResponse.json({ ok: true /*, reload: isBot */ })
   } catch (error) {
-    console.error("Error submitting vote:", error);
+    console.error('Error submitting vote:', error)
     return NextResponse.json(
-      { error: "Failed to submit vote" },
+      { error: 'Failed to submit vote' },
       { status: 500 },
-    );
+    )
   }
 }

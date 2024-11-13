@@ -1,26 +1,26 @@
-import type { Ship } from "@/app/utils/data";
-import Pill from "./pill";
+import type { Ship } from '@/app/utils/data'
+import Pill from './pill'
 
-import DoubloonsImage from "/public/doubloon.svg";
-import Image from "next/image";
+import DoubloonsImage from '/public/doubloon.svg'
+import Image from 'next/image'
 
 export default function ShipPillCluster({
   ship,
   shipChains,
 }: {
-  ship: Ship;
-  shipChains: Map<string, string[]>;
+  ship: Ship
+  shipChains: Map<string, string[]>
 }) {
   const shipUpdates = shipChains
-    ? shipChains.get(ship.wakatimeProjectNames.join(","))
-    : null;
-  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null;
+    ? shipChains.get(ship.wakatimeProjectNames.join(','))
+    : null
+  const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null
 
   return (
     <>
       <Pill msg={`${ship.total_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
 
-      {ship.shipStatus === "shipped" &&
+      {ship.shipStatus === 'shipped' &&
         (ship.voteRequirementMet ? (
           ship.doubloonPayout ? (
             <Pill
@@ -33,7 +33,7 @@ export default function ShipPillCluster({
           ) : (
             <Pill
               msg={`Awaiting ${10 - ship.matchups_count} more vote${
-                10 - ship.matchups_count === 1 ? "" : "s"
+                10 - ship.matchups_count === 1 ? '' : 's'
               } from other pirates…`}
               color="blue"
               glyph="event-add"
@@ -42,7 +42,7 @@ export default function ShipPillCluster({
           )
         ) : (
           <Pill
-            msg={"Pending: Vote to unlock payout!"}
+            msg={'Pending: Vote to unlock payout!'}
             color="blue"
             glyph="enter"
           />
@@ -51,13 +51,13 @@ export default function ShipPillCluster({
       {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
           msg={`${shipUpdateCount} Ship update${
-            shipUpdateCount === 1 ? "" : "s"
+            shipUpdateCount === 1 ? '' : 's'
           }`}
           color="purple"
           glyph="reply"
-          glyphStyles={{ transform: "scaleX(-1)" }}
+          glyphStyles={{ transform: 'scaleX(-1)' }}
         />
       ) : null}
     </>
-  );
+  )
 }

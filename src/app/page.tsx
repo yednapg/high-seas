@@ -1,7 +1,7 @@
-"use server";
+'use server'
 
-import Marketing from "./marketing/page";
+import Marketing from './marketing/page'
 
 export default async function Page() {
-  return <Marketing />;
+  return <Marketing />
 }

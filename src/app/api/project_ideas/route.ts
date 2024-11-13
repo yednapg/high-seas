@@ -1,8 +1,8 @@
 'use server'
 
-import { NextRequest, NextResponse } from "next/server";
-import { sample } from "../../../../lib/flavor";
-import OpenAI from "openai";
+import { NextRequest, NextResponse } from 'next/server'
+import { sample } from '../../../../lib/flavor'
+import OpenAI from 'openai'
 
 const randomThings = [
   'karaoke',
@@ -51,7 +51,11 @@ const generateKeywords = () => {
     return ''
   }
 
-  const keywords = [sample(randomThings), sample(randomThings), sample(randomThings)]
+  const keywords = [
+    sample(randomThings),
+    sample(randomThings),
+    sample(randomThings),
+  ]
   return `To give you some ideas, here are some random things you can use: ${keywords.join(', ')}`
 }
 
@@ -71,22 +75,18 @@ Think out of the box, and do not propose ideas that do nothing but generate text
 Random sound effect generators are boring, do not suggest them.
 Be very creative, do not suggest projects that are too simple.
 Don't suggest anything too offensive or inappropriate such as slurs.
-Your idea should not involve any of the following concepts: ${bannedThings.map(i => `"${i}"`).join(', ')}.
+Your idea should not involve any of the following concepts: ${bannedThings.map((i) => `"${i}"`).join(', ')}.
 Your response must start with "${sample(messageStarters)}".
 ${generateKeywords()}`
 
-const models = [
-  'gpt-4o-mini',
-  'gpt-4o',
-  'gpt-3.5-turbo'
-]
+const models = ['gpt-4o-mini', 'gpt-4o', 'gpt-3.5-turbo']
 
 const generateIdeas = async () => {
   const model = sample(models)
   const openai = new OpenAI(process.env.OPENAI_API_KEY)
   const chatCompletion = await openai.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
-    model: model
+    model: model,
   })
   const result = chatCompletion.choices[0].message.content
   if (result) {
@@ -95,22 +95,31 @@ const generateIdeas = async () => {
   return result
 }
 
-const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) => {
+const saveIdeaToAirtable = async (
+  idea: string,
+  model: string,
+  prompt: string,
+) => {
   try {
-    const result = await fetch('https://middleman.hackclub.com/airtable/v0/appQ6GyueRp5jqc9Q/high_seas_project_ideas', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
-        'Content-Type': 'application/json',
-        'User-Agent': 'highseas.hackclub.com (project ideas)'
+    const result = await fetch(
+      'https://middleman.hackclub.com/airtable/v0/appQ6GyueRp5jqc9Q/high_seas_project_ideas',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          'Content-Type': 'application/json',
+          'User-Agent': 'highseas.hackclub.com (project ideas)',
+        },
+        body: JSON.stringify({
+          fields: {
+            model,
+            prompt,
+            idea,
+          },
+        }),
       },
-      body: JSON.stringify({
-        fields: {
-          model, prompt, idea
-        }
-      })
-    }).then(r => r.text())
-  } catch(e) {
+    ).then((r) => r.text())
+  } catch (e) {
     console.error(e)
     // this is just for caching a couple project ideas and it's non-critical if it fails
   }
@@ -119,8 +128,5 @@ const saveIdeaToAirtable = async (idea: string, model: string, prompt: string) =
 export async function POST(request: NextRequest) {
   const idea = await generateIdeas()
 
-  return NextResponse.json(
-    { idea },
-    { status: 200 },
-  );
+  return NextResponse.json({ idea }, { status: 200 })
 }

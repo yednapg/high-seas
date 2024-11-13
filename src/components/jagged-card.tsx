@@ -1,5 +1,5 @@
-import React from "react";
-import JaggedCardSmall from "./jagged-card-small";
+import React from 'react'
+import JaggedCardSmall from './jagged-card-small'
 
 const Svg = ({ bgColor }) => (
   <svg
@@ -51,12 +51,12 @@ const Svg = ({ bgColor }) => (
       </linearGradient>
     </defs>
   </svg>
-);
+)
 
 const JaggedCard = ({
   children,
-  className = "",
-  bgColor = "#48BBFE",
+  className = '',
+  bgColor = '#48BBFE',
   shadow = true,
   small = false,
   ...props
@@ -79,7 +79,7 @@ const JaggedCard = ({
       className="relative w-full"
       {...props}
       style={{
-        filter: shadow ? "drop-shadow(0 0 5rem #88FDFF)" : "",
+        filter: shadow ? 'drop-shadow(0 0 5rem #88FDFF)' : '',
       }}
     >
       <Svg bgColor={bgColor} />
@@ -87,7 +87,7 @@ const JaggedCard = ({
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default JaggedCard;
+export default JaggedCard

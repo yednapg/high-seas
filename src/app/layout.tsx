@@ -1,38 +1,38 @@
-import type { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import localFont from "next/font/local";
-import "./globals.css";
-import Nav from "@/components/nav";
-import { Toaster } from "@/components/ui/toaster";
+import type { Metadata } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import localFont from 'next/font/local'
+import './globals.css'
+import Nav from '@/components/nav'
+import { Toaster } from '@/components/ui/toaster'
 
-import PlausibleProvider from "next-plausible";
-import { Analytics } from "@vercel/analytics/react";
-import Fullstory from "@/components/fullstory";
+import PlausibleProvider from 'next-plausible'
+import { Analytics } from '@vercel/analytics/react'
+import Fullstory from '@/components/fullstory'
 
 const mainFont = localFont({
-  src: "../../public/fonts/arialroundedmtbold.ttf",
-  variable: "--font-main",
-});
+  src: '../../public/fonts/arialroundedmtbold.ttf',
+  variable: '--font-main',
+})
 
 export const metadata: Metadata = {
-  title: "High Seas | Hack Club",
-  description: "Build cool projects. Get cool stuff.",
+  title: 'High Seas | Hack Club',
+  description: 'Build cool projects. Get cool stuff.',
   openGraph: {
     images: [
       {
-        url: "/ogcard.png",
+        url: '/ogcard.png',
         width: 1200,
         height: 630,
-        alt: "High Seas OG Image",
+        alt: 'High Seas OG Image',
       },
     ],
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -67,7 +67,7 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
-  );
+  )
 }
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic'

@@ -1,11 +1,11 @@
 // Import necessary modules and components
-import { createShipUpdate } from "./ship-utils";
-import type { Ship } from "@/app/utils/data";
-import { Button } from "@/components/ui/button";
-import JSConfetti from "js-confetti";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { getWakaSessions } from "@/app/utils/waka";
-import Icon from "@hackclub/icons";
+import { createShipUpdate } from './ship-utils'
+import type { Ship } from '@/app/utils/data'
+import { Button } from '@/components/ui/button'
+import JSConfetti from 'js-confetti'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { getWakaSessions } from '@/app/utils/waka'
+import Icon from '@hackclub/icons'
 
 export default function NewUpdateForm({
   shipToUpdate,
@@ -14,97 +14,97 @@ export default function NewUpdateForm({
   session,
   setShips,
 }: {
-  shipToUpdate: Ship;
-  canvasRef: any;
-  closeForm: any;
-  session: any;
-  setShips: any;
+  shipToUpdate: Ship
+  canvasRef: any
+  closeForm: any
+  session: any
+  setShips: any
 }) {
-  const [staging, setStaging] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const confettiRef = useRef<JSConfetti | null>(null);
-  const [projectHours, setProjectHours] = useState<number>(0);
+  const [staging, setStaging] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const confettiRef = useRef<JSConfetti | null>(null)
+  const [projectHours, setProjectHours] = useState<number>(0)
 
   // Initialize confetti on mount
   useEffect(() => {
-    confettiRef.current = new JSConfetti({ canvas: canvasRef.current });
-  }, [canvasRef.current]);
+    confettiRef.current = new JSConfetti({ canvas: canvasRef.current })
+  }, [canvasRef.current])
 
   // Fetch projects from the API using the Slack ID
   const fetchWakaSessions = useCallback(async (scope?: string) => {
     try {
-      return await getWakaSessions(scope);
+      return await getWakaSessions(scope)
     } catch (error) {
-      console.error("Error fetching Waka sessions:", error);
-      return null;
+      console.error('Error fetching Waka sessions:', error)
+      return null
     }
-  }, []);
+  }, [])
 
   const calculateCreditedTime = useCallback(
     (
       projects: {
-        key: string;
-        total: number;
-      }[]
+        key: string
+        total: number
+      }[],
     ): number => {
       const project = projects.find((p) =>
-        (shipToUpdate.wakatimeProjectNames || []).includes(p.key)
-      );
+        (shipToUpdate.wakatimeProjectNames || []).includes(p.key),
+      )
 
-      if (!project) return 0;
+      if (!project) return 0
 
       const creditedTime =
-        project.total / 3600 - (shipToUpdate.total_hours || 0);
-      return Math.round(creditedTime * 1000) / 1000;
+        project.total / 3600 - (shipToUpdate.total_hours || 0)
+      return Math.round(creditedTime * 1000) / 1000
     },
-    [shipToUpdate]
-  );
+    [shipToUpdate],
+  )
 
   useEffect(() => {
     async function fetchAndSetProjectHours() {
-      setLoading(true);
-      const res = await fetchWakaSessions();
+      setLoading(true)
+      const res = await fetchWakaSessions()
 
       if (res && shipToUpdate.total_hours) {
-        let creditedTime = calculateCreditedTime(res.projects);
+        let creditedTime = calculateCreditedTime(res.projects)
 
         if (creditedTime < 0) {
-          const anyScopeRes = await fetchWakaSessions("any");
+          const anyScopeRes = await fetchWakaSessions('any')
           if (anyScopeRes) {
-            creditedTime = calculateCreditedTime(anyScopeRes.projects);
+            creditedTime = calculateCreditedTime(anyScopeRes.projects)
           }
         }
 
-        setProjectHours(creditedTime);
+        setProjectHours(creditedTime)
       }
-      setLoading(false);
+      setLoading(false)
     }
 
-    fetchAndSetProjectHours();
-  }, [fetchWakaSessions, calculateCreditedTime, shipToUpdate]);
+    fetchAndSetProjectHours()
+  }, [fetchWakaSessions, calculateCreditedTime, shipToUpdate])
 
   const handleForm = async (formData: FormData) => {
-    setStaging(true);
+    setStaging(true)
 
     const updatedShip = await createShipUpdate(
       shipToUpdate.id,
       projectHours,
-      formData
-    );
-    confettiRef.current?.addConfetti();
-    closeForm();
-    setStaging(false);
+      formData,
+    )
+    confettiRef.current?.addConfetti()
+    closeForm()
+    setStaging(false)
 
     if (setShips) {
-      console.log("Set ships is passed! Adding stagged ship", shipToUpdate.id);
+      console.log('Set ships is passed! Adding stagged ship', shipToUpdate.id)
 
       setShips((previousShips: Ship[]) => {
-        return [...previousShips, updatedShip];
-      });
+        return [...previousShips, updatedShip]
+      })
     } else {
-      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+      console.error("Updated a ship but can't setShips bc you didn't pass it.")
     }
-  };
+  }
 
   return (
     <div className="p-4">
@@ -118,8 +118,8 @@ export default function NewUpdateForm({
 
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          handleForm(new FormData(e.target as HTMLFormElement));
+          e.preventDefault()
+          handleForm(new FormData(e.target as HTMLFormElement))
         }}
         className="space-y-3"
       >
@@ -150,12 +150,12 @@ export default function NewUpdateForm({
               Loading...
             </>
           ) : projectHours > 0.5 ? (
-            "Stage my Ship!"
+            'Stage my Ship!'
           ) : (
             "You don't have enough hours to ship an update"
           )}
         </Button>
       </form>
     </div>
-  );
+  )
 }

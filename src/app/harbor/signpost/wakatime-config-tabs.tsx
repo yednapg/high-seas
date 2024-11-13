@@ -1,40 +1,40 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Icon from "@hackclub/icons";
-import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from 'react'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import Icon from '@hackclub/icons'
+import { useToast } from '@/hooks/use-toast'
 
 const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
-  const { toast } = useToast();
+  const { toast } = useToast()
 
-  const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState(false)
 
   useEffect(() => {
     if (isCopied) {
-      const timer = setTimeout(() => setIsCopied(false), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setIsCopied(false), 1000)
+      return () => clearTimeout(timer)
     }
-  }, [isCopied]);
+  }, [isCopied])
 
   const handleCopy = async () => {
     // await navigator.clipboard.writeText(textToCopy); // TODO: UNCOMMENT & fix navigator issue
-    setIsCopied(true);
-    toast({ title: "Copied WakaTime setup script" });
-  };
+    setIsCopied(true)
+    toast({ title: 'Copied WakaTime setup script' })
+  }
 
   return (
     <Button className="ml-2 h-auto" onClick={handleCopy}>
-      <Icon glyph={isCopied ? "copy-check" : "copy"} size={24} />
+      <Icon glyph={isCopied ? 'copy-check' : 'copy'} size={24} />
     </Button>
-  );
-};
+  )
+}
 
 const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
-  const unixCommand = `echo -e "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = ${wakaToken}" > ~/.wakatime.cfg && echo "WakaTime configuration file has been created/updated at ~/.wakatime.cfg"`;
-  const windowsCommand = `echo "[settings]\`napi_url = https://waka.hackclub.com/api\`napi_key = ${wakaToken}" | Out-File -FilePath "$env:USERPROFILE\\.wakatime.cfg" -Encoding ASCII; Write-Host "WakaTime configuration file has been created/updated at $env:USERPROFILE\\.wakatime.cfg"`;
+  const unixCommand = `echo -e "[settings]\napi_url = https://waka.hackclub.com/api\napi_key = ${wakaToken}" > ~/.wakatime.cfg && echo "WakaTime configuration file has been created/updated at ~/.wakatime.cfg"`
+  const windowsCommand = `echo "[settings]\`napi_url = https://waka.hackclub.com/api\`napi_key = ${wakaToken}" | Out-File -FilePath "$env:USERPROFILE\\.wakatime.cfg" -Encoding ASCII; Write-Host "WakaTime configuration file has been created/updated at $env:USERPROFILE\\.wakatime.cfg"`
 
   return (
     <Tabs defaultValue="unix">
@@ -59,7 +59,7 @@ const WakaTimeConfigTabs = ({ wakaToken }: { wakaToken: string }) => {
         </Card>
       </TabsContent>
     </Tabs>
-  );
-};
+  )
+}
 
-export default WakaTimeConfigTabs;
+export default WakaTimeConfigTabs
