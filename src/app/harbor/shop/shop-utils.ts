@@ -27,6 +27,8 @@ export interface ShopItem {
   fulfilledAtEnd: boolean
   comingSoon: boolean
   outOfStock: boolean
+  minimumHoursEstimated: number
+  maximumHoursEstimated: number
 }
 
 export async function getPerson() {
@@ -79,6 +81,12 @@ export async function getShop(): Promise<ShopItem[]> {
               ) as boolean,
               comingSoon: Boolean(record.get('coming_soon')) as boolean,
               outOfStock: Boolean(record.get('out_of_stock')) as boolean,
+              minimumHoursEstimated: Number(
+                record.get('minimum_hours_estimated'),
+              ),
+              maximumHoursEstimated: Number(
+                record.get('maximum_hours_estimated'),
+              ),
             })
           })
 
