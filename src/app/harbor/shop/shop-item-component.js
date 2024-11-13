@@ -66,16 +66,23 @@ export const ShopItemComponent = ({
             dangerouslySetInnerHTML={{ __html: item.subtitle ?? '' }}
           ></p>
 
-          <span className="text-green-500 font-semibold flex items-center">
-            <img
-              src="doubloon.svg"
-              alt="doubloons"
-              width={20}
-              height={20}
-              className="mr-1"
-            />
-            {filterIndex == 1 ? item.priceUs : item.priceGlobal}
-          </span>
+          <p className="inline-flex gap-3 items-center">
+            <span className="text-green-500 font-semibold flex items-center">
+              <img
+                src="doubloon.svg"
+                alt="doubloons"
+                width={20}
+                height={20}
+                className="mr-1"
+              />
+              {filterIndex == 1 ? item.priceUs : item.priceGlobal}
+            </span>
+
+            <span className="text-xs text-gray-600">
+              ({item.minimumHoursEstimated.toFixed(1)} -{' '}
+              {item.maximumHoursEstimated.toFixed(1)} hours)
+            </span>
+          </p>
         </CardHeader>
         {item.imageUrl && (
           <CardContent className="p-0 flex-grow">
