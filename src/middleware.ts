@@ -53,24 +53,6 @@ export async function userPageMiddleware(request: NextRequest) {
     console.log('Middleware errored on waka cookie step', e)
   }
 
-  // Signpost base
-  try {
-    console.log('Checking for signpost-feed cookie')
-    const signpostPage = request.nextUrl.pathname.startsWith('/signpost')
-    if (signpostPage && !request.cookies.get('signpost-feed')) {
-      const signpostFeed = await fetchSignpostFeed()
-      response.cookies.set({
-        name: 'signpost-feed',
-        value: JSON.stringify(signpostFeed),
-        path: '/',
-        sameSite: 'strict',
-        expires: new Date(Date.now() + 30 * 60 * 1000), // In 30 minutes
-      })
-    }
-  } catch (e) {
-    console.log('Middleware errored on signpost-feed cookie step', e)
-  }
-
   // Person base
   try {
     if (
