@@ -60,7 +60,7 @@ let hasSetUp = false
 export function tour() {
   safePerson().then(({ hasCompletedTutorial }) => {
     console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
-    sessionStorage.setItem('tutorial', hasCompletedTutorial.toString())
+    sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
   })
 
   const currentStepId = getCookie('tour-step')
