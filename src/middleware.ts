@@ -12,16 +12,20 @@ import {
 export async function userPageMiddleware(request: NextRequest) {
   const response = NextResponse.next()
   const session = await getSession()
+  const banlist = (await get('banlist')) as string[]
 
   const email = session?.email
   const slackId = session?.slackId
   if (!slackId || !email) return response
 
-  const banlist = (await get('banlist')) as string[]
   if (banlist.includes(email)) {
-    console.log('ban')
-  } else {
-    console.log('noban')
+    const redir = NextResponse.redirect(new URL('/', request.url))
+    request.cookies
+      .getAll()
+      .forEach((cookie) => redir.cookies.delete(cookie.name))
+
+    console.log('Banned', email)
+    return redir
   }
 
   // Ships base
