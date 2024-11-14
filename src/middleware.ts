@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
+import { get } from '@vercel/edge-config'
 import { getSession } from './app/utils/auth'
 import {
   fetchShips,
@@ -10,11 +10,23 @@ import {
 } from './app/utils/data'
 
 export async function userPageMiddleware(request: NextRequest) {
-  const session = await getSession()
-  const slackId = session?.slackId
-
   const response = NextResponse.next()
-  if (!slackId) return response
+  const session = await getSession()
+  const banlist = (await get('banlist')) as string[]
+
+  const email = session?.email
+  const slackId = session?.slackId
+  if (!slackId || !email) return response
+
+  if (banlist.includes(email)) {
+    const redir = NextResponse.redirect(new URL('/', request.url))
+    request.cookies
+      .getAll()
+      .forEach((cookie) => redir.cookies.delete(cookie.name))
+
+    console.log('Banned', email)
+    return redir
+  }
 
   // Ships base
   try {
