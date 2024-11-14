@@ -2,7 +2,7 @@ import Shepherd, { type Tour } from 'shepherd.js'
 import './shepherd.css'
 import { offset } from '@floating-ui/dom'
 import Cookies from 'js-cookie'
-import { fetchTutorialCompletionStatus } from '../../utils/airtable'
+import { safePerson } from '../../utils/airtable'
 
 const waitForElement = (
   selector: string,
@@ -58,9 +58,10 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false
 export function tour() {
-  fetchTutorialCompletionStatus().then((res) =>
-    sessionStorage.setItem('tutorial', res.toString()),
-  )
+  safePerson().then(({ hasCompletedTutorial }) => {
+    console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
+    sessionStorage.setItem('tutorial', hasCompletedTutorial.toString())
+  })
 
   const currentStepId = getCookie('tour-step')
   if (currentStepId) {

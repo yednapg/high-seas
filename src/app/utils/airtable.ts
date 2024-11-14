@@ -151,8 +151,3 @@ export async function safePerson(): Promise<SafePerson> {
     preexistingUser,
   }
 }
-
-export const fetchTutorialCompletionStatus = async (): Promise<boolean> => {
-  const person = await getSelfPerson(slackId)
-  return person.fields.academy_completed === true
-}
