@@ -37,6 +37,7 @@ export async function userPageMiddleware(request: NextRequest) {
     console.log('Checking for waka cookie')
     if (!request.cookies.get('waka')) {
       const wakaData = await fetchWaka(session)
+      console.log("found waka cookie")
       let expiration = 60 * 60 * 1000 // In 1 hour
       if (wakaData?.hasHb) {
         expiration = 7 * 24 * 60 * 60 * 1000 // In 7 days
