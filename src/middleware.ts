@@ -31,6 +31,7 @@ export async function userPageMiddleware(request: NextRequest) {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
     if (shipyardPage && !request.cookies.get('ships')) {
       const ships = await fetchShips(slackId, 2)
+      console.log(ships.map((s) => s.title))
       console.log("ships too big:", tooBig(ships))
       response.cookies.set({
         name: 'ships',
