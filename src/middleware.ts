@@ -16,7 +16,7 @@ function checkSize(obj: any) {
 function tooBig(obj: any) {
   console.log(checkSize(obj))
   // https://vercel.com/docs/errors/REQUEST_HEADER_TOO_LARGE
-  return checkSize(obj) > 4096
+  return checkSize(obj) > 16384
 }
 
 export async function userPageMiddleware(request: NextRequest) {
@@ -30,7 +30,7 @@ export async function userPageMiddleware(request: NextRequest) {
   try {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
     if (shipyardPage && !request.cookies.get('ships')) {
-      const ships = await fetchShips(slackId, 3)
+      const ships = await fetchShips(slackId, 2)
       console.log("ships too big:", tooBig(ships))
       response.cookies.set({
         name: 'ships',
