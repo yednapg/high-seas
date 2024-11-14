@@ -57,11 +57,9 @@ const t = new Shepherd.Tour({
 })
 
 let hasSetUp = false
-export async function tour() {
-  const tutorialCompletionStatus = await fetchTutorialCompletionStatus()
-  sessionStorage.setItem(
-    'tutorial',
-    tutorialCompletionStatus ? 'true' : 'false',
+export function tour() {
+  fetchTutorialCompletionStatus().then((res) =>
+    sessionStorage.setItem('tutorial', res.toString()),
   )
 
   const currentStepId = getCookie('tour-step')
