@@ -9,6 +9,16 @@ import {
   person,
 } from './app/utils/data'
 
+function checkSize(obj: any) {
+  return Buffer.byteLength(JSON.stringify(obj))
+}
+
+function tooBig(obj: any) {
+  console.log(checkSize(obj))
+  // https://vercel.com/docs/errors/REQUEST_HEADER_TOO_LARGE
+  return checkSize(obj) > 4096
+}
+
 export async function userPageMiddleware(request: NextRequest) {
   const session = await getSession()
   const slackId = session?.slackId
@@ -21,6 +31,7 @@ export async function userPageMiddleware(request: NextRequest) {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
     if (shipyardPage && !request.cookies.get('ships')) {
       const ships = await fetchShips(slackId, 3)
+      console.log("ships too big:", tooBig(ships))
       response.cookies.set({
         name: 'ships',
         value: JSON.stringify(ships),
@@ -42,6 +53,7 @@ export async function userPageMiddleware(request: NextRequest) {
       if (wakaData?.hasHb) {
         expiration = 7 * 24 * 60 * 60 * 1000 // In 7 days
       }
+      console.log("waka too big:", tooBig(wakaData))
       response.cookies.set({
         name: 'waka',
         value: JSON.stringify(wakaData),
@@ -64,6 +76,7 @@ export async function userPageMiddleware(request: NextRequest) {
       const p = (await person()).fields
 
       const tickets = Number(p['settled_tickets'])
+      console.log("tickets too big:", tooBig(tickets))
       response.cookies.set({
         name: 'tickets',
         value: JSON.stringify(tickets),
@@ -78,6 +91,7 @@ export async function userPageMiddleware(request: NextRequest) {
       if (verificationStatus.startsWith('Eligible')) {
         verifExpiration = 24 * 60 * 60 * 1000 // In 1 day
       }
+      console.log("verification too big:", tooBig(verificationStatus))
       response.cookies.set({
         name: 'verification',
         value: JSON.stringify({
@@ -93,6 +107,7 @@ export async function userPageMiddleware(request: NextRequest) {
       if (academyCompleted) {
         acadExpiration = 7 * 24 * 60 * 60 * 1000 // In 7 days
       }
+      console.log("academy too big:", tooBig(academyCompleted))
       response.cookies.set({
         name: 'academy-completed',
         value: JSON.stringify(academyCompleted),
