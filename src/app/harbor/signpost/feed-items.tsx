@@ -7,11 +7,10 @@ import Markdown from 'react-markdown'
 import useLocalStorageState from '../../../../lib/useLocalStorageState'
 
 export default function FeedItems() {
-
   const [feedItems, setFeedItems] = useLocalStorageState<SignpostFeedItem[]>([])
 
   useEffect(() => {
-    fetchSignpostFeed().then(r => setFeedItems(r))
+    fetchSignpostFeed().then((r) => setFeedItems(r))
   }, [])
 
   if (!feedItems || feedItems.length === 0) {
