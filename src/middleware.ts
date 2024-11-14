@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
+import { get } from '@vercel/edge-config'
 import { getSession } from './app/utils/auth'
 import {
   fetchShips,
@@ -10,11 +10,19 @@ import {
 } from './app/utils/data'
 
 export async function userPageMiddleware(request: NextRequest) {
-  const session = await getSession()
-  const slackId = session?.slackId
-
   const response = NextResponse.next()
-  if (!slackId) return response
+  const session = await getSession()
+
+  const email = session?.email
+  const slackId = session?.slackId
+  if (!slackId || !email) return response
+
+  const banlist = (await get('banlist')) as string[]
+  if (banlist.includes(email)) {
+    console.log('ban')
+  } else {
+    console.log('noban')
+  }
 
   // Ships base
   try {
