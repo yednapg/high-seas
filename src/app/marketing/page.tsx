@@ -536,6 +536,17 @@ export default async function Marketing() {
                     </li>
                     <li>
                       <Link
+                        href="https://browserbuddy.hackclub.com/"
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        className="aboutLink"
+                      >
+                        BrowserBuddy
+                      </Link>
+                      : Develop a browser extension, we&apos;ll cover the Chrome Developer Account fee + choose from 5 awesome prizes.
+                    </li>
+                    <li>
+                      <Link
                         href="https://sprig.hackclub.com/"
                         target="_blank"
                         rel="noopenner noreferrer"
