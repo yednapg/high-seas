@@ -10,7 +10,7 @@ export default async function Nav() {
   const session = await getSession()
 
   return (
-    <div className="absolute flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-2 bg-transparent z-30 text-white">
+    <div className="absolute flex items-center justify-between top-0 left-0 right-0 h-14 px-2 m-0 sm:m-2 bg-transparent z-30 text-white">
       <div
         style={{
           position: 'fixed',
