@@ -136,7 +136,7 @@ export async function generateMatchup(
     (p) => p.doubloon_payout || p.project_source === 'arcade',
   )
   const unpaidProjects = availableProjects.filter(
-    (p) => !p.doubloon_payout && p.project_source === 'high_seas',
+    (p) => p.doubloon_payout == null && p.project_source === 'high_seas',
   )
   // Chris, randomly decide if we want paid vs unpaid or unpaid vs unpaid otherwise our sample size might get too tight
   const usePaidComparison = 1 // quicky dirty hack to always use paid vs unpaid
