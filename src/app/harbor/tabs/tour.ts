@@ -628,5 +628,5 @@ const stepToUrlMapping: Record<string, string> = {
   'ts-shop-welcome': '/shop',
   'ts-shop-region': '/shop',
   'ts-shop-free-stickers': '/shop',
-  'ts-signpost': '/shop',
+  'ts-signpost': '/signpost',
 }
