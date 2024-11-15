@@ -18,7 +18,7 @@ export default function ShipPillCluster({
 
   return (
     <>
-      <Pill msg={`${ship.total_hours?.toFixed(3) ?? 0} hr`} glyph="clock" />
+      <Pill msg={`${ship.total_hours?.toFixed(1) ?? 0} hr`} glyph="clock" />
 
       {ship.shipStatus === 'shipped' &&
         (ship.voteRequirementMet ? (
