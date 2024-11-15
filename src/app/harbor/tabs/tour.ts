@@ -62,10 +62,6 @@ export function tour() {
     console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
     sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
   })
-  
-  if (sessionStorage.getItem('tutorial') === 'true') {
-    return;
-  }
 
   const currentStepId = getCookie('tour-step')
   if (currentStepId) {
