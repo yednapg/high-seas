@@ -10,6 +10,8 @@ import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
 
+import pluralize from '../../../../lib/pluralize.js'
+
 export default function Signpost() {
   let wakaKey: string | null = null
   let hasHb: boolean | null = null
@@ -47,13 +49,13 @@ export default function Signpost() {
     })
   }, [])
 
-  const hms = wakaSessions
-    ? new Date(wakaSessions.reduce((a, p) => (a += p.total), 0) * 1_000)
-        .toISOString()
-        .slice(11, 19)
-        .split(':')
-        .map((s) => Number(s))
-    : null
+  const wakaDuration = wakaSessions?.reduce((a, p) => (a += p.total), 0)
+  const hms = { hours: 0, minutes: 0, seconds: 0 }
+  if (wakaDuration) {
+    hms.hours = Math.floor(wakaDuration / 3600)
+    hms.minutes = Math.floor((wakaDuration % 3600) / 60)
+    hms.seconds = wakaDuration % 10
+  }
 
   // Show or hide instructions for installing Hackatime
   const [showInstructions, setShowInstructions] = useState(!hasHb)
@@ -91,16 +93,16 @@ export default function Signpost() {
         <p className="text-md md:text-lg">
           {hasHb ? (
             <>
-              {hms ? (
+              {wakaDuration ? (
                 <p>
                   <span>
-                    You've logged {hms[0]} hour{hms[0] !== 1 ? 's' : ''},{' '}
-                    {hms[1]} minute{hms[1] !== 1 ? 's' : ''},{' '}
+                    You've logged {pluralize(hms.hours, 'hour')},{' '}
+                    {pluralize(hms.minutes, 'minute')},{' '}
                   </span>
                   <br className="sm:hidden"></br>
                   <span>
-                    and {hms[2]} second{hms[2] !== 1 ? 's' : ''} of coding time
-                    so far!
+                    and {pluralize(hms.seconds, 'second')} of coding time so
+                    far!
                   </span>
                 </p>
               ) : (
