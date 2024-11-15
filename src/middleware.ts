@@ -9,7 +9,11 @@ import {
   person,
 } from './app/utils/data'
 
-async function loadShipsCookie(request: NextRequest, slackId: string, response: NextResponse) {
+async function loadShipsCookie(
+  request: NextRequest,
+  slackId: string,
+  response: NextResponse,
+) {
   // Ships base
   try {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
@@ -28,7 +32,11 @@ async function loadShipsCookie(request: NextRequest, slackId: string, response: 
   }
 }
 
-async function loadWakaCookie(request: NextRequest, session: HsSession, response: NextResponse) {
+async function loadWakaCookie(
+  request: NextRequest,
+  session: HsSession,
+  response: NextResponse,
+) {
   try {
     console.log('Checking for waka cookie')
     if (!request.cookies.get('waka')) {
@@ -50,7 +58,10 @@ async function loadWakaCookie(request: NextRequest, session: HsSession, response
   }
 }
 
-async function loadSignpostFeedCookie(request: NextRequest, response: NextResponse) {
+async function loadSignpostFeedCookie(
+  request: NextRequest,
+  response: NextResponse,
+) {
   // Signpost base
   try {
     console.log('Checking for signpost-feed cookie')
@@ -121,7 +132,6 @@ async function loadPersonCookies(request: NextRequest, response: NextResponse) {
   } catch (e) {
     console.log('Middleware errored on person cookie step', e)
   }
-
 }
 
 export async function userPageMiddleware(request: NextRequest) {
