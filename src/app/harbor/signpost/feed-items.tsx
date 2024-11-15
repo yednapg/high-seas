@@ -4,6 +4,11 @@ import { SignpostFeedItem } from '@/app/utils/data'
 import JaggedCardSmall from '@/components/jagged-card-small'
 import Cookies from 'js-cookie'
 import Markdown from 'react-markdown'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-US')
 
 export default function FeedItems() {
   const cookie = Cookies.get('signpost-feed')
@@ -26,6 +31,9 @@ export default function FeedItems() {
       {feedItems.map((item, idx) => {
         return (
           <JaggedCardSmall key={idx} bgColor={`#${item.backgroundColor}`}>
+            <p className="text-sm text-muted">
+              {timeAgo.format(new Date(item.createdTime))}
+            </p>
             <p style={{ color: `#${item.textColor}` }}>
               <span className="text-xl">
                 {item.title}
