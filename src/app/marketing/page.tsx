@@ -543,7 +543,8 @@ export default async function Marketing() {
                       >
                         BrowserBuddy
                       </Link>
-                      : Develop a browser extension, we&apos;ll cover the Chrome Developer Account fee + choose from 5 awesome prizes.
+                      : Develop a browser extension, we&apos;ll cover the Chrome
+                      Developer Account fee + choose from 5 awesome prizes.
                     </li>
                     <li>
                       <Link
