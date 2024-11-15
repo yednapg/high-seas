@@ -9,6 +9,7 @@ import JaggedCard from '../../../components/jagged-card'
 import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
+import Referral from './referral'
 
 import pluralize from '../../../../lib/pluralize.js'
 
@@ -86,6 +87,7 @@ export default function Signpost() {
         !
       </p>
 
+      <Referral />
       <Verification />
 
       <div className="text-center mb-2">
