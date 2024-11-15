@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { get } from '@vercel/edge-config'
-import { getSession } from './app/utils/auth'
+import { getSession, HsSession } from './app/utils/auth'
 import {
   fetchShips,
   fetchSignpostFeed,
@@ -9,25 +9,7 @@ import {
   person,
 } from './app/utils/data'
 
-export async function userPageMiddleware(request: NextRequest) {
-  const response = NextResponse.next()
-  const session = await getSession()
-  const banlist = (await get('banlist')) as string[]
-
-  const email = session?.email
-  const slackId = session?.slackId
-  if (!slackId || !email) return response
-
-  if (banlist.includes(email)) {
-    const redir = NextResponse.redirect(new URL('/', request.url))
-    request.cookies
-      .getAll()
-      .forEach((cookie) => redir.cookies.delete(cookie.name))
-
-    console.log('Banned', email)
-    return redir
-  }
-
+async function loadShipsCookie(request: NextRequest, slackId: string, response: NextResponse) {
   // Ships base
   try {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
@@ -44,7 +26,9 @@ export async function userPageMiddleware(request: NextRequest) {
   } catch (e) {
     console.log('Middleware errored on ships cookie step', e)
   }
+}
 
+async function loadWakaCookie(request: NextRequest, session: HsSession, response: NextResponse) {
   try {
     console.log('Checking for waka cookie')
     if (!request.cookies.get('waka')) {
@@ -64,7 +48,9 @@ export async function userPageMiddleware(request: NextRequest) {
   } catch (e) {
     console.log('Middleware errored on waka cookie step', e)
   }
+}
 
+async function loadSignpostFeedCookie(request: NextRequest, response: NextResponse) {
   // Signpost base
   try {
     console.log('Checking for signpost-feed cookie')
@@ -82,7 +68,9 @@ export async function userPageMiddleware(request: NextRequest) {
   } catch (e) {
     console.log('Middleware errored on signpost-feed cookie step', e)
   }
+}
 
+async function loadPersonCookies(request: NextRequest, response: NextResponse) {
   // Person base
   try {
     if (
@@ -133,6 +121,34 @@ export async function userPageMiddleware(request: NextRequest) {
   } catch (e) {
     console.log('Middleware errored on person cookie step', e)
   }
+
+}
+
+export async function userPageMiddleware(request: NextRequest) {
+  const response = NextResponse.next()
+  const session = await getSession()
+  const banlist = (await get('banlist')) as string[]
+
+  const email = session?.email
+  const slackId = session?.slackId
+  if (!slackId || !email) return response
+
+  if (banlist.includes(email)) {
+    const redir = NextResponse.redirect(new URL('/', request.url))
+    request.cookies
+      .getAll()
+      .forEach((cookie) => redir.cookies.delete(cookie.name))
+
+    console.log('Banned', email)
+    return redir
+  }
+
+  await Promise.all([
+    loadShipsCookie(request, slackId, response),
+    loadWakaCookie(request, session, response),
+    loadSignpostFeedCookie(request, response),
+    loadPersonCookies(request, response),
+  ])
 
   return response
 }
