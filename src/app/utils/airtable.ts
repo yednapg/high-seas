@@ -123,6 +123,8 @@ export interface SafePerson {
   votesRemainingForNextPendingShip: number
   emailSubmittedOnMobile: boolean
   preexistingUser: boolean
+  cursed: boolean
+  blessed: boolean
 }
 
 // Good method
@@ -140,6 +142,8 @@ export async function safePerson(): Promise<SafePerson> {
   )
   const emailSubmittedOnMobile = !!record.fields.email_submitted_on_mobile
   const preexistingUser = !!record.fields.preexisting_user
+  const cursed = record.fields.curse_blessing_status === 'cursed'
+  const blessed = record.fields.curse_blessing_status === 'blessed'
 
   return {
     id,
@@ -149,5 +153,7 @@ export async function safePerson(): Promise<SafePerson> {
     votesRemainingForNextPendingShip,
     emailSubmittedOnMobile,
     preexistingUser,
+    cursed,
+    blessed,
   }
 }

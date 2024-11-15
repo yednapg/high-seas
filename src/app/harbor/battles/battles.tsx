@@ -9,12 +9,17 @@ import Image from 'next/image'
 import ReactMarkdown, { Components } from 'react-markdown'
 
 import { LoadingSpinner } from '../../../components/ui/loading_spinner.js'
-import { getVotesRemainingForNextPendingShip } from '@/app/utils/airtable'
+import {
+  getVotesRemainingForNextPendingShip,
+  safePerson,
+} from '@/app/utils/airtable'
 import useLocalStorageState from '../../../../lib/useLocalStorageState'
 import { useToast } from '@/hooks/use-toast'
 import { HsSession } from '@/app/utils/auth'
 
 import SpeechToText from '@/components/speech-to-text'
+import Blessed from './blessed'
+import Cursed from './cursed'
 
 interface Matchup {
   project1: Ships
@@ -217,6 +222,8 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [readmeContent, setReadmeContent] = useState('')
   const [isReadmeView, setIsReadmeView] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [cursed, setCursed] = useState(false)
+  const [blessed, setBlessed] = useState(false)
 
   // const turnstileRef = useRef(null);
   // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -227,6 +234,13 @@ export default function Matchups({ session }: { session: HsSession }) {
   )
 
   const { toast } = useToast()
+
+  useEffect(() => {
+    safePerson().then((sp) => {
+      setCursed(sp.cursed)
+      setBlessed(sp.blessed)
+    })
+  })
 
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(' ').length < 10)
@@ -433,6 +447,9 @@ export default function Matchups({ session }: { session: HsSession }) {
             of these two projects is better? (If you are not sure, just refresh
             to skip!)
           </p>
+
+          {blessed && <Blessed />}
+          {cursed && <Cursed />}
 
           {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
