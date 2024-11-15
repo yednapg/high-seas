@@ -23,7 +23,7 @@ export default async function SignIn({
       className={`bg-white text-black p-2 px-3 sm:px-6 w-fit rounded-lg ${textSize} linkPop`}
       href={session ? '/signpost' : slackAuthUrl}
     >
-      {session ? 'Enter the Harbor' : 'Already in the Hack Club Slack?'}
+      {session ? 'Enter the Harbor' : "Already in Hack Club's Slack?"}
     </a>
   )
 }
