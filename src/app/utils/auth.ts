@@ -202,8 +202,11 @@ export async function getSession(): Promise<HsSession | null> {
 }
 
 export async function deleteSession() {
+  const cookieKeys =
+    'academy-completed ships signpost-feed tickets verification waka'
+      .split(' ')
+      .forEach((key) => cookies().delete(key))
   cookies().delete(sessionCookieName)
-  cookies().delete('waka-key')
 }
 
 export async function getRedirectUri(): Promise<string> {
