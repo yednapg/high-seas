@@ -139,30 +139,32 @@ export async function generateMatchup(
     (p) => p.doubloon_payout == null && p.project_source === 'high_seas',
   )
 
-  const usePaidComparison = unpaidProjects.length === 0; // if true => paid v paid otherwise unpaid v paid
+  const usePaidComparison = unpaidProjects.length === 0 // if true => paid v paid otherwise unpaid v paid
 
-  let project1, project2;
+  let project1, project2
 
   if (usePaidComparison) {
-    const shuffledPaidProjects = [...paidProjects].sort(() => Math.random() - 0.5);
-    project1 = shuffledPaidProjects[0];
-    const project1Hours = project1.total_hours || 0;
-    const hourRange = project1Hours * 0.5;
-  
+    const shuffledPaidProjects = [...paidProjects].sort(
+      () => Math.random() - 0.5,
+    )
+    project1 = shuffledPaidProjects[0]
+    const project1Hours = project1.total_hours || 0
+    const hourRange = project1Hours * 0.5
+
     const similarHourProjects = shuffledPaidProjects.slice(1).filter((p) => {
       // Filter out projects with identical repos
-      if (project1.repo_url == p.repo_url) return false;
-  
-      const hours = p.total_hours || 0;
-      return Math.abs(hours - project1Hours) <= hourRange;
-    });
-  
+      if (project1.repo_url == p.repo_url) return false
+
+      const hours = p.total_hours || 0
+      return Math.abs(hours - project1Hours) <= hourRange
+    })
+
     project2 =
       similarHourProjects.length > 0
         ? similarHourProjects[
             Math.floor(Math.random() * similarHourProjects.length)
           ]
-        : shuffledPaidProjects[1];
+        : shuffledPaidProjects[1]
   } else {
     const now = Date.now()
     const weightedUnpaidProjects = unpaidProjects.map((p) => ({
@@ -220,7 +222,7 @@ export async function generateMatchup(
         break
       }
     }
-    if (!project2) project2 = paidProjects[0];
+    if (!project2) project2 = paidProjects[0]
   }
 
   const uniqueVote = await ensureUniqueVote(
