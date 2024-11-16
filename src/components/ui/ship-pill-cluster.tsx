@@ -22,7 +22,7 @@ export default function ShipPillCluster({
 
       {ship.shipStatus === 'shipped' &&
         (ship.voteRequirementMet ? (
-          ship.doubloonPayout ? (
+          ship.doubloonPayout != null ? (
             <Pill
               msg={`${Math.floor(ship.doubloonPayout)} Doubloons`}
               color="green"
