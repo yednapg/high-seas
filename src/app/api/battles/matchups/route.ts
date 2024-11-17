@@ -54,6 +54,8 @@ export async function GET() {
         repo_url: matchup.project1.repo_url,
         deploy_url: matchup.project1.deploy_url,
         rating: matchup.project1.rating,
+        ship_type: matchup.project1.ship_type,
+        update_description: matchup.project1.update_description,
       },
       project2: {
         id: matchup.project2.id,
@@ -63,6 +65,8 @@ export async function GET() {
         repo_url: matchup.project2.repo_url,
         deploy_url: matchup.project2.deploy_url,
         rating: matchup.project2.rating,
+        ship_type: matchup.project2.ship_type,
+        update_description: matchup.project2.update_description,
       },
       signature: matchup.signature,
       ts: matchup.ts,

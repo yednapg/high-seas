@@ -56,6 +56,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     backgroundImage: `url(${notFoundImage})`,
     backgroundSize: 'cover',
   }
+  const [showFullText, setShowFullText] = useState(false)
+
+  const toggleReadMore = () => {
+    setShowFullText((prev) => !prev)
+  }
+
+  const truncatedText = project.update_description?.slice(0, 50)
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
@@ -73,10 +80,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="p-6">
         <h2 className="font-heading text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
           {project.title}
+          {project.ship_type === 'update' ? (
+            <p className="text-gray-600 dark:text-gray-300 mb-4 inline">
+              {' '}
+              <Pill
+                msg="This is a project update"
+                color="green"
+                glyph="rep"
+                classes="text-lg"
+              />
+            </p>
+          ) : null}
         </h2>
-        {/* <p className="text-gray-600 dark:text-gray-300 mb-4">
-          Hours: {project.hours}
-        </p> */}
+
         <div className="flex flex-wrap gap-2 mb-4">
           {project.repo_url && (
             <a
@@ -114,6 +130,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </button>
           )}
         </div>
+        {project.update_description && (
+          <p className="mt-4">
+            {showFullText
+              ? project.update_description
+              : truncatedText +
+                (project.update_description.length > 50 ? '...' : '')}
+            {project.update_description.length > 50 && (
+              <button
+                className="text-blue-500 ml-2 underline"
+                onClick={toggleReadMore}
+              >
+                {showFullText ? 'Read Less' : 'Read More'}
+              </button>
+            )}
+          </p>
+        )}
       </div>
       <div className="p-4 bg-gray-100 dark:bg-gray-700">
         <button
