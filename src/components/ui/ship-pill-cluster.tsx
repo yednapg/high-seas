@@ -15,7 +15,7 @@ export default function ShipPillCluster({
     ? shipChains.get(ship.wakatimeProjectNames.join(','))
     : null
   const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null
-
+  const unit = ship.doubloonPayout == 1 || "1" ? "Doubloon" : "Doubloons";
   return (
     <>
       <Pill msg={`${ship.total_hours?.toFixed(1) ?? 0} hr`} glyph="clock" />
@@ -24,7 +24,7 @@ export default function ShipPillCluster({
         (ship.voteRequirementMet ? (
           ship.doubloonPayout != null ? (
             <Pill
-              msg={`${Math.floor(ship.doubloonPayout)} Doubloons`}
+              msg={`${Math.floor(ship.doubloonPayout)} ${unit}`}
               color="green"
               glyphImage={
                 <Image src={DoubloonsImage} alt="doubloons" height={20} />
