@@ -21,6 +21,8 @@ export interface Ships extends FieldSet {
   autonumber?: number
   screenshot_url: string
   entrant__slack_id: string[]
+  ship_type?: string,
+  update_description?: string
 }
 
 export interface Battles extends FieldSet {
