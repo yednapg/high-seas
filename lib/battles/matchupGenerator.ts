@@ -25,57 +25,7 @@ export function signMatchup(
     .update(JSON.stringify(objToSign))
     .digest('hex')
 
-  // Redact specified params from project1 and project2
-  const redactParams = (project: Ships) => {
-    const {
-      win_adjustments,
-      loss_adjustments,
-      contest__min_multiplier,
-      contest__max_multiplier,
-      contest__min_rating,
-      contest__max_rating,
-      rating_percentile,
-      quality_multiplie,
-      dollar_valuation,
-      contest__dollars_per_mean_hour,
-      contest__doubloons_per_dollar,
-      doubloon_valuation,
-      wins_count,
-      losses_count,
-      dollars_per_hour,
-      victory_balance,
-      vote_requirement,
-      entrant__vote_balance,
-      vote_balance_exceeds_requirement,
-      aggregated_discordance,
-      ysws_submission,
-      baseline_doubloon_valuation,
-      baseline_dollar_valuation,
-      baseline_doubloon_payout,
-      bonus_doubloon_payout,
-      aggregated_adjustment_magnitudes,
-      aggregated_loss_adjustment,
-      aggregated_win_adjustments,
-      entrant__record_id,
-      quality_multiplier,
-      matchups,
-      matchups_count,
-      wins,
-      wins_adjustments,
-      losses,
-      losses_adjustments,
-      autonumber,
-      ...redactedProject
-    } = project
-    return redactedProject
-  }
-
-  return {
-    project1: redactParams(project1),
-    project2: redactParams(project2),
-    ts,
-    signature,
-  }
+  return { project1, project2, ts, signature }
 }
 
 export function verifyMatchup(
@@ -127,9 +77,8 @@ export async function generateMatchup(
   const availableProjects = projects.filter(
     (p) =>
       !userVotedShips.has(p.autonumber?.toString()) &&
-      p.entrant__slack_id[0] !== userSlackId,
+      p.entrant__slack_id?.[0] !== userSlackId,
   )
-
   if (availableProjects.length < 2) return null
 
   const paidProjects = availableProjects.filter(
