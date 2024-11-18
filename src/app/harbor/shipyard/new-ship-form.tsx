@@ -30,7 +30,7 @@ async function getReadmeFromRepo(url: string) {
   // https://api.github.com/repos/OWNER/REPO/readme
   const readmeUrl = url.replace(
     /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
-    'https://github.com/$1/$2/readme',
+    'https://api.github.com/repos/$1/$2/readme',
   )
   const readmeData = await fetch(readmeUrl).then((d) => d.json())
   const readmeURI = readmeData.download_url
