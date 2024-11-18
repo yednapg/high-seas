@@ -28,11 +28,11 @@ async function getReadmeFromRepo(url: string) {
     return null
   }
   // https://api.github.com/repos/OWNER/REPO/readme
-  let readmeUrl = url.replace(
+  const readmeUrl = url.replace(
     /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
     'https://github.com/$1/$2/readme',
   )
-  let readmeData = await fetch(readmeUrl).then((d) => d.json())
+  const readmeData = await fetch(readmeUrl).then((d) => d.json())
   const readmeURI = readmeData.download_url
   return (await testReadmeLink(readmeURI)) ? readmeURI : null
 }
