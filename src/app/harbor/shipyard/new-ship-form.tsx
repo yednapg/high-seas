@@ -11,6 +11,32 @@ import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import { MultiSelect } from '../../../components/ui/multi-select'
 
+async function testReadmeLink(url: string) {
+  const response = await fetch(url)
+  if (response.status !== 200) {
+    return false
+  }
+  const responseText = await response.text()
+  if (!responseText || responseText === '404: Not Found') {
+    return false
+  }
+  return true
+}
+
+async function getReadmeFromRepo(url: string) {
+  if (!url.includes('github.com')) {
+    return null
+  }
+  // https://api.github.com/repos/OWNER/REPO/readme
+  const readmeUrl = url.replace(
+    /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
+    'https://api.github.com/repos/$1/$2/readme',
+  )
+  const readmeData = await fetch(readmeUrl).then((d) => d.json())
+  const readmeURI = readmeData.download_url
+  return (await testReadmeLink(readmeURI)) ? readmeURI : null
+}
+
 export default function NewShipForm({
   ships,
   canvasRef,
@@ -95,14 +121,10 @@ export default function NewShipForm({
     }
 
     const repoUrl = formData.get('repo_url') as string
-    if (isGithubRepo) {
-      formData.set(
-        'readme_url',
-        repoUrl.replace(
-          /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
-          'https://raw.githubusercontent.com/$1/$2/refs/heads/main/README.md',
-        ),
-      )
+    const assumedReadmeUrl = await getReadmeFromRepo(repoUrl)
+
+    if (!!assumedReadmeUrl) {
+      formData.set('readme_url', assumedReadmeUrl)
     }
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
