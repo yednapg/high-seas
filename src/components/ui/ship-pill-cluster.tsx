@@ -15,7 +15,7 @@ export default function ShipPillCluster({
     ? shipChains.get(ship.wakatimeProjectNames.join(','))
     : null
   const shipUpdateCount = shipUpdates ? shipUpdates.length - 1 : null
-  const unit = ship.doubloonPayout == 1 || "1" ? "Doubloon" : "Doubloons";
+  const unit = ship.doubloonPayout == 1 || '1' ? 'Doubloon' : 'Doubloons'
   return (
     <>
       <Pill msg={`${ship.total_hours?.toFixed(1) ?? 0} hr`} glyph="clock" />
