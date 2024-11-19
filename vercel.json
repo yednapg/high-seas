@@ -18,7 +18,7 @@
           "value": "ahoy.hack.club"
         }
       ],
-      "destination": "/?ref=:path*"
+      "destination": "/api/referral/path*"
     }
   ]
 }
