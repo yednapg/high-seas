@@ -75,7 +75,28 @@ async function hashSession(session: HsSession) {
   return hashHex
 }
 
-export async function signAndSet(session: HsSession) {
+export async function impersonate(slackId: string) {
+  // only allow impersonation in development while testing
+  if (process.env.NODE_ENV !== 'development') {
+    return
+  }
+
+  // look for airtable user with this record
+  const person = await getSelfPerson(slackId)
+  const id = person.id
+  const email = person.fields.email
+
+  const session: HsSession = {
+    personId: id,
+    authType: 'impersonation',
+    slackId,
+    email,
+  }
+
+  await signAndSet(session)
+}
+
+async function signAndSet(session: HsSession) {
   session.sig = await hashSession(session)
 
   cookies().set(sessionCookieName, JSON.stringify(session), {
