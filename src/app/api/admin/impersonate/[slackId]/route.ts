@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: { slackId: string } },
 ) {
   if (process.env.NODE_ENV === 'development') {
-    impersonate(params.slackId)
+    await impersonate(params.slackId)
   }
 
   redirect('/signpost')
