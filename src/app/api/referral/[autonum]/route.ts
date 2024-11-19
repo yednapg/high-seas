@@ -10,8 +10,8 @@ export async function GET(
 ) {
   const slackId = (await getPersonByAuto(params.autonum))?.slackId
   if (slackId) {
-    redirect('/')
-  } else {
     redirect('/?ref=' + slackId)
+  } else {
+    redirect('/')
   }
 }
