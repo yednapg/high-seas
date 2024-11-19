@@ -7,6 +7,5 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: { slackId: string } },
 ) {
-
   redirect('/?slackId=' + params.slackId)
 }
