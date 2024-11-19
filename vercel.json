@@ -11,14 +11,14 @@
   ],
   "rewrites": [
     {
-      "source": "/:ref_id*",
+      "source": "/:autonum*",
       "has": [
         {
           "type": "host",
           "value": "ahoy.hack.club"
         }
       ],
-      "destination": "https://highseas.hackclub.com/api/referral/path*"
+      "destination": "https://highseas.hackclub.com/api/referral/autonum*"
     }
   ]
 }
