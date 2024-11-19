@@ -26,17 +26,16 @@ export default function Referral() {
   if (!shareLink) return null
 
   return (
+    <div className="text-center mb-5">
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         asChild
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
       >
-        <div className="text-center mb-5">
           <a href={shareLink} target="_blank">
             <Pill msg="Referral link" color="green" glyph="link" />
           </a>
-        </div>
       </PopoverTrigger>
       <PopoverContent className="text-sm">
         <div>
@@ -63,5 +62,6 @@ export default function Referral() {
         </div>
       </PopoverContent>
     </Popover>
+  </div>
   )
 }
