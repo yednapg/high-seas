@@ -17,7 +17,7 @@ export default function Referral() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    safePerson().then(sp => {
+    safePerson().then((sp) => {
       if (sp?.referralLink) {
         setShareLink(sp.referralLink)
       }
@@ -27,13 +27,14 @@ export default function Referral() {
   const handleClick = (e) => {
     e.preventDefault()
     if (navigator.share) {
-      navigator.share({
-        title: 'High Seas',
-        text: 'Build. Battle. Booty. Repeat!',
-        url: shareLink || '',
-      })
-      .then(() => console.log('Successful share'))
-      .catch((error) => console.log('Error sharing', error));
+      navigator
+        .share({
+          title: 'High Seas',
+          text: 'Build. Battle. Booty. Repeat!',
+          url: shareLink || '',
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error))
     } else {
       // copy to clipboard
       navigator.clipboard.writeText(shareLink || '')
