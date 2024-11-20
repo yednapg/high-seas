@@ -160,6 +160,7 @@ export interface SafePerson {
   preexistingUser: boolean
   cursed: boolean
   blessed: boolean
+  referralLink: string
 }
 
 // Good method
@@ -179,6 +180,7 @@ export async function safePerson(): Promise<SafePerson> {
   const preexistingUser = !!record.fields.preexisting_user
   const cursed = record.fields.curse_blessing_status === 'cursed'
   const blessed = record.fields.curse_blessing_status === 'blessed'
+  const referralLink = record.fields.referral_link
 
   return {
     id,
@@ -190,5 +192,6 @@ export async function safePerson(): Promise<SafePerson> {
     preexistingUser,
     cursed,
     blessed,
+    referralLink,
   }
 }
