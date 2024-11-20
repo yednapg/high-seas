@@ -6,6 +6,7 @@ import {
   fetchShips,
   fetchSignpostFeed,
   fetchWaka,
+  fetchShopItems,
   person,
 } from './app/utils/data'
 
@@ -134,6 +135,29 @@ async function loadPersonCookies(request: NextRequest, response: NextResponse) {
   }
 }
 
+// async function loadShopItemsCookie(
+//   request: NextRequest,
+//   response: NextResponse,
+// ) {
+//   try {
+//     if (!request.cookies.get('shop')) {
+//       const shopItems = await fetchShopItems()
+//       console.log(shopItems.map((a) => [a.name, a.priceUs, a.priceGlobal]))
+//       response.cookies.set({
+//         name: 'shop',
+//         value: JSON.stringify(
+//           shopItems.map((a) => [a.name, a.priceUs, a.priceGlobal]),
+//         ),
+//         path: '/',
+//         sameSite: 'strict',
+//         expires: new Date(Date.now() + 60 * 60 * 1000), // In an hour
+//       })
+//     }
+//   } catch (e) {
+//     console.error('Middleware errored on shop items cookie step', e)
+//   }
+// }
+
 export async function userPageMiddleware(request: NextRequest) {
   const response = NextResponse.next()
   const session = await getSession()
@@ -158,6 +182,7 @@ export async function userPageMiddleware(request: NextRequest) {
     loadWakaCookie(request, session, response),
     loadSignpostFeedCookie(request, response),
     loadPersonCookies(request, response),
+    // loadShopItemsCookie(request, response),
   ])
 
   return response

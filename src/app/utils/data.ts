@@ -245,3 +245,57 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
     )
 }
 //#endregion
+
+//#region Shop
+export interface ShopItem {
+  id: string
+  name: string
+  subtitle: string | null
+  imageUrl: string | null
+  enabledUs: boolean
+  enabledEu: boolean
+  enabledIn: boolean
+  enabledXx: boolean
+  enabledCa: boolean
+  priceUs: number
+  priceGlobal: number
+  fulfilledAtEnd: boolean
+  comingSoon: boolean
+  outOfStock: boolean
+  minimumHoursEstimated: number
+  maximumHoursEstimated: number
+}
+export async function fetchShopItems(): Promise<ShopItem[]> {
+  const result = await fetch(
+    'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/shop_items',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'User-Agent': 'highseas.hackclub.com (fetchShopItems)',
+      },
+    },
+  ).then((d) => d.json())
+
+  //TODO: Pagination.
+  return result.records
+    .filter((r: { fields: { enabled: boolean } }) => r.fields.enabled === true)
+    .map(({ id, fields }: any) => ({
+      id,
+      name: fields.name,
+      subtitle: fields.subtitle,
+      imageUrl: fields.image_url,
+      enabledUs: fields.enabled_us === true,
+      enabledEu: fields.enabled_eu === true,
+      enabledIn: fields.enabled_in === true,
+      enabledXx: fields.enabled_xx === true,
+      enabledCa: fields.enabled_ca === true,
+      priceUs: fields.tickets_us,
+      priceGlobal: fields.tickets_global,
+      fulfilledAtEnd: fields.fulfilled_at_end === true,
+      comingSoon: fields.coming_soon === true,
+      outOfStock: fields.out_of_stock === true,
+      minimumHoursEstimated: fields.minimum_hours_estimated,
+      maximumHoursEstimated: fields.maximum_hours_estimated,
+    }))
+}
+//#endregion
