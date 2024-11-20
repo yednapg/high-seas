@@ -225,7 +225,7 @@ export default function Harbor({
   let usPrices = false
   try {
     usPrices =
-      JSON.parse(localStorage.getItem('shop.country.filter'))?.value === 1
+      JSON.parse(localStorage.getItem('shop.country.filter')!)?.value === 1
   } catch (e) {}
   const currentTix = Number(Cookies.get('tickets') ?? 0)
   const nextPrize: ShopItem = shopItems
