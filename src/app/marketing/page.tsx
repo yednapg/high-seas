@@ -1206,7 +1206,7 @@ const PrizeData = [
 
   {
     name: 'Framework Laptop',
-    doubloons: 3075,
+    doubloons: '4980',
     image: 'https://noras-secret-cdn.hackclub.dev/shop/fw_13.png',
     sub: '16", 16GB RAM....16 16 16',
     estMin: 208,
