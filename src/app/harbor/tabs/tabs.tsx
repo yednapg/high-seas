@@ -276,7 +276,7 @@ export default function Harbor({
                     <img
                       src="doubloon.svg"
                       alt="doubloons"
-                      className="inline w-4 sm:w-5 h-4 sm:h-5"
+                      className="inline w-4 sm:w-5 h-4 sm:h-5 mr-1"
                     />
                     {(usPrices ? nextPrize.priceUs : nextPrize.priceGlobal) -
                       currentTix}{' '}
