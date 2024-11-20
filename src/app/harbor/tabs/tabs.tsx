@@ -278,8 +278,10 @@ export default function Harbor({
                       alt="doubloons"
                       className="inline w-4 sm:w-5 h-4 sm:h-5 mr-1"
                     />
-                    {(usPrices ? nextPrize.priceUs : nextPrize.priceGlobal) -
-                      currentTix}{' '}
+                    {Math.ceil(
+                      (usPrices ? nextPrize.priceUs : nextPrize.priceGlobal) -
+                        currentTix,
+                    )}{' '}
                     doubloons until {nextPrize.name}!
                   </p>
                 </div>
