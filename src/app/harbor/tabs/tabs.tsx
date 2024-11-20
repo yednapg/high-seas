@@ -229,12 +229,14 @@ export default function Harbor({
   } catch (e) {}
   const currentTix = Number(Cookies.get('tickets') ?? 0)
   const nextPrize: ShopItem = shopItems
-    .filter(
-      (a: ShopItem) => (usPrices ? a.priceUs : a.priceGlobal) >= currentTix,
-    )
-    .sort((a: ShopItem, b: ShopItem) =>
-      usPrices ? a.priceUs - b.priceUs : a.priceGlobal - b.priceGlobal,
-    )[0]
+    ? shopItems
+        .filter(
+          (a: ShopItem) => (usPrices ? a.priceUs : a.priceGlobal) >= currentTix,
+        )
+        .sort((a: ShopItem, b: ShopItem) =>
+          usPrices ? a.priceUs - b.priceUs : a.priceGlobal - b.priceGlobal,
+        )[0]
+    : null
 
   return (
     <>
