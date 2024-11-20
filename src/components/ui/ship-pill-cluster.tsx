@@ -18,7 +18,11 @@ export default function ShipPillCluster({
   const unit = ship.doubloonPayout == 1 || '1' ? 'Doubloon' : 'Doubloons'
   return (
     <>
-      <Pill msg={`${ship.total_hours?.toFixed(1) ?? 0} hr`} glyph="clock" />
+      {ship.shipStatus === 'shipped' ? (
+        <Pill msg={`${ship.total_hours?.toFixed(1) ?? 0} hr`} glyph="clock" />
+      ) : (
+        <Pill msg="pending ship" glyph="clock" />
+      )}
 
       {ship.shipStatus === 'shipped' &&
         (ship.voteRequirementMet ? (
