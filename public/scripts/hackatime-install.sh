@@ -42,15 +42,16 @@ check_vscode() {
         error "Couldn't detect VS Code! Install it from https://code.visualstudio.com/Download. If you already installed it, try this:"
         case "$OSTYPE" in
         darwin*)
-            error "(In VS Code, press ⌘⇧P and type \"Shell Command: Install 'code' command in PATH\".)"
+            error "(In VS Code, press ⌘⇧P and type \"Shell Command: Install 'code' command in PATH\". Then press 'Enter'.)"
             ;;
         msys* | win32*)
-            error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\".)"
+            error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\". Then press 'Enter'.)"
             ;;
         *)
-            error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\".)"
+            error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\". Then press 'Enter'.)"
             ;;
         esac
+        error "Once that's done, restart this script."
         exit 1
     fi
 }
