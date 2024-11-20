@@ -55,6 +55,41 @@ export const getSignpostUpdates = async () => {
   return data.records
 }
 
+export async function getPersonByAuto(num: string): Promise<{
+  slackId: string
+} | null> {
+  const baseId = process.env.BASE_ID
+  const apiKey = process.env.AIRTABLE_API_KEY
+  const table = 'people'
+
+  const url = `https://middleman.hackclub.com/airtable/v0/${baseId}/${table}?filterByFormula={autonumber}='${encodeURIComponent(num)}'`
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'highseas.hackclub.com (getPersonByMagicToken)',
+    },
+  })
+
+  if (!response.ok) {
+    const err = new Error(`Airtable API error: ${await response.text()}`)
+    console.error(err)
+    throw err
+  }
+
+  const data = await response.json()
+  if (!data.records || data.records.length === 0) return null
+
+  const id = data.records[0].id
+  const email = data.records[0].fields.email
+  const slackId = data.records[0].fields.slack_id
+
+  if (!id || !email || !slackId) return null
+
+  return { slackId }
+}
+
 export async function getPersonByMagicToken(token: string): Promise<{
   id: string
   email: string
@@ -125,6 +160,7 @@ export interface SafePerson {
   preexistingUser: boolean
   cursed: boolean
   blessed: boolean
+  referralLink: string
 }
 
 // Good method
@@ -144,6 +180,7 @@ export async function safePerson(): Promise<SafePerson> {
   const preexistingUser = !!record.fields.preexisting_user
   const cursed = record.fields.curse_blessing_status === 'cursed'
   const blessed = record.fields.curse_blessing_status === 'blessed'
+  const referralLink = record.fields.referral_link
 
   return {
     id,
@@ -155,5 +192,6 @@ export async function safePerson(): Promise<SafePerson> {
     preexistingUser,
     cursed,
     blessed,
+    referralLink,
   }
 }
