@@ -35,7 +35,7 @@ export default function Progress({ val, items }) {
           {favItems.map((item) => (
             <React.Fragment key={item.id}>
               <div
-                className="absolute top-0 flow flow-col -translate-x-1/2 -translate-y-2 transition-all duration-300"
+                className="absolute top-0 flex flex-col items-center -translate-x-1/2 -translate-y-2 transition-all duration-300"
                 style={{
                   left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
                 }}
@@ -50,7 +50,7 @@ export default function Progress({ val, items }) {
                       : ' ring-black')
                   }
                 />
-                <div className="bg-black m-1 rounded-sm flex w-full justify-center">
+                <div className="bg-black rounded mt-1 p-1">
                   {item.priceGlobal}
                 </div>
               </div>
