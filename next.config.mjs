@@ -14,6 +14,9 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+   env: {
+  COMMIT_HASH: commitHash
+   }
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.slack-edge.com' },
