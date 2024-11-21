@@ -414,7 +414,7 @@ export default async function Marketing() {
                 />{' '}
                 <div className="relative my-2">
                   <p className="flex justify-center text-center text-3xl px-4">
-                    1v1 call with Guido van Rossum
+                    1 on 1 call with Guido van Rossum
                   </p>
                   <p className="flex justify-center text-center">
                     This is the creator of Python!
@@ -445,7 +445,7 @@ export default async function Marketing() {
                 />{' '}
                 <div className="relative my-2">
                   <p className="flex justify-center text-center text-3xl px-4">
-                    1v1 call with Anders Hejlsberg
+                    1 on 1 call with Anders Hejlsberg
                   </p>
                   <p className="flex justify-center text-center">
                     This is the creator of C# and Typescript!
