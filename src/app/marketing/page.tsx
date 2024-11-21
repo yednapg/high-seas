@@ -148,13 +148,13 @@ export default async function Marketing() {
             </div>
 
             <div className="flex flex-wrap m-0 p-0 xl:p-6 rounded-md">
-              <div className="flex justify-center items-center w-full md:w-auto">
+              <div className="hidden xl:flex justify-center items-center w-full md:w-auto">
                 <Image
                   src="/hydra.svg"
                   alt="dragons battling"
                   width={400}
                   height={400}
-                  className="left-0 absolute bobble opacity-95 hidden xl:block"
+                  className="left-0 absolute bobble opacity-95"
                 />
                 <Image
                   src="/howtobacks.svg"
@@ -198,7 +198,7 @@ export default async function Marketing() {
               </div>
             </div>
 
-            <div className="flex flex-wrap m-0 p-0 xl:p-6 rounded-md">
+            <div className="flex flex-col xl:flex-row flex-wrap m-0 p-0 xl:p-6 rounded-md">
               <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
