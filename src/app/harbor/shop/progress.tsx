@@ -22,7 +22,7 @@ export default function Progress({ val, items }) {
   return (
     <>
       <div className="relative ">
-        <div className="relative w-full h-2.5 bg-gray-300 rounded overflow-visible">
+        <div className="relative w-full h-2.5 bg-white rounded overflow-visible">
           <div
             className="w-0 h-full bg-blue-500 rounded transition-all duration-300"
             style={{
@@ -34,26 +34,29 @@ export default function Progress({ val, items }) {
           ></div>
           {favItems.map((item) => (
             <React.Fragment key={item.id}>
-              <div
-                className="absolute top-0 flex flex-col items-center -translate-x-1/2 -translate-y-2 transition-all duration-300"
-                style={{
-                  left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
-                }}
-              >
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  className={
-                    'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
-                    (currentTix >= item.priceGlobal
-                      ? ' ring-blue-500'
-                      : ' ring-black')
-                  }
-                />
-                <div className="bg-black rounded mt-1 p-1">
-                  {item.priceGlobal}
+              <a href={'#' + item.id}>
+                <div
+                  className="absolute top-0 flex flex-col items-center -translate-x-1/2 -translate-y-2 transition-all duration-300"
+                  style={{
+                    left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
+                  }}
+                  title={item.name}
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className={
+                      'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
+                      (currentTix >= item.priceGlobal
+                        ? ' ring-blue-500'
+                        : ' ring-white')
+                    }
+                  />
+                  <div className="bg-black rounded mt-1 p-1">
+                    {item.priceGlobal}
+                  </div>
                 </div>
-              </div>
+              </a>
             </React.Fragment>
           ))}
         </div>
