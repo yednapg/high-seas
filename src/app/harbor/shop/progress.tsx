@@ -24,7 +24,7 @@ export default function Progress({ val, items }) {
       <div className="relative ">
         <div className="relative w-full h-2.5 bg-gray-300 rounded overflow-visible">
           <div
-            className="w-0 h-full bg-blue-500 rounded transition-width duration-300"
+            className="w-0 h-full bg-blue-500 rounded transition-all duration-300"
             style={{
               width:
                 (currentTix <= max.priceGlobal
@@ -34,14 +34,14 @@ export default function Progress({ val, items }) {
           ></div>
           {favItems.map((item) => (
             <div
-              className="absolute top-0 flow flow-col -translate-x-1/2 -translate-y-2"
+              className="absolute top-0 flow flow-col -translate-x-1/2 -translate-y-2 transition-all duration-300"
               style={{ left: (item.priceGlobal / max.priceGlobal) * 100 + '%' }}
             >
               <img
                 src={item.imageUrl}
                 alt={item.name}
                 className={
-                  'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-left duration-300' +
+                  'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
                   (currentTix >= item.priceGlobal
                     ? ' ring-blue-500'
                     : ' ring-black')
