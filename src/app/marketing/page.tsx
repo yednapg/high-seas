@@ -110,11 +110,11 @@ export default async function Marketing() {
       <div className="watergradient">
         <div className="py-24 pt-12" id="howthisworks">
           <div className="flex justify-center items-center mb-6">
-            <p className="text-5xl text-center">How this works:</p>
+            <p className="text-4xl sm:text-5xl text-center">How this works:</p>
           </div>
 
           <div className="flex flex-col justify-center items-center text-white mx-8">
-            <div className="flex flex-wrap m-0 p-6 rounded-md">
+            <div className="flex flex-wrap m-0 p-0 xl:p-6 rounded-md">
               <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
@@ -137,7 +137,7 @@ export default async function Marketing() {
                   </p>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-full xl:w-auto bobble opacity-90">
+              <div className="hidden xl:flex justify-center items-center w-full xl:w-auto bobble opacity-90">
                 <Image
                   src="/ship.svg"
                   alt="dragons battling"
@@ -147,7 +147,7 @@ export default async function Marketing() {
               </div>
             </div>
 
-            <div className="flex flex-wrap m-0 p-6 rounded-md">
+            <div className="flex flex-wrap m-0 p-0 xl:p-6 rounded-md">
               <div className="flex justify-center items-center w-full md:w-auto">
                 <Image
                   src="/hydra.svg"
@@ -198,7 +198,7 @@ export default async function Marketing() {
               </div>
             </div>
 
-            <div className="flex flex-wrap m-0 p-6 rounded-md">
+            <div className="flex flex-wrap m-0 p-0 xl:p-6 rounded-md">
               <div className="flex flex-col justify-center items-center mb-8 xl:mb-0 xl:mr-8 w-full xl:w-auto text-center p-8 xl:px-16 xl:py-10 rounded-md relative pop">
                 <img
                   src="/howtobacks.svg"
