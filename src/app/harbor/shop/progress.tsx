@@ -36,7 +36,7 @@ export default function Progress({ val, items }) {
             <React.Fragment key={item.id}>
               <a href={'#' + item.id}>
                 <div
-                  className="absolute top-0 flex flex-col items-center -translate-x-1/2 -translate-y-2 transition-all duration-300"
+                  className="absolute top-0 flex flex-col items-center -translate-x-1/2 transition-all duration-300 -translate-y-2.5"
                   style={{
                     left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
                   }}
@@ -52,7 +52,7 @@ export default function Progress({ val, items }) {
                         : ' ring-white')
                     }
                   />
-                  <div className="bg-black rounded mt-1 p-1">
+                  <div className="bg-black rounded mt-1 p-1 bg-opacity-75 text-white">
                     {item.priceGlobal}
                   </div>
                 </div>
