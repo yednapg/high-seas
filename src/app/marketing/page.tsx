@@ -1175,6 +1175,14 @@ const PrizeData = [
     estMax: 55,
   },
   {
+    name: 'System76 Keeb',
+    doubloons: 520,
+    image: 'https://noras-secret-cdn.hackclub.dev/shop/s76_launch.png',
+    sub: 'open-source!!!',
+    estMin: 19,
+    estMax: 94,
+  },
+  {
     name: 'Flipper Zero',
     doubloons: 850,
     image: 'https://noras-secret-cdn.hackclub.dev/shop/flipper.png',
