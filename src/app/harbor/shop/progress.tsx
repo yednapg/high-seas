@@ -33,24 +33,28 @@ export default function Progress({ val, items }) {
             }}
           ></div>
           {favItems.map((item) => (
-            <div
-              className="absolute top-0 flow flow-col -translate-x-1/2 -translate-y-2 transition-all duration-300"
-              style={{ left: (item.priceGlobal / max.priceGlobal) * 100 + '%' }}
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className={
-                  'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
-                  (currentTix >= item.priceGlobal
-                    ? ' ring-blue-500'
-                    : ' ring-black')
-                }
-              />
-              <div className="bg-black m-1 rounded-sm flex w-full justify-center">
-                {item.priceGlobal}
+            <React.Fragment key={item.id}>
+              <div
+                className="absolute top-0 flow flow-col -translate-x-1/2 -translate-y-2 transition-all duration-300"
+                style={{
+                  left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
+                }}
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className={
+                    'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
+                    (currentTix >= item.priceGlobal
+                      ? ' ring-blue-500'
+                      : ' ring-black')
+                  }
+                />
+                <div className="bg-black m-1 rounded-sm flex w-full justify-center">
+                  {item.priceGlobal}
+                </div>
               </div>
-            </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
