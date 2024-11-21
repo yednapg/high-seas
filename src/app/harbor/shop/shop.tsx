@@ -39,9 +39,7 @@ export default function Shop({ session }: { session: HsSession }) {
   }
 
   const filters = {
-    '0': (x: any) => {
-      return true
-    },
+    '0': (item: any) => item.enabledAll,
     '1': (item: any) => item.enabledUs,
     '2': (item: any) => item.enabledEu,
     '3': (item: any) => item.enabledIn,
