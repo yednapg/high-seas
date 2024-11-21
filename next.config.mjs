@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 import { withPlausibleProxy } from 'next-plausible'
+import { execSync } from 'child_process'
+const commitHash = execSync('git log --pretty=format:"%h" -n1')
+  .toString()
+  .trim();
 
 const nextConfig = {
   typescript: {
