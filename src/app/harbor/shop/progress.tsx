@@ -10,15 +10,15 @@ export default function Progress({ val, items }) {
   const max = favItems.sort(
     (a: ShopItem, b: ShopItem) => b.priceGlobal - a.priceGlobal,
   )[0]
-  if (!max) {
-    return null
-  }
+
   useEffect(() => {
     localStorage.setItem('favouriteItems', JSON.stringify(val))
   }, [val])
-  /*let favItems = favItems.map((item) => {
-    return {position: (item.globalPrice / max.priceGlobal) * 100 + '%'}
-  })*/
+
+  if (!max) {
+    return null
+  }
+
   return (
     <>
       <div className="relative ">
@@ -29,6 +29,7 @@ export default function Progress({ val, items }) {
         ></progress>
         {favItems.map((item) => (
           <div
+            key={item.id}
             className="absolute top-0 flow flow-col -translate-x-1/2"
             style={{ left: (item.priceGlobal / max.priceGlobal) * 100 + '%' }}
           >
