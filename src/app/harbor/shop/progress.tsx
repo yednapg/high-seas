@@ -5,9 +5,9 @@ import Cookies from 'js-cookie'
 
 export default function Progress({ val, items }) {
   const currentTix = Number(Cookies.get('tickets') ?? 0)
-  let favItems = items.filter((item) => val.includes(item.id))
+  const favItems = items.filter((item) => val.includes(item.id))
   console.log(favItems)
-  let max = favItems.sort(
+  const max = favItems.sort(
     (a: ShopItem, b: ShopItem) => b.priceGlobal - a.priceGlobal,
   )[0]
   if (!max) {
