@@ -838,7 +838,15 @@ export default async function Marketing() {
             >
               Hack Club
             </Link>
-            .
+            {' '} 
+          <Link
+              href={`https://github.com/hackclub/high-seas/commit/${process.env.COMMIT_HASH}`}
+              target="_blank"
+              rel="noopenner noreferrer"
+              className="footLink"
+            >
+            {process.env.COMMIT_HASH?.slice(0,6)}
+            </Link>
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
             Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical
