@@ -75,7 +75,7 @@ export async function getShop(): Promise<ShopItem[]> {
               enabledIn: Boolean(record.get('enabled_in')) as boolean,
               enabledXx: Boolean(record.get('enabled_xx')) as boolean,
               enabledCa: Boolean(record.get('enabled_ca')) as boolean,
-              enabledAll: Boolean(record.get("enabled_all")) as boolean,
+              enabledAll: Boolean(record.get('enabled_all')) as boolean,
               priceUs: Number(record.get('tickets_us')) as number,
               priceGlobal: Number(record.get('tickets_global')) as number,
               fulfilledAtEnd: Boolean(
