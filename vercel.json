@@ -1,0 +1,24 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/every-minute",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/every-day",
+      "schedule": "0 18 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ahoy.hack.club"
+        }
+      ],
+      "destination": "https://highseas.hackclub.com/api/referral/:path*"
+    }
+  ]
+}
