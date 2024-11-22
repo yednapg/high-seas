@@ -324,8 +324,8 @@ export default function Matchups({ session }: { session: HsSession }) {
         console.error('Failed to fetch matchup')
 
         toast({
-          title: 'Failed to fetch a new thing to vote on.',
-          description: 'Retrying automatically...',
+          title: 'There are no ships to battle right now.',
+          description: 'Searching again automatically',
         })
 
         setTimeout(
