@@ -22,25 +22,44 @@ export default function Progress({ val, items }) {
   return (
     <>
       <div className="relative ">
-        <progress
-          value={currentTix}
-          max={max.priceGlobal}
-          className="w-full rounded color-blue-400 bg-white"
-        ></progress>
-        {favItems.map((item) => (
+        <div className="relative w-full h-2.5 bg-white rounded overflow-visible">
           <div
-            key={item.id}
-            className="absolute top-0 flow flow-col -translate-x-1/2"
-            style={{ left: (item.priceGlobal / max.priceGlobal) * 100 + '%' }}
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.name}
-              className="rounded-full h-8 bg-white ring-2 ring-black aspect-square object-cover"
-            />
-            <div className="bg-black m-1 rounded-sm">{item.priceGlobal}</div>
-          </div>
-        ))}
+            className="w-0 h-full bg-blue-500 rounded transition-all duration-300"
+            style={{
+              width:
+                (currentTix <= max.priceGlobal
+                  ? (currentTix * 100) / max.priceGlobal
+                  : '100') + '%',
+            }}
+          ></div>
+          {favItems.map((item) => (
+            <React.Fragment key={item.id}>
+              <a href={'#' + item.id}>
+                <div
+                  className="absolute top-0 flex flex-col items-center -translate-x-1/2 transition-all duration-300 -translate-y-2.5"
+                  style={{
+                    left: (item.priceGlobal / max.priceGlobal) * 100 + '%',
+                  }}
+                  title={item.name}
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className={
+                      'rounded-full h-8 bg-white ring-2 aspect-square object-cover transition-all duration-300' +
+                      (currentTix >= item.priceGlobal
+                        ? ' ring-blue-500'
+                        : ' ring-white')
+                    }
+                  />
+                  <div className="bg-black rounded mt-1 p-1 bg-opacity-75 text-white">
+                    {item.priceGlobal}
+                  </div>
+                </div>
+              </a>
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     </>
   )
