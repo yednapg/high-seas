@@ -1,19 +1,19 @@
-import './index.css'
+import "./index.css";
 
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
-import { IdeaGenerator } from '../../components/idea-generator.js'
+import { IdeaGenerator } from "../../components/idea-generator.js";
 
-import shop1 from './art/shop/shop1.png'
-import { getSession } from '../utils/auth'
+import shop1 from "./art/shop/shop1.png";
+import { getSession } from "../utils/auth";
 
-import EmailSubmissionForm from './components/email-submission-form'
-import ScrollShop from './components/ScrollShop.jsx'
-import ScrollShopReverse from './components/ScrollShopReverse.jsx'
+import EmailSubmissionForm from "./components/email-submission-form";
+import ScrollShop from "./components/ScrollShop.jsx";
+import ScrollShopReverse from "./components/ScrollShopReverse.jsx";
 
 export default async function Marketing() {
-  const session = await getSession()
+  const session = await getSession();
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default async function Marketing() {
                 className="xl:max-w-xl md:max-w-lg sm:max-w-sm max-w-xs"
               />
               <p className="text-3xl sm:text-3xl md:text-4xl text-white mx-2 drop-shadow-lg">
-                Build personal projects.<br className="inline sm:hidden"></br>{' '}
+                Build personal projects.<br className="inline sm:hidden"></br>{" "}
                 Get free stuff.
               </p>
               <div className="flex flex-wrap text-xl md:text-xl mt-6 justify-center items-center mx-4 rounded-xl ">
@@ -56,12 +56,12 @@ export default async function Marketing() {
               <p
                 className="mt-4 text-white bg-opacity-50 px-4 py-2 rounded-lg"
                 style={{
-                  backgroundImage: 'url(/floorboard.svg)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundColor: 'rgba(0, 0, 0, 1)',
-                  mixBlendMode: 'hard-light',
-                  transform: 'rotate(-2deg)',
+                  backgroundImage: "url(/floorboard.svg)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundColor: "rgba(0, 0, 0, 1)",
+                  mixBlendMode: "hard-light",
+                  transform: "rotate(-2deg)",
                 }}
               >
                 Free stickers for all new recruits!
@@ -76,7 +76,7 @@ export default async function Marketing() {
 
             <div className="text-[#214495]">
               <p className="text-md md:text-lg lg:text-lg mb-10 mx-2">
-                By{' '}
+                By{" "}
                 <Link
                   href="https://hackclub.com"
                   target="blank"
@@ -84,8 +84,8 @@ export default async function Marketing() {
                   className="underline"
                 >
                   Hack Club
-                </Link>{' '}
-                and{' '}
+                </Link>{" "}
+                and{" "}
                 <Link
                   href="https://github.com/"
                   target="blank"
@@ -172,7 +172,7 @@ export default async function Marketing() {
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Submit your projects for{' '}
+                    Submit your projects for{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
                     </span>
@@ -188,7 +188,7 @@ export default async function Marketing() {
                   <p className="text-xl max-w-[600px]">
                     Share your projects with our community of teen makers. Sign
                     in with Hack Club Slack and ship them in the Harbor! For
-                    each hour coded, earn{' '}
+                    each hour coded, earn{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
                     </span>
@@ -207,7 +207,7 @@ export default async function Marketing() {
                 />
                 <div className="relative">
                   <p className="text-3xl mb-4">
-                    Spend{' '}
+                    Spend{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-8 h-8 mx-1" />
                     </span>
@@ -221,7 +221,7 @@ export default async function Marketing() {
                     />
                   </div>
                   <p className="text-xl max-w-[600px]">
-                    Use{' '}
+                    Use{" "}
                     <span className="inline-flex items-center align-middle">
                       <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
                     </span>
@@ -369,22 +369,22 @@ export default async function Marketing() {
           <div className="my-12">
             <div className="flex flex-col justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mb-4 leading-[1.2]">
-                Prizes to{' '}
+                Prizes to{" "}
                 <span
                   className="pb-2 px-4 rounded-md whitespace-nowrap"
                   style={{
-                    backgroundImage: 'url(/floorboard.svg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundImage: "url(/floorboard.svg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                 >
                   power up
-                </span>{' '}
+                </span>{" "}
                 your next project!
               </p>
               <div className="flex flex-row justify-center">
                 <p className="text-xl text-center">
-                  Redeem these with your{' '}
+                  Redeem these with your{" "}
                   <span className="inline-flex items-center align-middle">
                     <img src="/doubloon.svg" className="w-6 h-6 mx-1" />
                   </span>
@@ -411,7 +411,7 @@ export default async function Marketing() {
                   src="/shopback.svg"
                   alt="card backs"
                   className="absolute w-full h-full inset-0 object-cover opacity-80"
-                />{' '}
+                />{" "}
                 <div className="relative my-2">
                   <p className="flex justify-center text-center text-3xl px-4">
                     1 on 1 call with Guido van Rossum
@@ -442,7 +442,7 @@ export default async function Marketing() {
                   src="/shopback.svg"
                   alt="card backs"
                   className="absolute w-full h-full inset-0 object-cover opacity-80"
-                />{' '}
+                />{" "}
                 <div className="relative my-2">
                   <p className="flex justify-center text-center text-3xl px-4">
                     1 on 1 call with Anders Hejlsberg
@@ -473,17 +473,17 @@ export default async function Marketing() {
           <div className="mt-24 mb-48">
             <div className="flex justify-center items-center mb-8 m-5">
               <p className="text-5xl text-center mx-4 leading-[1.2]">
-                What will{' '}
+                What will{" "}
                 <span
                   className="px-4 pb-2 rounded-md"
                   style={{
-                    backgroundImage: 'url(/floorboard.svg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundImage: "url(/floorboard.svg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                 >
                   you
-                </span>{' '}
+                </span>{" "}
                 make this winter?
               </p>
             </div>
@@ -571,7 +571,7 @@ export default async function Marketing() {
                     </li>
                   </ul>
                   <p className="text-xl">
-                    More workshops{' '}
+                    More workshops{" "}
                     <Link
                       href="https://jams.hackclub.com/"
                       target="_blank"
@@ -611,24 +611,24 @@ export default async function Marketing() {
             className="bg-cover py-12 my-12"
             style={{
               backgroundImage: `url(/imgbkgr.png)`,
-              width: '100%',
-              height: 'auto',
+              width: "100%",
+              height: "auto",
             }}
           >
             <div className="relative my-12">
               <div className="flex flex-col justify-center text-center">
                 <p className="text-5xl mt-12 mx-5 text-white leading-[1.2]">
-                  Join a{' '}
+                  Join a{" "}
                   <span
                     className="pb-2 px-4 rounded-md"
                     style={{
-                      backgroundImage: 'url(/floorboard.svg)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      backgroundImage: "url(/floorboard.svg)",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
                     }}
                   >
                     community
-                  </span>{' '}
+                  </span>{" "}
                   of makers
                 </p>
               </div>
@@ -644,7 +644,7 @@ export default async function Marketing() {
                   />
                   <p className="flex flex-col justify-center items-center text-center mt-2">
                     <span>
-                      Hack Clubbers at{' '}
+                      Hack Clubbers at{" "}
                       <Link href="https://www.youtube.com/user/linustechtips">
                         Linus Tech Tips
                       </Link>
@@ -717,7 +717,7 @@ export default async function Marketing() {
                       play any software instrument you’d like using saxophone
                       fingerings, allowing you to practice without disturbing
                       others, create music in any DAW, and perform with it.
-                      Check it out at{' '}
+                      Check it out at{" "}
                       <Link href="https://github.com/Whackalenso/CircuitSax">
                         https://github.com/Whackalenso/CircuitSax
                       </Link>
@@ -771,9 +771,9 @@ export default async function Marketing() {
                     <div
                       className="rounded-md p-2 max-w-2xl pop z-10"
                       style={{
-                        backgroundImage: 'url(/floorboard.svg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        backgroundImage: "url(/floorboard.svg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
                       }}
                     >
                       <Link
@@ -829,7 +829,7 @@ export default async function Marketing() {
       <div className="bg-[#F567D7] p-8">
         <div className="xl:mx-44 md:mx-22 mt-4">
           <p className="mb-4 text-lg text-pink-950">
-            A project by{' '}
+            A project by{" "}
             <Link
               href="https://hackclub.com/"
               target="_blank"
@@ -838,21 +838,12 @@ export default async function Marketing() {
             >
               Hack Club
             </Link>
-            {' '} 
-          <Link
-              href={`https://github.com/hackclub/high-seas/commit/${process.env.COMMIT_HASH}`}
-              target="_blank"
-              rel="noopenner noreferrer"
-              className="footLink"
-            >
-            {process.env.COMMIT_HASH?.slice(0,6)}
-            </Link>
           </p>
           <p className="max-w-2xl text-pink-800 text-sm">
             Hack Club is a 501(c)(3) nonprofit and network of 30k+ technical
             high schoolers. We believe you learn best by building so we{"'"}re
             creating community and providing grants so you can make awesome
-            projects. In the past few years, we{"'"}ve{' '}
+            projects. In the past few years, we{"'"}ve{" "}
             <Link
               href="https://hackclub.com/arcade/"
               target="_blank"
@@ -861,7 +852,7 @@ export default async function Marketing() {
             >
               partnered with GitHub to run Arcade
             </Link>
-            ,{' '}
+            ,{" "}
             <Link
               href="https://github.com/hackclub/the-hacker-zephyr"
               target="_blank"
@@ -870,7 +861,7 @@ export default async function Marketing() {
             >
               {"hosted the world's longest hackathon on land"}
             </Link>
-            , and{' '}
+            , and{" "}
             <Link
               href="https://www.youtube.com/watch?v=QvCoISXfcE8"
               target="_blank"
@@ -879,7 +870,16 @@ export default async function Marketing() {
             >
               {"ran Canada's largest high school hackathon"}
             </Link>
-            .
+            . This server is currently on{" "}
+            <Link
+              href={`https://github.com/hackclub/high-seas/commit/${process.env.COMMIT_HASH}`}
+              target="_blank"
+              rel="noopenner noreferrer"
+              className="footLink"
+            >
+              {process.env.COMMIT_HASH?.slice(0, 6)}
+            </Link>{" "}
+            commit.
           </p>
         </div>
 
@@ -935,12 +935,12 @@ export default async function Marketing() {
         className="w-full h-full object-cover"
       />
     </div>
-  )
+  );
 }
 
 interface FaqCardProps {
-  question: string
-  answer: string
+  question: string;
+  answer: string;
 }
 
 const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
@@ -957,44 +957,44 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface FaqItem {
-  question: string
-  answer: string
+  question: string;
+  answer: string;
 }
 
 const faqData: FaqItem[] = [
   {
-    question: 'Who is eligible?',
+    question: "Who is eligible?",
     answer: `You need to be a high schooler (or younger).`,
   },
   {
-    question: 'How much does it cost?',
+    question: "How much does it cost?",
     answer: `100% free - all the prizes are donated to us or paid for by us!`,
   },
   {
-    question: 'What types of projects count?',
+    question: "What types of projects count?",
     answer: `Anything that you've programmed and is open-source!`,
   },
   {
-    question: 'How many projects can I build?',
+    question: "How many projects can I build?",
     answer: `All the projects! The land's the limit! (But seriously, you could build as many as you want.)`,
   },
   {
-    question: 'I need help!',
+    question: "I need help!",
     answer: `Read the big <a href="https://hack.club/high-seas-faq" target="_blank" ref="noopenner noreferrer" class="faqLink">FAQ</a>. Still stuck? Reach out in <a href="https://hackclub.slack.com/archives/C07PZNMBPBN" target="_blank" ref="noopenner noreferrer" class="faqLink">#high-seas-help</a> channel of the Hack Club Slack and we'll help you out!`,
   },
   {
-    question: 'Does school work or a job count?',
+    question: "Does school work or a job count?",
     answer: `High Seas is about the joy of building for the sake of building. If you're building something for school or work, we can't count it.`,
   },
   {
-    question: 'Is this legit?',
+    question: "Is this legit?",
     answer: `Yup! This summer, we ran <a class="faqLink" href="https://hackclub.com/arcade/" target="_blank">Arcade</a>, which gave out similar prizes for working on personal projects.`,
   },
-]
+];
 
 const Faq: React.FC = () => {
   return (
@@ -1003,8 +1003,8 @@ const Faq: React.FC = () => {
         <FaqCard key={index} question={item.question} answer={item.answer} />
       ))}
     </div>
-  )
-}
+  );
+};
 
 const Prize = () => {
   return (
@@ -1032,16 +1032,16 @@ const Prize = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface PrizeProps {
-  name: string
-  doubloons: number
-  image: string
-  sub: string | undefined
+  name: string;
+  doubloons: number;
+  image: string;
+  sub: string | undefined;
 }
-const nf = new Intl.NumberFormat()
+const nf = new Intl.NumberFormat();
 const PrizeCard: React.FC<PrizeProps> = ({
   name,
   doubloons,
@@ -1056,7 +1056,7 @@ const PrizeCard: React.FC<PrizeProps> = ({
         src="/shopback.svg"
         alt="card backs"
         className="absolute w-full h-full inset-0 object-cover opacity-80"
-      />{' '}
+      />{" "}
       <p>
         ~{estMin}–{estMax} hours
       </p>
@@ -1082,9 +1082,9 @@ const PrizeCard: React.FC<PrizeProps> = ({
       <div
         className="absolute bg-purple-800 rotate-12 -right-2 top-0 p-1 px-4 rounded-sm"
         style={{
-          backgroundImage: 'url(/floorboard.svg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage: "url(/floorboard.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="flex flex-row gap-2">
@@ -1093,15 +1093,15 @@ const PrizeCard: React.FC<PrizeProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface PrizeItem {
-  name: string
-  doubloons: string
-  image: string
-  estMin: number
-  estMax: number
+  name: string;
+  doubloons: string;
+  image: string;
+  estMin: number;
+  estMax: number;
 }
 
 const PrizeData = [
@@ -1126,10 +1126,10 @@ const PrizeData = [
     image: "https://noras-secret-cdn.hackclub.dev/shop/free_stickers.png",
   }, */
   {
-    name: 'Domain',
+    name: "Domain",
     doubloons: 40,
-    image: 'https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png',
-    sub: 'for a year!',
+    image: "https://cloud-bp5cbc3ab-hack-club-bot.vercel.app/0image.png",
+    sub: "for a year!",
     estMin: 2,
     estMax: 8,
   },
@@ -1139,10 +1139,10 @@ const PrizeData = [
   //   image: "https://cloud-a823iqif6-hack-club-bot.vercel.app/0image.png",
   // },
   {
-    name: 'Pinecil',
+    name: "Pinecil",
     doubloons: 82,
-    image: 'https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png',
-    sub: 'solder!!',
+    image: "https://cloud-djbef06tx-hack-club-bot.vercel.app/0image.png",
+    sub: "solder!!",
     estMin: 3,
     estMax: 17,
   },
@@ -1157,10 +1157,10 @@ const PrizeData = [
   //   image: "https://cloud-5z0d3mpqk-hack-club-bot.vercel.app/0image.png",
   // },
   {
-    name: 'Blahåj (friend)',
+    name: "Blahåj (friend)",
     doubloons: 123,
-    image: 'https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png',
-    sub: 'soft to hold of the shark :3',
+    image: "https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png",
+    sub: "soft to hold of the shark :3",
     estMin: 5,
     estMax: 26,
   },
@@ -1175,25 +1175,25 @@ const PrizeData = [
   //   image: "https://cloud-oc60fts8l-hack-club-bot.vercel.app/0image.png",
   // },
   {
-    name: 'Raspberry Pi 5',
+    name: "Raspberry Pi 5",
     doubloons: 265,
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png',
-    sub: 'home server, mayhaps?',
+    image: "https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png",
+    sub: "home server, mayhaps?",
     estMin: 11,
     estMax: 55,
   },
   {
-    name: 'System76 Keeb',
+    name: "System76 Keeb",
     doubloons: 520,
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/s76_launch.png',
-    sub: 'open-source!!!',
+    image: "https://noras-secret-cdn.hackclub.dev/shop/s76_launch.png",
+    sub: "open-source!!!",
     estMin: 19,
     estMax: 94,
   },
   {
-    name: 'Flipper Zero',
+    name: "Flipper Zero",
     doubloons: 850,
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/flipper.png',
+    image: "https://noras-secret-cdn.hackclub.dev/shop/flipper.png",
     sub: "don't do anything i wouldn't do :-P",
     estMin: 35,
     estMax: 177,
@@ -1204,31 +1204,31 @@ const PrizeData = [
   //   image: "https://noras-secret-cdn.hackclub.dev/shop/gh_miir_backpack.png",
   // },
   {
-    name: 'Bambu A1 Mini',
+    name: "Bambu A1 Mini",
     doubloons: 1000,
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png',
-    sub: 'what are you gonna print?',
+    image: "https://noras-secret-cdn.hackclub.dev/shop/bambu_a1_mini.png",
+    sub: "what are you gonna print?",
     estMin: 42,
     estMax: 208,
   },
   {
-    name: 'iPad',
+    name: "iPad",
     doubloons: 2090,
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/ipad.png',
-    sub: 'with Apple Pencil!',
+    image: "https://noras-secret-cdn.hackclub.dev/shop/ipad.png",
+    sub: "with Apple Pencil!",
     estMin: 87,
     estMax: 435,
   },
 
   {
-    name: 'Framework Laptop',
-    doubloons: '4980',
-    image: 'https://noras-secret-cdn.hackclub.dev/shop/fw_13.png',
+    name: "Framework Laptop",
+    doubloons: "4980",
+    image: "https://noras-secret-cdn.hackclub.dev/shop/fw_13.png",
     sub: '16", 16GB RAM....16 16 16',
     estMin: 208,
     estMax: 1037,
   },
-]
+];
 
 const Prizes: React.FC = () => {
   return (
@@ -1245,5 +1245,5 @@ const Prizes: React.FC = () => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
