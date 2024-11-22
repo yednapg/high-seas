@@ -314,7 +314,12 @@ export default function Matchups({ session }: { session: HsSession }) {
     try {
       // require at least 1.25 seconds of loading time for full loop of loading animations
       const [response, _] = await Promise.all([
-        fetch('/api/battles/matchups'),
+        fetch(
+          '/api/battles/matchups' +
+            (sessionStorage.getItem('tutorial') === 'true'
+              ? '?tutorial=true'
+              : ''),
+        ),
         new Promise((r) => setTimeout(r, 1250)),
       ])
       if (response.ok) {
