@@ -133,10 +133,12 @@ export async function person(): Promise<any> {
   if (cached) {
     const [data, timestamp] = cached
     if (Date.now() < timestamp + personCacheTtl) {
+      console.log('Person cache HIT')
       return data
     }
     personCache.delete(session.personId)
   }
+  console.log('Person cache MISS')
 
   const response = await fetch(
     `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
