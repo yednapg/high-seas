@@ -25,6 +25,23 @@ export const getAllProjects = async (): Promise<Ships[]> => {
   const records = await base('ships')
     .select({
       filterByFormula: `eligible_for_voting`,
+      fields: [
+        'title',
+        'credited_hours',
+        'doubloon_payout',
+        'project_source',
+        'total_hours',
+        'rating',
+        'repo_url',
+        'readme_url',
+        'deploy_url',
+        'autonumber',
+        'screenshot_url',
+        'entrant__slack_id',
+        'ship_type',
+        'ship_time',
+        'update_description',
+      ]
     })
     .all()
   return records.map((record) => ({
