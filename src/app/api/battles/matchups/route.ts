@@ -1,48 +1,9 @@
 import { NextResponse } from 'next/server'
 import { generateMatchup } from '../../../../../lib/battles/matchupGenerator'
 import { getSession } from '@/app/utils/auth'
-import { getAllProjects } from '../../../../../lib/battles/airtable'
-import { kv } from '@vercel/kv'
+import { getCachedProjects } from './get-cached-projects'
 
 export const dynamic = 'force-dynamic'
-
-const PROJECT_CHUNK_SIZE = 50
-async function pullFromRedis() {
-  const chunkCount = await kv.get('projects.size')
-
-  if (!chunkCount) {
-    return null
-  }
-  if (typeof chunkCount !== 'number') {
-    return null
-  }
-
-  const chunks = await Promise.all(
-    Array.from({ length: chunkCount }, (_, i) => kv.get(`projects.${i}`)),
-  )
-  return chunks.flat()
-}
-async function setToRedis(projectsArr: Ships[]) {
-  const chunkCount = Math.ceil(projectsArr.length / PROJECT_CHUNK_SIZE)
-  await kv.set('projects.size', chunkCount, { ex: 60 })
-  for (let i = 0; i < projectsArr.length; i += PROJECT_CHUNK_SIZE) {
-    await kv.set(
-      `projects.${i / PROJECT_CHUNK_SIZE}`,
-      projectsArr.slice(i, i + PROJECT_CHUNK_SIZE),
-      { ex: 60 },
-    )
-  }
-}
-
-async function getCachedProjects() {
-  const alreadyCached = await pullFromRedis()
-  if (alreadyCached) {
-    return alreadyCached
-  }
-  const projects = await getAllProjects()
-  await setToRedis(projects)
-  return projects
-}
 
 export async function GET() {
   const session = await getSession()
