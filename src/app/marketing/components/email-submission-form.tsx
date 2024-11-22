@@ -104,7 +104,8 @@ export default function EmailSubmissionForm() {
           <div className="space-y-4">
             <p className="text-3xl">Ahoy 🏴‍☠️</p>
             <p className="text-xl mb-4">
-              Check your inbox for an invitation from Slack!
+              We are under heavy load right now… but you're in the queue!! Watch
+              your inbox for an invitation from Slack 👀
             </p>
             <p className="text-sm mb-4 italic">
               If you already have a Hack Club Slack account,{' '}
