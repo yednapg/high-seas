@@ -123,9 +123,8 @@ export async function fetchShips(
 //#endregion
 
 //#region Person
-let personCache: any = null
 export async function person(): Promise<any> {
-  personCache ||= new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     getSession().then(async (session) => {
       if (!session) return reject('No session present')
 
@@ -146,7 +145,6 @@ export async function person(): Promise<any> {
       resolve(record)
     })
   })
-  return await personCache
 }
 //#endregion
 
