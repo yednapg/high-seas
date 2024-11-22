@@ -1,25 +1,36 @@
 import { NextResponse } from 'next/server'
-import { generateMatchup } from '../../../../../lib/battles/matchupGenerator'
+import {
+  generateMatchup,
+  generateTutorialMatchup,
+} from '../../../../../lib/battles/matchupGenerator'
 import { getSession } from '@/app/utils/auth'
 import { getCachedProjects } from './get-cached-projects'
+import { NextRequest } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const isTutorial = request.nextUrl.searchParams.get('tutorial')
+
   const session = await getSession()
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const projects = await getCachedProjects()
-    const userSlackId = session.slackId
+    let matchup
+    if (isTutorial) {
+      matchup = generateTutorialMatchup()
+    } else {
+      const projects = await getCachedProjects()
+      const userSlackId = session.slackId
 
-    // TODO: this filtering could happen in the generateMatchup function!
-    const votableProjects = projects.filter(
-      (project) => project?.['entrant__slack_id']?.[0] !== userSlackId,
-    )
-    const matchup = await generateMatchup(votableProjects, userSlackId)
+      // TODO: this filtering could happen in the generateMatchup function!
+      const votableProjects = projects.filter(
+        (project) => project?.['entrant__slack_id']?.[0] !== userSlackId,
+      )
+      matchup = await generateMatchup(votableProjects, userSlackId)
+    }
 
     if (!matchup) {
       return NextResponse.json(
