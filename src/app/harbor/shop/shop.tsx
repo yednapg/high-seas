@@ -68,7 +68,9 @@ export default function Shop({ session }: { session: HsSession }) {
           {bannerText}
         </p>
         <ShopkeeperComponent />
+        <br />
         <Progress val={favouriteItems} items={shopItems} />
+        <br />
       </div>
       <div className="text-center mb-6 mt-12" id="region-select">
         <label>pick a region to buy something!</label>
