@@ -10,18 +10,37 @@ import {
   PopoverContent,
 } from '@/components/ui/popover'
 import Icon from '@hackclub/icons'
+import { safePerson } from '@/app/utils/airtable'
 
 export default function Referral() {
   const [shareLink, setShareLink] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        setShareLink(`https://highseas.hackclub.com/?ref=${session.slackId}`)
+    safePerson().then((sp) => {
+      if (sp?.referralLink) {
+        setShareLink(sp.referralLink)
       }
     })
   }, [])
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'High Seas',
+          text: 'Build. Battle. Booty. Repeat!',
+          url: shareLink || '',
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error))
+    } else {
+      // copy to clipboard
+      navigator.clipboard.writeText(shareLink || '')
+      alert('Copied to clipboard!')
+    }
+  }
 
   if (!shareLink) return null
 
@@ -33,7 +52,7 @@ export default function Referral() {
           onMouseEnter={() => setOpen(true)}
           onMouseLeave={() => setOpen(false)}
         >
-          <a href={shareLink} target="_blank">
+          <a href={shareLink} target="_blank" onClick={handleClick}>
             <Pill msg="Referral link" color="green" glyph="link" />
           </a>
         </PopoverTrigger>
