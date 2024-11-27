@@ -133,6 +133,16 @@ const LoadingOverlay = () => {
   )
 }
 
+const fsIdentify = (id: string, email: string, displayName?: string) => {
+  if (!!window?.FS) {
+    window?.FS?.identify(id, {
+      email,
+      displayName,
+    })
+  }
+  return null
+}
+
 export default function Harbor({
   currentTab,
   session,
@@ -154,6 +164,12 @@ export default function Harbor({
   const handleTabChange = (newTab: string) => {
     router.push(`/${newTab}`) // Navigate to the new tab slug
   }
+
+  useEffect(() => {
+    if (!!session.email && !!session.personId) {
+      fsIdentify(session.personId, session.email, session.name)
+    }
+  }, [session])
 
   const [isLoading, setIsLoading] = useState(false)
 
