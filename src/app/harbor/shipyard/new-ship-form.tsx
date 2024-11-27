@@ -352,7 +352,7 @@ export default function NewShipForm({
             Screenshot URL
             <br />
             <span className="text-xs opacity-50">
-              You can upload to{' '}
+              No dataURLs please. You can upload to{' '}
               <Link
                 className="underline"
                 href="https://hackclub.slack.com/archives/C016DEDUL87"
