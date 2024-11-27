@@ -188,31 +188,6 @@ export default function Harbor({
     }
   }, [])
 
-  // useEffect(() => {
-  //   const initializeHarbor = async () => {
-  //     try {
-  //       // const { hasHb } = await fetchWaka();
-  //       // setHasHb(hasHb);
-  //       // const p: SafePerson = await safePerson();
-  //       // if (!p.hasCompletedTutorial) {
-  //       //   console.warn("1 triggering tour");
-  //       //   tour();
-  //       // }
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   initializeHarbor();
-  // }, []);
-
-  // Keep ships and shipChain in sync
-  // useEffect(() => {
-  //   getUserShips(session.slackId).then(({ shipChains }) =>
-  //     setMyShipChains(shipChains),
-  //   );
-  // }, [myShips]);
-
   const tabs = [
     {
       name: <>Signpost</>,
@@ -308,17 +283,6 @@ export default function Harbor({
             {tabs.map((tab) => (
               <TabsContent key={tab.path} value={tab.path} className="h-full">
                 {tab.component}
-                {/* {tab.lockOnNoHb &&
-              hasWakaHb === false &&
-              sessionStorage.getItem("tutorial") !== "true" ? (
-                <WakaLock
-                  wakaOverride={() => setHasWakaHb(true)}
-                  wakaToken={wakaToken}
-                  tabName={tab.name}
-                />
-              ) : (
-                tab.component
-              )} */}
               </TabsContent>
             ))}
           </div>
