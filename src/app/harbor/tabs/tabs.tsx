@@ -134,6 +134,7 @@ const LoadingOverlay = () => {
 }
 
 const fsIdentify = (id: string, email: string, displayName?: string) => {
+  console.log('Identifying with FullStory', id, email, displayName)
   if (!!window?.FS) {
     window?.FS?.identify(id, {
       email,
@@ -166,8 +167,8 @@ export default function Harbor({
   }
 
   useEffect(() => {
-    if (!!session.email && !!session.personId) {
-      fsIdentify(session.personId, session.email, session.name)
+    if (!!session.email && !!session.slackId) {
+      fsIdentify(session.slackId, session.email, session.name)
     }
   }, [session])
 
