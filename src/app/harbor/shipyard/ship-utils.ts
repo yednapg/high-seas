@@ -4,6 +4,7 @@ import { getSelfPerson } from '@/app/utils/airtable'
 import { getSession } from '@/app/utils/auth'
 import { fetchShips, person } from '@/app/utils/data'
 import { getWakaSessions } from '@/app/utils/waka'
+import { cookies } from 'next/headers'
 import type { Ship } from '@/app/utils/data'
 import Airtable from 'airtable'
 
@@ -45,7 +46,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
 
   const isShipUpdate = formData.get('isShipUpdate')
 
-  base()(shipsTableName).create(
+  const newShip = await base()(shipsTableName).create(
     [
       {
         // @ts-expect-error No overload matches this call - but it does
@@ -69,6 +70,8 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
       if (err) console.error(err)
     },
   )
+
+  await cookies().delete('ships')
 }
 
 // @malted: I'm confident this is secure.
