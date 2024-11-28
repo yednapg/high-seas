@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import { MultiSelect } from '../../../components/ui/multi-select'
+import { withLock } from '../../../../lib/redis-lock'
 
 async function testReadmeLink(url: string) {
   const response = await fetch(url)
@@ -129,7 +130,9 @@ export default function NewShipForm({
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     if (!isTutorial) {
-      await createShip(formData)
+      await withLock(`ship:${session.user_id}`, () => (
+        createShip(formData, false)
+      ))
     }
     confettiRef.current?.addConfetti()
     closeForm()
