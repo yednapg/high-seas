@@ -149,6 +149,11 @@ export default function NewShipForm({
       return
     }
 
+    const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
+    if (!isTutorial) {
+      await createShip(formData, false)
+    }
+
     if (
       readmeRes.status !== 200 ||
       !['text/plain', 'text/markdown'].includes(
