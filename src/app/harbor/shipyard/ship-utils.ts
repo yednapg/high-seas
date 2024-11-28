@@ -74,7 +74,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
     )
 
     await cookies().delete('ships')
-  }
+  })
 }
 
 // @malted: I'm confident this is secure.
