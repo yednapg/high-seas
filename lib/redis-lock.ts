@@ -7,11 +7,17 @@ const LOCK_TIMEOUT = 30 * 1000 // 30 seconds
 export async function aquireLock(key: string): Promise<string | null> {
   const lockKey = `lock:${key}`
   const lockValue = uuidv4()
-  const acquired = await kv.set(lockKey, lockValue, { nx: true, px: LOCK_TIMEOUT })
+  const acquired = await kv.set(lockKey, lockValue, {
+    nx: true,
+    px: LOCK_TIMEOUT,
+  })
   return acquired ? lockValue : null
 }
 
-export async function releaseLock(lockKey: string, lockValue: string): Promise<void> {
+export async function releaseLock(
+  lockKey: string,
+  lockValue: string,
+): Promise<void> {
   const currentLockValue = await kv.get(lockKey)
   if (currentLockValue === lockValue) {
     await kv.del(lockKey)

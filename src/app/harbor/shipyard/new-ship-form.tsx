@@ -130,9 +130,9 @@ export default function NewShipForm({
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     if (!isTutorial) {
-      await withLock(`ship:${session.user_id}`, () => (
-        createShip(formData, false)
-      ))
+      await withLock(`ship:${session.user_id}`, () =>
+        createShip(formData, false),
+      )
     }
     confettiRef.current?.addConfetti()
     closeForm()
