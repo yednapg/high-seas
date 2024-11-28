@@ -11,7 +11,7 @@ import { markdownComponents } from '@/components/markdown'
 import { Button, buttonVariants } from '@/components/ui/button'
 import NewShipForm from './new-ship-form'
 import EditShipForm from './edit-ship-form'
-import { getSession } from '@/app/utils/auth'
+import { getSession, HsSession } from '@/app/utils/auth'
 import Link from 'next/link'
 
 import ShipPillCluster from '@/components/ui/ship-pill-cluster'
@@ -43,10 +43,10 @@ export default function Ships({
   const [isEditingShip, setIsEditingShip] = useState(false)
   const [errorModal, setErrorModal] = useState<string>()
   const canvasRef = useRef(null)
+  const [shippedShips, setShippedShips] = useState<Ship[]>([])
 
   const [isShipping, setIsShipping] = useState(false)
-
-  const [shipChains, setShipChains] = useState<Map<string, string[]>>()
+  const [shipChains, setShipChains] = useState<Map<string, Ship[]>>()
 
   useEffect(() => {
     getSession().then((sesh) => setSession(sesh))
@@ -93,9 +93,59 @@ export default function Ships({
     [ships],
   )
 
-  const [shippedShips, setShippedShips] = useState<Ship[]>([])
-
   useEffect(() => {
+    const shipUpdateChain = new Map<string, Ship[]>()
+
+    const rootShips = ships.filter((ship, idx) => !ship.reshippedFromId)
+    // Just for quick lookups
+    const shipMap = new Map<string, Ship>()
+    ships.forEach((ship) => {
+      shipMap.set(ship.id, ship)
+    })
+
+    ships.forEach((ship) => {
+      if (!ship.reshippedFromId) {
+        // If the ship is a root ship, start a new chain
+        shipUpdateChain.set(ship.id, [ship])
+      } else {
+        // If the ship has a parent, find the chain and append it
+        const parentShip = shipMap.get(ship.reshippedFromId)
+        if (parentShip) {
+          const parentChain = shipUpdateChain.get(parentShip.id) || []
+          shipUpdateChain.set(parentShip.id, [...parentChain, ship])
+        }
+      }
+    })
+
+    console.log({ shipUpdateChain, ships })
+
+    //   // console.log('Loop', loopIdx)
+    //   if (loopIdx > 100) break
+
+    //   shipsCopy.forEach((ship, idx) => {
+    //     const parentId = ship.reshippedFromId
+
+    //     // Search for it
+    //     for (const [key, value] of shipUpdateChain) {
+    //       if (ship.reshippedFromId === value.at(-1)?.id) {
+    //         console.log('Add it to the SUC, remove it from shipsCopy')
+    //         shipUpdateChain.set(key, [...value, ship])
+    //         shipsCopy.splice(idx, 1)
+    //       }
+    //       // value.forEach((s) => {
+    //       //   if (s.id === parentId) {
+    //       //     // Add it to the SUC, remove it from shipsCopy
+
+    //       //   }
+    //       // })
+    //     }
+    //   })
+    //   loopIdx++
+    // }
+
+    // console.log({ shipUpdateChain, shipsCopy, rootShips })
+
+    /*
     const localShippedShips = ships.filter(
       (ship: Ship) =>
         ship.shipStatus === 'shipped' && ship.shipType === 'project',
@@ -131,10 +181,12 @@ export default function Ships({
       (a, b) => new Date(b?.createdTime) - new Date(a?.createdTime),
     ) as Ship[]
     setShippedShips(sortedShips)
+    */
   }, [ships])
 
   // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
   useEffect(() => {
+    console.log({ shippedShips })
     const newShipChains = new Map<string, string[]>()
     for (const ship of shippedShips) {
       const wakatimeProjectName = ship.wakatimeProjectNames.join(',')
@@ -142,6 +194,7 @@ export default function Ships({
         newShipChains.set(wakatimeProjectName, ship.reshippedAll)
       }
     }
+    console.log({ newShipChains })
     setShipChains(newShipChains)
   }, [shippedShips])
 
