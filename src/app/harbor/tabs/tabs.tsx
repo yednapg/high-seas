@@ -133,16 +133,16 @@ const LoadingOverlay = () => {
   )
 }
 
-const fsIdentify = (id: string, email: string, displayName?: string) => {
-  console.log('Identifying with FullStory', id, email, displayName)
-  if (!!window?.FS) {
-    window?.FS?.identify(id, {
-      email,
-      displayName,
-    })
-  }
-  return null
-}
+// const fsIdentify = (id: string, email: string, displayName?: string) => {
+//   console.log('Identifying with FullStory', id, email, displayName)
+//   if (!!window?.FS) {
+//     window?.FS?.identify(id, {
+//       email,
+//       displayName,
+//     })
+//   }
+//   return null
+// }
 
 export default function Harbor({
   currentTab,
@@ -166,11 +166,11 @@ export default function Harbor({
     router.push(`/${newTab}`) // Navigate to the new tab slug
   }
 
-  useEffect(() => {
-    if (!!session.email && !!session.slackId) {
-      fsIdentify(session.slackId, session.email, session.name)
-    }
-  }, [session])
+  // useEffect(() => {
+  //   if (!!session.email && !!session.slackId) {
+  //     fsIdentify(session.slackId, session.email, session.name)
+  //   }
+  // }, [session])
 
   const [isLoading, setIsLoading] = useState(false)
 
