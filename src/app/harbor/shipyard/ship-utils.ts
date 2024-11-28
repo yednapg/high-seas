@@ -150,7 +150,12 @@ export async function createShipUpdate(
                 id: reshippedFromShip.id,
                 fields: {
                   reshipped_to: [reshippedToShip.id],
-                  reshipped_all: reshippedFromShip.reshippedFromAll ? [...reshippedFromShip.reshippedFromAll, reshippedFromShip.id] : [reshippedFromShip.id],
+                  reshipped_all: reshippedFromShip.reshippedFromAll
+                    ? [
+                        ...reshippedFromShip.reshippedFromAll,
+                        reshippedFromShip.id,
+                      ]
+                    : [reshippedFromShip.id],
                 },
               },
             ])
