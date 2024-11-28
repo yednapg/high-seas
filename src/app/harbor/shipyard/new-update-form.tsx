@@ -6,7 +6,6 @@ import JSConfetti from 'js-confetti'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getWakaSessions } from '@/app/utils/waka'
 import Icon from '@hackclub/icons'
-import { withLock } from '../../../../lib/redis-lock'
 
 export default function NewUpdateForm({
   shipToUpdate,
@@ -87,8 +86,10 @@ export default function NewUpdateForm({
   const handleForm = async (formData: FormData) => {
     setStaging(true)
 
-    const updatedShip = await withLock(`update: ${session.user_id}`, () =>
-      createShipUpdate(shipToUpdate.id, projectHours, formData),
+    const updatedShip = await createShipUpdate(
+      shipToUpdate.id,
+      projectHours,
+      formData,
     )
     confettiRef.current?.addConfetti()
     closeForm()
