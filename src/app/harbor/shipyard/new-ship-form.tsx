@@ -157,7 +157,7 @@ export default function NewShipForm({
     if (
       readmeRes.status !== 200 ||
       !['text/plain', 'text/markdown'].includes(
-        readmeRes?.headers?.get('content-type') || '',
+        readmeRes?.headers?.get('content-type')?.split(';')[0] || '',
       )
     ) {
       toast({
