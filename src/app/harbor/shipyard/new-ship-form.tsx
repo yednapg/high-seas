@@ -168,8 +168,6 @@ export default function NewShipForm({
       return
     }
 
-    const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
-
     confettiRef.current?.addConfetti()
     closeForm()
     if (isTutorial) {
