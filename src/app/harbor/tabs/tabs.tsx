@@ -134,7 +134,7 @@ const LoadingOverlay = () => {
 }
 
 const fsIdentify = (id: string, email: string, displayName?: string) => {
-  if (!!window?.FS) {
+  if (!!window && !!window?.FS && !!window?.FS?.identify) {
     window?.FS?.identify(id, {
       email,
       displayName,
