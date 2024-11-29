@@ -149,10 +149,6 @@ export default function NewShipForm({
       return
     }
 
-    const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
-    if (!isTutorial) {
-      await createShip(formData, false)
-    }
 
     if (
       readmeRes.status !== 200 ||
@@ -168,6 +164,7 @@ export default function NewShipForm({
       return
     }
 
+    const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     confettiRef.current?.addConfetti()
     closeForm()
     if (isTutorial) {
