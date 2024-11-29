@@ -29,7 +29,7 @@ async function loadShipsCookie(
       })
     }
   } catch (e) {
-    console.log('Middleware errored on ships cookie step', e)
+    console.error('Middleware errored on ships cookie step', e)
   }
 }
 
@@ -55,7 +55,7 @@ async function loadWakaCookie(
       })
     }
   } catch (e) {
-    console.log('Middleware errored on waka cookie step', e)
+    console.error('Middleware errored on waka cookie step', e)
   }
 }
 
@@ -78,7 +78,7 @@ async function loadSignpostFeedCookie(
       })
     }
   } catch (e) {
-    console.log('Middleware errored on signpost-feed cookie step', e)
+    console.error('Middleware errored on signpost-feed cookie step', e)
   }
 }
 
@@ -131,7 +131,7 @@ async function loadPersonCookies(request: NextRequest, response: NextResponse) {
       })
     }
   } catch (e) {
-    console.log('Middleware errored on person cookie step', e)
+    console.error('Middleware errored on person cookie step', e)
   }
 }
 
