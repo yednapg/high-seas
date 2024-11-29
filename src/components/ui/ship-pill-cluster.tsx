@@ -8,9 +8,11 @@ import pluralize from '../../../lib/pluralize'
 export default function ShipPillCluster({
   ship,
   shipChains,
+  leafNode,
 }: {
   ship: Ship
   shipChains: Map<string, string[]>
+  leafNode: boolean
 }) {
   const shipUpdates = shipChains
     ? shipChains.get(ship.wakatimeProjectNames.join(','))
@@ -56,14 +58,22 @@ export default function ShipPillCluster({
           />
         ))}
 
-      {shipUpdateCount && shipUpdateCount > 0 ? (
+      {!leafNode && (
+        <Pill
+          msg="Project updated"
+          color="purple"
+          glyph="reply"
+          glyphStyles={{ transform: 'scaleX(-1)' }}
+        />
+      )}
+      {/* {shipUpdateCount && shipUpdateCount > 0 ? (
         <Pill
           msg={pluralize(shipUpdateCount, 'update', true)}
           color="purple"
           glyph="reply"
           glyphStyles={{ transform: 'scaleX(-1)' }}
         />
-      ) : null}
+      ) : null} */}
     </>
   )
 }

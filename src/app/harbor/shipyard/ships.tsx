@@ -153,72 +153,75 @@ export default function Ships({
     s: Ship
     id: string
     setNewShipVisible: any
-  }) => (
-    <div
-      key={s.id}
-      id={id}
-      onClick={() => setSelectedShip(s)}
-      className="cursor-pointer"
-    >
-      <Card className="flex flex-col sm:gap-2 sm:flex-row items-start sm:items-center p-4 hover:bg-gray-100 transition-colors duration-200">
-        <div className="flex gap-4 items-center">
-          <div className="w-16 h-16 relative mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
-            <img
-              src={s.screenshotUrl}
-              alt={`Screenshot of ${s.title}`}
-              className="object-cover w-full h-full absolute top-0 left-0 rounded"
-              onError={({ target }) => {
-                target.src = NoImgDino.src
-              }}
-            />
-          </div>
-          <h2 className="text-xl font-semibold text-left mb-2 sm:hidden block">
-            {s.title}
-          </h2>
-        </div>
-        <div className="flex-grow">
-          <h2 className="text-xl font-semibold text-left mb-2 sm:block hidden">
-            {s.title}
-          </h2>
+  }) => {
+    const leafNode = s.reshippedToId === null
 
-          <div className="flex flex-wrap items-start gap-2 text-sm">
-            <ShipPillCluster ship={s} shipChains={shipChains} />
-          </div>
-        </div>
-
-        {bareShips ? null : (
-          <div className="mt-4 sm:mt-0 sm:ml-auto">
-            {s.shipStatus === 'staged' ? (
-              <Button
-                id="ship-ship"
-                onClick={async (e) => {
-                  e.stopPropagation()
-                  console.log('Shipping', s)
-
-                  try {
-                    setIsShipping(true)
-                    await stagedToShipped(s, ships)
-                    location.reload()
-                  } catch (err: unknown) {
-                    if (err instanceof Error) {
-                      setErrorModal(err.message)
-                    } else {
-                      setErrorModal(String(err))
-                    }
-                  } finally {
-                    setIsShipping(false)
-                  }
+    return (
+      <div
+        key={s.id}
+        id={id}
+        onClick={() => setSelectedShip(s)}
+        className="cursor-pointer"
+      >
+        <Card className="flex flex-col sm:gap-2 sm:flex-row items-start sm:items-center p-4 hover:bg-gray-100 transition-colors duration-200">
+          <div className="flex gap-4 items-center">
+            <div className="w-16 h-16 relative mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
+              <img
+                src={s.screenshotUrl}
+                alt={`Screenshot of ${s.title}`}
+                className="object-cover w-full h-full absolute top-0 left-0 rounded"
+                onError={({ target }) => {
+                  target.src = NoImgDino.src
                 }}
-                disabled={isShipping}
-              >
-                {isShipping ? 'Shipping...' : 'SHIP SHIP!'}
-              </Button>
-            ) : s.paidOut ? (
-              !stagedShips.find(
-                (stagedShip) =>
-                  stagedShip.wakatimeProjectNames.join(',') ===
-                  s.wakatimeProjectNames.join(','),
-              ) ? (
+              />
+            </div>
+            <h2 className="text-xl font-semibold text-left mb-2 sm:hidden block">
+              {s.title}
+            </h2>
+          </div>
+          <div className="flex-grow">
+            <h2 className="text-xl font-semibold text-left mb-2 sm:block hidden">
+              {s.title}
+            </h2>
+
+            <div className="flex flex-wrap items-start gap-2 text-sm">
+              <ShipPillCluster
+                ship={s}
+                leafNode={leafNode}
+                shipChains={shipChains}
+              />
+            </div>
+          </div>
+
+          {bareShips ? null : (
+            <div className="mt-4 sm:mt-0 sm:ml-auto">
+              {s.shipStatus === 'staged' && (
+                <Button
+                  id="ship-ship"
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    console.log('Shipping', s)
+
+                    try {
+                      setIsShipping(true)
+                      await stagedToShipped(s, ships)
+                      location.reload()
+                    } catch (err: unknown) {
+                      if (err instanceof Error) {
+                        setErrorModal(err.message)
+                      } else {
+                        setErrorModal(String(err))
+                      }
+                    } finally {
+                      setIsShipping(false)
+                    }
+                  }}
+                  disabled={isShipping}
+                >
+                  {isShipping ? 'Shipping...' : 'SHIP SHIP!'}
+                </Button>
+              )}
+              {s.paidOut && leafNode && (
                 <Button
                   onClick={async (e) => {
                     e.stopPropagation()
@@ -231,17 +234,13 @@ export default function Ships({
                 >
                   Ship an update!
                 </Button>
-              ) : (
-                <p>Ship your Update!</p>
-              )
-            ) : (
-              <p>Awaiting payout</p>
-            )}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
+              )}
+            </div>
+          )}
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <>
