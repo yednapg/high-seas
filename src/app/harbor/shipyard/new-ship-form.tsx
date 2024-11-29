@@ -139,6 +139,16 @@ export default function NewShipForm({
       return
     }
 
+    if (screenshotUrl.includes('cdn.discordapp.com')) {
+      toast({
+        title: "That screenshot doesn't work!",
+        description:
+          'Discord links are temporary, please host your files in #cdn!',
+      })
+      setStaging(false)
+      return
+    }
+
     if (readmeUrl.includes('github.com')) {
       toast({
         title: "This isn't a markdown link!",
