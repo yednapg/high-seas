@@ -160,6 +160,9 @@ export async function person(): Promise<any> {
     recordPromise,
     timestamp: Date.now(),
   })
+
+  recordPromise.catch(() => personCache.delete(session.personId))
+
   return recordPromise
 }
 //#endregion
