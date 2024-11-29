@@ -225,11 +225,11 @@ export default function Ships({
                 <Button
                   onClick={async (e) => {
                     e.stopPropagation()
-                    alert(
-                      'Blimeys!! Sorry, but updates are broken right now – the dev team is working on a fix',
-                    )
-                    //console.log('Shipping an update...', s)
-                    //setNewUpdateShip(s)
+                    // alert(
+                    //   'Blimeys!! Sorry, but updates are broken right now – the dev team is working on a fix',
+                    // )
+                    console.log('Shipping an update...', s)
+                    setNewUpdateShip(s)
                   }}
                 >
                   Ship an update!
