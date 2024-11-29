@@ -134,7 +134,6 @@ const LoadingOverlay = () => {
 }
 
 const fsIdentify = (id: string, email: string, displayName?: string) => {
-  console.log('Identifying with FullStory', id, email, displayName)
   if (!!window?.FS) {
     window?.FS?.identify(id, {
       email,
