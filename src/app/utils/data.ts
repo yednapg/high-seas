@@ -133,7 +133,7 @@ export async function person(): Promise<any> {
   const session = await getSession()
   if (!session) throw new Error('No session present')
 
-  let personCached = personCache.get(session.personId)
+  const personCached = personCache.get(session.personId)
   if (personCached) {
     const expired = Date.now() > personCached.timestamp + personCacheTtl
     let rejected = false
