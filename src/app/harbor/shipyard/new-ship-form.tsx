@@ -149,7 +149,6 @@ export default function NewShipForm({
       return
     }
 
-
     if (
       readmeRes.status !== 200 ||
       !['text/plain', 'text/markdown'].includes(
