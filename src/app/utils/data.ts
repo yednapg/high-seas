@@ -124,23 +124,28 @@ export async function fetchShips(
 
 //#region Person
 const personCacheTtl = 60_000
-const personCache = new Map()
+const personCache = new Map<
+  string,
+  { recordPromise: Promise<any>; timestamp: number }
+>()
+
 export async function person(): Promise<any> {
   const session = await getSession()
   if (!session) throw new Error('No session present')
 
-  const cached = personCache.get(session.personId)
-  if (cached) {
-    const [data, timestamp] = cached
-    if (Date.now() < timestamp + personCacheTtl) {
+  let personCached = personCache.get(session.personId)
+  if (personCached) {
+    const expired = Date.now() > personCached.timestamp + personCacheTtl
+    let rejected = false
+    personCached.recordPromise.catch(() => (rejected = true))
+    if (!expired && !rejected) {
       console.log('Person cache HIT')
-      return data
+      return personCached.recordPromise
     }
-    personCache.delete(session.personId)
   }
   console.log('Person cache MISS')
 
-  const response = await fetch(
+  const recordPromise = fetch(
     `https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/people/${session.personId}`,
     {
       headers: {
@@ -149,14 +154,13 @@ export async function person(): Promise<any> {
         'User-Agent': 'highseas.hackclub.com (person)',
       },
     },
-  )
+  ).then((r) => r.json())
 
-  if (!response.ok) throw new Error('Failed to fetch person')
-  const record = await response.json()
-  if (!record) throw new Error('Person not found')
-
-  personCache.set(session.personId, [record, Date.now()])
-  return record
+  personCache.set(session.personId, {
+    recordPromise,
+    timestamp: Date.now(),
+  })
+  return recordPromise
 }
 //#endregion
 
