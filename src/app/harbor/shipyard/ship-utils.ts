@@ -139,7 +139,7 @@ export async function createShipUpdate(
               },
             },
           ],
-          (err: Error, records: any) => {
+          async (err: Error, records: any) => {
             if (err) {
               console.error('createShipUpdate step 1:', err)
               throw err
@@ -156,7 +156,7 @@ export async function createShipUpdate(
               const reshippedToShip = records[0]
 
               // Update previous ship to point reshipped_to to the newly created update record
-              base()(shipsTableName).update([
+              await base()(shipsTableName).update([
                 {
                   id: reshippedFromShip.id,
                   fields: {
